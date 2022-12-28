@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74a95fe61fac3304bb3ba7b13a15cd6e, type: 3}
+  m_Name: PlayerDashSpeed
+  m_EditorClassIdentifier: 
+  Purchased: 1
+  Label: Increase Player Dash Speed
+  Requirements:
+  - {fileID: 11400000, guid: 8ae570766b8e27b4fa4a7209e81b581b, type: 2}
+  CurrentPoints: 4
+  MaxPoints: 5
+  statModifier: {fileID: 11400000, guid: d4a2924a877972b42a8284fc4b7f75cd, type: 2}
