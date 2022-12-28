@@ -219,9 +219,9 @@ MonoBehaviour:
   scavengeableLayer:
     serializedVersion: 2
     m_Bits: 4096
-  scavengeableSightRange: 7.5
-  scavengingGrabRange: 1
-  scavengingSpeedMod: 0.5
+  scavengeableSightRange: 12.5
+  scavengingGrabRange: 0.5
+  scavengingSpeedMod: 2
   Col: {fileID: 5163690858416789678}
 --- !u!114 &4564883555859428555
 MonoBehaviour:

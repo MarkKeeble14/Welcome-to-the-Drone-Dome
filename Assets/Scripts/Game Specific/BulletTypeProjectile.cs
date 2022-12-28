@@ -12,12 +12,14 @@ public class BulletTypeProjectile : MonoBehaviour
     private float contactDamage;
 
     [Header("Bouncing")]
-    [SerializeField] private bool smartBouncingEnabled;
-    [SerializeField] private float smartBouncingDetectionRange;
-    [SerializeField] private int numBounces;
+    [SerializeField] private BoolSwitchUpgradeNode smartBouncingEnabled;
+    [SerializeField] private float smartBouncingDetectionRange = 3f;
+    [SerializeField] private StatModifier numBounces;
+    private int setNumBounces;
 
     [Header("Piercing")]
-    [SerializeField] private int numCanPierceThrough = 0;
+    [SerializeField] private StatModifier numCanPierceThrough;
+    private int setNumCanPierceThrough;
 
     [Header("Lifetime")]
     [SerializeField] private bool shouldDestroyAfterTime;
@@ -58,29 +60,31 @@ public class BulletTypeProjectile : MonoBehaviour
         {
             contactDamage = damage;
         }
+        setNumBounces = (int)numBounces.Value;
+        setNumCanPierceThrough = (int)numCanPierceThrough.Value;
         StartCoroutine(Travel(speed, direction));
     }
 
     private void Contact()
     {
         // Bounces are consumed first
-        if (numBounces > 0)
+        if (setNumBounces > 0)
         {
             if (smartBouncingEnabled)
                 BounceToNearbyEnemy();
             else
                 RandomBounce();
-            numBounces--;
+            setNumBounces--;
         }
-        else if (numCanPierceThrough <= 0)
+        else if (setNumCanPierceThrough <= 0)
         {
             Destroy(gameObject);
         }
-        else if (numCanPierceThrough > 0)
+        else if (setNumCanPierceThrough > 0)
         {
-            numCanPierceThrough--;
+            setNumCanPierceThrough--;
         }
-        else if (numBounces <= 0)
+        else if (setNumBounces <= 0)
         {
             Destroy(gameObject);
         }

@@ -16,10 +16,11 @@ MonoBehaviour:
   infiniteAmmo: 0
   maxMagazineCount: 100
   reloadTime: 1
-  range: {fileID: 11400000, guid: 4656963ada4202a4f9649fe1468f6eea, type: 2}
-  projectilePrefab: {fileID: 4411560104125395871, guid: b7c735be932681747a9e5b69bdcc43cb,
+  range: {fileID: 11400000, guid: a4a5ccbab5996bc4986762db9b735347, type: 2}
+  projectilePrefab: {fileID: 4411560104125395871, guid: eb6860183d27fdd4db30bcc0778bc024,
     type: 3}
-  projectilesPerShot: 1
-  angleBetweenProjectiles: 0
-  projectileDamage: 2
+  projectilesPerShot: {fileID: 11400000, guid: b62fe96100121bd4fb516dd1ebc7ea2f, type: 2}
+  angleBetweenProjectiles: {fileID: 11400000, guid: 25833105bed63fd429a020eb854f471a,
+    type: 2}
+  projectileDamage: {fileID: 11400000, guid: 7790ea2cfe35d8849967dbce73a16155, type: 2}
   shootForce: 750

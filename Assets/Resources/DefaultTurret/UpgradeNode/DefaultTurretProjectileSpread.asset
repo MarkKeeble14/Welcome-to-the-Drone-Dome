@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74a95fe61fac3304bb3ba7b13a15cd6e, type: 3}
+  m_Name: DefaultTurretProjectileSpread
+  m_EditorClassIdentifier: 
+  Purchased: 0
+  Label: Decrease Projectile Spread
+  Requirements:
+  - {fileID: 11400000, guid: 4645f69929fc1ff4e8ce889c7da7e33e, type: 2}
+  CurrentPoints: 0
+  MaxPoints: 5
+  statModifier: {fileID: 11400000, guid: 7ccf82f4154ac2a44a58f07cc72f1a86, type: 2}

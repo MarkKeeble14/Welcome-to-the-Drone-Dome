@@ -14,10 +14,15 @@ public class EnemyHealth : HealthBehaviour
     [Header("References")]
     [SerializeField] private Material material;
     [SerializeField] private new Renderer renderer;
+    private Material defaultMaterial;
 
     private new void Start()
     {
         base.Start();
+
+        // Trying to deal with pesky bug
+        defaultMaterial = renderer.material;
+        OnDie += () => renderer.material = defaultMaterial;
 
         // Set Variables
         material = new Material(material);

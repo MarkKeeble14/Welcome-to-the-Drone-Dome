@@ -6,6 +6,8 @@ using UnityEngine;
 [System.Serializable]
 public class UpgradeTree
 {
+    public string Label;
+
     [SerializeField] private List<UpgradeNode> nodes;
 
     public void ResetNodes()

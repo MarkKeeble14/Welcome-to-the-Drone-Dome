@@ -69,7 +69,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: fda0e2cb014109641935307d1e2cbef1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -183,7 +183,7 @@ MonoBehaviour:
     type: 3}
   dieParticleEffect: {fileID: 1365371477070616360, guid: 3aa837da96f187a4db44e3d3734b7f61,
     type: 3}
-  minMaxCanDrop: {x: 2, y: 4}
+  minMaxCanDrop: {x: 2, y: 5}
   dropOnDeath: {fileID: 5606348252680568883, guid: 316c4d481c099cc49a1a100962abbc79,
     type: 3}
   flashDuration: 0.025

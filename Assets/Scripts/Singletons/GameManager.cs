@@ -151,17 +151,17 @@ public class GameManager : MonoBehaviour
 
     private void ResetScriptableObjects()
     {
-        StatModifier[] statModifiers = Resources.LoadAll<StatModifier>("StatModifiers");
+        StatModifier[] statModifiers = Resources.LoadAll<StatModifier>("");
         foreach (StatModifier statModifier in statModifiers)
         {
             // Debug.Log("Resetting: " + statModifier);
             statModifier.Reset();
         }
 
-        UpgradeNode[] upgradeNodes = Resources.LoadAll<UpgradeNode>("UpgradeNodes");
+        UpgradeNode[] upgradeNodes = Resources.LoadAll<UpgradeNode>("");
         foreach (UpgradeNode node in upgradeNodes)
         {
-            // Debug.Log("Resetting: " + statModifier);
+            // Debug.Log("Resetting: " + node);
             node.Reset();
         }
     }

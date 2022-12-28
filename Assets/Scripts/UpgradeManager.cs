@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class UpgradeManager : MonoBehaviour
@@ -28,6 +29,7 @@ public class UpgradeManager : MonoBehaviour
     [SerializeField] private UpgradeNodeDisplay upgradeNodePrefab;
     [SerializeField] private Transform upgradeTreeNodeParent;
     private List<UpgradeNodeDisplay> spawnedUpgradeNodes = new List<UpgradeNodeDisplay>();
+    [SerializeField] private TextMeshProUGUI sectionText;
 
     private void Start()
     {
@@ -93,14 +95,21 @@ public class UpgradeManager : MonoBehaviour
             // Otherwise, if the upgrade tree has not already been added, add it to the list of upgrade trees
             UpgradeTree tree = kvp.Value;
             if (!availableUpgradeTrees.Contains(tree))
+            {
                 availableUpgradeTrees.Add(tree);
+            }
         }
     }
 
     private void UpdateUpgradeTree()
     {
         if (availableUpgradeTrees.Count <= 0) return;
-        ShowUpgradeTree(availableUpgradeTrees[upgradeTreeIndex]);
+
+        // 
+        UpgradeTree tree = availableUpgradeTrees[upgradeTreeIndex];
+
+        // 
+        ShowUpgradeTree(tree);
     }
 
     public void CloseUpgradeTree()
@@ -119,6 +128,7 @@ public class UpgradeManager : MonoBehaviour
 
         // Debug.Log("Showing Tree: " + tree);
         spawnedUpgradeNodes = tree.ShowNodes(upgradeNodePrefab, upgradeTreeNodeParent);
+        sectionText.text = tree.Label;
     }
 
     public void TryPurchaseNode(UpgradeNode node)

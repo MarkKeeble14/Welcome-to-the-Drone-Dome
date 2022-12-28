@@ -197,7 +197,7 @@ MonoBehaviour:
     type: 3}
   dieParticleEffect: {fileID: 1365371477070616360, guid: 3aa837da96f187a4db44e3d3734b7f61,
     type: 3}
-  minMaxCanDrop: {x: 10, y: 20}
+  minMaxCanDrop: {x: 25, y: 50}
   dropOnDeath: {fileID: 5606348252680568883, guid: 316c4d481c099cc49a1a100962abbc79,
     type: 3}
   flashDuration: 0.025

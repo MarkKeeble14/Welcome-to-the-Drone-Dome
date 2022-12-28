@@ -5,7 +5,7 @@ public class GrowthStatModifier : StatModifier
 {
     [Header("Growth")]
     [SerializeField] private float baseGrowth;
-    private float growth;
+    [SerializeField] private float growth;
     [SerializeField] private float growthIncreaseUponGrow;
     [SerializeField] private StatMathOperation growthChangeBy;
 

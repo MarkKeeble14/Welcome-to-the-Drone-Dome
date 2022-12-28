@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b5b9a7829c3b33459844b6548054d1d, type: 3}
+  m_Name: DefaultAutomaticGun
+  m_EditorClassIdentifier: 
+  shotsPerSecond: 1
+  infiniteAmmo: 1
+  maxMagazineCount: 100
+  reloadTime: 1
+  range: {fileID: 11400000, guid: 1d1b5f87b7979e34ba36f121ed82f54c, type: 2}
+  projectilePrefab: {fileID: 4411560104125395871, guid: b7c735be932681747a9e5b69bdcc43cb,
+    type: 3}
+  projectilesPerShot: {fileID: 11400000, guid: 902159c7ad92e1a4ba6f81b14e9fc444, type: 2}
+  angleBetweenProjectiles: {fileID: 11400000, guid: 7ccf82f4154ac2a44a58f07cc72f1a86,
+    type: 2}
+  projectileDamage: {fileID: 11400000, guid: fccc4e50c747b414f854477015beb933, type: 2}
+  shootForce: 600

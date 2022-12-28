@@ -28,9 +28,9 @@ public class DroneTeslaModule : DroneAttackModule
 
     private void LoadResources()
     {
-        delay = Resources.Load<StatModifier>("StatModifiers/Tesla/TeslaDelay");
-        damage = Resources.Load<StatModifier>("StatModifiers/Tesla/TeslaDamage");
-        range = Resources.Load<StatModifier>("StatModifiers/Tesla/TeslaRange");
+        delay = Resources.Load<StatModifier>("Tesla/Stat/TeslaDelay");
+        damage = Resources.Load<StatModifier>("Tesla/Stat/TeslaDamage");
+        range = Resources.Load<StatModifier>("Tesla/Stat/TeslaRange");
     }
 
     // Start is called before the first frame update

@@ -8,7 +8,7 @@ public class StatModifier : ScriptableObject
 {
     [SerializeField] private float baseValue;
     public float BaseValue => baseValue;
-    private float affectedValue;
+    [SerializeField] private float affectedValue;
     public float Value => affectedValue;
     [SerializeField] private float minValue;
     [SerializeField] private bool hasMin;
@@ -80,7 +80,7 @@ public class StatModifier : ScriptableObject
             }
             else
             {
-                affectedValue += maxValue;
+                affectedValue += x;
             }
         }
         else if (x < 0)

@@ -4,7 +4,7 @@
 public class BurstFireGun : BulletTypeGun
 {
     [Header("Burst Fire")]
-    [SerializeField] private int projectilesInBurst;
+    [SerializeField] private StatModifier projectilesInBurst;
     [SerializeField] private float timeBetweenBullets;
 
     public override float Shoot(Vector3 projectileOrigin, Transform shootAt)
@@ -12,7 +12,7 @@ public class BurstFireGun : BulletTypeGun
         BurstFireGunHelper._Instance.CallBurstFire(
             () => base.Shoot(projectileOrigin, shootAt),
             timeBetweenBullets,
-            projectilesInBurst);
+            projectilesInBurst.Value);
         return (1 / shotsPerSecond);
     }
 }
