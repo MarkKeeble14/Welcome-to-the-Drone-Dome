@@ -355,7 +355,7 @@ public class GameManager : MonoBehaviour
 
     public void DecreaseCameraZoom(float bossZoomOut)
     {
-        targetCameraZoom = cinemachineTransposer.m_FollowOffset + new Vector3(0, bossZoomOut, 0);
+        targetCameraZoom = cinemachineTransposer.m_FollowOffset - new Vector3(0, bossZoomOut, 0);
     }
 
     private void Update()
