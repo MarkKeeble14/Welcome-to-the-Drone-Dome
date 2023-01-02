@@ -1,3 +1,3 @@
-﻿public class DroneMortarModule : DroneGunModule
+﻿public abstract class DroneMortarModule : DroneGunModule
 {
 }

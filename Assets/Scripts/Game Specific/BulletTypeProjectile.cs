@@ -49,12 +49,14 @@ public class BulletTypeProjectile : MonoBehaviour
         HealthBehaviour hitHP = null;
         if ((hitHP = collision.gameObject.GetComponent<HealthBehaviour>()) != null)
         {
-            hitHP.Damage(contactDamage);
+            hitHP.Damage(contactDamage, source);
         }
         Contact();
     }
 
-    public void Set(float damage, Vector3 direction, float speed)
+    private ModuleType source;
+
+    public void Set(float damage, Vector3 direction, float speed, ModuleType source)
     {
         if (hasContactDamage)
         {
@@ -62,6 +64,7 @@ public class BulletTypeProjectile : MonoBehaviour
         }
         setNumBounces = (int)numBounces.Value;
         setNumCanPierceThrough = (int)numCanPierceThrough.Value;
+        this.source = source;
         StartCoroutine(Travel(speed, direction));
     }
 

@@ -17,6 +17,9 @@ GameObject:
   - component: {fileID: 4017266790250071900}
   - component: {fileID: 4017266790250071968}
   - component: {fileID: 1215513989}
+  - component: {fileID: 4268123852268635566}
+  - component: {fileID: 890501473399430141}
+  - component: {fileID: 3483537132347607205}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -37,6 +40,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1156608070}
+  - {fileID: 5386095295906261926}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -144,13 +148,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72357701ab7324d48b3ee9b26bba0d0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
-  dashDistance: 3
-  dashSpeed: 25
-  dashCDStart: 1
-  crouchingDampenSpeed: 0
-  jumpingDampenSpeed: 0
-  allowPlayerDash: {fileID: 0}
+  moveSpeed: {fileID: 11400000, guid: 664a39a4bfa09344a9b7187504451181, type: 2}
+  dashDuration: {fileID: 11400000, guid: 25ebe12452ecefa438d604ee4d76d0fc, type: 2}
+  dashSpeed: {fileID: 11400000, guid: d4a2924a877972b42a8284fc4b7f75cd, type: 2}
+  dashCDStart: {fileID: 11400000, guid: a1d539afd0eccf1479f165485579de1a, type: 2}
+  crouchingDampenSpeed: 0.5
+  jumpingDampenSpeed: 1
+  allowPlayerDash: {fileID: 11400000, guid: 8ae570766b8e27b4fa4a7209e81b581b, type: 2}
   LockMoveVector: 0
 --- !u!114 &4017266790250071968
 MonoBehaviour:
@@ -166,10 +170,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   orbitingDrones: []
   orbitGrid: {fileID: 1156608071}
-  trackedDrones: []
-  dronesDisplay: {fileID: 0}
-  maxDrones: 5
-  numDronesToStart: 1
 --- !u!114 &1215513989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,11 +182,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce449a1b4b109424e87ff9bdfdac8609, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startHealth: 100
+  maxHealth: 100
   currentHealth: 0
   takeDamageParticleEffect: {fileID: 1365371477070616360, guid: dc58bda162a534642af443667a7c4937,
     type: 3}
   dieParticleEffect: {fileID: 1365371477070616360, guid: 3aa837da96f187a4db44e3d3734b7f61,
+    type: 3}
+  popupText: {fileID: -5260616264727522277, guid: d52a68650b4dbcf44aa2e12f8a640e87,
     type: 3}
   iFrameDuration: 1
   hasIFrameColor: {r: 1, g: 1, b: 1, a: 0.5019608}
@@ -198,6 +200,80 @@ MonoBehaviour:
   col: {fileID: 4017266790250071896}
   rb: {fileID: 4017266790250071903}
   healthBar: {fileID: 0}
+--- !u!114 &4268123852268635566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4017266790250071895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5be978e6f0c9b644b86ac9153d4528ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trackedDrones: []
+  selectedDrone: {fileID: 0}
+  maxDrones: 5
+--- !u!114 &890501473399430141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4017266790250071895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2dcabb24f2ce29448325539a6bfca1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpHeight: 40
+--- !u!114 &3483537132347607205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4017266790250071895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de4e259ea32031042afdef6be65cf37d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bossPointerPrefab: {fileID: 6182163530353712539, guid: 25a01ba132a4e1a429150060ed0c6eb1,
+    type: 3}
+  holder: {fileID: 5386095295906261926}
+--- !u!1 &8992233589834922155
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5386095295906261926}
+  m_Layer: 6
+  m_Name: BossPointers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5386095295906261926
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8992233589834922155}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4017266790250071899}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2724251807429290057
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -228,7 +304,7 @@ PrefabInstance:
     - target: {fileID: 2724251806287370254, guid: 908103c3116157f4e9fa13549757b150,
         type: 3}
       propertyPath: droneHoverAtHeight
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2724251806287370255, guid: 908103c3116157f4e9fa13549757b150,
         type: 3}

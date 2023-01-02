@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DroneTeslaModule : DroneAttackModule
+public class DroneTeslaModule : DroneWeaponModule
 {
     [Header("Tesla Module")]
     [SerializeField] protected StatModifier range;
@@ -13,6 +13,8 @@ public class DroneTeslaModule : DroneAttackModule
     private string[] canTargetLayerStrings = new string[] { "Enemy" };
     private LayerMask canTargetLayers;
     private LineRenderer lineRenderer;
+
+    public override ModuleType Type => ModuleType.TESLA_COIL;
 
     private void Awake()
     {
@@ -84,7 +86,7 @@ public class DroneTeslaModule : DroneAttackModule
 
             HealthBehaviour hb = null;
             if ((hb = c.GetComponent<HealthBehaviour>()) != null)
-                hb.Damage(damage.Value);
+                hb.Damage(damage.Value, ModuleType.TESLA_COIL);
         }
     }
 

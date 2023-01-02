@@ -9,13 +9,10 @@ public class BurstFireGunHelper : MonoBehaviour
 
     private void Awake()
     {
-        if (_Instance != null && _Instance != this)
+        if (_Instance != null)
         {
-            Destroy(this);
-            return;
+            Destroy(_Instance.gameObject);
         }
-
-        // Set instance
         _Instance = this;
     }
 

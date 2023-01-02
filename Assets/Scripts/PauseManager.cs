@@ -5,12 +5,12 @@ public class PauseManager : MonoBehaviour
     public static PauseManager _Instance { get; private set; }
     private void Awake()
     {
-        if (_Instance != null && _Instance != this)
+        if (_Instance != null)
         {
-            Destroy(this);
-            return;
+            Destroy(_Instance.gameObject);
         }
         _Instance = this;
+        Resume();
     }
 
     public void Pause()

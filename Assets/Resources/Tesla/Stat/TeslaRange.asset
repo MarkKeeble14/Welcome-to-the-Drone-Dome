@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: TeslaRange
   m_EditorClassIdentifier: 
   baseValue: 3
-  affectedValue: 13
+  affectedValue: 3
   minValue: 0
   hasMin: 0
   maxValue: 0
   hasMax: 0
   changeBy: 0
-  baseGrowth: 0.75
-  growth: 1
+  baseGrowth: 0.25
+  growth: 0.5
   growthIncreaseUponGrow: 0
   growthChangeBy: 0

@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 2302680374710633209}
   - component: {fileID: 4193299717382596002}
   - component: {fileID: 181271374945466425}
-  - component: {fileID: 5848554944927804110}
   - component: {fileID: 7452047796796871385}
   - component: {fileID: -7923205289095119228}
+  - component: {fileID: 6059482630117633324}
   m_Layer: 8
   m_Name: MiniExplosiveShell
   m_TagString: Untagged
@@ -100,30 +100,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5848554944927804110
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2153245041937262598}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c4fa3a2cbb8d2e4aad110cf66a28b3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  explosionData:
-    Radius: 1
-    Power: 100
-    Lift: 5
-    Damage: 2
-    DealDamageTo:
-      serializedVersion: 2
-      m_Bits: 128
-    VisualEffect: {fileID: 8732161867663413605, guid: 61b02ba42f7972043bf66d099f6886ab,
-      type: 3}
-    AudioEffect: {fileID: 0}
-  AllowChainExplosion: 0
 --- !u!114 &7452047796796871385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,7 +115,7 @@ MonoBehaviour:
   explodeOnContactWith:
     serializedVersion: 2
     m_Bits: 2176
-  explodable: {fileID: 5848554944927804110}
+  explodable: {fileID: 6059482630117633324}
 --- !u!54 &-7923205289095119228
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -156,3 +132,28 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &6059482630117633324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2153245041937262598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f25f757c3b7cd741973bdb212ceb1bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explosionData:
+    Radius: 1
+    Power: 100
+    Lift: 5
+    Damage: 2
+    DealDamageTo:
+      serializedVersion: 2
+      m_Bits: 128
+    VisualEffect: {fileID: 8732161867663413605, guid: 61b02ba42f7972043bf66d099f6886ab,
+      type: 3}
+    AudioEffect: {fileID: 0}
+  AllowChainExplosion: 0
+  source: 5

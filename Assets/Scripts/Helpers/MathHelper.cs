@@ -17,10 +17,10 @@ public class MathHelper
     public static bool ApproximatelyEqual(Color a, Color b)
     {
         return (
-                Mathf.Approximately(a.r, b.r) 
-            &&  Mathf.Approximately(a.g, b.g)
-            &&  Mathf.Approximately(a.b, b.b) 
-            &&  Mathf.Approximately(a.a, b.a));
+                Mathf.Approximately(a.r, b.r)
+            && Mathf.Approximately(a.g, b.g)
+            && Mathf.Approximately(a.b, b.b)
+            && Mathf.Approximately(a.a, b.a));
     }
 
     // clockwise

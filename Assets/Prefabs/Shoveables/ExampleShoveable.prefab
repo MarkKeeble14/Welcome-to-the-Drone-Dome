@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3610933128853907490}
   - component: {fileID: 3610933128853907501}
   - component: {fileID: 3610933128853907489}
+  - component: {fileID: -3701944657232520621}
   m_Layer: 10
   m_Name: ExampleShoveable
   m_TagString: Untagged
@@ -63,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 86fd717be7e65e54fab20f9a95de04e6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -114,3 +115,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-3701944657232520621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3610933128853907500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6ced055035f9e94aadd0a31e494a1e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distanceFromPlayerBeforeDestroy: 25
+  ShoveRequirement: 1
+  rb: {fileID: 3610933128853907489}
+  Primed: 0

@@ -5,10 +5,10 @@ public class BossHealth : EnemyHealth
     [HideInInspector]
     public BossBar HealthBar;
 
-    public override void Damage(float damage)
+    public override void Damage(float damage, bool spawnText)
     {
-        base.Damage(damage);
+        base.Damage(damage, spawnText);
 
-        HealthBar.SetBar(currentHealth / startHealth);
+        HealthBar.SetBar(currentHealth / maxHealth);
     }
 }

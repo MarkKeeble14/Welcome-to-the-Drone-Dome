@@ -5,12 +5,12 @@ using UnityEngine;
 public class PoisonFieldMortarProjectile : MortarProjectile
 {
     [SerializeField] private DamageTriggerField poisonField;
-    [SerializeField] private float radius;
+    [SerializeField] private StatModifier radius;
 
     public override void ArrivedAtPosition()
     {
         DamageTriggerField spawned = Instantiate(poisonField, transform.position, Quaternion.identity);
-        spawned.SetRadius(radius);
+        spawned.SetRadius(radius.Value);
         Destroy(gameObject);
     }
 }

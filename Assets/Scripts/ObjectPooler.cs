@@ -5,14 +5,13 @@ using UnityEngine.Pool;
 
 public class ObjectPooler : MonoBehaviour
 {
-    public static ObjectPooler _Instance;
+    public static ObjectPooler _Instance { get; private set; }
 
     private void Awake()
     {
-        if (_Instance != null && _Instance != this)
+        if (_Instance != null)
         {
-            Destroy(this);
-            return;
+            Destroy(_Instance.gameObject);
         }
 
         // Set instance

@@ -5,8 +5,6 @@ using UnityEngine.InputSystem;
 
 public class PlayerYAxisController : MonoBehaviour
 {
-    Controls cachedControls;
-
     private PlayerYAxisState state;
     public PlayerYAxisState State => state;
     [SerializeField] private float jumpHeight = 5f;
@@ -25,10 +23,8 @@ public class PlayerYAxisController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        cachedControls = InputManager._Controls;
-
-        cachedControls.Player.Jump.started += Jump;
-        cachedControls.Player.Crouch.performed += StartCrouch;
+        InputManager._Controls.Player.Jump.started += Jump;
+        InputManager._Controls.Player.Crouch.performed += StartCrouch;
     }
 
     private void Jump(InputAction.CallbackContext ctx)
@@ -67,7 +63,7 @@ public class PlayerYAxisController : MonoBehaviour
     void Update()
     {
         // Reset Out of Crouch
-        if (crouching && !cachedControls.Player.Crouch.IsPressed())
+        if (crouching && !InputManager._Controls.Player.Crouch.IsPressed())
         {
             state = PlayerYAxisState.STANDING;
             crouching = false;

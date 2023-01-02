@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class UpgradeManager : MonoBehaviour
 {
-    public static UpgradeManager _Instance;
+    public static UpgradeManager _Instance { get; private set; }
 
     private void Awake()
     {
-        if (_Instance != null && _Instance != this)
+        if (_Instance != null)
         {
-            Destroy(this);
-            return;
+            Destroy(_Instance.gameObject);
         }
         _Instance = this;
     }
@@ -30,6 +29,7 @@ public class UpgradeManager : MonoBehaviour
     [SerializeField] private Transform upgradeTreeNodeParent;
     private List<UpgradeNodeDisplay> spawnedUpgradeNodes = new List<UpgradeNodeDisplay>();
     [SerializeField] private TextMeshProUGUI sectionText;
+    [SerializeField] private PlayerDroneController playerDroneController;
 
     private void Start()
     {
@@ -84,8 +84,9 @@ public class UpgradeManager : MonoBehaviour
 
         // For each weapon type that the player has equipped, we add that weapon types upgrade tree to the list of available
         // upgrade trees
-        foreach (ModuleType type in GameManager._Instance.DroneWeaponModules)
+        foreach (DroneModule module in playerDroneController.AppliedModules)
         {
+            ModuleType type = module.Type;
             // Get the entry 
             SerializableKeyValuePair<ModuleType, UpgradeTree> kvp = weaponModuleUpgradeTrees.GetEntry(type);
 

@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8573123807695300157
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8573123807695300156}
+  - component: {fileID: 8573123807695300147}
+  m_Layer: 0
+  m_Name: ArenaManagerTest
+  m_TagString: Untagged
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8573123807695300156
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8573123807695300157}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8573123807695300147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8573123807695300157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed3dfcd1e9cda0942a1fb18f6cb060d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnEnemies: 1
+  allowLooping: 1
+  awardInitialShopVisit: 0
+  arenaWaves:
+  - RewardType: 0
+    UpgradePointsAwarded: 3
+    EnemySpawns:
+      options:
+      - key: {fileID: 5638404428015688683, guid: fd6e99f1c89d8b64388ded8d053fad19,
+          type: 3}
+        value: 100
+    OtherSpawns:
+      options:
+      - key: {fileID: 3637420751007572400, guid: f82e01b00ce66254fa3f2e552615c1f6,
+          type: 3}
+        value: 100
+    EnemiesKilledThisWave: 0
+    EnemiesToKill: 3
+    NumEnemiesAliveAtOnce: 20
+    NumOtherSpawnsAtOnce: 2
+    BossZoomOut: 5
+    BossSpawns:
+    - {fileID: 5638404428015688683, guid: 6cceafb925b214f4a917954323873b04, type: 3}
+  cameraWidthAllowance: 20
+  cameraHeightAllowance: 10
+  enemiesAllowedAliveGrowth: 1.1

@@ -1,7 +1,7 @@
 ﻿public enum WaveReward
 {
     NONE,
-    NEW_ALPHA_DRONE,
-    WEAPON_UPGRADE,
+    NEW_DRONE,
+    UPGRADE,
     SHOP_VISIT,
 }

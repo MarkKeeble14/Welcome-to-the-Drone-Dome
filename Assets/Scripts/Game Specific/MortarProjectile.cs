@@ -3,11 +3,16 @@ using UnityEngine;
 
 public abstract class MortarProjectile : MonoBehaviour
 {
-    [SerializeField] private LayerMask explodeOnCollideWith;
+    private LayerMask explodeOnCollideWith;
 
-    public void Set(Transform shootAt, float speed, float arcHeight)
+    private void Awake()
     {
-        StartCoroutine(Travel(shootAt, speed, arcHeight));
+        explodeOnCollideWith = LayerMask.GetMask("Enemy", "Ground");
+    }
+
+    public void Set(Transform shootAt, float speed, float arcAngle)
+    {
+        ShootAt(shootAt, arcAngle);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -18,60 +23,38 @@ public abstract class MortarProjectile : MonoBehaviour
 
     public abstract void ArrivedAtPosition();
 
-    public IEnumerator Travel(Transform shootAt, float speed, float arcHeight)
+    private void ShootAt(Transform shootAt, float arcAngle)
     {
-        Vector3 startPos = transform.position;
-        Vector3 targetPos = shootAt.position;
+        Rigidbody rb = GetComponent<Rigidbody>();
 
-        Vector3 lastPos = transform.position;
-        Vector3 currentPos;
+        Vector3 p = shootAt.position;
 
-        float counter = 0;
-        bool direction = true;  // true = up, false = down
-        bool reachedGoal = false;
-        float allowedDistFromTarget = 1f;
-        while (!reachedGoal)
-        {
-            currentPos = transform.position;
+        float gravity = Physics.gravity.magnitude;
 
-            // Checks if we've begun descending
-            if (currentPos.y < lastPos.y)
-            {
-                direction = false;
-            }
-            lastPos = transform.position;
+        // Selected angle in radians
+        float angle = arcAngle * Mathf.Deg2Rad;
 
-            // Limit arc going upwards
-            float arcFudge = 1f;
-            if (!direction)
-            {
-                arcFudge = 1f;
-            }
+        // Positions of this object and the target on the same plane
+        Vector3 planarTarget = new Vector3(p.x, 0, p.z);
+        Vector3 planarPostion = new Vector3(transform.position.x, 0, transform.position.z);
 
-            // Lerp X and Z change
-            Vector3 landPos = new Vector3(targetPos.x, transform.position.y, targetPos.z);
-            // Move the transform on X and Z axis
-            transform.position = Vector3.Lerp(transform.position, landPos, speed * Time.deltaTime);
+        // Planar distance between objects
+        float distance = Vector3.Distance(planarTarget, planarPostion);
+        // Distance along the y axis between objects
+        float yOffset = transform.position.y - p.y;
 
-            // Lerp y change
-            Vector3 heightPos = new Vector3(
-                    transform.position.x,
-                    startPos.y + (Mathf.Sin(Mathf.PI * 2 * counter / 360)
-                        * ((Mathf.Abs(startPos.y - targetPos.y) * arcFudge * arcHeight))),
-                    transform.position.z
-             );
-            // Move the transform on Y axis
-            transform.position = Vector3.Lerp(transform.position, heightPos, speed * 2f);
+        float initialVelocity = (1 / Mathf.Cos(angle)) * Mathf.Sqrt((0.5f * gravity * Mathf.Pow(distance, 2)) / (distance * Mathf.Tan(angle) + yOffset));
 
-            // Update Counter
-            counter += speed;
+        Vector3 velocity = new Vector3(0, initialVelocity * Mathf.Sin(angle), initialVelocity * Mathf.Cos(angle));
 
-            if (Vector3.Distance(transform.position, targetPos) < allowedDistFromTarget)
-                reachedGoal = true;
+        // Rotate our velocity to match the direction between the two objects
+        float angleBetweenObjects = Vector3.Angle(Vector3.forward, planarTarget - planarPostion);
+        Vector3 finalVelocity = Quaternion.AngleAxis(angleBetweenObjects, Vector3.up) * velocity;
 
-            yield return null;
-        }
+        // Fire!
+        // rb.velocity = finalVelocity;
 
-        ArrivedAtPosition();
+        // Alternative way:
+        rb.AddForce(finalVelocity * rb.mass, ForceMode.Impulse);
     }
 }

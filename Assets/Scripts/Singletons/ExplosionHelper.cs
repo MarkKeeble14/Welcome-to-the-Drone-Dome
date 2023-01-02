@@ -1,22 +1,21 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class ExplosionHelper : MonoBehaviour
 {
-    public static ExplosionHelper _Instance;
+    public static ExplosionHelper _Instance { get; private set; }
 
     private void Awake()
     {
-        if (_Instance != null && _Instance != this)
+        if (_Instance != null)
         {
-            Destroy(this);
-            return;
+            Destroy(_Instance.gameObject);
         }
-
         // Set instance
         _Instance = this;
     }
 
-    public static void ExplodeAt(ExplosionData explosionData, Vector3 position)
+    public static void ExplodeAt(ExplosionData explosionData, Vector3 position, Action<HealthBehaviour> onHitHealthBehaviour)
     {
         // Play explosion sfx
         if (explosionData.AudioEffect != null)
@@ -39,7 +38,8 @@ public class ExplosionHelper : MonoBehaviour
                 if ((healthBehaviour = hit.GetComponent<HealthBehaviour>()))
                 {
                     // Debug.Log(hit);
-                    healthBehaviour.Damage(explosionData.Damage);
+                    // healthBehaviour.Damage(explosionData.Damage, true);
+                    onHitHealthBehaviour(healthBehaviour);
                 }
             }
 
@@ -47,7 +47,7 @@ public class ExplosionHelper : MonoBehaviour
             Explodable explodable;
             if ((explodable = hit.GetComponent<Explodable>()) && explodable.AllowChainExplosion)
             {
-                explodable.Explode();
+                explodable.CallExplode();
             }
 
             Rigidbody rb;
@@ -59,5 +59,15 @@ public class ExplosionHelper : MonoBehaviour
             }
 
         }
+    }
+
+    public static void ExplodeEnemiesAt(ExplosionData explosionData, Vector3 position, ModuleType source)
+    {
+        ExplodeAt(explosionData, position, enemy => enemy.Damage(explosionData.Damage, source));
+    }
+
+    public static void ExplodeEnemiesAt(ExplosionData explosionData, Vector3 position)
+    {
+        ExplodeAt(explosionData, position, enemy => enemy.Damage(explosionData.Damage, true, Color.red));
     }
 }

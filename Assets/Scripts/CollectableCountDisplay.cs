@@ -7,7 +7,6 @@ public class CollectableCountDisplay : MonoBehaviour
 {
     private GameManager cachedInstance;
     [SerializeField] private TextMeshProUGUI text;
-
     private void Start()
     {
         cachedInstance = GameManager._Instance;

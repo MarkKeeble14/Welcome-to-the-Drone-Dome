@@ -134,7 +134,7 @@ MonoBehaviour:
   Primed: 0
   explodeOnCollideWith:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 1216
   activationThreshold: 3
   explodable: {fileID: 8196310647629580577}
 --- !u!114 &8196310647629580577

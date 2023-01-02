@@ -9,10 +9,12 @@ public class DroneWeaponModuleChoice : MonoBehaviour
     private int actualCost;
     [SerializeField] private TextMeshProUGUI intendedCostText;
     private int intendedCost;
+    [SerializeField] private TextMeshProUGUI categoryText;
     public void Set(ModuleType type, int defaultCost)
     {
         nameText.text = type.ToString();
         intendedCost = defaultCost;
+        categoryText.text = GameManager._Instance.GetModuleCategory(type).ToString();
 
         Button b = GetComponentInChildren<Button>();
         b.onClick.AddListener(delegate
@@ -24,7 +26,7 @@ public class DroneWeaponModuleChoice : MonoBehaviour
             }
             else
             {
-                Debug.Log("Not Enough Resource to Purchase: " + type);
+                Debug.Log("Failed to Purchase: " + type);
             }
         });
     }

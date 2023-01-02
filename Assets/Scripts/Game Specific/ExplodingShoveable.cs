@@ -18,7 +18,7 @@ public class ExplodingShoveable : Shoveable
         */
         if (!Primed) return;
         if (!LayerMaskHelper.IsInLayerMask(collision.gameObject, explodeOnCollideWith)) return;
-        explodable.Explode();
+        explodable.CallExplode();
     }
 
 

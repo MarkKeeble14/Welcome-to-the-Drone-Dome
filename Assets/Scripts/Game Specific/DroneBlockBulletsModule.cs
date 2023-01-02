@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 
-public class DroneBlockBulletsModule : DroneModule
+public class DroneBlockBulletsModule : DronePassiveModule
 {
     private float blockingRadius;
     private LayerMask bulletLayer;
     private SphereCollider sphereCollider;
+
+    public override ModuleType Type => ModuleType.DRONE_BLOCK_BULLETS;
 
     private void Start()
     {

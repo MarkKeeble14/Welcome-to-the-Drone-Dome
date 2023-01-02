@@ -10,7 +10,7 @@ public class BulletTypeGun : Gun
     [SerializeField] protected StatModifier projectileDamage;
     [SerializeField] protected float shootForce;
 
-    public override float Shoot(Vector3 projectileOrigin, Transform shootAt)
+    public override float Shoot(Vector3 projectileOrigin, Transform shootAt, ModuleType source)
     {
         // If shootAt is null, it means that whatever we were planning on shooting is no longer with us
         // Return 0 as the gun cd, so system can re-target and re-fire
@@ -18,28 +18,28 @@ public class BulletTypeGun : Gun
 
         if (projectilesPerShot.Value == 1)
         {
-            ShootOne(projectileOrigin, shootAt);
+            ShootOne(projectileOrigin, shootAt, source);
         }
         else if (projectilesPerShot.Value % 2 == 0)
         {
-            ShootEven(projectileOrigin, shootAt);
+            ShootEven(projectileOrigin, shootAt, source);
         }
         else if (projectilesPerShot.Value % 2 == 1)
         {
-            ShootOdd(projectileOrigin, shootAt);
+            ShootOdd(projectileOrigin, shootAt, source);
         }
 
-        return base.Shoot(projectileOrigin, shootAt);
+        return base.Shoot(projectileOrigin, shootAt, source);
     }
 
-    private void ShootOne(Vector3 projectileOrigin, Transform shootAt)
+    private void ShootOne(Vector3 projectileOrigin, Transform shootAt, ModuleType source)
     {
         BulletTypeProjectile currentProjectile = Instantiate(projectilePrefab, projectileOrigin, Quaternion.identity);
         Vector3 direction = shootAt.position - projectileOrigin;
-        currentProjectile.Set(projectileDamage.Value, direction.normalized, shootForce);
+        currentProjectile.Set(projectileDamage.Value, direction.normalized, shootForce, source);
     }
 
-    private void ShootEven(Vector3 projectileOrigin, Transform shootAt)
+    private void ShootEven(Vector3 projectileOrigin, Transform shootAt, ModuleType source)
     {
         Vector3 direction = shootAt.position - projectileOrigin;
         direction = Quaternion.AngleAxis(((projectilesPerShot.Value / 2) - .5f) * -angleBetweenProjectiles.Value, Vector3.up) * direction;
@@ -48,12 +48,12 @@ public class BulletTypeGun : Gun
         {
             BulletTypeProjectile currentProjectile = Instantiate(projectilePrefab, projectileOrigin, Quaternion.identity);
 
-            currentProjectile.Set(projectileDamage.Value, direction.normalized, shootForce);
+            currentProjectile.Set(projectileDamage.Value, direction.normalized, shootForce, source);
             direction = Quaternion.AngleAxis(angleBetweenProjectiles.Value, Vector3.up) * direction;
         }
     }
 
-    private void ShootOdd(Vector3 projectileOrigin, Transform shootAt)
+    private void ShootOdd(Vector3 projectileOrigin, Transform shootAt, ModuleType source)
     {
         Vector3 direction = shootAt.position - projectileOrigin;
         direction = Quaternion.AngleAxis(Mathf.Floor(projectilesPerShot.Value / 2) * -angleBetweenProjectiles.Value, Vector3.up) * direction;
@@ -62,7 +62,7 @@ public class BulletTypeGun : Gun
         {
             BulletTypeProjectile currentProjectile = Instantiate(projectilePrefab, projectileOrigin, Quaternion.identity);
 
-            currentProjectile.Set(projectileDamage.Value, direction.normalized, shootForce);
+            currentProjectile.Set(projectileDamage.Value, direction.normalized, shootForce, source);
             direction = Quaternion.AngleAxis(angleBetweenProjectiles.Value, Vector3.up) * direction;
         }
     }

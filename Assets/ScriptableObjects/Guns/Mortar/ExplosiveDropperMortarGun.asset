@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23d1ba93fcbb5e540a10ab5411e81c06, type: 3}
   m_Name: ExplosiveDropperMortarGun
   m_EditorClassIdentifier: 
-  shotsPerSecond: 0.2
-  infiniteAmmo: 0
+  shotsPerSecond: {fileID: 11400000, guid: bad43922ae9f0774fb88ea28f2b214bc, type: 2}
+  infiniteAmmo: 1
   maxMagazineCount: 1
   reloadTime: 5
   range: {fileID: 11400000, guid: b340628db91269e4fab161c8e7bfdce5, type: 2}
   mortarProjectilePrefab: {fileID: -6834323941361707655, guid: adaf4a7cfea164843bad4fc7c5a9b6bf,
     type: 3}
-  projectileSpeed: 0.5
-  arcHeight: 10
+  projectileSpeed: 1
+  arcAngle: 60
+  torquePower: 0

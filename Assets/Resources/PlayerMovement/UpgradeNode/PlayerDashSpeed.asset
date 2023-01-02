@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74a95fe61fac3304bb3ba7b13a15cd6e, type: 3}
   m_Name: PlayerDashSpeed
   m_EditorClassIdentifier: 
-  Purchased: 1
+  Purchased: 0
   Label: Increase Player Dash Speed
-  Requirements:
-  - {fileID: 11400000, guid: 8ae570766b8e27b4fa4a7209e81b581b, type: 2}
-  CurrentPoints: 4
+  Requirements: []
+  CurrentPoints: 0
   MaxPoints: 5
   statModifier: {fileID: 11400000, guid: d4a2924a877972b42a8284fc4b7f75cd, type: 2}

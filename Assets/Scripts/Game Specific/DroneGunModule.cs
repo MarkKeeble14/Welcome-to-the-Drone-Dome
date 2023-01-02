@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class DroneGunModule : DroneAttackModule
+public abstract class DroneGunModule : DroneWeaponModule
 {
     [SerializeField] protected Gun gun;
 
@@ -26,7 +26,7 @@ public class DroneGunModule : DroneAttackModule
 
     private float Fire()
     {
-        return gun.Shoot(transform.position, target);
+        return gun.Shoot(transform.position, target, Type);
     }
 
     private IEnumerator Shoot()

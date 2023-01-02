@@ -6,17 +6,14 @@ using UnityEngine.InputSystem;
 
 public class UseDroneManager : MonoBehaviour
 {
-    public static UseDroneManager _Instance;
+    public static UseDroneManager _Instance { get; private set; }
 
     private void Awake()
     {
-        if (_Instance != null && _Instance != this)
+        if (_Instance != null)
         {
-            Destroy(this);
-            return;
+            Destroy(_Instance.gameObject);
         }
-
-        // Set instance
         _Instance = this;
     }
 
@@ -28,7 +25,7 @@ public class UseDroneManager : MonoBehaviour
     [SerializeField] private float droneShoveMaxRadiusMod = 2f;
     Vector2 mousePos;
 
-    [SerializeField] private PlayerDroneOrbitController playerDroneController;
+    [SerializeField] private PlayerDroneController playerDroneController;
 
     private void LeftMousePressed(InputAction.CallbackContext obj)
     {

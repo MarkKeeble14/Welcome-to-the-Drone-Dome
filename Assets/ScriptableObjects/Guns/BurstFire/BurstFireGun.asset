@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0156e51c195686346ba60320d395f5b1, type: 3}
   m_Name: BurstFireGun
   m_EditorClassIdentifier: 
-  shotsPerSecond: 1
+  shotsPerSecond: {fileID: 11400000, guid: 362eac011f8161044920797b2113443d, type: 2}
   infiniteAmmo: 0
   maxMagazineCount: 100
   reloadTime: 3

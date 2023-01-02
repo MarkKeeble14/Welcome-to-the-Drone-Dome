@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23d1ba93fcbb5e540a10ab5411e81c06, type: 3}
   m_Name: PoisonFieldMortarGun
   m_EditorClassIdentifier: 
-  shotsPerSecond: 0.2
-  infiniteAmmo: 0
+  shotsPerSecond: {fileID: 11400000, guid: fd183c8570efc81418b463b14785abaf, type: 2}
+  infiniteAmmo: 1
   maxMagazineCount: 1
   reloadTime: 5
   range: {fileID: 11400000, guid: 4400b9790cd999e4081871698323ead8, type: 2}
   mortarProjectilePrefab: {fileID: -896977693953580017, guid: 1b8eecb185ab5854386d6d4b67646484,
     type: 3}
   projectileSpeed: 1
-  arcHeight: 1
+  arcAngle: 60
+  torquePower: 0

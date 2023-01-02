@@ -4,7 +4,7 @@ using UnityEngine;
 public abstract class Gun : ScriptableObject
 {
     [Header("Base")]
-    [SerializeField] protected float shotsPerSecond;
+    [SerializeField] protected StatModifier shotsPerSecond;
     [SerializeField] protected bool infiniteAmmo;
     [SerializeField] protected int maxMagazineCount;
     protected int currentMagazineCount;
@@ -33,13 +33,13 @@ public abstract class Gun : ScriptableObject
     }
 
     // Returns the cooldown betewen next shot
-    public virtual float Shoot(Vector3 projectileOrigin, Transform shootAt)
+    public virtual float Shoot(Vector3 projectileOrigin, Transform shootAt, ModuleType source)
     {
         // Remove a projectile from the guns magazine unless the gun has infinite ammo
         if (!infiniteAmmo)
             currentMagazineCount--;
 
-        return (1 / shotsPerSecond);
+        return (1 / shotsPerSecond.Value);
     }
 
     public void ResetStats()

@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PoisonFieldTriggerField : DamageTriggerField
+public class PoisonFieldTriggerField : ModuleDamageTriggerField
 {
     [Header("Poison Field")]
     [SerializeField] private BoolSwitchUpgradeNode expand;
     [SerializeField] private StatModifier expandSpeed;
+
+    public override ModuleType Source => ModuleType.TOXIC_SHELL_MORTAR;
 
     private new void Start()
     {

@@ -17,7 +17,7 @@ public class DashCDDisplay : MonoBehaviour
         if (playerDashUnlocked.Active)
         {
             container.SetActive(true);
-            bar.SetBar(1 - (playerMovement.CurrentDashCooldown / playerMovement.DashCooldown));
+            bar.HardSetBar(1 - (playerMovement.CurrentDashCooldown / playerMovement.DashCooldown));
         }
         else
         {

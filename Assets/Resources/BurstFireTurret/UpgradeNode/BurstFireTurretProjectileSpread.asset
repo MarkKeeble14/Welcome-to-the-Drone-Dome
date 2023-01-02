@@ -15,7 +15,7 @@ MonoBehaviour:
   Purchased: 0
   Label: Decrease Projectile Spread
   Requirements:
-  - {fileID: 11400000, guid: 4645f69929fc1ff4e8ce889c7da7e33e, type: 2}
+  - {fileID: 11400000, guid: d6c0b3e4a33ff194d99127bcd640f752, type: 2}
   CurrentPoints: 0
   MaxPoints: 5
   statModifier: {fileID: 11400000, guid: f6b25573d84894d46bed367fbf4dfd7c, type: 2}

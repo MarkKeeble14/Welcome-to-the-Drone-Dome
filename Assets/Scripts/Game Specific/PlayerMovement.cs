@@ -5,14 +5,13 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed = 5f;
-    [SerializeField] private float dashDistance = 2f;
-    [SerializeField] private float dashSpeed = 30f;
-    [SerializeField] private float dashCDStart = 1f;
+    [SerializeField] private StatModifier moveSpeed;
+    [SerializeField] private StatModifier dashDuration;
+    [SerializeField] private StatModifier dashSpeed;
+    [SerializeField] private StatModifier dashCDStart;
 
     [SerializeField] private float crouchingDampenSpeed = .5f;
     [SerializeField] private float jumpingDampenSpeed = 1f;
-
 
     private float MoveSpeed
     {
@@ -21,16 +20,15 @@ public class PlayerMovement : MonoBehaviour
             switch (yAxisController.State)
             {
                 case PlayerYAxisState.CROUCHING:
-                    return moveSpeed * crouchingDampenSpeed;
+                    return moveSpeed.Value * crouchingDampenSpeed;
                 case PlayerYAxisState.IN_AIR:
-                    return moveSpeed * jumpingDampenSpeed;
+                    return moveSpeed.Value * jumpingDampenSpeed;
                 default:
-                    return moveSpeed;
+                    return moveSpeed.Value;
             }
         }
     }
-    public float DashCooldown => dashCDStart;
-    private Controls cachedControls;
+    public float DashCooldown => dashCDStart.Value;
     private float dashCDTimer;
     private bool overrideControl;
 
@@ -60,17 +58,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
-        // Cache the controls
-        cachedControls = InputManager._Controls;
-
-        cachedControls.Player.Dash.started += Dash;
+        InputManager._Controls.Player.Dash.started += Dash;
     }
 
     private void Dash(InputAction.CallbackContext ctx)
     {
         if (!allowPlayerDash.Active) return;
         if (dashCDTimer > 0) return;
-        Vector2 dashVector = cachedControls.Player.Move.ReadValue<Vector2>().normalized * dashDistance;
+        Vector2 dashVector = InputManager._Controls.Player.Move.ReadValue<Vector2>().normalized * dashDuration.Value;
         StopAllCoroutines();
 
         StartCoroutine(ExecuteDash(dashVector));
@@ -78,18 +73,21 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator ExecuteDash(Vector2 vector)
     {
-        dashCDTimer = dashCDStart;
+        dashCDTimer = dashCDStart.Value;
 
-        Vector3 targetPos = new Vector3(vector.x, 0, vector.y) + new Vector3(transform.position.x, 0, transform.position.z);
-        while (transform.position != targetPos)
+        float t = 0;
+
+        while (t < dashDuration.Value)
         {
-            overrideControl = true;
-            transform.position = Vector3.MoveTowards(transform.position, targetPos, dashSpeed * Time.deltaTime);
-
+            // overrideControl = true;
+            Vector3 targetPos = new Vector3(vector.x, 0, vector.y) + new Vector3(transform.position.x, 0, transform.position.z);
+            transform.position = Vector3.MoveTowards(transform.position, targetPos,
+                moveSpeed.Value * dashSpeed.Value * Time.deltaTime);
+            t += Time.deltaTime;
             yield return null;
         }
 
-        overrideControl = false;
+        // overrideControl = false;
     }
 
     // Update is called once per frame
@@ -103,7 +101,7 @@ public class PlayerMovement : MonoBehaviour
 
         // Get player input then move the player accordingly
         if (!LockMoveVector)
-            moveVector = cachedControls.Player.Move.ReadValue<Vector2>();
+            moveVector = InputManager._Controls.Player.Move.ReadValue<Vector2>();
         transform.position += (MoveSpeed * Time.deltaTime) * new Vector3(moveVector.x, 0, moveVector.y);
     }
 }

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5163690858416789681}
   - component: {fileID: 5163690858416789678}
   - component: {fileID: 3704174522244562144}
+  - component: {fileID: 4860089302937057967}
   - component: {fileID: 5163690858416789679}
   - component: {fileID: 4564883555859428555}
   - component: {fileID: -8987696578429686913}
@@ -198,6 +199,18 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!114 &4860089302937057967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5163690858416789677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce0ee81128dc18945b19ff84bf3c8da4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &5163690858416789679
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,8 +232,11 @@ MonoBehaviour:
   scavengeableLayer:
     serializedVersion: 2
     m_Bits: 4096
+  scavengeablePriorityLayer:
+    serializedVersion: 2
+    m_Bits: 32768
   scavengeableSightRange: 12.5
-  scavengingGrabRange: 0.5
+  scavengingGrabRange: 0
   scavengingSpeedMod: 2
   Col: {fileID: 5163690858416789678}
 --- !u!114 &4564883555859428555

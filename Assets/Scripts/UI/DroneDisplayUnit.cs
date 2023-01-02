@@ -6,43 +6,68 @@ using UnityEngine.UI;
 
 public class DroneDisplayUnit : MonoBehaviour
 {
-    [SerializeField] private Image fillImage;
-    [SerializeField] private Image imageBorder;
+    [System.Serializable]
+    public struct DroneModeDisplayInfo
+    {
+        public Color Color;
+        public Sprite Sprite;
+    }
+    [SerializeField] private Image[] changeColorOnSelect;
+    [SerializeField] private Image showActiveImage;
+    [SerializeField] private Image showActiveContainer;
+    [SerializeField] private Image droneModePic;
     [SerializeField] private Button button;
+    [SerializeField] private TextMeshProUGUI indexText;
     public bool Selected;
 
     [SerializeField] private Color selectedColor;
     [SerializeField] private Color notSelectedColor;
-
-    [SerializeField] private Color scavengeColor;
-    [SerializeField] private Color followColor;
+    [SerializeField] private Color activeCDColor;
+    [SerializeField] private Color hasActiveColor;
 
     private DroneController representingDrone;
 
-    public void Set(DroneController drone, PlayerDroneOrbitController playerDroneOrbitController)
+    [SerializeField]
+    private SerializableDictionary<DroneMode, DroneModeDisplayInfo> droneModeDisplayDictionary
+        = new SerializableDictionary<DroneMode, DroneModeDisplayInfo>();
+
+    public void Set(DroneController drone, PlayerDroneController playerDroneController, int index)
     {
         // Debug.Log("Added UI Unit for: " + drone.name);
         representingDrone = drone;
-        button.onClick.AddListener(delegate { playerDroneOrbitController.TrySelectDrone(drone); });
+        button.onClick.AddListener(delegate { playerDroneController.TrySelectDrone(drone); });
+        indexText.text = index.ToString();
     }
+
+    public bool HasActives => representingDrone.NumActives > 0;
 
     private void Update()
     {
         // Control Color to display info
-        imageBorder.color = Selected ? selectedColor : notSelectedColor;
-        fillImage.color = GetColorBasedOnDroneMode();
+        if (HasActives)
+        {
+            showActiveContainer.gameObject.SetActive(true);
+            showActiveImage.color = representingDrone.CanActivateActives ? hasActiveColor : activeCDColor;
+        }
+        else
+        {
+            showActiveContainer.gameObject.SetActive(false);
+        }
+
+        foreach (Image image in changeColorOnSelect)
+        {
+            image.color = Selected ? selectedColor : notSelectedColor;
+        }
+        SetBasedOnDroneMode();
+
+        Vector2 cooldownPercent = representingDrone.CooldownTime;
+        showActiveImage.fillAmount = cooldownPercent.x / cooldownPercent.y;
     }
 
-    private Color GetColorBasedOnDroneMode()
+    private void SetBasedOnDroneMode()
     {
-        switch (representingDrone.CurrentMode)
-        {
-            case DroneMode.FOLLOW:
-                return followColor;
-            case DroneMode.SCAVENGE:
-                return scavengeColor;
-            default:
-                return Color.grey;
-        }
+        DroneModeDisplayInfo info = droneModeDisplayDictionary.GetEntry(representingDrone.CurrentMode).Value;
+        // droneModePic.color = info.Color;
+        droneModePic.sprite = info.Sprite;
     }
 }

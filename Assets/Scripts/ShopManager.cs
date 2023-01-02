@@ -9,10 +9,9 @@ public class ShopManager : MonoBehaviour
     public static ShopManager _Instance { get; private set; }
     private void Awake()
     {
-        if (_Instance != null && _Instance != this)
+        if (_Instance != null)
         {
-            Destroy(this);
-            return;
+            Destroy(_Instance.gameObject);
         }
         _Instance = this;
     }
@@ -25,21 +24,41 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private DroneWeaponModuleChoice weaponModuleChoicePrefab;
     [SerializeField] private Transform weaponModuleChoiceListParent;
 
-    [SerializeField] private int maxWeaponModuleChoices;
+    // [SerializeField] private int maxWeaponModuleChoices;
 
     [SerializeField]
     private SerializableDictionary<ModuleType, int> weaponModuleBaseCostDictionary
         = new SerializableDictionary<ModuleType, int>();
+
+    /*
     [SerializeField]
     private SerializableDictionary<ModuleType, int> maxModuleInstanceDictionary
         = new SerializableDictionary<ModuleType, int>();
     private List<ModuleType> limitedAvailabilityModules = new List<ModuleType>();
-    [SerializeField]
+    */
     private List<ModuleType> possibleWeaponModules;
+    public List<ModuleType> PossibleWeaponModules => possibleWeaponModules;
+
+    private List<ModuleType> availableModules = new List<ModuleType>();
+
+    public void PickedUpModule(ModuleType type)
+    {
+        availableModules.Add(type);
+    }
 
     private void Start()
     {
-        limitedAvailabilityModules.AddRange(maxModuleInstanceDictionary.Keys());
+        // Create initial list of possible weapon modules, which is determined by which modules have been given costs
+        possibleWeaponModules = new List<ModuleType>();
+        possibleWeaponModules.AddRange(weaponModuleBaseCostDictionary.Keys());
+
+        // Add modules which have a limited availability to the list
+        // limitedAvailabilityModules.AddRange(maxModuleInstanceDictionary.Keys());
+    }
+
+    public void UseFreePurchase()
+    {
+        freePurchases -= 1;
     }
 
     public void OpenShop()
@@ -51,8 +70,20 @@ public class ShopManager : MonoBehaviour
         UIManager._Instance.OpenShopUI();
 
         // Generate Weapon Module Choices
-        GenerateWeaponModuleChoices();
+        GenerateModuleChoices();
     }
+
+    private void GenerateModuleChoices()
+    {
+        foreach (ModuleType type in availableModules)
+        {
+            DroneWeaponModuleChoice spawned = Instantiate(weaponModuleChoicePrefab, weaponModuleChoiceListParent);
+            spawned.Set(type, GetDroneModuleCost(type));
+        }
+    }
+
+    /*
+    Old, Random Weapon Module Types
 
     private List<ModuleType> offered = new List<ModuleType>();
 
@@ -83,6 +114,7 @@ public class ShopManager : MonoBehaviour
         }
         // Clear the offered list now that we've dealt with all that
         offered.Clear();
+
 
         // Remove all old offering game objects/displays
         foreach (Transform child in weaponModuleChoiceListParent)
@@ -120,30 +152,26 @@ public class ShopManager : MonoBehaviour
                     maxModuleInstanceDictionary.Set(randomWeaponModule, newValue);
                 }
             }
+
             DroneWeaponModuleChoice spawned = Instantiate(weaponModuleChoicePrefab, weaponModuleChoiceListParent);
             spawned.Set(randomWeaponModule, GetDroneWeaponModuleCost(randomWeaponModule));
 
             offered.Add(randomWeaponModule);
         }
     }
+    */
 
-    private int GetDroneWeaponModuleCost(ModuleType type)
+    private int GetDroneModuleCost(ModuleType type)
     {
         return weaponModuleBaseCostDictionary.GetEntry(type).Value;
     }
 
     public bool PurchaseWeaponModule(ModuleType type, int purchaseCost)
     {
-        offered.Remove(type);
-        if (FreePurchase)
-        {
-            freePurchases -= 1;
-            return GameManager._Instance.AddModule(type, purchaseCost, true);
-        }
-        else
-        {
-            return GameManager._Instance.AddModule(type, purchaseCost, false);
-        }
+        bool didBuy = GameManager._Instance.TryPurchaseModule(type, purchaseCost, FreePurchase);
+        if (didBuy)
+            availableModules.Remove(type);
+        return didBuy;
     }
 
     public void CloseShop()

@@ -65,7 +65,7 @@ public class StatModifier : ScriptableObject
 
     private void Add(float x)
     {
-        if (x > 0)
+        if (x > 0)  // Positive number
         {
             if (hasMax)
             {
@@ -83,13 +83,13 @@ public class StatModifier : ScriptableObject
                 affectedValue += x;
             }
         }
-        else if (x < 0)
+        else if (x < 0) // Negative number
         {
             if (hasMin)
             {
-                if (affectedValue - x < minValue)
+                if (affectedValue + x > minValue)
                 {
-                    affectedValue -= x;
+                    affectedValue += x;
                 }
                 else
                 {
@@ -98,7 +98,7 @@ public class StatModifier : ScriptableObject
             }
             else
             {
-                affectedValue -= x;
+                affectedValue += x;
             }
         }
     }

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b5b9a7829c3b33459844b6548054d1d, type: 3}
   m_Name: DefaultAutomaticGun
   m_EditorClassIdentifier: 
-  shotsPerSecond: 1
+  shotsPerSecond: {fileID: 11400000, guid: f66c3fb9fcab07341a31240c8d018353, type: 2}
   infiniteAmmo: 1
   maxMagazineCount: 100
   reloadTime: 1

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4411560104125395869}
   - component: {fileID: 4411560104125395868}
   - component: {fileID: -6834323941361707655}
-  - component: {fileID: 2082479470659606262}
+  - component: {fileID: -3719547744896251695}
   - component: {fileID: 3072926306279113564}
   m_Layer: 8
   m_Name: ExplosiveDropperMortarProjectile
@@ -112,7 +112,7 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
@@ -129,11 +129,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 016063bc66ea05b4194e0cf04529c38f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explodeOnCollideWith:
-    serializedVersion: 2
-    m_Bits: 2177
-  explodable: {fileID: 2082479470659606262}
---- !u!114 &2082479470659606262
+  explodable: {fileID: -3719547744896251695}
+--- !u!114 &-3719547744896251695
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -142,7 +139,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4411560104125395870}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c4fa3a2cbb8d2e4aad110cf66a28b3e, type: 3}
+  m_Script: {fileID: 11500000, guid: 6f25f757c3b7cd741973bdb212ceb1bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   explosionData:
@@ -157,6 +154,7 @@ MonoBehaviour:
       type: 3}
     AudioEffect: {fileID: 0}
   AllowChainExplosion: 0
+  source: 5
 --- !u!114 &3072926306279113564
 MonoBehaviour:
   m_ObjectHideFlags: 0

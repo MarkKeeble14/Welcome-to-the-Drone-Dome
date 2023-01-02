@@ -41,18 +41,24 @@ public class PlayerHealth : HealthBehaviour
             rb.AddForce(knockbackVector * enemy.KnockbackStrength, ForceMode.Impulse);
 
             // Apply Damage
-            Damage(enemy.ContactDamage);
+            Damage(enemy.ContactDamage, true);
         }
     }
 
-    public override void Damage(float damage)
+    public override void Damage(float damage, bool spawnText)
     {
         // Technically unneccessary since we're disabling the players collider while they have active I-Frames
         if (hasIFrames) return;
 
-        base.Damage(damage);
+        base.Damage(damage, spawnText);
 
         StartCoroutine(TrackIFrames());
+    }
+
+    protected override void Die()
+    {
+        GameManager._Instance.OnPlayerDie();
+        base.Die();
     }
 
     private new void Update()
@@ -71,7 +77,7 @@ public class PlayerHealth : HealthBehaviour
             material.color = defaultColor;
         }
 
-        healthBar.SetBar(currentHealth / startHealth);
+        healthBar.SetBar(currentHealth / maxHealth);
     }
 
     private IEnumerator TrackIFrames()
