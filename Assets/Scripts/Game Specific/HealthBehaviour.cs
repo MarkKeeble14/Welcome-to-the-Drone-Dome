@@ -8,6 +8,7 @@ public class HealthBehaviour : MonoBehaviour
     [SerializeField] protected float currentHealth;
     public float MaxHealth => maxHealth;
     [SerializeField] private GameObject takeDamageParticleEffect;
+    [SerializeField] private GameObject healParticleEffect;
     [SerializeField] private GameObject dieParticleEffect;
 
     [SerializeField] protected PopupText popupText;
@@ -42,6 +43,16 @@ public class HealthBehaviour : MonoBehaviour
         if (!spawnText) return;
         Instantiate(popupText, transform.position, Quaternion.identity)
             .Set(damage.ToString(), Color.white, (transform.position.y + transform.localScale.y / 2));
+    }
+
+    public virtual void Heal(float healAmount, bool spawnText)
+    {
+        if (currentHealth >= maxHealth) return;
+        currentHealth += healAmount;
+        Instantiate(healParticleEffect, transform.position, Quaternion.identity);
+        if (!spawnText) return;
+        Instantiate(popupText, transform.position, Quaternion.identity)
+            .Set("+" + healAmount.ToString(), Color.green, (transform.position.y + transform.localScale.y / 2));
     }
 
     protected void Update()

@@ -75,5 +75,16 @@ public class SerializableDictionary<TKey, TValue>
         }
         return toReturn;
     }
+
+    public List<TKey> KeysWhereValueMeetsCondition(Func<TValue, bool> condition)
+    {
+        List<TKey> toReturn = new List<TKey>();
+        foreach (SerializableKeyValuePair<TKey, TValue> kvp in dictionary)
+        {
+            if (condition(kvp.Value))
+                toReturn.Add(kvp.Key);
+        }
+        return toReturn;
+    }
 }
 

@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: ThumperTimeBetweenThumps
   m_EditorClassIdentifier: 
   Purchased: 0
-  Label: Delay Between Activations
+  Label: Decrease Delay Between Activations
   Requirements: []
   CurrentPoints: 0
-  MaxPoints: 6
+  MaxPoints: 5
   statModifier: {fileID: 11400000, guid: dc0350dd45661e448b56f0a1463805e2, type: 2}

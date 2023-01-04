@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+
 public class UseDroneManager : MonoBehaviour
 {
     public static UseDroneManager _Instance { get; private set; }
@@ -26,20 +27,18 @@ public class UseDroneManager : MonoBehaviour
     Vector2 mousePos;
 
     [SerializeField] private PlayerDroneController playerDroneController;
+    private Transform cursorHovering;
 
     private void LeftMousePressed(InputAction.CallbackContext obj)
     {
-        Ray ray = Camera.main.ScreenPointToRay(InputManager._Controls.Player.MousePosition.ReadValue<Vector2>());
-        RaycastHit hit;
-        Physics.Raycast(ray, out hit, Mathf.Infinity, shoveable);
-
-        if (hit.collider != null)
+        if (cursorHovering == null) return;
+        if (LayerMaskHelper.IsInLayerMask(cursorHovering.gameObject, shoveable))
         {
-            StartCoroutine(StartDrag(hit.collider.transform));
+            StartCoroutine(StartDrag(cursorHovering));
         }
-        else
+        else if (LayerMaskHelper.IsInLayerMask(cursorHovering.gameObject, targetable))
         {
-            TryClick();
+            StartCoroutine(ClickEnemySequence(cursorHovering.gameObject));
         }
     }
 
@@ -72,6 +71,8 @@ public class UseDroneManager : MonoBehaviour
         }
 
         // Confirmed can go through with the action, begin the actual logic for the shove
+        MouseCursorManager._Instance.SetCursor(CursorType.HAND, true);
+
         controllingDrone.AvailableForUse = false;
         controllingDrone.DisableAttackModules();
 
@@ -130,6 +131,8 @@ public class UseDroneManager : MonoBehaviour
         // Play animation
         // ?
 
+        MouseCursorManager._Instance.SetCursor(CursorType.DEFAULT, false);
+
         // Wait a moment
         yield return new WaitForSeconds(droneShoveDelay);
 
@@ -168,23 +171,6 @@ public class UseDroneManager : MonoBehaviour
             position = centerPosition + fromOriginToObject;
         }
         return position;
-    }
-
-    private void TryClick()
-    {
-        mousePos = InputManager._Controls.Player.MousePosition.ReadValue<Vector2>();
-        Ray ray = Camera.main.ScreenPointToRay(mousePos);
-        RaycastHit hit;
-        Physics.Raycast(ray, out hit, Mathf.Infinity, targetable);
-        if (hit.collider == null) return;
-        switch (hit.collider.gameObject.layer)
-        {
-            case 7:
-                StartCoroutine(ClickEnemySequence(hit.collider.gameObject));
-                break;
-            default:
-                break;
-        }
     }
 
     private IEnumerator ClickEnemySequence(GameObject enemy)
@@ -230,5 +216,35 @@ public class UseDroneManager : MonoBehaviour
     private void Start()
     {
         InputManager._Controls.Player.LeftMouseClick.started += LeftMousePressed;
+    }
+
+    private void Update()
+    {
+        if (MouseCursorManager._Instance.Locked) return;
+        if (playerDroneController.SelectedDrone == null || !playerDroneController.SelectedDrone.AvailableForUse)
+        {
+            MouseCursorManager._Instance.SetCursor(CursorType.DEFAULT, false);
+            return;
+        }
+
+        Ray ray = Camera.main.ScreenPointToRay(InputManager._Controls.Player.MousePosition.ReadValue<Vector2>());
+        RaycastHit hit;
+        Physics.Raycast(ray, out hit, Mathf.Infinity, targetable | shoveable);
+        cursorHovering = hit.transform;
+
+        if (cursorHovering == null)
+        {
+            MouseCursorManager._Instance.SetCursor(CursorType.DEFAULT, false);
+            return;
+        }
+
+        if (LayerMaskHelper.IsInLayerMask(hit.transform.gameObject, targetable))
+        {
+            MouseCursorManager._Instance.SetCursor(CursorType.TARGET, false);
+        }
+        else if (LayerMaskHelper.IsInLayerMask(hit.transform.gameObject, shoveable))
+        {
+            MouseCursorManager._Instance.SetCursor(CursorType.HAND, false);
+        }
     }
 }

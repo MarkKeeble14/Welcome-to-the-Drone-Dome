@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2724251806287370252
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2724251806287370255}
+  - component: {fileID: 6910545964666085954}
+  m_Layer: 0
+  m_Name: PlayerOrbitPlacementGrid
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2724251806287370255
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2724251806287370252}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6910545964666085954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2724251806287370252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b07f220307041d4489e2319e96df6548, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridNodePrefab: {fileID: 4068716399598735924, guid: ec54fced89a72034aa8265c71da66f3b,
+    type: 3}
+  gridNodes: []
+  distanceFromCenter: {fileID: 11400000, guid: f7b3ec6df6fae0647b32767ac7b3317a, type: 2}
+  rotationSpeed: {fileID: 11400000, guid: 75de2e73ef23d734a99f3b34fabd009e, type: 2}
+  droneHoverAtHeight: 1
+  minListSize: 0
+  playerOrbitDistanceUpgradeNode: {fileID: 11400000, guid: 20e0881264b911a44884b8de0b37d2a6,
+    type: 2}

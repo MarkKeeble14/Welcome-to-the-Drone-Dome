@@ -16,8 +16,10 @@ public class DroneTeslaModule : DroneWeaponModule
 
     public override ModuleType Type => ModuleType.TESLA_COIL;
 
-    private void Awake()
+    private new void Awake()
     {
+        base.Awake();
+
         // Get Line Renderer Component
         lineRenderer = GetComponent<LineRenderer>();
 

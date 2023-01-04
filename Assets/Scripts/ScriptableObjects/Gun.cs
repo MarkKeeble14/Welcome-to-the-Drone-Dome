@@ -37,7 +37,10 @@ public abstract class Gun : ScriptableObject
     {
         // Remove a projectile from the guns magazine unless the gun has infinite ammo
         if (!infiniteAmmo)
+        {
+            // Debug.Log(currentMagazineCount);
             currentMagazineCount--;
+        }
 
         return (1 / shotsPerSecond.Value);
     }

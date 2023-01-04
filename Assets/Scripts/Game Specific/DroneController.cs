@@ -10,18 +10,18 @@ public class DroneController : MonoBehaviour
 
     public Transform Follow;
 
-    [SerializeField] private float moveSpeed;
+    [SerializeField] private StatModifier moveSpeed;
 
-    [SerializeField] private float shoveStrength;
-    public float ShoveStrength { get { return shoveStrength; } }
+    [SerializeField] private StatModifier shoveStrength;
+    public float ShoveStrength { get { return shoveStrength.Value; } }
     [SerializeField] private int shoveLimit;
     public int ShoveLimit { get { return shoveLimit; } }
 
     [SerializeField] private LayerMask scavengeableLayer;
     [SerializeField] private LayerMask scavengeablePriorityLayer;
-    [SerializeField] private float scavengeableSightRange;
-    [SerializeField] private float scavengingGrabRange;
-    [SerializeField] private float scavengingSpeedMod;
+    [SerializeField] private StatModifier scavengeableSightRange;
+    [SerializeField] private StatModifier scavengingGrabRange;
+    [SerializeField] private StatModifier scavengingSpeedMod;
     private Transform scavenging;
 
     private List<DronePassiveModule> passiveModules = new List<DronePassiveModule>();
@@ -154,7 +154,7 @@ public class DroneController : MonoBehaviour
         if (Follow == null) return;
 
         transform.position =
-            Vector3.MoveTowards(transform.position, Follow.position, Time.deltaTime * moveSpeed);
+            Vector3.MoveTowards(transform.position, Follow.position, Time.deltaTime * moveSpeed.Value);
     }
 
     private void HandleScavengeModeLogic()
@@ -162,7 +162,7 @@ public class DroneController : MonoBehaviour
         if (scavenging == null)
         {
             // Priority; if there are priority scavengeable objects in range, we grab those first
-            Collider[] inRange = Physics.OverlapSphere(player.position, scavengeableSightRange, scavengeablePriorityLayer);
+            Collider[] inRange = Physics.OverlapSphere(player.position, scavengeableSightRange.Value, scavengeablePriorityLayer);
             if (inRange.Length > 0)
             {
                 inRange = GetUnclaimedScavengeables(inRange);
@@ -171,7 +171,7 @@ public class DroneController : MonoBehaviour
             }
 
             // Otherwise, we scavenge the normal priority scavengeables
-            inRange = Physics.OverlapSphere(player.position, scavengeableSightRange, scavengeableLayer);
+            inRange = Physics.OverlapSphere(player.position, scavengeableSightRange.Value, scavengeableLayer);
             if (inRange.Length > 0)
             {
                 inRange = GetUnclaimedScavengeables(inRange);
@@ -184,7 +184,7 @@ public class DroneController : MonoBehaviour
         }
         else
         {
-            if (Vector3.Distance(transform.position, scavenging.position) <= scavengingGrabRange)
+            if (Vector3.Distance(transform.position, scavenging.position) <= scavengingGrabRange.Value)
             {
                 // "Pick Up" Object
                 scavenging.GetComponent<Scavengeable>().OnPickup();
@@ -195,7 +195,7 @@ public class DroneController : MonoBehaviour
             else
             {
                 transform.position =
-                    Vector3.MoveTowards(transform.position, scavenging.position, Time.deltaTime * moveSpeed * scavengingSpeedMod);
+                    Vector3.MoveTowards(transform.position, scavenging.position, Time.deltaTime * moveSpeed.Value * scavengingSpeedMod.Value);
             }
         }
     }
@@ -263,6 +263,6 @@ public class DroneController : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, scavengeableSightRange);
+        Gizmos.DrawWireSphere(transform.position, scavengeableSightRange.Value);
     }
 }

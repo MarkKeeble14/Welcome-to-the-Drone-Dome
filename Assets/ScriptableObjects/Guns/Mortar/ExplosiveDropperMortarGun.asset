@@ -15,10 +15,10 @@ MonoBehaviour:
   shotsPerSecond: {fileID: 11400000, guid: bad43922ae9f0774fb88ea28f2b214bc, type: 2}
   infiniteAmmo: 1
   maxMagazineCount: 1
-  reloadTime: 5
+  reloadTime: 0
   range: {fileID: 11400000, guid: b340628db91269e4fab161c8e7bfdce5, type: 2}
   mortarProjectilePrefab: {fileID: -6834323941361707655, guid: adaf4a7cfea164843bad4fc7c5a9b6bf,
     type: 3}
   projectileSpeed: 1
   arcAngle: 60
-  torquePower: 0
+  torquePower: 2

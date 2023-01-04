@@ -39,15 +39,15 @@ public class BulletTypeProjectile : MonoBehaviour
             StartCoroutine(DestroyAfterTime());
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
         // Debug.Log(collision.gameObject.name);
         // Checks if object that was collided with belongs to a layer that we have set to ignore
-        if (!LayerMaskHelper.IsInLayerMask(collision.gameObject, collideWithLayers)) return;
+        if (!LayerMaskHelper.IsInLayerMask(other.gameObject, collideWithLayers)) return;
 
         // Do damage if hitting something that can take damage
         HealthBehaviour hitHP = null;
-        if ((hitHP = collision.gameObject.GetComponent<HealthBehaviour>()) != null)
+        if ((hitHP = other.gameObject.GetComponent<HealthBehaviour>()) != null)
         {
             hitHP.Damage(contactDamage, source);
         }

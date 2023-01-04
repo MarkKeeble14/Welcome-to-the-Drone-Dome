@@ -64,4 +64,9 @@ public class UpgradeNodeDisplay : MonoBehaviour
         pointsText.gameObject.SetActive(true);
         pointsText.text = currentPoints + "/" + maxPoints;
     }
+
+    public void AddExtraText(string text)
+    {
+        pointsText.text += "\n" + text;
+    }
 }

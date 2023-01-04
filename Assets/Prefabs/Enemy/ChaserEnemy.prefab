@@ -181,15 +181,20 @@ MonoBehaviour:
   currentHealth: 0
   takeDamageParticleEffect: {fileID: 1365371477070616360, guid: dc58bda162a534642af443667a7c4937,
     type: 3}
+  healParticleEffect: {fileID: 1365371477070616360, guid: adeadecad0d53e349aa8d4370a16fd41,
+    type: 3}
   dieParticleEffect: {fileID: 1365371477070616360, guid: 3aa837da96f187a4db44e3d3734b7f61,
     type: 3}
   popupText: {fileID: -5260616264727522277, guid: d52a68650b4dbcf44aa2e12f8a640e87,
     type: 3}
-  minMaxResourceCanDrop: {x: 0, y: 2}
+  minMaxResourceCanDrop: {x: 0, y: 3}
   resourceDropOnDeath: {fileID: 5606348252680568883, guid: 316c4d481c099cc49a1a100962abbc79,
     type: 3}
-  minMaxChanceToDropModule: {x: 1, y: 100}
+  minMaxChanceToDropModule: {x: 1, y: 300}
   moduleScavengeable: {fileID: 888590775230126577, guid: 6311f427d36f0df41b82f17a2b082059,
+    type: 3}
+  minMaxHeartCanDrop: {x: 0, y: 0}
+  heartDropOnDeath: {fileID: 8650152402177568256, guid: a670f5bd7f8707d46bd7fd9bd59c3cdb,
     type: 3}
   flashDuration: 0.025
   flashColor: {r: 1, g: 1, b: 1, a: 1}
@@ -208,8 +213,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67316b38784a1ce48848e6d0de4cf127, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  contactDamage: 50
-  knockbackStrength: 50
+  contactDamage: 10
+  knockbackStrength: 25
 --- !u!1001 &1289524449451469929
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -220,27 +225,7 @@ PrefabInstance:
     - target: {fileID: 2724251806287370252, guid: 908103c3116157f4e9fa13549757b150,
         type: 3}
       propertyPath: m_Name
-      value: OrbitPlacementGrid
-      objectReference: {fileID: 0}
-    - target: {fileID: 2724251806287370254, guid: 908103c3116157f4e9fa13549757b150,
-        type: 3}
-      propertyPath: minListSize
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2724251806287370254, guid: 908103c3116157f4e9fa13549757b150,
-        type: 3}
-      propertyPath: rotationSpeed
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 2724251806287370254, guid: 908103c3116157f4e9fa13549757b150,
-        type: 3}
-      propertyPath: distanceFromCenter
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2724251806287370254, guid: 908103c3116157f4e9fa13549757b150,
-        type: 3}
-      propertyPath: droneHoverAtHeight
-      value: 3
+      value: EnemyOrbitPlacementGrid
       objectReference: {fileID: 0}
     - target: {fileID: 2724251806287370255, guid: 908103c3116157f4e9fa13549757b150,
         type: 3}

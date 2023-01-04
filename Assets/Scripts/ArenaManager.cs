@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class ArenaManager : MonoBehaviour
+public partial class ArenaManager : MonoBehaviour
 {
     public static ArenaManager _Instance { get; private set; }
     private void Awake()
@@ -32,7 +32,7 @@ public class ArenaManager : MonoBehaviour
 
     [Header("References")]
     private BossInfoDisplay bossInfoDisplay;
-    private ProgressBar progressBar;
+    private EnemiesKilledBar progressBar;
     private ArenaInstructionsText arenaInstructionsText;
     private ArenaRewardText arenaRewardText;
 
@@ -47,23 +47,28 @@ public class ArenaManager : MonoBehaviour
     private int onLoop = -1;
     private WaveWrapper currentWave;
     private Dictionary<GameObject, WaveWrapper> enemyWaveDictionary = new Dictionary<GameObject, WaveWrapper>();
-    private CinemachineVirtualCamera vcam;
 
-    private float durationOfPostWaveClearPeriod = .25f;
     private bool inPostWaveClearPeriod;
+    private float postWaveClearPeriodDuration = 1f;
+
+    private bool ShouldGiveReward => onLoop == 0 || (onLoop > 0 && currentWave.CanRepeatWaveReward);
+    private bool ShouldAwardUpgradePoints => onLoop == 0 || (onLoop > 0 && currentWave.CanRepeatedlyAwardUpgradePoints);
+    private bool CanClaimVictory => currentWaveIndex >= arenaWaves.Count - 1
+        && GameManager._Instance.OnLastLevel && !hasBegun;
+    private bool CreepDeathShouldCountTowardsProgress => !inPostWaveClearPeriod && !isBossWave;
 
     private void Start()
     {
         // Add Controls
         InputManager._Controls.Player.BeginArena.started += BeginArenaPressed;
         InputManager._Controls.Player.NextLevel.started += NextLevelPressed;
+        InputManager._Controls.Player.Win.started += WinPressed;
 
         // Get references
         arenaInstructionsText = FindObjectOfType<ArenaInstructionsText>();
         arenaRewardText = FindObjectOfType<ArenaRewardText>();
-        progressBar = FindObjectOfType<ProgressBar>();
+        progressBar = FindObjectOfType<EnemiesKilledBar>();
         bossInfoDisplay = FindObjectOfType<BossInfoDisplay>();
-        vcam = FindObjectOfType<CinemachineVirtualCamera>();
 
         arenaInstructionsText.SetText("Press R to Begin The Challenge!");
     }
@@ -72,9 +77,11 @@ public class ArenaManager : MonoBehaviour
     {
         InputManager._Controls.Player.BeginArena.started -= BeginArenaPressed;
         InputManager._Controls.Player.NextLevel.started -= NextLevelPressed;
+        InputManager._Controls.Player.Win.started -= WinPressed;
 
         TryNextLevel();
     }
+
 
     private void TryNextLevel()
     {
@@ -82,6 +89,15 @@ public class ArenaManager : MonoBehaviour
         if (onLoop == -1) return;
         if (hasBegun) return;
         GameManager._Instance.LoadNextLevel();
+    }
+
+    private void WinPressed(InputAction.CallbackContext ctx)
+    {
+        if (!CanClaimVictory) return;
+        ClearAllCreeps();
+        StopAllCoroutines();
+        GameManager._Instance.Win();
+        return;
     }
 
     public int GetNumberEnemiesAllowedAlive()
@@ -143,7 +159,11 @@ public class ArenaManager : MonoBehaviour
 
             // Set texts to appropriate strings; important to not disable gameObjects here, as doing so will cause
             // the arena manager to not be able to find them when it does it's "FindObjectOfType" on start
-            arenaInstructionsText.SetText("Press Enter to Go To Next Level" + (allowLooping ? "\nPress R to Challenge Again!" : ""));
+            arenaInstructionsText.SetText(
+                (!CanClaimVictory ? "Press Enter to Go To Next Level" : "") +
+                (allowLooping ? "\nPress R to Challenge Again!" : "") +
+                (CanClaimVictory ? "\nPress F to Claim Vicory" : "")
+            );
             arenaRewardText.SetText("");
             yield break;
         }
@@ -152,21 +172,17 @@ public class ArenaManager : MonoBehaviour
         // Set flags to false before starting next wave
         clearedWave = false;
         // Set Reward Text
-        arenaRewardText.SetText(currentWave.RewardType.ToString());
-        // Reset the progress bar
-        ResetProgressBar();
-
-        // Determine whether next wave contains a boss or not; start the appropriate wave sequence
-        if (currentWave.HasBoss)
+        if (ShouldGiveReward)
         {
-            isBossWave = true;
-            StartCoroutine(BossSequence());
+            arenaRewardText.SetText(currentWave.RewardType.ToString());
         }
         else
         {
-            isBossWave = false;
-            StartCoroutine(WaveSequence());
+            arenaRewardText.SetText(WaveReward.NONE.ToString());
         }
+
+        // Determine whether next wave contains a boss or not; start the appropriate wave sequence
+        CallSequence(currentWave.HasBoss ? WaveType.BOSS : WaveType.CREEP);
 
         Debug.Log("Waiting To Clear Wave");
 
@@ -179,6 +195,25 @@ public class ArenaManager : MonoBehaviour
         Debug.Log("Has Given Reward");
 
         StartCoroutine(WaveLoop());
+    }
+
+    private void CallSequence(WaveType type)
+    {
+        // Reset the progress bar
+        ResetProgressBar();
+        progressBar.OnFill += ClearedWave;
+
+        switch (type)
+        {
+            case WaveType.BOSS:
+                isBossWave = true;
+                StartCoroutine(BossSequence());
+                break;
+            case WaveType.CREEP:
+                isBossWave = false;
+                StartCoroutine(WaveSequence());
+                break;
+        }
     }
 
     private IEnumerator WaveSequence()
@@ -223,9 +258,6 @@ public class ArenaManager : MonoBehaviour
             SpawnBossEnemy(boss);
         }
 
-        // Zoom out
-        GameManager._Instance.IncreaseCameraZoom(currentWave.BossZoomOut);
-
         // Loop until wave has been cleared
         while (!clearedWave)
         {
@@ -240,9 +272,6 @@ public class ArenaManager : MonoBehaviour
             }
             yield return null;
         }
-
-        // Zoom back in
-        GameManager._Instance.DecreaseCameraZoom(currentWave.BossZoomOut);
 
         Debug.Log("Boss Sequence Ended");
     }
@@ -296,13 +325,8 @@ public class ArenaManager : MonoBehaviour
             // Debug.Log("Updating Progress Bar");
             if (isBossWave)
             {
-                progressBar.SetBar((float)aliveBossEnemies.Count / currentWave.BossSpawns.Count);
-            }
-
-            // Check if completed intervel
-            if (aliveBossEnemies.Count <= 0)
-            {
-                ClearedWave();
+                progressBar.SetBar((currentWave.BossSpawns.Count - aliveBossEnemies.Count)
+                    / (float)currentWave.BossSpawns.Count);
             }
         };
     }
@@ -327,25 +351,19 @@ public class ArenaManager : MonoBehaviour
             bossInfoDisplay.RemoveDisplay(enemySpawned);
 
             // Grace period upon clearing a wave to prevent from overkilling and clearing multiple waves at once
-            if (inPostWaveClearPeriod) return;
             // Update tracking
             WaveWrapper spawnedDuringWave = currentWave;
             enemyWaveDictionary.Remove(enemySpawned);
             spawnedDuringWave.EnemiesKilledThisWave++;
 
-            if (!isBossWave)
+            if (CreepDeathShouldCountTowardsProgress)
             {
                 float completionPercent = (float)spawnedDuringWave.EnemiesKilledThisWave / spawnedDuringWave.EnemiesToKill;
                 progressBar.SetBar(completionPercent);
-
-                // Check if completed intervel
-                if (completionPercent >= 1)
-                {
-                    ClearedWave();
-                }
             }
         };
     }
+
 
     private void SpawnCreepEnemy(GameObject enemyVariant)
     {
@@ -361,21 +379,14 @@ public class ArenaManager : MonoBehaviour
 
             // Update tracking
             // Grace period upon clearing a wave to prevent from overkilling and clearing multiple waves at once
-            if (inPostWaveClearPeriod) return;
             WaveWrapper spawnedDuringWave = currentWave;
             enemyWaveDictionary.Remove(enemySpawned);
             spawnedDuringWave.EnemiesKilledThisWave++;
 
-            if (!isBossWave)
+            if (CreepDeathShouldCountTowardsProgress)
             {
                 float completionPercent = (float)spawnedDuringWave.EnemiesKilledThisWave / spawnedDuringWave.EnemiesToKill;
                 progressBar.SetBar(completionPercent);
-
-                // Check if completed intervel
-                if (completionPercent >= 1)
-                {
-                    ClearedWave();
-                }
             }
         };
     }
@@ -390,7 +401,6 @@ public class ArenaManager : MonoBehaviour
     private void ClearAllCreeps()
     {
         // Clearing through overlord programming powers
-
         // In the future, might be cool to have them all scurry away instead of just destroying them
         while (aliveCreepEnemies.Count > 0)
         {
@@ -398,15 +408,6 @@ public class ArenaManager : MonoBehaviour
             aliveCreepEnemies.Remove(creep);
             Destroy(creep);
         }
-
-        // Clearing through damage; will currently cause a bug wherein levels are completed
-        /*
-        foreach (GameObject creep in aliveCreepEnemies)
-        {
-            HealthBehaviour health = creep.GetComponent<HealthBehaviour>();
-            health.Damage(health.MaxHealth);
-        }
-        */
     }
 
     private void SpawnOtherElement()
@@ -423,16 +424,36 @@ public class ArenaManager : MonoBehaviour
         };
     }
 
+    private IEnumerator PostWaveClearPeriod()
+    {
+        inPostWaveClearPeriod = true;
+
+        yield return new WaitForSeconds(postWaveClearPeriodDuration);
+
+        inPostWaveClearPeriod = false;
+    }
+
     private void ResetProgressBar()
     {
         progressBar.SetBar(0);
+        progressBar.ResetHasCalled();
     }
 
     private void ClearedWave()
     {
+        progressBar.OnFill -= ClearedWave;
+
+        // Set cleared intervel to true so Wave Coroutine knows it has been completed
+        clearedWave = true;
+
+        // Start Grace Period
+        StartCoroutine(PostWaveClearPeriod());
+
         Debug.Log("Cleared Wave");
 
-        // Player has beat the last wave in the last level, so they have won
+        // Player has beat the last wave in the last level, so they would have won
+        // However I think I want to allow them to loop to their hearts content, and
+        /*
         if (currentWaveIndex == arenaWaves.Count - 1 && GameManager._Instance.OnLastLevel)
         {
             ClearAllCreeps();
@@ -440,14 +461,22 @@ public class ArenaManager : MonoBehaviour
             GameManager._Instance.Win();
             return;
         }
-        StartCoroutine(PostWaveClearPeriod());
-
-        // Set cleared intervel to true so Wave Coroutine knows it has been completed
-        clearedWave = true;
+        */
 
         // Give the wave's reward
-        UpgradeManager._Instance.AddUpgradePoints(currentWave.UpgradePointsAwarded);
-        GiveAppropriateReward(currentWave);
+        if (ShouldGiveReward)
+        {
+            GiveReward(currentWave.RewardType);
+        }
+        else
+        {
+            GiveReward(WaveReward.NONE);
+        }
+        // Award upgrade points
+        if (ShouldAwardUpgradePoints)
+        {
+            UpgradeManager._Instance.AddUpgradePoints(currentWave.UpgradePointsAwarded);
+        }
 
         // Increase the max number of enemies alive at once
         enemiesAllowedAliveModifier *= enemiesAllowedAliveGrowth;
@@ -456,22 +485,16 @@ public class ArenaManager : MonoBehaviour
         currentWaveIndex++;
         // Set new Current Wave
         if (currentWaveIndex < arenaWaves.Count)
+        {
             currentWave = arenaWaves[currentWaveIndex];
+            currentWave.EnemiesKilledThisWave = 0;
+        }
     }
 
-    private IEnumerator PostWaveClearPeriod()
-    {
-        inPostWaveClearPeriod = true;
-
-        yield return new WaitForSeconds(durationOfPostWaveClearPeriod);
-
-        inPostWaveClearPeriod = false;
-    }
-
-    private void GiveAppropriateReward(WaveWrapper wave)
+    private void GiveReward(WaveReward reward)
     {
         hasCompletedReward = false;
-        switch (wave.RewardType)
+        switch (reward)
         {
             case WaveReward.UPGRADE:
                 // Debug.Log("Given Drone Upgrade");

@@ -45,6 +45,7 @@ public class InputManager : MonoBehaviour
 
         _Controls.Player.BeginArena.Disable();
         _Controls.Player.NextLevel.Disable();
+        _Controls.Player.Win.Disable();
     }
 
     public static void EnableControls()
@@ -70,5 +71,6 @@ public class InputManager : MonoBehaviour
 
         _Controls.Player.BeginArena.Enable();
         _Controls.Player.NextLevel.Enable();
+        _Controls.Player.Win.Enable();
     }
 }

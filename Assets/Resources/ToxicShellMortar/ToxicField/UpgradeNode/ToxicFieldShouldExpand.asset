@@ -16,3 +16,6 @@ MonoBehaviour:
   Label: Toxic Field Radius Expansion While Active
   Requirements: []
   Active: 0
+  CurrentPoints: 0
+  NumPointsToBeActive: 2
+  NumPointsToBePurchased: 1

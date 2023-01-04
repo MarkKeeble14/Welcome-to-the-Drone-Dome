@@ -4,16 +4,23 @@ using UnityEngine;
 public abstract class DroneGunModule : DroneWeaponModule
 {
     [SerializeField] protected Gun gun;
+    private DurationBar reloadBar;
 
-    private new void Start()
+    private new void Awake()
     {
-        base.Start();
+        base.Awake();
+
+        // Create and Set the Reload Bar
+        reloadBar = Instantiate(Resources.Load<DurationBar>("Prefabs/ReloadBar"), transform);
     }
 
     public void Set(Gun gun)
     {
         // Create new instance of gun so we don't share instances
         this.gun = Instantiate(gun);
+
+        // Reload the Gun
+        gun.Reload();
 
         // Start Attacking
         StartAttack();
@@ -47,8 +54,15 @@ public abstract class DroneGunModule : DroneWeaponModule
             }
             else
             {
+                reloadBar.gameObject.SetActive(true);
+                reloadBar.HardSetBar(0);
+                float reloadTime = gun.Reload();
+                reloadBar.Set(reloadTime);
+
                 // Needs to Reload
-                yield return new WaitForSeconds(gun.Reload());
+                yield return new WaitForSeconds(reloadTime);
+
+                reloadBar.gameObject.SetActive(false);
             }
         }
     }

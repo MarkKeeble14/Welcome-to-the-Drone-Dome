@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ThumperMortarModuleRange
   m_EditorClassIdentifier: 
   Purchased: 0
-  Label: Increase Detection Range
+  Label: Increase Mortar Range
   Requirements: []
   CurrentPoints: 0
   MaxPoints: 5

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,8 +5,14 @@ using UnityEngine.UI;
 public class Bar : MonoBehaviour
 {
     [SerializeField] private float changeSpeed = 3f;
-    private float targetPercentage = 1;
-    [SerializeField] private Image fill;
+    private float targetPercentage;
+    [SerializeField] private float startPercentage = 1;
+    [SerializeField] protected Image fill;
+
+    private void Start()
+    {
+        targetPercentage = startPercentage;
+    }
 
     public void SetBar(float percentage)
     {
@@ -20,12 +25,12 @@ public class Bar : MonoBehaviour
         fill.fillAmount = percentage;
     }
 
-    private void ChangeFillAmount(float fillAmount)
+    protected virtual void ChangeFillAmount(float fillAmount)
     {
-        fill.fillAmount = Mathf.Lerp(fill.fillAmount, fillAmount, Time.deltaTime * changeSpeed);
+        fill.fillAmount = Mathf.MoveTowards(fill.fillAmount, fillAmount, Time.deltaTime * changeSpeed);
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         ChangeFillAmount(targetPercentage);
     }

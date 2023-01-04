@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: ThumperTimeBetweenThumps
   m_EditorClassIdentifier: 
   baseValue: 1
-  affectedValue: 0
+  affectedValue: 1
   minValue: 0
   hasMin: 0
   maxValue: 0
   hasMax: 0
   changeBy: 0
-  baseGrowth: -0.125
-  growth: 0
+  baseGrowth: -0.1
+  growth: -0.125
   growthIncreaseUponGrow: 0
   growthChangeBy: 0

@@ -8,13 +8,13 @@ public class OrbitPlacementGrid : MonoBehaviour
     [SerializeField] private Transform gridNodePrefab;
     [SerializeField] private List<Transform> gridNodes = new List<Transform>();
 
-    [SerializeField] private float distanceFromCenter = 3f;
+    [SerializeField] private StatModifier distanceFromCenter;
 
-    [SerializeField] private float rotationSpeed = .5f;
+    [SerializeField] private StatModifier rotationSpeed;
 
-    [SerializeField] private float droneHoverAtHeight;
+    [SerializeField] private float droneHoverAtHeight = 1;
 
-    [SerializeField] private int minListSize = 1;
+    [SerializeField] private int minListSize = 0;
 
     public Transform AddNode()
     {
@@ -24,7 +24,6 @@ public class OrbitPlacementGrid : MonoBehaviour
 
         return t;
     }
-
 
     public List<Transform> TryGetUnfollowedNodes(List<DroneController> followers)
     {
@@ -89,22 +88,25 @@ public class OrbitPlacementGrid : MonoBehaviour
         SetPositions();
     }
 
-    private void SetPositions()
+    protected void SetPositions()
     {
         for (int i = 0; i < gridNodes.Count; i++)
         {
             float angle = i * (360f / gridNodes.Count);
             Vector3 direction = Quaternion.Euler(0, angle, 0) * Vector3.right;
-            Vector3 position = transform.position + direction * distanceFromCenter;
+            Vector3 position = transform.position + direction * distanceFromCenter.Value;
             position.y = droneHoverAtHeight;
             gridNodes[i].position = position;
         }
     }
 
-    void Update() => Rotate();
+    void Update()
+    {
+        Rotate();
+    }
 
     private void Rotate()
     {
-        transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime);
+        transform.Rotate(Vector3.up, rotationSpeed.Value * Time.deltaTime);
     }
 }

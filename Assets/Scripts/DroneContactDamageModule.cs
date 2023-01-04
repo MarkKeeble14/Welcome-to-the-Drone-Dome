@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class DroneContactDamageModule : DronePassiveModule
 {
-    [SerializeField] private float damage = .25f;
-    [SerializeField] private float sameTargetCD = 0.05f;
+    [SerializeField] private StatModifier damage;
+    [SerializeField] private StatModifier sameTargetCD;
     private TimerDictionary<GameObject> sameTargetCDDictionary = new TimerDictionary<GameObject>();
     private LayerMask enemyLayer;
 
@@ -15,6 +15,14 @@ public class DroneContactDamageModule : DronePassiveModule
     {
         // Get LayerMask
         enemyLayer = LayerMask.GetMask("Enemy");
+
+        LoadResources();
+    }
+
+    private void LoadResources()
+    {
+        damage = Resources.Load<StatModifier>("DroneContactDamage/Stat/DroneContactDamagePerTick");
+        sameTargetCD = Resources.Load<StatModifier>("DroneContactDamage/Stat/DroneContactDamageTickSpeed");
     }
 
     private void OnTriggerStay(Collider other)
@@ -23,8 +31,8 @@ public class DroneContactDamageModule : DronePassiveModule
         if (sameTargetCDDictionary.ContainsKey(other.gameObject)) return;
 
         HealthBehaviour hb = other.gameObject.GetComponent<HealthBehaviour>();
-        hb.Damage(damage, Type);
-        sameTargetCDDictionary.Add(other.gameObject, sameTargetCD);
+        hb.Damage(damage.Value, Type);
+        sameTargetCDDictionary.Add(other.gameObject, sameTargetCD.Value);
     }
 
     private void Update()

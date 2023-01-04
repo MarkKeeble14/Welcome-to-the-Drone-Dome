@@ -13,7 +13,7 @@ public abstract class DroneWeaponModule : DroneModule
     protected Transform target;
     public override ModuleCategory Category => ModuleCategory.WEAPON;
 
-    private void Awake()
+    protected void Awake()
     {
         targeting = GetComponent<DroneAttackTargeting>();
     }

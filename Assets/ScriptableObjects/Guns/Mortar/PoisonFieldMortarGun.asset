@@ -15,7 +15,7 @@ MonoBehaviour:
   shotsPerSecond: {fileID: 11400000, guid: fd183c8570efc81418b463b14785abaf, type: 2}
   infiniteAmmo: 1
   maxMagazineCount: 1
-  reloadTime: 5
+  reloadTime: 0
   range: {fileID: 11400000, guid: 4400b9790cd999e4081871698323ead8, type: 2}
   mortarProjectilePrefab: {fileID: -896977693953580017, guid: 1b8eecb185ab5854386d6d4b67646484,
     type: 3}

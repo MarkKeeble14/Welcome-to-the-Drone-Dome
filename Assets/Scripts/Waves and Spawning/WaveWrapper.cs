@@ -7,10 +7,12 @@ public class WaveWrapper
 {
     [Header("Enemies")]
     public WaveReward RewardType;
+    public bool CanRepeatWaveReward = true;
     public int UpgradePointsAwarded;
+    public bool CanRepeatedlyAwardUpgradePoints = true;
     public PercentageMap<GameObject> EnemySpawns = new PercentageMap<GameObject>();
     public PercentageMap<GameObject> OtherSpawns = new PercentageMap<GameObject>();
-    public int EnemiesKilledThisWave;
+    [HideInInspector] public int EnemiesKilledThisWave;
     public int EnemiesToKill;
     public int NumEnemiesAliveAtOnce;
     public int NumOtherSpawnsAtOnce;

@@ -16,5 +16,5 @@ MonoBehaviour:
   Label: Increase Number of Activations
   Requirements: []
   CurrentPoints: 0
-  MaxPoints: 5
+  MaxPoints: 9
   statModifier: {fileID: 11400000, guid: 3359420d9687b16439ecf41ecbeb2fd3, type: 2}

@@ -127,7 +127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f1f4ad617c691c4ea5f061e0c20f42e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minMaxValue: {x: 1, y: 3}
   autoCollectSpeed: 4
-  chanceToAutoCollect: {x: 1, y: 1}
+  chanceToAutoCollect: {x: 1, y: 5}
   timeTakenToAutoCollectSpeedMultiplier: 2.5
+  minMaxValue: {x: 1, y: 2}

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ThumperFireRate
   m_EditorClassIdentifier: 
   Purchased: 0
-  Label: Increase Fire Rate
+  Label: Increase Thumper Production
   Requirements: []
   CurrentPoints: 0
   MaxPoints: 5

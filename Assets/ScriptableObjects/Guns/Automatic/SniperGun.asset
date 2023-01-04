@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shotsPerSecond: {fileID: 11400000, guid: a8ee373a82d9d8546b13880bcf5fa477, type: 2}
   infiniteAmmo: 0
-  maxMagazineCount: 5
+  maxMagazineCount: 2
   reloadTime: 2
   range: {fileID: 11400000, guid: a643c59a4c5cf1f47a845fddd67961d0, type: 2}
   projectilePrefab: {fileID: 4411560104125395871, guid: fcd221b9b07d7db4fbc0a8147e9dd472,

@@ -11,12 +11,19 @@ public class PlayerHealth : HealthBehaviour
     [SerializeField] private LayerMask enemyLayer;
     private bool hasIFrames;
 
+    [Header("Knockback")]
+    [SerializeField] private bool knockbackInRadiusWhenHit;
+    [SerializeField] private float knockbackStrength;
+    [SerializeField] private float knockbackRadius;
+    [SerializeField] private LayerMask knockbackCanHit;
+
     [Header("References")]
     [SerializeField] private Material material;
     [SerializeField] private new Renderer renderer;
     [SerializeField] private Collider col;
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Bar healthBar;
+
 
     private new void Start()
     {
@@ -52,7 +59,21 @@ public class PlayerHealth : HealthBehaviour
 
         base.Damage(damage, spawnText);
 
+        if (knockbackInRadiusWhenHit)
+            Knockback();
+
         StartCoroutine(TrackIFrames());
+    }
+
+    private void Knockback()
+    {
+        Collider[] hit = Physics.OverlapSphere(transform.position, knockbackRadius, knockbackCanHit);
+        foreach (Collider col in hit)
+        {
+            Rigidbody rb = col.GetComponent<Rigidbody>();
+            if (rb == null) return;
+            rb.AddExplosionForce(knockbackStrength, transform.position, knockbackRadius, 0, ForceMode.Impulse);
+        }
     }
 
     protected override void Die()

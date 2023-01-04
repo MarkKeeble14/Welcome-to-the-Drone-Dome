@@ -5,11 +5,11 @@ using TMPro;
 
 public class CollectableCountDisplay : MonoBehaviour
 {
-    private GameManager cachedInstance;
+    private ShopManager cachedInstance;
     [SerializeField] private TextMeshProUGUI text;
     private void Start()
     {
-        cachedInstance = GameManager._Instance;
+        cachedInstance = ShopManager._Instance;
     }
 
     // Update is called once per frame

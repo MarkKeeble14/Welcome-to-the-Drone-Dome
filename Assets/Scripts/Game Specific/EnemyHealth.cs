@@ -11,6 +11,9 @@ public class EnemyHealth : HealthBehaviour
     [SerializeField] private Vector2 minMaxChanceToDropModule;
     [SerializeField] private ModuleScavengeableParent moduleScavengeable;
 
+    [SerializeField] private Vector2 minMaxHeartCanDrop;
+    [SerializeField] private GameObject heartDropOnDeath;
+
     [SerializeField] private float flashDuration = 0.025f;
     [SerializeField] private Color flashColor;
     [SerializeField] private Color defaultColor;
@@ -56,16 +59,25 @@ public class EnemyHealth : HealthBehaviour
     protected override void Die()
     {
         // Drop XP
-        int numToDrop = RandomHelper.RandomIntExclusive(minMaxResourceCanDrop);
+        int numToDrop = RandomHelper.RandomIntExclusive(minMaxResourceCanDrop.x,
+            minMaxResourceCanDrop.y + ShopManager._Instance.ResourceDropRateModifier);
         for (int i = 0; i < numToDrop; i++)
         {
             Instantiate(resourceDropOnDeath, transform.position, Quaternion.identity);
         }
-        bool dropModule = RandomHelper.RandomIntExclusive(minMaxChanceToDropModule) <= minMaxChanceToDropModule.x;
-        if (dropModule)
+        numToDrop = RandomHelper.RandomIntExclusive(minMaxHeartCanDrop);
+        for (int i = 0; i < numToDrop; i++)
         {
-            ModuleScavengeableParent spawned = Instantiate(moduleScavengeable, transform.position, Quaternion.identity);
-            spawned.SetFromOptions(ShopManager._Instance.PossibleWeaponModules);
+            Instantiate(heartDropOnDeath, transform.position, Quaternion.identity);
+        }
+        if (ShopManager._Instance.AllowModuleDrops)
+        {
+            bool dropModule = RandomHelper.RandomIntExclusive(minMaxChanceToDropModule) <= minMaxChanceToDropModule.x;
+            if (dropModule)
+            {
+                ModuleScavengeableParent spawned = Instantiate(moduleScavengeable, transform.position, Quaternion.identity);
+                spawned.SetFromOptions(GameManager._Instance.AllModules);
+            }
         }
 
         base.Die();

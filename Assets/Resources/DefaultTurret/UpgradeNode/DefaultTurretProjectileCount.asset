@@ -16,5 +16,5 @@ MonoBehaviour:
   Label: Increase Projectile Count
   Requirements: []
   CurrentPoints: 0
-  MaxPoints: 5
+  MaxPoints: 9
   statModifier: {fileID: 11400000, guid: 902159c7ad92e1a4ba6f81b14e9fc444, type: 2}

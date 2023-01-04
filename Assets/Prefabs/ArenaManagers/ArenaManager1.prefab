@@ -48,8 +48,10 @@ MonoBehaviour:
   allowLooping: 1
   awardInitialShopVisit: 0
   arenaWaves:
-  - RewardType: 0
-    UpgradePointsAwarded: 0
+  - RewardType: 2
+    CanRepeatWaveReward: 1
+    UpgradePointsAwarded: 1
+    CanRepeatedlyAwardUpgradePoints: 1
     EnemySpawns:
       options:
       - key: {fileID: 5638404428015688683, guid: fd6e99f1c89d8b64388ded8d053fad19,
@@ -63,12 +65,14 @@ MonoBehaviour:
     EnemiesKilledThisWave: 0
     EnemiesToKill: 3
     NumEnemiesAliveAtOnce: 5
-    NumOtherSpawnsAtOnce: 2
+    NumOtherSpawnsAtOnce: 0
     BossZoomOut: 0
     BossSpawns: []
     MiniBossSpawns: []
   - RewardType: 2
-    UpgradePointsAwarded: 4
+    CanRepeatWaveReward: 1
+    UpgradePointsAwarded: 2
+    CanRepeatedlyAwardUpgradePoints: 1
     EnemySpawns:
       options:
       - key: {fileID: 5638404428015688683, guid: fd6e99f1c89d8b64388ded8d053fad19,
@@ -87,7 +91,9 @@ MonoBehaviour:
     BossSpawns: []
     MiniBossSpawns: []
   - RewardType: 2
+    CanRepeatWaveReward: 1
     UpgradePointsAwarded: 2
+    CanRepeatedlyAwardUpgradePoints: 1
     EnemySpawns:
       options:
       - key: {fileID: 5638404428015688683, guid: fd6e99f1c89d8b64388ded8d053fad19,
@@ -106,7 +112,9 @@ MonoBehaviour:
     BossSpawns: []
     MiniBossSpawns: []
   - RewardType: 2
+    CanRepeatWaveReward: 1
     UpgradePointsAwarded: 2
+    CanRepeatedlyAwardUpgradePoints: 1
     EnemySpawns:
       options:
       - key: {fileID: 5638404428015688683, guid: fd6e99f1c89d8b64388ded8d053fad19,
@@ -126,7 +134,9 @@ MonoBehaviour:
     MiniBossSpawns:
     - {fileID: 5638404428015688683, guid: 5cfa219bc4a2f0e42b80303a027312d7, type: 3}
   - RewardType: 2
+    CanRepeatWaveReward: 1
     UpgradePointsAwarded: 2
+    CanRepeatedlyAwardUpgradePoints: 1
     EnemySpawns:
       options:
       - key: {fileID: 5638404428015688683, guid: fd6e99f1c89d8b64388ded8d053fad19,
@@ -146,7 +156,9 @@ MonoBehaviour:
     - {fileID: 5638404428015688683, guid: 6cceafb925b214f4a917954323873b04, type: 3}
     MiniBossSpawns: []
   - RewardType: 3
+    CanRepeatWaveReward: 1
     UpgradePointsAwarded: 0
+    CanRepeatedlyAwardUpgradePoints: 1
     EnemySpawns:
       options:
       - key: {fileID: 5638404428015688683, guid: fd6e99f1c89d8b64388ded8d053fad19,
@@ -165,8 +177,34 @@ MonoBehaviour:
     BossSpawns: []
     MiniBossSpawns:
     - {fileID: 5638404428015688683, guid: 5cfa219bc4a2f0e42b80303a027312d7, type: 3}
+  - RewardType: 2
+    CanRepeatWaveReward: 1
+    UpgradePointsAwarded: 3
+    CanRepeatedlyAwardUpgradePoints: 1
+    EnemySpawns:
+      options:
+      - key: {fileID: 5638404428015688683, guid: fd6e99f1c89d8b64388ded8d053fad19,
+          type: 3}
+        value: 100
+    OtherSpawns:
+      options:
+      - key: {fileID: 3637420751007572400, guid: f82e01b00ce66254fa3f2e552615c1f6,
+          type: 3}
+        value: 100
+    EnemiesKilledThisWave: 0
+    EnemiesToKill: 34
+    NumEnemiesAliveAtOnce: 50
+    NumOtherSpawnsAtOnce: 5
+    BossZoomOut: 0
+    BossSpawns:
+    - {fileID: 5638404428015688683, guid: 6cceafb925b214f4a917954323873b04, type: 3}
+    MiniBossSpawns:
+    - {fileID: 5638404428015688683, guid: 5cfa219bc4a2f0e42b80303a027312d7, type: 3}
+    - {fileID: 5638404428015688683, guid: 5cfa219bc4a2f0e42b80303a027312d7, type: 3}
   - RewardType: 1
+    CanRepeatWaveReward: 0
     UpgradePointsAwarded: 0
+    CanRepeatedlyAwardUpgradePoints: 0
     EnemySpawns:
       options:
       - key: {fileID: 5638404428015688683, guid: fd6e99f1c89d8b64388ded8d053fad19,

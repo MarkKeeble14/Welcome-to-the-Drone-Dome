@@ -226,8 +226,8 @@ MonoBehaviour:
   CurrentMode: 0
   AvailableForUse: 1
   Follow: {fileID: 0}
-  moveSpeed: 7.5
-  shoveStrength: 50
+  moveSpeed: {fileID: 11400000, guid: aa73cbbae9425784ca23cf5294a515c8, type: 2}
+  shoveStrength: {fileID: 11400000, guid: db5078fdb9fd42f4fbd66234b0a69dd8, type: 2}
   shoveLimit: 1
   scavengeableLayer:
     serializedVersion: 2
@@ -235,9 +235,11 @@ MonoBehaviour:
   scavengeablePriorityLayer:
     serializedVersion: 2
     m_Bits: 32768
-  scavengeableSightRange: 12.5
-  scavengingGrabRange: 0
-  scavengingSpeedMod: 2
+  scavengeableSightRange: {fileID: 11400000, guid: b9274d58286e68a4c9080082899efee4,
+    type: 2}
+  scavengingGrabRange: {fileID: 11400000, guid: 02dcab9111ca4734f88fc2935e43adf3,
+    type: 2}
+  scavengingSpeedMod: {fileID: 11400000, guid: c6dec0e3f682ba94eabb3d74402fcc2f, type: 2}
   Col: {fileID: 5163690858416789678}
 --- !u!114 &4564883555859428555
 MonoBehaviour:
@@ -269,3 +271,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startAttackOnStart: 1
   gun: {fileID: 11400000, guid: 8ccac81aecb1f1e45ba3fbe8c2e35437, type: 2}
+  reloadBar: {fileID: 0}

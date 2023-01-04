@@ -16,15 +16,15 @@ public class BulletTypeGun : Gun
         // Return 0 as the gun cd, so system can re-target and re-fire
         if (shootAt == null) return 0;
 
-        if (projectilesPerShot.Value == 1)
+        if (Mathf.Floor(projectilesPerShot.Value) == 1)
         {
             ShootOne(projectileOrigin, shootAt, source);
         }
-        else if (projectilesPerShot.Value % 2 == 0)
+        else if (Mathf.Floor(projectilesPerShot.Value) % 2 == 0)
         {
             ShootEven(projectileOrigin, shootAt, source);
         }
-        else if (projectilesPerShot.Value % 2 == 1)
+        else if (Mathf.Floor(projectilesPerShot.Value) % 2 == 1)
         {
             ShootOdd(projectileOrigin, shootAt, source);
         }

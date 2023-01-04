@@ -2,6 +2,7 @@ using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -19,16 +20,11 @@ public class GameManager : MonoBehaviour
         _Instance = this;
     }
 
-    [Header("Player Resource")]
-    [SerializeField] private int startingPlayerResource;
-    [SerializeField] private int currentPlayerResource;
-    public int CurrentPlayerResource => currentPlayerResource;
-
     [Header("Drones")]
     [SerializeField]
     private SerializableDictionary<ModuleType, DroneModuleInfo> moduleTypeInfo
         = new SerializableDictionary<ModuleType, DroneModuleInfo>();
-    public List<ModuleType> AllModules => moduleTypeInfo.Keys();
+    public List<ModuleType> AllModules => moduleTypeInfo.KeysWhereValueMeetsCondition(moduleInfo => !moduleInfo.Unobtainable);
     [SerializeField] private int numDronesToStart = 1;
     [SerializeField] private int activesPerDrone = 1;
     public int ActivesPerDrone => activesPerDrone;
@@ -36,7 +32,7 @@ public class GameManager : MonoBehaviour
     public int PassivesPerDrone => passivesPerDrone;
     [SerializeField] private int weaponsPerDrone = 3;
     public int WeaponsPerDrone => weaponsPerDrone;
-    [SerializeField] private float droneSpawnHeight;
+    public float DroneSpawnHeight => targetCameraZoom.y + 1;
 
     [Header("Guns")]
     [SerializeField] private Gun automaticGun;
@@ -67,6 +63,8 @@ public class GameManager : MonoBehaviour
     [Header("References")]
     public Transform Player;
     [SerializeField] private PlayerDroneController playerDroneController;
+    [SerializeField] private PlayerMovement playerMovement;
+    [SerializeField] private PlayerHealth playerHealth;
     [SerializeField] private DroneController dronePrefab;
     [SerializeField] private ShowSelectedDronesModulesDisplay showSelectedDronesModules;
     private Vector3 targetCameraZoom;
@@ -75,7 +73,6 @@ public class GameManager : MonoBehaviour
     {
         // Debug.Log("Game Manager Start Called");
         // Manage Game Stuff
-        AddResource(startingPlayerResource);
         ResetScriptableObjects();
 
         // Set camera offset
@@ -99,12 +96,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void AddResource(int value)
-    {
-        // Add XP
-        currentPlayerResource += value;
-    }
-
     public void OnPlayerDie()
     {
         Debug.Log("You Lose!");
@@ -124,7 +115,7 @@ public class GameManager : MonoBehaviour
 
         // Spawn Drone
         DroneController spawnedDrone = Instantiate(dronePrefab,
-            Player.position + new Vector3(0, droneSpawnHeight, 0), Quaternion.identity);
+            Player.position + new Vector3(0, DroneSpawnHeight, 0), Quaternion.identity);
         GameElements._Instance.AddedObjects.Add(spawnedDrone.gameObject);
 
         // Add new drone to orbit
@@ -142,20 +133,19 @@ public class GameManager : MonoBehaviour
     private IEnumerator LoadNextLevelSequence()
     {
         // Collect all remaining resource
-        List<Resource> collectedResource = new List<Resource>();
-        Resource[] remainingResource = FindObjectsOfType<Resource>();
-        foreach (Resource resource in remainingResource)
+        List<AutoCollectScavengeable> collectedAutoCollectable = new List<AutoCollectScavengeable>();
+        AutoCollectScavengeable[] remainingAutoCollectable = FindObjectsOfType<AutoCollectScavengeable>();
+        foreach (AutoCollectScavengeable autoCollectable in remainingAutoCollectable)
         {
-            resource.AutoCollect(() =>
+            autoCollectable.AutoCollect(() =>
             {
-                collectedResource.Add(resource);
-                // Debug.Log(collectedResource.Count + "/" + remainingResource.Length);
+                collectedAutoCollectable.Add(autoCollectable);
             }
             );
         }
 
         float t = 0;
-        while (t < maxWaitTime && collectedResource.Count != remainingResource.Length)
+        while (t < maxWaitTime && collectedAutoCollectable.Count != remainingAutoCollectable.Length)
         {
             t += Time.deltaTime;
 
@@ -182,8 +172,13 @@ public class GameManager : MonoBehaviour
 
         // Reset active cooldowns
         playerDroneController.ResetDroneActiveCooldowns();
+        playerDroneController.ResetDronePositions();
         // Reset player position
         Player.position = Vector3.zero;
+        // Reset player dash cooldown
+        playerMovement.ResetDashCooldown();
+        // Reset camera position
+        cinemachineVCam.transform.position = new Vector3(0, cinemachineVCam.transform.position.y, 0);
         // No longer loading level
         loadingLevel = false;
 
@@ -197,9 +192,14 @@ public class GameManager : MonoBehaviour
         // Debug.Log("Loading Next Level");
         TransitionManager._Instance.FadeOut(() =>
         {
+            // We must reset anything that may have been altered in the main menu scene here
             LoadLevel(false);
+            // Reset Stats
             ResetScriptableObjects();
+            // Reset Drones
             ResetPlayerDrones();
+            // Reset Collectables
+            ShopManager._Instance.ResetCollectables();
         });
     }
 
@@ -258,8 +258,8 @@ public class GameManager : MonoBehaviour
         }
         else // Must have enough money, also payment
         {
-            if (currentPlayerResource < cost) return null;
-            currentPlayerResource -= cost;
+            if (ShopManager._Instance.CurrentPlayerResource < cost) return null;
+            ShopManager._Instance.AlterResource(-cost);
         }
 
         // Add new selection to show selected drone modules
@@ -350,12 +350,12 @@ public class GameManager : MonoBehaviour
 
     public void IncreaseCameraZoom(float bossZoomOut)
     {
-        targetCameraZoom = cinemachineTransposer.m_FollowOffset + new Vector3(0, bossZoomOut, 0);
+        targetCameraZoom = targetCameraZoom + new Vector3(0, bossZoomOut, 0);
     }
 
     public void DecreaseCameraZoom(float bossZoomOut)
     {
-        targetCameraZoom = cinemachineTransposer.m_FollowOffset - new Vector3(0, bossZoomOut, 0);
+        targetCameraZoom = targetCameraZoom - new Vector3(0, bossZoomOut, 0);
     }
 
     private void Update()
@@ -364,5 +364,10 @@ public class GameManager : MonoBehaviour
         cinemachineTransposer.m_FollowOffset
                 = Vector3.MoveTowards(cinemachineTransposer.m_FollowOffset, targetCameraZoom,
                 Time.deltaTime * CameraZoomSpeed);
+    }
+
+    public void HealPlayer(float healAmount)
+    {
+        playerHealth.Heal(healAmount, true);
     }
 }

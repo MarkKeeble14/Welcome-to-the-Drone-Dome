@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using TMPro;
+using System;
 
 [CreateAssetMenu(fileName = "StatModifierUpgradeNode", menuName = "UpgradeNode/StatModifierUpgradeNode")]
 public class StatModifierUpgradeNode : UpgradeNode
@@ -7,6 +8,7 @@ public class StatModifierUpgradeNode : UpgradeNode
     public int CurrentPoints;
     public int MaxPoints;
     public GrowthStatModifier statModifier;
+    public Action OnPurchase;
 
     public override bool Maxed()
     {
@@ -17,6 +19,7 @@ public class StatModifierUpgradeNode : UpgradeNode
     {
         if (Maxed()) return;
 
+        OnPurchase?.Invoke();
         statModifier.Grow();
         Purchased = true;
         CurrentPoints++;
@@ -33,5 +36,6 @@ public class StatModifierUpgradeNode : UpgradeNode
     {
         base.SetExtraUI(nodeDisplay);
         nodeDisplay.SetPoints(CurrentPoints, MaxPoints);
+        nodeDisplay.AddExtraText("Change: " + (statModifier.CurrentGrowth > 0 ? "+" : "") + statModifier.CurrentGrowth.ToString());
     }
 }
