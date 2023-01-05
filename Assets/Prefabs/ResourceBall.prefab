@@ -130,4 +130,8 @@ MonoBehaviour:
   autoCollectSpeed: 4
   chanceToAutoCollect: {x: 1, y: 5}
   timeTakenToAutoCollectSpeedMultiplier: 2.5
+  expireSpeed: 0.1
+  growDuration: 0.35
+  growSpeed: 0.9
+  pauseDuration: 1
   minMaxValue: {x: 1, y: 2}

@@ -3,10 +3,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-
 
 public class GameManager : MonoBehaviour
 {
@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private SerializableDictionary<ModuleType, DroneModuleInfo> moduleTypeInfo
         = new SerializableDictionary<ModuleType, DroneModuleInfo>();
+    public SerializableDictionary<ModuleType, DroneModuleInfo> ModuleTypeInfo => moduleTypeInfo;
     public List<ModuleType> AllModules => moduleTypeInfo.KeysWhereValueMeetsCondition(moduleInfo => !moduleInfo.Unobtainable);
     [SerializeField] private int numDronesToStart = 1;
     [SerializeField] private int activesPerDrone = 1;
@@ -33,15 +34,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int weaponsPerDrone = 3;
     public int WeaponsPerDrone => weaponsPerDrone;
     public float DroneSpawnHeight => targetCameraZoom.y + 1;
-
-    [Header("Guns")]
-    [SerializeField] private Gun automaticGun;
-    [SerializeField] private Gun burstFireGun;
-    [SerializeField] private Gun sniperGun;
-    [SerializeField] private MortarGun explosiveShellMortarGun;
-    [SerializeField] private MortarGun explosiveShellDropperMortarGun;
-    [SerializeField] private MortarGun toxicShellMortarGun;
-    [SerializeField] private MortarGun thumperMortarGun;
 
     [Header("Level")]
     [SerializeField] private string[] levelNames;
@@ -67,7 +59,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerHealth playerHealth;
     [SerializeField] private DroneController dronePrefab;
     [SerializeField] private ShowSelectedDronesModulesDisplay showSelectedDronesModules;
+    [SerializeField] private LevelAndLoopStatMap perLevelEnemyStatMap;
+    public LevelAndLoopStatMap PerLevelEnemyStatMap => perLevelEnemyStatMap;
+    public EnemyStatMap EnemyStatMap => perLevelEnemyStatMap.Current;
     private Vector3 targetCameraZoom;
+    [SerializeField] private TextMeshProUGUI arenaShopHelperText;
 
     private void Start()
     {
@@ -116,6 +112,7 @@ public class GameManager : MonoBehaviour
         // Spawn Drone
         DroneController spawnedDrone = Instantiate(dronePrefab,
             Player.position + new Vector3(0, DroneSpawnHeight, 0), Quaternion.identity);
+        AddModule(spawnedDrone, ModuleType.DEFAULT_TURRET);
         GameElements._Instance.AddedObjects.Add(spawnedDrone.gameObject);
 
         // Add new drone to orbit
@@ -167,7 +164,14 @@ public class GameManager : MonoBehaviour
         UIManager._Instance.OpenInGameUI();
 
         // Load the level scene
-        if (incrementIndex) levelIndex++;
+        if (incrementIndex)
+        {
+            // Increment the level index
+            levelIndex++;
+
+            // Go next enemy stat map
+            perLevelEnemyStatMap.Next();
+        }
         SceneManager.LoadScene(levelNames[levelIndex]);
 
         // Reset active cooldowns
@@ -198,6 +202,7 @@ public class GameManager : MonoBehaviour
             ResetScriptableObjects();
             // Reset Drones
             ResetPlayerDrones();
+
             // Reset Collectables
             ShopManager._Instance.ResetCollectables();
         });
@@ -231,23 +236,43 @@ public class GameManager : MonoBehaviour
         return moduleTypeInfo.GetEntry(type).Value.Color;
     }
 
-    public DroneModule TryPurchaseModule(ModuleType type, int cost, bool free)
+    public DroneModule TryAddModule(ModuleType type, int cost, bool free)
     {
         // Check Player has Selected
         DroneController drone = playerDroneController.SelectedDrone;
-        if (drone == null) return null;
+        if (drone == null)
+        {
+            arenaShopHelperText.gameObject.SetActive(true);
+            arenaShopHelperText.text = "You Must First Select a Drone to Purchase a Module";
+            return null;
+        }
 
         // Check if drone is accepting more modules of that type; if so, add it
         switch (GetModuleCategory(type))
         {
             case ModuleCategory.ACTIVE:
-                if (drone.NumActives >= activesPerDrone) return null;
+                if (drone.NumActives >= activesPerDrone)
+                {
+                    arenaShopHelperText.gameObject.SetActive(true);
+                    arenaShopHelperText.text = "Unable to Add More Active Modules to this Drone";
+                    return null;
+                }
                 break;
             case ModuleCategory.PASSIVE:
-                if (drone.NumPassives >= passivesPerDrone) return null;
+                if (drone.NumPassives >= passivesPerDrone)
+                {
+                    arenaShopHelperText.gameObject.SetActive(true);
+                    arenaShopHelperText.text = "Unable to Add More Passive Modules to this Drone";
+                    return null;
+                }
                 break;
             case ModuleCategory.WEAPON:
-                if (drone.NumWeapons >= weaponsPerDrone) return null;
+                if (drone.NumWeapons >= weaponsPerDrone)
+                {
+                    arenaShopHelperText.gameObject.SetActive(true);
+                    arenaShopHelperText.text = "Unable to Add More Weapon Modules to this Drone";
+                    return null;
+                }
                 break;
         }
 
@@ -258,7 +283,13 @@ public class GameManager : MonoBehaviour
         }
         else // Must have enough money, also payment
         {
-            if (ShopManager._Instance.CurrentPlayerResource < cost) return null;
+            if (ShopManager._Instance.CurrentPlayerResource < cost)
+            {
+                arenaShopHelperText.gameObject.SetActive(true);
+                arenaShopHelperText.text = "Insufficient Funds to Purchase Module";
+                return null;
+            }
+            arenaShopHelperText.gameObject.SetActive(false);
             ShopManager._Instance.AlterResource(-cost);
         }
 
@@ -271,64 +302,9 @@ public class GameManager : MonoBehaviour
 
     public DroneModule AddModule(DroneController drone, ModuleType type)
     {
-        switch (type)
-        {
-            case ModuleType.BASIC_TURRET:
-                DroneGunModule basicTurretModule = drone.gameObject.AddComponent<DroneTurretModule>();
-                basicTurretModule.Set(automaticGun);
-                drone.AddModule(basicTurretModule);
-                return basicTurretModule;
-            case ModuleType.BURST_FIRE_TURRET:
-                DroneGunModule burstFireModule = drone.gameObject.AddComponent<DroneBurstFireTurretModule>();
-                burstFireModule.Set(burstFireGun);
-                drone.AddModule(burstFireModule);
-                return burstFireModule;
-            case ModuleType.TESLA_COIL:
-                DroneTeslaModule chainLightningModule = drone.gameObject.AddComponent<DroneTeslaModule>();
-                chainLightningModule.Set();
-                drone.AddModule(chainLightningModule);
-                return chainLightningModule;
-            case ModuleType.EXPLOSIVE_DROPPER_SHELL_MORTAR:
-                DroneGunModule explosiveShellDropperModule = drone.gameObject.AddComponent<DroneExplosiveShellDropperMortarModule>();
-                explosiveShellDropperModule.Set(explosiveShellDropperMortarGun);
-                drone.AddModule(explosiveShellDropperModule);
-                return explosiveShellDropperModule;
-            case ModuleType.EXPLOSIVE_SHELL_MORTAR:
-                DroneGunModule explosiveShellModule = drone.gameObject.AddComponent<DroneExplosiveShellMortarModule>();
-                explosiveShellModule.Set(explosiveShellMortarGun);
-                drone.AddModule(explosiveShellModule);
-                return explosiveShellModule;
-            case ModuleType.TOXIC_SHELL_MORTAR:
-                DroneGunModule toxicShellModule = drone.gameObject.AddComponent<DroneToxicShellMortarModule>();
-                toxicShellModule.Set(toxicShellMortarGun);
-                drone.AddModule(toxicShellModule);
-                return toxicShellModule;
-            case ModuleType.SNIPER_TURRET:
-                DroneGunModule sniperModule = drone.gameObject.AddComponent<DroneSniperModule>();
-                sniperModule.Set(sniperGun);
-                drone.AddModule(sniperModule);
-                return sniperModule;
-            case ModuleType.DRONE_CONTACT_DAMAGE:
-                DroneContactDamageModule contactDamageModule = drone.gameObject.AddComponent<DroneContactDamageModule>();
-                drone.AddModule(contactDamageModule);
-                return contactDamageModule;
-            case ModuleType.DRONE_BLOCK_BULLETS:
-                DroneBlockBulletsModule blockBulletsModule = drone.gameObject.AddComponent<DroneBlockBulletsModule>();
-                drone.AddModule(blockBulletsModule);
-                return blockBulletsModule;
-            case ModuleType.THUMPER_MORTAR:
-                DroneGunModule thumperModule = drone.gameObject.AddComponent<DroneThumperModule>();
-                drone.AddModule(thumperModule);
-                thumperModule.Set(thumperMortarGun);
-                return thumperModule;
-            case ModuleType.LASER_ACTIVE:
-                DroneLaserAreaActiveModule laserAreaActiveModule = drone.gameObject.AddComponent<DroneLaserAreaActiveModule>();
-                drone.AddModule(laserAreaActiveModule);
-                return laserAreaActiveModule;
-            default:
-                return null;
-
-        }
+        DroneModule module = Instantiate(moduleTypeInfo.GetEntry(type).Value.Module, drone.transform);
+        drone.AddModule(module);
+        return module;
     }
 
     private void ResetScriptableObjects()
@@ -346,6 +322,8 @@ public class GameManager : MonoBehaviour
             // Debug.Log("Resetting: " + node);
             node.Reset();
         }
+
+        perLevelEnemyStatMap.Reset();
     }
 
     public void IncreaseCameraZoom(float bossZoomOut)

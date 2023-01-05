@@ -6,7 +6,7 @@ public abstract class DroneActiveModule : DroneModule
 
     public bool CoolingDown => cooldown < cooldownStart.Value;
 
-    protected StatModifier cooldownStart;
+    [SerializeField] protected StatModifier cooldownStart;
     public float CooldownStart => cooldownStart.Value;
     private float cooldown;
     public float CurrentCooldown
@@ -35,14 +35,9 @@ public abstract class DroneActiveModule : DroneModule
         ResetCooldown();
     }
 
-    protected void Start()
-    {
-    }
-
     public void Activate()
     {
         if (CoolingDown) return;
-        Debug.Log("Activating: " + Type);
         Effect();
         cooldown = 0;
     }

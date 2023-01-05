@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class FiringRangeManager : MonoBehaviour
 {
@@ -14,11 +15,15 @@ public class FiringRangeManager : MonoBehaviour
         _Instance = this;
     }
 
+    private Dictionary<ModuleType, FiringRangeModuleButton> spawnedModuleButtons = new Dictionary<ModuleType, FiringRangeModuleButton>();
+
+    [Header("References")]
     [SerializeField] private GameObject regularUI;
     [SerializeField] private GameObject firingRangeUI;
     [SerializeField] private Transform listParent;
     [SerializeField] private FiringRangeModuleButton firingRangeModuleButton;
     [SerializeField] private PlayerDroneController playerDroneController;
+    [SerializeField] private TextMeshProUGUI firingRangeHelperText;
 
     private void Start()
     {
@@ -54,7 +59,13 @@ public class FiringRangeManager : MonoBehaviour
             spawnedModuleButtons.Add(type, spawned);
             spawned.Set(type, () =>
             {
-                if (playerDroneController.SelectedDrone == null) return;
+                if (playerDroneController.SelectedDrone == null)
+                {
+                    firingRangeHelperText.gameObject.SetActive(true);
+                    firingRangeHelperText.text = "You Must First Select a Drone to Equip a Module";
+                    return;
+                }
+                firingRangeHelperText.gameObject.SetActive(false);
                 GameManager._Instance.AddModule(playerDroneController.SelectedDrone, type);
                 Destroy(spawnedModuleButtons[type].gameObject);
                 spawnedModuleButtons.Remove(type);
@@ -62,7 +73,6 @@ public class FiringRangeManager : MonoBehaviour
         }
     }
 
-    private Dictionary<ModuleType, FiringRangeModuleButton> spawnedModuleButtons = new Dictionary<ModuleType, FiringRangeModuleButton>();
 
     public void Close()
     {

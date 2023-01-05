@@ -51,50 +51,38 @@ public class UseDroneManager : MonoBehaviour
         // Start the Shoving Logic
         // Stops the player grid from controlling the drone
         DroneData droneData = playerDroneController.ReleaseControlOfSelectedDrone(false);
+        DroneController usingDrone = droneData.DroneController;
 
         // If droneData struct is empty, cancel sequence; 
-        // Similarily if player has tried to command a scavenging drone to attack
-        if (droneData.DroneController == null
-            || droneData.DroneController.CurrentMode == DroneMode.SCAVENGE)
-        {
+        if (usingDrone == null)
             yield break;
-        };
 
-        DroneController controllingDrone = droneData.DroneController;
-
-        // Check to make sure selected drone is strong enough to shove
+        // Check to make sure selected drone is strong enough to shove selected object
         Shoveable targetedShoveable = null;
         if ((targetedShoveable = targetedObject.GetComponent<Shoveable>()) != null)
         {
-            if (targetedShoveable.ShoveRequirement > controllingDrone.ShoveLimit)
+            if (targetedShoveable.ShoveRequirement > usingDrone.ShoveLimit)
+            {
                 yield break;
+            }
         }
 
         // Confirmed can go through with the action, begin the actual logic for the shove
         MouseCursorManager._Instance.SetCursor(CursorType.HAND, true);
 
-        controllingDrone.AvailableForUse = false;
-        controllingDrone.DisableAttackModules();
-
+        usingDrone.AvailableForUse = false;
+        usingDrone.DisableAttackModules();
         // Disable Collider
-        controllingDrone.Col.enabled = false;
+        usingDrone.Col.enabled = false;
 
         // Dragging around
         while (InputManager._Controls.Player.LeftMouseClick.IsPressed())
         {
             // Cancelling drag; reset
-            if (targetedObject == null || controllingDrone.CurrentMode == DroneMode.SCAVENGE)
+            if (targetedObject == null || usingDrone.CurrentMode == DroneMode.SCAVENGE)
             {
                 // End and Reset Settings
-
-                // Add the drone back to the player's orbit
-                playerDroneController.AddDroneToOrbit(droneData.DroneController);
-
-                // Allow ambient attacking
-                controllingDrone.DisableAttackModules();
-
-                // Re-enable Collider
-                controllingDrone.Col.enabled = true;
+                ResetDrone(usingDrone);
 
                 yield break;
             }
@@ -105,28 +93,38 @@ public class UseDroneManager : MonoBehaviour
             Physics.Raycast(ray, out hit, Mathf.Infinity, ground);
             if (hit.collider == null)
             {
-                Debug.Log("Missed ground; can't aim");
+                ResetDrone(usingDrone);
                 yield break;
             }
             Vector3 mouseReleasePos = hit.point;
             mouseReleasePos.y = targetedObject.position.y;
 
             // Set drones position
-            controllingDrone.transform.position
-                = GetDroneCirclingPosition(targetedObject, mouseReleasePos, controllingDrone);
+            usingDrone.transform.position
+                = Vector3.MoveTowards(usingDrone.transform.position,
+                GetDroneCirclingPosition(targetedObject, mouseReleasePos, usingDrone), usingDrone.MoveSpeed * 3 * Time.deltaTime);
 
             yield return null;
         }
 
         targetedShoveable.Primed = true;
 
-        // Add Force
-        Rigidbody rb = targetedObject.GetComponent<Rigidbody>();
-        rb.AddForce(
-            Vector3.Distance(targetedObject.position, controllingDrone.transform.position)
-                * controllingDrone.ShoveStrength
-                * (targetedObject.position - controllingDrone.transform.position).normalized,
-            ForceMode.Impulse);
+        // The +1 is a little gray range outside of the radius as extra leeway for the player
+        if (Vector3.Distance(usingDrone.transform.position, targetedShoveable.transform.position) <= droneShoveMaxRadiusMod + 1)
+        {
+            // Add Force
+            Rigidbody rb = targetedObject.GetComponent<Rigidbody>();
+            rb.AddForce(
+                Vector3.Distance(targetedObject.position, usingDrone.transform.position)
+                    * usingDrone.ShoveStrength
+                                * (targetedObject.position - usingDrone.transform.position).normalized,
+                            ForceMode.Impulse);
+        }
+        else
+        {
+            ResetDrone(usingDrone);
+            yield break;
+        }
 
         // Play animation
         // ?
@@ -136,15 +134,18 @@ public class UseDroneManager : MonoBehaviour
         // Wait a moment
         yield return new WaitForSeconds(droneShoveDelay);
 
-        // Add the drone back to the player's orbit
-        playerDroneController.AddDroneToOrbit(droneData.DroneController);
+        ResetDrone(usingDrone);
+    }
 
+    private void ResetDrone(DroneController drone)
+    {
         // Allow ambient attacking
-        controllingDrone.EnableAttackModules();
-        controllingDrone.AvailableForUse = true;
-
+        drone.EnableAttackModules();
         // Re-enable Collider
-        controllingDrone.Col.enabled = true;
+        drone.Col.enabled = true;
+        drone.AvailableForUse = true;
+        // Add the drone back to the player's orbit
+        playerDroneController.AddDroneToOrbit(drone);
     }
 
     // Clamps the drone's position to be on a circles edge around the given anchor, with some min and max radius
@@ -155,7 +156,7 @@ public class UseDroneManager : MonoBehaviour
         Vector3 centerPosition = anchor.position; // Center position
         float distance = Vector3.Distance(mousePos, centerPosition); // Distance from mouse to object
         Vector3 position = mousePos; // Default position to mousePos; if nothing needs to change about it, it's within
-        // the bounds already
+                                     // the bounds already
 
         // If the distance is too small (mouse is too close to object)
         if (distance < minRadius)
@@ -220,17 +221,17 @@ public class UseDroneManager : MonoBehaviour
 
     private void Update()
     {
+        Ray ray = Camera.main.ScreenPointToRay(InputManager._Controls.Player.MousePosition.ReadValue<Vector2>());
+        RaycastHit hit;
+        Physics.Raycast(ray, out hit, Mathf.Infinity, targetable | shoveable);
+        cursorHovering = hit.transform;
+
         if (MouseCursorManager._Instance.Locked) return;
         if (playerDroneController.SelectedDrone == null || !playerDroneController.SelectedDrone.AvailableForUse)
         {
             MouseCursorManager._Instance.SetCursor(CursorType.DEFAULT, false);
             return;
         }
-
-        Ray ray = Camera.main.ScreenPointToRay(InputManager._Controls.Player.MousePosition.ReadValue<Vector2>());
-        RaycastHit hit;
-        Physics.Raycast(ray, out hit, Mathf.Infinity, targetable | shoveable);
-        cursorHovering = hit.transform;
 
         if (cursorHovering == null)
         {

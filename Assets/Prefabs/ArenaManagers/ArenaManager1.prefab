@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnEnemies: 1
   allowLooping: 1
-  awardInitialShopVisit: 0
+  awardInitialShopVisit: 1
   arenaWaves:
   - RewardType: 2
     CanRepeatWaveReward: 1
@@ -148,7 +148,7 @@ MonoBehaviour:
           type: 3}
         value: 100
     EnemiesKilledThisWave: 0
-    EnemiesToKill: 0
+    EnemiesToKill: 5
     NumEnemiesAliveAtOnce: 5
     NumOtherSpawnsAtOnce: 3
     BossZoomOut: 2
@@ -216,7 +216,7 @@ MonoBehaviour:
           type: 3}
         value: 100
     EnemiesKilledThisWave: 0
-    EnemiesToKill: 0
+    EnemiesToKill: 34
     NumEnemiesAliveAtOnce: 30
     NumOtherSpawnsAtOnce: 5
     BossZoomOut: 4
@@ -227,4 +227,4 @@ MonoBehaviour:
     MiniBossSpawns: []
   cameraWidthAllowance: 20
   cameraHeightAllowance: 10
-  enemiesAllowedAliveGrowth: 1.1
+  timeBetweenResourceClears: 60

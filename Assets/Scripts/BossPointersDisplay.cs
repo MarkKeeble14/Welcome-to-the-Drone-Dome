@@ -18,6 +18,7 @@ public class BossPointersDisplay : MonoBehaviour
     {
         BossPointer toDestroy = spawnedDictionary[gameObject];
         spawnedDictionary.Remove(gameObject);
-        Destroy(toDestroy.gameObject);
+        if (toDestroy != null)
+            Destroy(toDestroy.gameObject);
     }
 }

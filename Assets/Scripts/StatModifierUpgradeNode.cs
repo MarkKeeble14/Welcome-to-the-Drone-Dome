@@ -36,6 +36,7 @@ public class StatModifierUpgradeNode : UpgradeNode
     {
         base.SetExtraUI(nodeDisplay);
         nodeDisplay.SetPoints(CurrentPoints, MaxPoints);
-        nodeDisplay.AddExtraText("Change: " + (statModifier.CurrentGrowth > 0 ? "+" : "") + statModifier.CurrentGrowth.ToString());
+        nodeDisplay.AddExtraText("Change: " + (statModifier.GrowthChangeBy == StatMathOperation.ADD ? (statModifier.CurrentGrowth > 0 ? "+" : "") : "x")
+                + statModifier.CurrentGrowth.ToString());
     }
 }

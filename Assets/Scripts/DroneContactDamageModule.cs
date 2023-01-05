@@ -15,14 +15,6 @@ public class DroneContactDamageModule : DronePassiveModule
     {
         // Get LayerMask
         enemyLayer = LayerMask.GetMask("Enemy");
-
-        LoadResources();
-    }
-
-    private void LoadResources()
-    {
-        damage = Resources.Load<StatModifier>("DroneContactDamage/Stat/DroneContactDamagePerTick");
-        sameTargetCD = Resources.Load<StatModifier>("DroneContactDamage/Stat/DroneContactDamageTickSpeed");
     }
 
     private void OnTriggerStay(Collider other)

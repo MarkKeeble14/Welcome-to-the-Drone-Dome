@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
 
-public class Explodable : MonoBehaviour
+public abstract class Explodable : MonoBehaviour, IExplodable
 {
-    [SerializeField] protected ExplosionData explosionData;
-
     public bool AllowChainExplosion = true;
 
     private bool hasAlreadyExploded = false;
@@ -16,8 +14,6 @@ public class Explodable : MonoBehaviour
         Destroy(gameObject);
     }
 
-    protected virtual void Explode()
-    {
-        ExplosionHelper.ExplodeEnemiesAt(explosionData, transform.position);
-    }
+    public abstract void Explode();
 }
+

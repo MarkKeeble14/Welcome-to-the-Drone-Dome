@@ -16,6 +16,16 @@ public class PopupText : MonoBehaviour
         Set(text, color, spawnHeight, 1);
     }
 
+    public void Set(float number, Color color, float spawnHeight)
+    {
+        Set(System.Math.Round(number, 2).ToString(), color, spawnHeight, 1);
+    }
+
+    public void Set(string prefix, float number, Color color, float spawnHeight)
+    {
+        Set(prefix + System.Math.Round(number, 2).ToString(), color, spawnHeight, 1);
+    }
+
     public void Set(string text, Color color, float spawnHeight, float scale)
     {
         this.text.text = text;

@@ -214,10 +214,11 @@ MonoBehaviour:
   autoCollectSpeed: 3
   chanceToAutoCollect: {x: 1, y: 2}
   timeTakenToAutoCollectSpeedMultiplier: 4
+  expireSpeed: 0.1
+  growDuration: 0.35
+  growSpeed: 2
+  pauseDuration: 3
   healAmount: 1
-  popupText: {fileID: -5260616264727522277, guid: d52a68650b4dbcf44aa2e12f8a640e87,
-    type: 3}
-  material: {fileID: 2100000, guid: 34e6892cd59a6a040ab9e40b78dd3241, type: 2}
 --- !u!1 &8650152402177568256
 GameObject:
   m_ObjectHideFlags: 0

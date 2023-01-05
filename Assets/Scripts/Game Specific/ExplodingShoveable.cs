@@ -5,17 +5,10 @@ using UnityEngine;
 public class ExplodingShoveable : Shoveable
 {
     [SerializeField] private LayerMask explodeOnCollideWith;
-    [SerializeField] private float activationThreshold;
     [SerializeField] private Explodable explodable;
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionStay(Collision collision)
     {
-        /*
-        if (GetXandZVelocityMagnitude() < activationThreshold)
-        {
-            Primed = false;
-        }
-        */
         if (!Primed) return;
         if (!LayerMaskHelper.IsInLayerMask(collision.gameObject, explodeOnCollideWith)) return;
         explodable.CallExplode();

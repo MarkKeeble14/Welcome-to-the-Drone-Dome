@@ -9,6 +9,7 @@ public class GrowthStatModifier : StatModifier
     public float CurrentGrowth => growth;
     [SerializeField] private float growthIncreaseUponGrow;
     [SerializeField] private StatMathOperation growthChangeBy;
+    public StatMathOperation GrowthChangeBy => growthChangeBy;
 
     public new void Reset()
     {

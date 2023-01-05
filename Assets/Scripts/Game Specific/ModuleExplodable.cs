@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
-public class ModuleExplodable : Explodable
+public class ModuleExplodable : StatModifierExplodable
 {
     [SerializeField] private ModuleType source;
 
-    protected override void Explode()
+    public override void Explode()
     {
         ExplosionHelper.ExplodeEnemiesAt(explosionData, transform.position, source);
     }

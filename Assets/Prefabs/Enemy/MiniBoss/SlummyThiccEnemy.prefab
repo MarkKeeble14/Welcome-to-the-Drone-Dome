@@ -118,7 +118,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   detectPlayer: {fileID: 4416460029656321698}
-  chaseSpeed: 3
+  chaseSpeed: 1
 --- !u!114 &4416460029656321698
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -191,7 +191,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02d2d0f0568dd804b85841c97988aa2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 30
+  maxHealth: 75
   currentHealth: 0
   takeDamageParticleEffect: {fileID: 1365371477070616360, guid: dc58bda162a534642af443667a7c4937,
     type: 3}
@@ -212,7 +212,7 @@ MonoBehaviour:
     type: 3}
   flashDuration: 0.025
   flashColor: {r: 1, g: 1, b: 1, a: 1}
-  defaultColor: {r: 1, g: 0.91523826, b: 0, a: 1}
+  defaultColor: {r: 0.3773585, g: 0.15613325, b: 0, a: 1}
   material: {fileID: 2100000, guid: fbb762f619bb7a44094492e9003ff264, type: 2}
   renderer: {fileID: 5638404428015688677}
   HealthBar: {fileID: 0}

@@ -127,7 +127,7 @@ MonoBehaviour:
           type: 3}
         value: 100
     EnemiesKilledThisWave: 0
-    EnemiesToKill: 0
+    EnemiesToKill: 18
     NumEnemiesAliveAtOnce: 30
     NumOtherSpawnsAtOnce: 5
     BossZoomOut: 2
@@ -219,7 +219,7 @@ MonoBehaviour:
           type: 3}
         value: 100
     EnemiesKilledThisWave: 0
-    EnemiesToKill: 0
+    EnemiesToKill: 44
     NumEnemiesAliveAtOnce: 60
     NumOtherSpawnsAtOnce: 5
     BossZoomOut: 3
@@ -231,4 +231,4 @@ MonoBehaviour:
     MiniBossSpawns: []
   cameraWidthAllowance: 20
   cameraHeightAllowance: 10
-  enemiesAllowedAliveGrowth: 1.1
+  timeBetweenResourceClears: 30

@@ -13,7 +13,8 @@ public class EnemyChaseMovement : MonoBehaviour
         if (detectPlayer.Target != null)
         {
             transform.position =
-                Vector3.MoveTowards(transform.position, detectPlayer.Target.position, Time.deltaTime * chaseSpeed);
+                Vector3.MoveTowards(transform.position, detectPlayer.Target.position, Time.deltaTime * chaseSpeed
+                * GameManager._Instance.EnemyStatMap.SpeedMod.Value);
         }
     }
 }

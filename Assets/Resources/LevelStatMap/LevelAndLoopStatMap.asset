@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90a3a60cca884124588729d21601fb7a, type: 3}
+  m_Name: LevelAndLoopStatMap
+  m_EditorClassIdentifier: 
+  enemyStatMaps:
+  - DamageMod: {fileID: 11400000, guid: 40d8ead89e924ad47b2ad63bf64e3e84, type: 2}
+    MaxHealthMod: {fileID: 11400000, guid: 0f47b845adc1d774f9795e23641c94fe, type: 2}
+    SpeedMod: {fileID: 11400000, guid: e54df45c3810fad44b78f1bd2d608e47, type: 2}
+    NumEnemiesAliveMod: {fileID: 11400000, guid: 75a9e1f839622464ca20404a42d4bec5,
+      type: 2}
+    NumEnemiesToKillMod: {fileID: 11400000, guid: 4462e0666eefd3846a9ca0cbad4ce937,
+      type: 2}
+  - DamageMod: {fileID: 11400000, guid: e6a831dc619e256428726eb1ab4ce05a, type: 2}
+    MaxHealthMod: {fileID: 11400000, guid: cfe23e46ea261ad4195c8bc2e6d9e3e6, type: 2}
+    SpeedMod: {fileID: 11400000, guid: 31785f392b610d44887550ca6a31f435, type: 2}
+    NumEnemiesAliveMod: {fileID: 11400000, guid: c53d7cc5b3c2ecc48a0a35eb64b213b2,
+      type: 2}
+    NumEnemiesToKillMod: {fileID: 11400000, guid: 980ed4cf6aa5a1944b97b01efb081b7f,
+      type: 2}
+  - DamageMod: {fileID: 11400000, guid: f723e6b33e179be488f90b23db0a0647, type: 2}
+    MaxHealthMod: {fileID: 11400000, guid: c065ba217e50d4548954ee4f0e8aca9c, type: 2}
+    SpeedMod: {fileID: 11400000, guid: 73db59e98de0a2f48bcef01e91bed364, type: 2}
+    NumEnemiesAliveMod: {fileID: 11400000, guid: cf626100e447e8c43936879c54dd008e,
+      type: 2}
+    NumEnemiesToKillMod: {fileID: 11400000, guid: 286df6b42afa69945a8495584d03a51d,
+      type: 2}

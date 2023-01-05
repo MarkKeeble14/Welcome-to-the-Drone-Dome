@@ -3,33 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 public class DroneLaserAreaActiveModule : DroneActiveModule
 {
-    private StatModifier range;
-    private StatModifier damage;
-    private LineBetween laser;
+    [SerializeField] private StatModifier range;
+    [SerializeField] private StatModifier damage;
+    [SerializeField] private LineBetween laser;
     private LayerMask enemyLayer;
 
     public override ModuleType Type => ModuleType.LASER_ACTIVE;
 
-    private new void Awake()
+    private void Start()
     {
-        LoadResources();
-
+        // Get enemy layermask
         enemyLayer = LayerMask.GetMask("Enemy");
-
-        base.Awake();
-    }
-
-    private new void Start()
-    {
-        base.Start();
-    }
-
-    private void LoadResources()
-    {
-        laser = Resources.Load<LineBetween>("LaserActive/Laser");
-        cooldownStart = Resources.Load<StatModifier>("LaserActive/Stat/LaserCooldown");
-        range = Resources.Load<StatModifier>("LaserActive/Stat/LaserRange");
-        damage = Resources.Load<StatModifier>("LaserActive/Stat/LaserDamage");
     }
 
     public override void Effect()
@@ -38,11 +22,11 @@ public class DroneLaserAreaActiveModule : DroneActiveModule
         foreach (Collider col in inRange)
         {
             // Get health component
-            EnemyHealth enemyHealth = col.GetComponent<EnemyHealth>();
+            HealthBehaviour hb = col.GetComponent<HealthBehaviour>();
             // Check to make sure enemy has health
-            if (enemyHealth == null) continue;
+            if (hb == null) continue;
             // Do Damage
-            enemyHealth.Damage(damage.Value, Type);
+            hb.Damage(damage.Value, Type);
             // Create Laser
             Instantiate(laser, transform.position, Quaternion.identity).Set(transform.position, col.transform.position);
         }

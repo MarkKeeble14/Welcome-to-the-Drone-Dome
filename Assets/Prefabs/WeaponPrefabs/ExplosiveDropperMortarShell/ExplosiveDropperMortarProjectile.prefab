@@ -142,18 +142,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f25f757c3b7cd741973bdb212ceb1bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AllowChainExplosion: 0
   explosionData:
-    Radius: 3
-    Power: 250
-    Lift: 10
-    Damage: 5
-    DealDamageTo:
+    dealDamageTo:
       serializedVersion: 2
       m_Bits: 128
-    VisualEffect: {fileID: 8732161867663413605, guid: 61b02ba42f7972043bf66d099f6886ab,
+    visualEffect: {fileID: 8732161867663413605, guid: 61b02ba42f7972043bf66d099f6886ab,
       type: 3}
-    AudioEffect: {fileID: 0}
-  AllowChainExplosion: 0
+    audioEffect: {fileID: 0}
+    radius: {fileID: 11400000, guid: 9047298908983c64e946f07ca4117040, type: 2}
+    power: {fileID: 11400000, guid: e06db74ab95c95e43b9a49b5303ed390, type: 2}
+    lift: {fileID: 11400000, guid: d9499be53ea79da4ca89c02761dfc353, type: 2}
+    damage: {fileID: 11400000, guid: 6c58ac68e22bba143bcac622223a0b3c, type: 2}
   source: 5
 --- !u!114 &3072926306279113564
 MonoBehaviour:

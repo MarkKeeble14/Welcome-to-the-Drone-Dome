@@ -73,7 +73,9 @@ public class PlayerDroneController : MonoBehaviour
         if (selectedDrone == null
             || (!canUseScavengers && selectedDrone.CurrentMode == DroneMode.SCAVENGE)
             || !selectedDrone.AvailableForUse)
+        {
             return new DroneData();
+        }
 
         // Go through with giving control of the drone over to the CursorManager
         DroneController manipDrone = selectedDrone;

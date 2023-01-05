@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3637420751007572401}
   - component: {fileID: 3637420751007572413}
   - component: {fileID: 3637420751007572410}
-  - component: {fileID: 8196310647629580577}
+  - component: {fileID: 4660297418934544318}
   m_Layer: 10
   m_Name: ExplodingShoveable
   m_TagString: Untagged
@@ -128,6 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2250e8cff82c85c45adf38ca4a5b5ae7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destroyWhenTooFarFromPlayer: 1
   distanceFromPlayerBeforeDestroy: 25
   ShoveRequirement: 1
   rb: {fileID: 3637420751007572413}
@@ -136,8 +137,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1216
   activationThreshold: 3
-  explodable: {fileID: 8196310647629580577}
---- !u!114 &8196310647629580577
+  explodable: {fileID: 4660297418934544318}
+--- !u!114 &4660297418934544318
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -146,18 +147,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 3637420751007572400}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c4fa3a2cbb8d2e4aad110cf66a28b3e, type: 3}
+  m_Script: {fileID: 11500000, guid: df5c521b13d624a44be4d94abbf3b1aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AllowChainExplosion: 1
   explosionData:
-    Radius: 5
-    Power: 500
-    Lift: 25
-    Damage: 10
-    DealDamageTo:
+    dealDamageTo:
       serializedVersion: 2
       m_Bits: 128
-    VisualEffect: {fileID: 8732161867663413605, guid: 61b02ba42f7972043bf66d099f6886ab,
+    visualEffect: {fileID: 8732161867663413605, guid: 61b02ba42f7972043bf66d099f6886ab,
       type: 3}
-    AudioEffect: {fileID: 0}
-  AllowChainExplosion: 0
+    audioEffect: {fileID: 0}
+    radius: 3
+    power: 500
+    lift: 50
+    damage: 10

@@ -23,7 +23,7 @@ public class HealthBehaviour : MonoBehaviour
     public void Damage(float damage, ModuleType source)
     {
         Instantiate(popupText, transform.position, Quaternion.identity)
-            .Set(damage.ToString(), GameManager._Instance.GetModuleColor(source),
+            .Set(damage, GameManager._Instance.GetModuleColor(source),
             (transform.position.y + transform.localScale.y / 2));
         Damage(damage, false);
     }
@@ -31,7 +31,7 @@ public class HealthBehaviour : MonoBehaviour
     public virtual void Damage(float damage, bool spawnText, Color popUpTextColor)
     {
         Instantiate(popupText, transform.position, Quaternion.identity)
-            .Set(damage.ToString(), popUpTextColor,
+            .Set(damage, popUpTextColor,
             (transform.position.y + transform.localScale.y / 2));
         Damage(damage, false);
     }
@@ -42,7 +42,7 @@ public class HealthBehaviour : MonoBehaviour
         Instantiate(takeDamageParticleEffect, transform.position, Quaternion.identity);
         if (!spawnText) return;
         Instantiate(popupText, transform.position, Quaternion.identity)
-            .Set(damage.ToString(), Color.white, (transform.position.y + transform.localScale.y / 2));
+            .Set(damage, Color.white, (transform.position.y + transform.localScale.y / 2));
     }
 
     public virtual void Heal(float healAmount, bool spawnText)
@@ -52,7 +52,7 @@ public class HealthBehaviour : MonoBehaviour
         Instantiate(healParticleEffect, transform.position, Quaternion.identity);
         if (!spawnText) return;
         Instantiate(popupText, transform.position, Quaternion.identity)
-            .Set("+" + healAmount.ToString(), Color.green, (transform.position.y + transform.localScale.y / 2));
+            .Set("+", healAmount, Color.green, (transform.position.y + transform.localScale.y / 2));
     }
 
     protected void Update()

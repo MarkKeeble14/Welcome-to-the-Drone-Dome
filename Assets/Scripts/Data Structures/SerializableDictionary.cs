@@ -9,6 +9,11 @@ public class SerializableDictionary<TKey, TValue>
     [SerializeField]
     private List<SerializableKeyValuePair<TKey, TValue>> dictionary = new List<SerializableKeyValuePair<TKey, TValue>>();
 
+    public List<SerializableKeyValuePair<TKey, TValue>> ToList()
+    {
+        return dictionary;
+    }
+
     public SerializableKeyValuePair<TKey, TValue> GetEntry(TKey key)
     {
         foreach (SerializableKeyValuePair<TKey, TValue> kvp in dictionary)

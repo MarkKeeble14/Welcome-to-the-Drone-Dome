@@ -26,7 +26,6 @@ public partial class ArenaManager : MonoBehaviour
     private List<GameObject> aliveBossEnemies = new List<GameObject>();
     private List<GameObject> otherSpawnedElements = new List<GameObject>();
     private bool clearedWave;
-    private bool isBossWave;
     private bool hasCompletedReward;
     public bool HasCompletedReward { get; private set; }
 
@@ -41,8 +40,6 @@ public partial class ArenaManager : MonoBehaviour
     [SerializeField] private float cameraHeightAllowance = 10;
     private Transform player;
 
-    private float enemiesAllowedAliveModifier = 1f;
-    [SerializeField] private float enemiesAllowedAliveGrowth = 1.1f;
     private bool hasBegun;
     private int onLoop = -1;
     private WaveWrapper currentWave;
@@ -55,7 +52,11 @@ public partial class ArenaManager : MonoBehaviour
     private bool ShouldAwardUpgradePoints => onLoop == 0 || (onLoop > 0 && currentWave.CanRepeatedlyAwardUpgradePoints);
     private bool CanClaimVictory => currentWaveIndex >= arenaWaves.Count - 1
         && GameManager._Instance.OnLastLevel && !hasBegun;
-    private bool CreepDeathShouldCountTowardsProgress => !inPostWaveClearPeriod && !isBossWave;
+    private bool CreepDeathShouldCountTowardsProgress => !inPostWaveClearPeriod;
+    private int numberEnemiesAllowedAlive;
+    private int numberEnemiesToKill;
+    [SerializeField] private float timeBetweenResourceClears = 60f;
+    private float resourceClearFudgeFactor => timeBetweenResourceClears / 6;
 
     private void Start()
     {
@@ -88,6 +89,7 @@ public partial class ArenaManager : MonoBehaviour
         // Debug.Log(onLoop + ", " + hasBegun);
         if (onLoop == -1) return;
         if (hasBegun) return;
+        if (CanClaimVictory) return;
         GameManager._Instance.LoadNextLevel();
     }
 
@@ -100,22 +102,23 @@ public partial class ArenaManager : MonoBehaviour
         return;
     }
 
-    public int GetNumberEnemiesAllowedAlive()
-    {
-        return (int)(currentWave.NumEnemiesAliveAtOnce * enemiesAllowedAliveModifier);
-    }
 
     private void BeginArenaPressed(InputAction.CallbackContext ctx)
     {
-        // If we don't allow looping, don't allow the player to loop basically
+        // If we don't allow looping, basically don't allow the player to loop
         if (onLoop > -1 && !allowLooping) return;
-
         // Ensure that only one sequence may be ongoing at a time
         if (hasBegun) return;
         hasBegun = true;
 
         // Increment loop count
         onLoop++;
+        // Scale enemies
+        if (onLoop > 0)
+        {
+            Debug.Log("Growing Stat Map");
+            GameManager._Instance.EnemyStatMap.Grow();
+        }
 
         BeginArena();
     }
@@ -137,8 +140,24 @@ public partial class ArenaManager : MonoBehaviour
         if (awardInitialShopVisit)
             ShopReward();
 
+        StartCoroutine(ClearResourceSequence());
+
         // Start Game
         StartCoroutine(ArenaSequence());
+    }
+
+    private IEnumerator ClearResourceSequence()
+    {
+        yield return new WaitForSeconds(timeBetweenResourceClears + RandomHelper.RandomFloat(-resourceClearFudgeFactor, resourceClearFudgeFactor));
+
+        // Collect all remaining resource
+        AutoCollectScavengeable[] remainingAutoCollectable = FindObjectsOfType<AutoCollectScavengeable>();
+        foreach (AutoCollectScavengeable autoCollectable in remainingAutoCollectable)
+        {
+            autoCollectable.Expire();
+        }
+
+        StartCoroutine(ClearResourceSequence());
     }
 
     private IEnumerator ArenaSequence()
@@ -161,8 +180,8 @@ public partial class ArenaManager : MonoBehaviour
             // the arena manager to not be able to find them when it does it's "FindObjectOfType" on start
             arenaInstructionsText.SetText(
                 (!CanClaimVictory ? "Press Enter to Go To Next Level" : "") +
-                (allowLooping ? "\nPress R to Challenge Again!" : "") +
-                (CanClaimVictory ? "\nPress F to Claim Vicory" : "")
+                (allowLooping ? "\nPress R to Re-Challenge Tougher Foes" : "") +
+                (CanClaimVictory ? "\nPress F to Claim Victory" : "")
             );
             arenaRewardText.SetText("");
             yield break;
@@ -171,6 +190,9 @@ public partial class ArenaManager : MonoBehaviour
 
         // Set flags to false before starting next wave
         clearedWave = false;
+        numberEnemiesAllowedAlive = (int)(currentWave.NumEnemiesAliveAtOnce * GameManager._Instance.EnemyStatMap.NumEnemiesAliveMod.Value);
+        numberEnemiesToKill = (int)(currentWave.EnemiesToKill * GameManager._Instance.EnemyStatMap.NumEnemiesToKillMod.Value);
+
         // Set Reward Text
         if (ShouldGiveReward)
         {
@@ -206,11 +228,9 @@ public partial class ArenaManager : MonoBehaviour
         switch (type)
         {
             case WaveType.BOSS:
-                isBossWave = true;
                 StartCoroutine(BossSequence());
                 break;
             case WaveType.CREEP:
-                isBossWave = false;
                 StartCoroutine(WaveSequence());
                 break;
         }
@@ -231,7 +251,7 @@ public partial class ArenaManager : MonoBehaviour
         while (!clearedWave)
         {
             if (!spawnEnemies) yield return null;
-            if (aliveCreepEnemies.Count < GetNumberEnemiesAllowedAlive())
+            if (aliveCreepEnemies.Count < numberEnemiesAllowedAlive)
             {
                 SpawnNewCreepEnemy();
             }
@@ -262,7 +282,7 @@ public partial class ArenaManager : MonoBehaviour
         while (!clearedWave)
         {
             if (!spawnEnemies) yield return null;
-            if (aliveCreepEnemies.Count < GetNumberEnemiesAllowedAlive())
+            if (aliveCreepEnemies.Count < numberEnemiesAllowedAlive)
             {
                 SpawnNewCreepEnemy();
             }
@@ -321,13 +341,6 @@ public partial class ArenaManager : MonoBehaviour
             // Update Tracking
             // Debug.Log("Removing boss info from display");
             bossInfoDisplay.RemoveDisplay(enemySpawned);
-
-            // Debug.Log("Updating Progress Bar");
-            if (isBossWave)
-            {
-                progressBar.SetBar((currentWave.BossSpawns.Count - aliveBossEnemies.Count)
-                    / (float)currentWave.BossSpawns.Count);
-            }
         };
     }
 
@@ -358,8 +371,7 @@ public partial class ArenaManager : MonoBehaviour
 
             if (CreepDeathShouldCountTowardsProgress)
             {
-                float completionPercent = (float)spawnedDuringWave.EnemiesKilledThisWave / spawnedDuringWave.EnemiesToKill;
-                progressBar.SetBar(completionPercent);
+                UpdateProgressBar(spawnedDuringWave);
             }
         };
     }
@@ -385,8 +397,7 @@ public partial class ArenaManager : MonoBehaviour
 
             if (CreepDeathShouldCountTowardsProgress)
             {
-                float completionPercent = (float)spawnedDuringWave.EnemiesKilledThisWave / spawnedDuringWave.EnemiesToKill;
-                progressBar.SetBar(completionPercent);
+                UpdateProgressBar(spawnedDuringWave);
             }
         };
     }
@@ -433,6 +444,20 @@ public partial class ArenaManager : MonoBehaviour
         inPostWaveClearPeriod = false;
     }
 
+    private void UpdateProgressBar(WaveWrapper wave)
+    {
+        float completionPercent = (float)wave.EnemiesKilledThisWave / numberEnemiesToKill;
+        // If player has killed the neccessary number of enemies but there is still a boss alive, wait until the boss is dead
+        if (completionPercent >= 1 && aliveBossEnemies.Count > 0)
+        {
+            progressBar.SetBar(1 - (aliveBossEnemies.Count * 0.01f));
+        }
+        else
+        {
+            progressBar.SetBar(completionPercent);
+        }
+    }
+
     private void ResetProgressBar()
     {
         progressBar.SetBar(0);
@@ -451,18 +476,6 @@ public partial class ArenaManager : MonoBehaviour
 
         Debug.Log("Cleared Wave");
 
-        // Player has beat the last wave in the last level, so they would have won
-        // However I think I want to allow them to loop to their hearts content, and
-        /*
-        if (currentWaveIndex == arenaWaves.Count - 1 && GameManager._Instance.OnLastLevel)
-        {
-            ClearAllCreeps();
-            StopAllCoroutines();
-            GameManager._Instance.Win();
-            return;
-        }
-        */
-
         // Give the wave's reward
         if (ShouldGiveReward)
         {
@@ -477,9 +490,6 @@ public partial class ArenaManager : MonoBehaviour
         {
             UpgradeManager._Instance.AddUpgradePoints(currentWave.UpgradePointsAwarded);
         }
-
-        // Increase the max number of enemies alive at once
-        enemiesAllowedAliveModifier *= enemiesAllowedAliveGrowth;
 
         // Increase tracker
         currentWaveIndex++;

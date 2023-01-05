@@ -8,93 +8,50 @@ public class DroneTeslaModule : DroneWeaponModule
     [SerializeField] protected StatModifier range;
     [SerializeField] protected StatModifier delay;
     [SerializeField] protected StatModifier damage;
-    private float timeSinceLastShock;
-    [SerializeField] private float resetLineRendererAfter = 1f;
-    private string[] canTargetLayerStrings = new string[] { "Enemy" };
-    private LayerMask canTargetLayers;
-    private LineRenderer lineRenderer;
+    // References
+    [SerializeField] private LineBetween teslaShock;
 
     public override ModuleType Type => ModuleType.TESLA_COIL;
 
-    private new void Awake()
+
+    public override IEnumerator Attack()
     {
-        base.Awake();
-
-        // Get Line Renderer Component
-        lineRenderer = GetComponent<LineRenderer>();
-
-        // Get LayerMask
-        canTargetLayers = LayerMask.GetMask(canTargetLayerStrings);
-
-        // Load Stat Modifiers
-        LoadResources();
+        DoDamage();
+        StartCoroutine(ForceDestroySpawned());
+        yield return new WaitForSeconds(delay.Value);
+        StartCoroutine(Attack());
     }
 
-    private void LoadResources()
-    {
-        delay = Resources.Load<StatModifier>("Tesla/Stat/TeslaDelay");
-        damage = Resources.Load<StatModifier>("Tesla/Stat/TeslaDamage");
-        range = Resources.Load<StatModifier>("Tesla/Stat/TeslaRange");
-    }
-
-    // Start is called before the first frame update
-    protected new void Start()
-    {
-        base.Start();
-    }
-
-    public void Set()
-    {
-        StartAttack();
-    }
-
-    private void Update()
-    {
-        timeSinceLastShock += Time.deltaTime;
-
-        // Reset Line Renderer after a certain amount of seconds
-        if (timeSinceLastShock > resetLineRendererAfter
-            && lineRenderer.positionCount > 0)
-        {
-            lineRenderer.positionCount = 0;
-        }
-    }
-
-    protected IEnumerator Tesla()
+    private IEnumerator ForceDestroySpawned()
     {
         yield return new WaitForSeconds(delay.Value);
-        lineRenderer.positionCount = 0;
+        DestroySpawned();
+    }
 
-        DoDamage();
-        timeSinceLastShock = 0;
-
-        StartCoroutine(Tesla());
+    private void DestroySpawned()
+    {
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
     }
 
     protected void DoDamage()
     {
-        Collider[] inRange = Physics.OverlapSphere(transform.position, range.Value, canTargetLayers);
+        Collider[] inRange = Physics.OverlapSphere(transform.position, range.Value, enemyLayer);
 
         if (inRange.Length == 0) return;
 
-        lineRenderer.positionCount++;
-        lineRenderer.SetPosition(0, transform.position);
         foreach (Collider c in inRange)
         {
-            // Eventually maybe do a spark of lightning towards unit before damaging it
-            lineRenderer.positionCount++;
-            int numPositions = lineRenderer.positionCount;
-            lineRenderer.SetPosition(numPositions - 1, c.transform.position);
-
             HealthBehaviour hb = null;
             if ((hb = c.GetComponent<HealthBehaviour>()) != null)
+            {
+                LineBetween spawned = Instantiate(teslaShock, transform);
+                spawned.Set(transform.position, c.transform.position);
                 hb.Damage(damage.Value, ModuleType.TESLA_COIL);
+            }
         }
-    }
-
-    public override void StartAttack()
-    {
-        StartCoroutine(Tesla());
     }
 
     private void OnDrawGizmosSelected()

@@ -49,7 +49,7 @@ MonoBehaviour:
   gridNodes: []
   distanceFromCenter: {fileID: 11400000, guid: f7b3ec6df6fae0647b32767ac7b3317a, type: 2}
   rotationSpeed: {fileID: 11400000, guid: 75de2e73ef23d734a99f3b34fabd009e, type: 2}
-  droneHoverAtHeight: 1
+  droneHoverAtHeight: 0.5
   minListSize: 0
   playerOrbitDistanceUpgradeNode: {fileID: 11400000, guid: 20e0881264b911a44884b8de0b37d2a6,
     type: 2}

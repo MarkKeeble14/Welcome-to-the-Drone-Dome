@@ -31,6 +31,7 @@ public class BulletTypeProjectile : MonoBehaviour
     [Header("Projectile Code Related")]
     [SerializeField] private Rigidbody rb;
     private LayerMask enemyLayer;
+    private ModuleType source;
 
     private void Start()
     {
@@ -53,8 +54,6 @@ public class BulletTypeProjectile : MonoBehaviour
         }
         Contact();
     }
-
-    private ModuleType source;
 
     public void Set(float damage, Vector3 direction, float speed, ModuleType source)
     {

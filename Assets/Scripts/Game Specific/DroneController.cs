@@ -11,6 +11,7 @@ public class DroneController : MonoBehaviour
     public Transform Follow;
 
     [SerializeField] private StatModifier moveSpeed;
+    public float MoveSpeed => moveSpeed.Value;
 
     [SerializeField] private StatModifier shoveStrength;
     public float ShoveStrength { get { return shoveStrength.Value; } }
@@ -60,39 +61,10 @@ public class DroneController : MonoBehaviour
         }
     }
 
-    public void ResetActiveCooldown()
-    {
-        foreach (DroneActiveModule active in activeModules)
-        {
-            active.ResetCooldown();
-        }
-    }
-
     [Header("References")]
     public Collider Col;
     private Transform player;
     private PlayerDroneController playerDroneController;
-
-    public void AddPassiveModule(DronePassiveModule type)
-    {
-        passiveModules.Add(type);
-        if (!appliedModules.Contains(type))
-            appliedModules.Add(type);
-    }
-
-    public void AddActiveModule(DroneActiveModule type)
-    {
-        activeModules.Add(type);
-        if (!appliedModules.Contains(type))
-            appliedModules.Add(type);
-    }
-
-    public void AddWeaponModule(DroneWeaponModule type)
-    {
-        weaponModules.Add(type);
-        if (!appliedModules.Contains(type))
-            appliedModules.Add(type);
-    }
 
     private void Start()
     {
@@ -121,7 +93,7 @@ public class DroneController : MonoBehaviour
     public void EnableAttackModules()
     {
         // Enable all attacking types
-        foreach (DroneWeaponModule attackModule in GetComponents<DroneWeaponModule>())
+        foreach (DroneWeaponModule attackModule in weaponModules)
         {
             attackModule.StartAttack();
         }
@@ -130,22 +102,9 @@ public class DroneController : MonoBehaviour
     public void DisableAttackModules()
     {
         // Disable all attacking types
-        foreach (DroneWeaponModule attackModule in GetComponents<DroneWeaponModule>())
+        foreach (DroneWeaponModule attackModule in weaponModules)
         {
             attackModule.StopAttack();
-        }
-    }
-
-    private void Update()
-    {
-        switch (CurrentMode)
-        {
-            case DroneMode.FOLLOW:
-                HandleFollowModeLogic();
-                break;
-            case DroneMode.SCAVENGE:
-                HandleScavengeModeLogic();
-                break;
         }
     }
 
@@ -213,12 +172,15 @@ public class DroneController : MonoBehaviour
         // Remove all module components from this drone
         foreach (DroneModule module in appliedModules)
         {
-            Destroy(module);
+            Destroy(module.gameObject);
         }
         appliedModules.Clear();
+
+        // Add Built in Turret
+        GameManager._Instance.AddModule(this, ModuleType.DEFAULT_TURRET);
     }
 
-    internal void AddModule(DroneModule module)
+    public void AddModule(DroneModule module)
     {
         switch (module.Category)
         {
@@ -234,11 +196,39 @@ public class DroneController : MonoBehaviour
         }
     }
 
+    private void AddPassiveModule(DronePassiveModule type)
+    {
+        passiveModules.Add(type);
+        if (!appliedModules.Contains(type))
+            appliedModules.Add(type);
+    }
+
+    private void AddActiveModule(DroneActiveModule type)
+    {
+        activeModules.Add(type);
+        if (!appliedModules.Contains(type))
+            appliedModules.Add(type);
+    }
+
+    private void AddWeaponModule(DroneWeaponModule type)
+    {
+        weaponModules.Add(type);
+        if (!appliedModules.Contains(type))
+            appliedModules.Add(type);
+    }
+
     internal void ActivateActives()
     {
         foreach (DroneActiveModule active in activeModules)
         {
             active.Activate();
+        }
+    }
+    public void ResetActiveCooldown()
+    {
+        foreach (DroneActiveModule active in activeModules)
+        {
+            active.ResetCooldown();
         }
     }
 
@@ -258,6 +248,19 @@ public class DroneController : MonoBehaviour
             }
         }
         return unclaimedScavengeables.ToArray();
+    }
+
+    private void Update()
+    {
+        switch (CurrentMode)
+        {
+            case DroneMode.FOLLOW:
+                HandleFollowModeLogic();
+                break;
+            case DroneMode.SCAVENGE:
+                HandleScavengeModeLogic();
+                break;
+        }
     }
 
     private void OnDrawGizmosSelected()

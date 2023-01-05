@@ -204,7 +204,7 @@ MonoBehaviour:
   minMaxResourceCanDrop: {x: 10, y: 20}
   resourceDropOnDeath: {fileID: 5606348252680568883, guid: 316c4d481c099cc49a1a100962abbc79,
     type: 3}
-  minMaxChanceToDropModule: {x: 1, y: 3}
+  minMaxChanceToDropModule: {x: 1, y: 2}
   moduleScavengeable: {fileID: 888590775230126577, guid: 6311f427d36f0df41b82f17a2b082059,
     type: 3}
   minMaxHeartCanDrop: {x: 5, y: 10}

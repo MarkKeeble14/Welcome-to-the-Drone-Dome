@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74a95fe61fac3304bb3ba7b13a15cd6e, type: 3}
+  m_Name: ExplosiveShellMortarFireRate
+  m_EditorClassIdentifier: 
+  Purchased: 0
+  Label: Increase Fire Rate
+  Requirements: []
+  CurrentPoints: 0
+  MaxPoints: 5
+  statModifier: {fileID: 11400000, guid: f5ba4f67cf681ae42b023e492a9f7355, type: 2}

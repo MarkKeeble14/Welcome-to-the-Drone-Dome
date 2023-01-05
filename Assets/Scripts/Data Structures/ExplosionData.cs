@@ -1,13 +1,16 @@
 ﻿using UnityEngine;
 
 [System.Serializable]
-public class ExplosionData
+public abstract class ExplosionData
 {
-    public float Radius = 5f;
-    public float Power = 500f;
-    public float Lift = 50f;
-    public float Damage;
-    public LayerMask DealDamageTo;
-    public GameObject VisualEffect;
-    public AudioClip AudioEffect;
+    public abstract float Radius { get; }
+    public abstract float Power { get; }
+    public abstract float Lift { get; }
+    public abstract float Damage { get; }
+    [SerializeField] private LayerMask dealDamageTo;
+    public LayerMask DealDamageTo => dealDamageTo;
+    [SerializeField] private GameObject visualEffect;
+    public GameObject VisualEffect => visualEffect;
+    [SerializeField] private AudioClip audioEffect;
+    public AudioClip AudioEffect => audioEffect;
 }

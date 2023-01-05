@@ -4,31 +4,20 @@ using UnityEngine;
 public abstract class DroneGunModule : DroneWeaponModule
 {
     [SerializeField] protected Gun gun;
-    private DurationBar reloadBar;
+    [SerializeField] private DurationBar reloadBar;
 
     private new void Awake()
     {
         base.Awake();
 
         // Create and Set the Reload Bar
-        reloadBar = Instantiate(Resources.Load<DurationBar>("Prefabs/ReloadBar"), transform);
-    }
+        reloadBar = Instantiate(reloadBar, transform);
 
-    public void Set(Gun gun)
-    {
         // Create new instance of gun so we don't share instances
-        this.gun = Instantiate(gun);
+        gun = Instantiate(gun);
 
         // Reload the Gun
         gun.Reload();
-
-        // Start Attacking
-        StartAttack();
-    }
-
-    public override void StartAttack()
-    {
-        StartCoroutine(Shoot());
     }
 
     private float Fire()
@@ -36,7 +25,7 @@ public abstract class DroneGunModule : DroneWeaponModule
         return gun.Shoot(transform.position, target, Type);
     }
 
-    private IEnumerator Shoot()
+    public override IEnumerator Attack()
     {
         while (true)
         {

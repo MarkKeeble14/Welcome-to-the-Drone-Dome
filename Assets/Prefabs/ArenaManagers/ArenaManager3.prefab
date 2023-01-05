@@ -128,7 +128,7 @@ MonoBehaviour:
           type: 3}
         value: 100
     EnemiesKilledThisWave: 0
-    EnemiesToKill: 0
+    EnemiesToKill: 52
     NumEnemiesAliveAtOnce: 45
     NumOtherSpawnsAtOnce: 4
     BossZoomOut: 3
@@ -152,7 +152,7 @@ MonoBehaviour:
           type: 3}
         value: 100
     EnemiesKilledThisWave: 0
-    EnemiesToKill: 50
+    EnemiesToKill: 52
     NumEnemiesAliveAtOnce: 50
     NumOtherSpawnsAtOnce: 10
     BossZoomOut: 0
@@ -225,7 +225,7 @@ MonoBehaviour:
           type: 3}
         value: 100
     EnemiesKilledThisWave: 0
-    EnemiesToKill: 0
+    EnemiesToKill: 82
     NumEnemiesAliveAtOnce: 60
     NumOtherSpawnsAtOnce: 10
     BossZoomOut: 3
@@ -241,4 +241,4 @@ MonoBehaviour:
     - {fileID: 5638404428015688683, guid: 5cfa219bc4a2f0e42b80303a027312d7, type: 3}
   cameraWidthAllowance: 20
   cameraHeightAllowance: 10
-  enemiesAllowedAliveGrowth: 1.1
+  timeBetweenResourceClears: 15

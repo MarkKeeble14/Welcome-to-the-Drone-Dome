@@ -25,6 +25,8 @@ public class EnemyHealth : HealthBehaviour
 
     private new void Start()
     {
+        maxHealth *= GameManager._Instance.EnemyStatMap.MaxHealthMod.Value;
+
         base.Start();
 
         // Trying to deal with pesky bug
@@ -59,8 +61,8 @@ public class EnemyHealth : HealthBehaviour
     protected override void Die()
     {
         // Drop XP
-        int numToDrop = RandomHelper.RandomIntExclusive(minMaxResourceCanDrop.x,
-            minMaxResourceCanDrop.y + ShopManager._Instance.ResourceDropRateModifier);
+        int numToDrop = Mathf.FloorToInt(RandomHelper.RandomIntExclusive(minMaxResourceCanDrop.x, minMaxResourceCanDrop.y)
+            * ShopManager._Instance.ResourceDropRateModifier);
         for (int i = 0; i < numToDrop; i++)
         {
             Instantiate(resourceDropOnDeath, transform.position, Quaternion.identity);

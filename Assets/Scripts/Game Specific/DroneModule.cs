@@ -2,6 +2,6 @@
 
 public abstract class DroneModule : MonoBehaviour
 {
-    public abstract ModuleType Type { get; }
-    public abstract ModuleCategory Category { get; }
+    public virtual ModuleType Type { get; }
+    public virtual ModuleCategory Category { get; }
 }
