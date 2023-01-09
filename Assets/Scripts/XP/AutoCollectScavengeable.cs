@@ -18,6 +18,9 @@ public abstract class AutoCollectScavengeable : Scavengeable
     [SerializeField] private float pauseDuration = 1f;
     private bool expiring;
 
+    [Header("References")]
+    [SerializeField] private Rigidbody rb;
+    [SerializeField] private Collider[] col;
     private void Update()
     {
         if (setToAutoCollect)
@@ -27,13 +30,37 @@ public abstract class AutoCollectScavengeable : Scavengeable
     public void AutoCollect(Action action)
     {
         if (!setToAutoCollect)
-            StartCoroutine(ExecuteAutoCollect(action));
+            StartCoroutine(AutoCollectSequence(action));
+    }
+
+    public void FailAutoCollect()
+    {
+        StopAllCoroutines();
+        UndoDisableWhileCollecting();
+        ReleaseToPool();
     }
 
     public void Expire()
     {
         if (!expiring)
             StartCoroutine(ExpirationSequence());
+    }
+
+    public void CancelExpire()
+    {
+        StopCoroutine(ExpirationSequence());
+        expiring = false;
+        StartCoroutine(ResetSize());
+    }
+
+    private IEnumerator ResetSize()
+    {
+        while (transform.localScale != Vector3.one)
+        {
+            transform.localScale = Vector3.MoveTowards(transform.localScale, Vector3.one, Time.deltaTime * growSpeed);
+
+            yield return null;
+        }
     }
 
     private IEnumerator ExpirationSequence()
@@ -58,28 +85,46 @@ public abstract class AutoCollectScavengeable : Scavengeable
             yield return null;
         }
 
-        Destroy(transform.root.gameObject);
+        ReleaseToPool();
     }
 
-    private IEnumerator ExecuteAutoCollect(Action action)
+    private void ToDisableWhileCollecting()
+    {
+        foreach (Collider collider in col)
+        {
+            collider.enabled = false;
+        }
+        rb.useGravity = false;
+    }
+
+    private void UndoDisableWhileCollecting()
+    {
+        foreach (Collider collider in col)
+        {
+            collider.enabled = true;
+        }
+        rb.useGravity = true;
+    }
+
+    private IEnumerator AutoCollectSequence(Action action)
     {
         setToAutoCollect = true;
 
-        // Disable collider
-        GetComponent<Collider>().enabled = false;
-        GetComponent<Rigidbody>().useGravity = false;
+        ToDisableWhileCollecting();
 
         // Cache the player to reduce number of accesses
         Transform cachedPlayer = GameManager._Instance.Player;
 
         // Move towards player position
-        while (Vector3.Distance(transform.position, cachedPlayer.position) > .5f)
+        while (Vector3.Distance(transform.position, cachedPlayer.position) > .25f)
         {
             transform.position = Vector3.MoveTowards(transform.position, cachedPlayer.position,
                 Time.deltaTime * autoCollectSpeed * (timeTakenToAutoCollect * timeTakenToAutoCollectSpeedMultiplier));
 
             yield return null;
         }
+
+        UndoDisableWhileCollecting();
 
         action();
 
@@ -90,7 +135,7 @@ public abstract class AutoCollectScavengeable : Scavengeable
         }
         else
         {
-            Destroy(transform.root.gameObject);
+            ReleaseToPool();
         }
     }
 }

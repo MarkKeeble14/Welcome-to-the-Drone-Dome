@@ -7,6 +7,7 @@ public class CollectableCountDisplay : MonoBehaviour
 {
     private ShopManager cachedInstance;
     [SerializeField] private TextMeshProUGUI text;
+    [SerializeField] private string prefix = "$";
     private void Start()
     {
         cachedInstance = ShopManager._Instance;
@@ -15,6 +16,6 @@ public class CollectableCountDisplay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        text.text = cachedInstance.CurrentPlayerResource.ToString();
+        text.text = prefix + cachedInstance.CurrentPlayerResource.ToString();
     }
 }

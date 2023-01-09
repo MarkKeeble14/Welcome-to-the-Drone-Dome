@@ -3,5 +3,5 @@ using UnityEngine;
 
 public class DroneThumperModule : DroneMortarModule
 {
-    public override ModuleType Type => ModuleType.THUMPER_MORTAR;
+    public override ModuleType Type => ModuleType.SHOCKWAVE_MORTAR;
 }

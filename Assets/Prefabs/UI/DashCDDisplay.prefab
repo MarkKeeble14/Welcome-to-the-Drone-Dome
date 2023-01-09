@@ -209,6 +209,7 @@ MonoBehaviour:
   container: {fileID: 1422123518509498738}
   playerMovement: {fileID: 0}
   playerDashUnlocked: {fileID: 11400000, guid: 8ae570766b8e27b4fa4a7209e81b581b, type: 2}
+  text: {fileID: 8988927056543214745}
 --- !u!114 &1422123518680816161
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -221,6 +222,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a04fe3ce41fbe5540883dd4eb265d19a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  changeSpeed: 3
+  startPercentage: 1
   fill: {fileID: 1422123518131824090}
 --- !u!1 &1879767347480064465
 GameObject:
@@ -298,8 +301,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4281677109
+  m_fontColor: {r: 0.20784314, g: 0.20784314, b: 0.20784314, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

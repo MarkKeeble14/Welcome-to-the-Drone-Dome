@@ -128,6 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 016063bc66ea05b4194e0cf04529c38f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 4411560104125395868}
   explodable: {fileID: -265951979870801114}
 --- !u!114 &-265951979870801114
 MonoBehaviour:
@@ -153,4 +154,4 @@ MonoBehaviour:
     power: {fileID: 11400000, guid: ef9775c75eeb5af4db960eb86c994974, type: 2}
     lift: {fileID: 11400000, guid: f6d0cfacdd1552d499b0509eb157acbc, type: 2}
     damage: {fileID: 11400000, guid: f02de6475e41d7f44b2743166e6308e8, type: 2}
-  source: 4
+  source: 5

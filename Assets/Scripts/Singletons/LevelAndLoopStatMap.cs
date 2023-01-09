@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 [CreateAssetMenu(fileName = "LevelAndLoopStatMap", menuName = "LevelAndLoopStatMap", order = 1)]
 public class LevelAndLoopStatMap : ScriptableObject
@@ -7,17 +8,12 @@ public class LevelAndLoopStatMap : ScriptableObject
     private int index;
     public EnemyStatMap Current => enemyStatMaps[index];
 
-    public void Next()
-    {
-        if (index + 1 < enemyStatMaps.Length)
-        {
-            index++;
-        }
-    }
-
     public void OnLoop()
     {
-        Current.Grow();
+        foreach (EnemyStatMap statMap in enemyStatMaps)
+        {
+            statMap.Grow();
+        }
     }
 
     public void Reset()
@@ -26,5 +22,10 @@ public class LevelAndLoopStatMap : ScriptableObject
         {
             enemyStatMap.Reset();
         }
+    }
+
+    public void SetIndex(int index)
+    {
+        this.index = index;
     }
 }

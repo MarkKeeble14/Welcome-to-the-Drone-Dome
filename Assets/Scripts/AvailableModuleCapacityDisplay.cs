@@ -7,6 +7,7 @@ public class AvailableModuleCapacityDisplay : MonoBehaviour
 {
     private ShopManager cachedInstance;
     [SerializeField] private TextMeshProUGUI text;
+    [SerializeField] private string prefix = "Module Capacity: ";
     private void Start()
     {
         cachedInstance = ShopManager._Instance;
@@ -15,6 +16,6 @@ public class AvailableModuleCapacityDisplay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        text.text = "Capacity: " + cachedInstance.CurrentNumberOfAvailableModules + "/" + cachedInstance.MaxAvailableModules;
+        text.text = prefix + cachedInstance.CurrentCapacity + "/" + cachedInstance.MaxAvailableModules;
     }
 }

@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class DroneTurretModule : DroneGunModule
 {
-    public override ModuleType Type => ModuleType.BASIC_TURRET;
+    public override ModuleType Type => ModuleType.AUTOMATIC_TURRET;
 }

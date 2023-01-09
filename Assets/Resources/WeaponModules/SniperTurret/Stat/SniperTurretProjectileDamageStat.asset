@@ -12,12 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a8b20fc3bfb3594f922d82c5e42ee50, type: 3}
   m_Name: SniperTurretProjectileDamageStat
   m_EditorClassIdentifier: 
-  baseValue: 2
+  baseValue: 7.5
+  affectedValue: 2
   minValue: 1
   hasMin: 1
   maxValue: 0
   hasMax: 0
   changeBy: 0
-  baseGrowth: 1
+  baseGrowth: 4.5
+  growth: 1
   growthIncreaseUponGrow: 0
   growthChangeBy: 0

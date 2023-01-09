@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74a95fe61fac3304bb3ba7b13a15cd6e, type: 3}
   m_Name: ToxicFieldTickDamage
   m_EditorClassIdentifier: 
-  Purchased: 0
-  Label: Increase Tick Damage
-  Requirements: []
-  CurrentPoints: 0
-  MaxPoints: 5
+  label: Increase Damage
+  requirements: []
+  PointsPerUnlock: 5
+  maxPoints: 5
   statModifier: {fileID: 11400000, guid: 49ad6502386f9764d87c2908db87bd2e, type: 2}

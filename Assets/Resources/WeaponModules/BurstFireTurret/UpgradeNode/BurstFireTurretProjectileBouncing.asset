@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74a95fe61fac3304bb3ba7b13a15cd6e, type: 3}
   m_Name: BurstFireTurretProjectileBouncing
   m_EditorClassIdentifier: 
-  Purchased: 0
-  Label: Increase Projectile Bouncing
-  Requirements: []
-  CurrentPoints: 0
-  MaxPoints: 5
+  label: Increase Number of Times Projectile Can Bounce
+  requirements: []
+  PointsPerUnlock: 5
+  maxPoints: 5
   statModifier: {fileID: 11400000, guid: 64702d5563f835e48a5cc52dbf3a7efd, type: 2}

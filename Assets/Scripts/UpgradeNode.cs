@@ -5,9 +5,15 @@ using UnityEngine.UI;
 [System.Serializable]
 public abstract class UpgradeNode : ScriptableObject
 {
-    public bool Purchased;
-    public string Label;
-    public UpgradeNode[] Requirements;
+    [Header("Base Upgrade Node")]
+    [SerializeField] private string label;
+    public string Label => label;
+    protected int currentPoints;
+    public int CurrentPoints => currentPoints;
+    public bool Purchased => purchased;
+    protected bool purchased;
+    [SerializeField] private UpgradeNode[] requirements;
+    public UpgradeNode[] Requirements => requirements;
     public bool Available
     {
         get
@@ -20,12 +26,18 @@ public abstract class UpgradeNode : ScriptableObject
             return true;
         }
     }
-    public abstract bool Maxed();
+    public abstract int GetMaxPoints();
 
-    public abstract void Purchase();
+    public bool Maxed()
+    {
+        return CurrentPoints >= GetMaxPoints();
+    }
+
+    public abstract bool Purchase();
+
     public virtual void Reset()
     {
-        Purchased = false;
+        purchased = false;
     }
 
     public virtual void SetExtraUI(UpgradeNodeDisplay nodeDisplay)

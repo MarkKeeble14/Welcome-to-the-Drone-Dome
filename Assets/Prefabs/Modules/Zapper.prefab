@@ -44,10 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec85dbb3b0d4af143b3157c3c8e1ac22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startAttackOnStart: 1
-  range: {fileID: 11400000, guid: b4593390a298eb84bbe1c27c9a72213f, type: 2}
+  startAttackOnStart: 0
+  targetBy: 0
+  fireRange: {fileID: 11400000, guid: b4593390a298eb84bbe1c27c9a72213f, type: 2}
+  chainRange: {fileID: 11400000, guid: 699f06f554e4ace45bced6cba7c9a9d6, type: 2}
   delay: {fileID: 11400000, guid: f0a83989ccf3a2449be06f491814fd52, type: 2}
   damage: {fileID: 11400000, guid: 2b318ff76f38bf44aa570e9721b3c703, type: 2}
   chainAmount: {fileID: 11400000, guid: 520ff0667d766c74ab6fbc481a971de4, type: 2}
-  chainLightning: {fileID: 209444799276199232, guid: 6e067016f7cd88a4e9cccd4b99526a89,
-    type: 3}

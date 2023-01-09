@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74a95fe61fac3304bb3ba7b13a15cd6e, type: 3}
   m_Name: ToxicFieldTickSpeed
   m_EditorClassIdentifier: 
-  Purchased: 0
-  Label: Increase Tick Speed
-  Requirements: []
-  CurrentPoints: 0
-  MaxPoints: 5
+  label: Reduce Time Between Ticks
+  requirements: []
+  PointsPerUnlock: 5
+  maxPoints: 5
   statModifier: {fileID: 11400000, guid: c9ab16ac542f30c4fa2e1f723c861c20, type: 2}

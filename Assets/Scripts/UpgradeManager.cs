@@ -15,8 +15,8 @@ public class UpgradeManager : MonoBehaviour
         _Instance = this;
     }
 
-    private int pointsAvailable;
-    public int PointsAvailable => pointsAvailable;
+    [SerializeField] private int upgradePointsAvailable;
+    public int UpgradePointsAvailable => upgradePointsAvailable;
 
     [SerializeField] private List<UpgradeTree> defaultUpgradeTrees = new List<UpgradeTree>();
     private List<UpgradeTree> availableUpgradeTrees = new List<UpgradeTree>();
@@ -38,7 +38,7 @@ public class UpgradeManager : MonoBehaviour
 
     public void AddUpgradePoints(int amount)
     {
-        pointsAvailable += amount;
+        upgradePointsAvailable += amount;
     }
 
     private void ResetAllNodes()
@@ -140,21 +140,20 @@ public class UpgradeManager : MonoBehaviour
             return;
         }
 
-        if (pointsAvailable <= 0)
+        if (upgradePointsAvailable <= 0)
         {
             Debug.Log("Failed to Purchase: " + node.Label + ", No Points Available");
             return;
         }
 
-        if (node.Maxed())
+        if (!node.Purchase())
         {
             Debug.Log("Failed to Purchase: " + node.Label + ", Already Maxed Out");
             return;
         }
 
-        node.Purchase();
-        pointsAvailable--;
-        UpdateUpgradeTree();
+        upgradePointsAvailable--;
+        // UpdateUpgradeTree();
         Debug.Log("Successfully Purchased: " + node.Label);
     }
 

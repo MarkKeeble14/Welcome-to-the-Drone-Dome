@@ -11,26 +11,26 @@ public class PopupText : MonoBehaviour
 
     [SerializeField] private float riseSpeed;
 
-    public void Set(string text, Color color, float spawnHeight)
+    public void Set(string text, Color color, Vector3 spawnPos)
     {
-        Set(text, color, spawnHeight, 1);
+        Set(text, color, spawnPos, 1);
     }
 
-    public void Set(float number, Color color, float spawnHeight)
+    public void Set(float number, Color color, Vector3 spawnPos)
     {
-        Set(System.Math.Round(number, 2).ToString(), color, spawnHeight, 1);
+        Set(System.Math.Round(number, 2).ToString(), color, spawnPos, 1);
     }
 
-    public void Set(string prefix, float number, Color color, float spawnHeight)
+    public void Set(string prefix, float number, Color color, Vector3 spawnPos)
     {
-        Set(prefix + System.Math.Round(number, 2).ToString(), color, spawnHeight, 1);
+        Set(prefix + System.Math.Round(number, 2).ToString(), color, spawnPos, 1);
     }
 
-    public void Set(string text, Color color, float spawnHeight, float scale)
+    public void Set(string text, Color color, Vector3 spawnPos, float scale)
     {
         this.text.text = text;
         this.text.color = color;
-        transform.position += Vector3.up * spawnHeight;
+        transform.position = spawnPos;
         transform.localScale = Vector3.one * scale;
         StartCoroutine(Lifetime());
     }
@@ -48,6 +48,6 @@ public class PopupText : MonoBehaviour
             yield return null;
         }
 
-        Destroy(gameObject);
+        ObjectPooler.popupTextPool.Release(this);
     }
 }

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8732161867663413600}
   - component: {fileID: 8732161867663413603}
   - component: {fileID: 8732161867663413602}
+  - component: {fileID: 1165171149476333808}
   m_Layer: 0
   m_Name: Explosion
   m_TagString: Untagged
@@ -25,8 +26,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8732161867663413605}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.91355956, y: 1.5677431, z: -9.83909}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -34,7 +35,7 @@ Transform:
   - {fileID: 8732161868276777290}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &8732161867663413603
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -287,8 +288,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 4
-      minScalar: 3
+      scalar: 2
+      minScalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -4872,6 +4873,19 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!135 &1165171149476333808
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8732161867663413605}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &2784201489549490645
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4883,6 +4897,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Smoke
+      objectReference: {fileID: 0}
+    - target: {fileID: 6885342426674237141, guid: 49214b19da6113742935f47c077635ba,
+        type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6885342426674237141, guid: 49214b19da6113742935f47c077635ba,
+        type: 3}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6885342426674237143, guid: 49214b19da6113742935f47c077635ba,
         type: 3}
@@ -4958,6 +4982,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Sparks
+      objectReference: {fileID: 0}
+    - target: {fileID: 1365371477070616365, guid: 52b47ce81403bec429d54320259e3f27,
+        type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1365371477070616365, guid: 52b47ce81403bec429d54320259e3f27,
+        type: 3}
+      propertyPath: InitialModule.startLifetime.minScalar
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 1365371477070616367, guid: 52b47ce81403bec429d54320259e3f27,
         type: 3}

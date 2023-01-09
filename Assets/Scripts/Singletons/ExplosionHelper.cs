@@ -23,7 +23,12 @@ public class ExplosionHelper : MonoBehaviour
 
         // Instantiate particles
         GameObject spawned = Instantiate(explosionData.VisualEffect, position, Quaternion.identity);
-        spawned.transform.localScale = Vector3.one * MathHelper.Normalize(explosionData.Radius, 1, 10, .25f, 2f);
+        Vector3 scale = Vector3.one * explosionData.Radius;
+        spawned.transform.localScale = scale;
+        foreach (Transform t in spawned.transform)
+        {
+            t.localScale = scale;
+        }
 
         // Get an array of enemies within explosion
         Collider[] colliders = Physics.OverlapSphere(position, explosionData.Radius);
@@ -47,7 +52,7 @@ public class ExplosionHelper : MonoBehaviour
             Explodable explodable;
             if ((explodable = hit.GetComponent<Explodable>()) && explodable.AllowChainExplosion)
             {
-                explodable.CallExplode();
+                explodable.CallExplode(true);
             }
 
             Rigidbody rb;

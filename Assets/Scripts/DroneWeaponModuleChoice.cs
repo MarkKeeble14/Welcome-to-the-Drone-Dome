@@ -10,16 +10,25 @@ public class DroneWeaponModuleChoice : MonoBehaviour
     [SerializeField] private TextMeshProUGUI intendedCostText;
     private int intendedCost;
     [SerializeField] private TextMeshProUGUI categoryText;
-    public void Set(ModuleType type, int defaultCost)
+
+    [SerializeField] private Button discard;
+    [SerializeField] private Button purchase;
+
+
+    public void Set(ModuleType type, int defaultCost, int indexInList)
     {
         nameText.text = type.ToString();
         intendedCost = defaultCost;
         categoryText.text = GameManager._Instance.GetModuleCategory(type).ToString();
 
-        Button b = GetComponentInChildren<Button>();
-        b.onClick.AddListener(delegate
+        discard.onClick.AddListener(delegate
         {
-            if (ShopManager._Instance.PurchaseWeaponModule(type, actualCost))
+            ShopManager._Instance.RemoveModuleAtPosition(indexInList);
+        });
+
+        purchase.onClick.AddListener(delegate
+        {
+            if (ShopManager._Instance.PurchaseWeaponModule(type, actualCost, indexInList))
             {
                 Debug.Log("Successfully Purchased: " + type);
                 Destroy(gameObject);

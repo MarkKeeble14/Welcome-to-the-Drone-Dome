@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class DroneTeslaModule : DroneWeaponModule
 {
@@ -8,32 +9,21 @@ public class DroneTeslaModule : DroneWeaponModule
     [SerializeField] protected StatModifier range;
     [SerializeField] protected StatModifier delay;
     [SerializeField] protected StatModifier damage;
-    // References
-    [SerializeField] private LineBetween teslaShock;
 
+    [SerializeField] private BoolSwitchUpgradeNode setActiveWhenScavenging;
     public override ModuleType Type => ModuleType.TESLA_COIL;
 
+    private void Update()
+    {
+        // Allow to still be used in scavenge mode if upgrade is active
+        activeWhenScavenging = setActiveWhenScavenging.Active;
+    }
 
     public override IEnumerator Attack()
     {
+        yield return new WaitForSeconds(delay.Value);
         DoDamage();
-        StartCoroutine(ForceDestroySpawned());
-        yield return new WaitForSeconds(delay.Value);
         StartCoroutine(Attack());
-    }
-
-    private IEnumerator ForceDestroySpawned()
-    {
-        yield return new WaitForSeconds(delay.Value);
-        DestroySpawned();
-    }
-
-    private void DestroySpawned()
-    {
-        foreach (Transform child in transform)
-        {
-            Destroy(child.gameObject);
-        }
     }
 
     protected void DoDamage()
@@ -47,8 +37,8 @@ public class DroneTeslaModule : DroneWeaponModule
             HealthBehaviour hb = null;
             if ((hb = c.GetComponent<HealthBehaviour>()) != null)
             {
-                LineBetween spawned = Instantiate(teslaShock, transform);
-                spawned.Set(transform.position, c.transform.position);
+                LineBetween spawned = ObjectPooler.teslaArcPool.Get();
+                spawned.Set(transform.position, c.transform.position, () => ObjectPooler.teslaArcPool.Release(spawned));
                 hb.Damage(damage.Value, ModuleType.TESLA_COIL);
             }
         }

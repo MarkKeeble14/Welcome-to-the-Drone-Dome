@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,9 +6,21 @@ using UnityEngine;
 public class ModuleScavengeableParent : MonoBehaviour
 {
     [SerializeField] private ModuleScavengeable moduleScavengeable;
+    [SerializeField] private Vector3 defaultScale;
 
-    public void SetFromOptions(List<ModuleType> possibleModules)
+    public void SetFromOptions(List<ModuleType> possibleModules, Vector3 position)
     {
-        moduleScavengeable.SetFromOptions(possibleModules);
+        // Set type
+        moduleScavengeable.Set(possibleModules);
+
+        // Set position of this and children
+        transform.position = position;
+        foreach (Transform child in transform)
+        {
+            child.localPosition = Vector3.zero;
+        }
+
+        // Reset scale of pickup
+        moduleScavengeable.transform.localScale = defaultScale;
     }
 }

@@ -2,24 +2,23 @@
 using UnityEngine;
 using TMPro;
 
-public class ModuleScavengeable : Scavengeable
+public class ModuleScavengeable : AutoCollectScavengeable
 {
-    private ModuleType type;
-    [SerializeField] private float emissionIntensity = 6f;
+    [Header("Module Scavengeable")]
+    [SerializeField] private float emissionIntensity = 4f;
 
     [Header("References")]
     [SerializeField] private TextMeshProUGUI text;
     [SerializeField] private Renderer[] renderers;
     [SerializeField] private Material material;
     [SerializeField] private ModuleScavengeableSkyPillar skyPillar;
-    [SerializeField] private PopupText popupText;
+    private ModuleType type;
     private Color color;
 
     private void SetMaterial()
     {
         // Set Variables
         material = new Material(material);
-        color = GameManager._Instance.GetModuleColor(type);
         material.color = color;
         material.SetColor("_EmissionColor", color * emissionIntensity);
         foreach (Renderer r in renderers)
@@ -28,22 +27,40 @@ public class ModuleScavengeable : Scavengeable
         }
     }
 
-    public override void OnPickup()
+    public override void ReleaseToPool()
     {
-        ShopManager._Instance.PickedUpModule(type);
-        skyPillar.Subside(true);
-        Instantiate(popupText, transform.position, Quaternion.identity).Set("+" + type.ToString(),
-            color, transform.position.y, 2);
-        Destroy(transform.root.gameObject);
+        ShopManager._Instance.NumModulesActive--;
+        ObjectPooler._Instance.ReleaseSimpleObject(objectPoolerPrefabKey, transform.parent.gameObject);
     }
 
-    public void SetFromOptions(List<ModuleType> possibleWeaponModules)
+    public override void OnPickup()
     {
-        type = RandomHelper.GetRandomFromList(possibleWeaponModules);
+        skyPillar.Subside();
+        ShopManager._Instance.PickedUpModule(type);
+        ObjectPooler.popupTextPool.Get().Set("+" + type.ToString(), color, transform.position, 2);
+        ReleaseToPool();
+    }
 
-        text.text = type.ToString();
-        text.color = material.color;
+    private void Cancel()
+    {
+        ReleaseToPool();
+    }
+
+    public void Set(List<ModuleType> possibleWeaponModules)
+    {
+        if (!ShopManager._Instance.AllowModuleDrops)
+        {
+            Cancel();
+            return;
+        }
+
+        type = RandomHelper.GetRandomFromList(possibleWeaponModules);
+        color = GameManager._Instance.GetModuleColor(type);
 
         SetMaterial();
+        text.color = color;
+        text.text = type.ToString();
+
+        skyPillar.Reach();
     }
 }

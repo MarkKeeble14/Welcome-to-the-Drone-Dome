@@ -45,7 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnEnemies: 1
-  allowLooping: 1
   awardInitialShopVisit: 0
   arenaWaves:
   - RewardType: 3
@@ -179,10 +178,9 @@ MonoBehaviour:
     BossZoomOut: 0
     BossSpawns: []
     MiniBossSpawns:
-    - {fileID: 5638404428015688683, guid: 5cfa219bc4a2f0e42b80303a027312d7, type: 3}
-    - {fileID: 5638404428015688683, guid: 5cfa219bc4a2f0e42b80303a027312d7, type: 3}
-    - {fileID: 5638404428015688683, guid: 5cfa219bc4a2f0e42b80303a027312d7, type: 3}
-    - {fileID: 5638404428015688683, guid: 5cfa219bc4a2f0e42b80303a027312d7, type: 3}
+    - {fileID: 5638404428015688683, guid: 3f1d27f70df04fd449f28e6ac46696a4, type: 3}
+    - {fileID: 5638404428015688683, guid: 3f1d27f70df04fd449f28e6ac46696a4, type: 3}
+    - {fileID: 5638404428015688683, guid: 3f1d27f70df04fd449f28e6ac46696a4, type: 3}
   - RewardType: 2
     CanRepeatWaveReward: 1
     UpgradePointsAwarded: 3
@@ -231,4 +229,5 @@ MonoBehaviour:
     MiniBossSpawns: []
   cameraWidthAllowance: 20
   cameraHeightAllowance: 10
-  timeBetweenResourceClears: 30
+  timeBetweenResourceClears: 20
+  resourceClearFudgeFactor: 3

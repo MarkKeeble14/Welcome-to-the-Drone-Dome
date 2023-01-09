@@ -143,7 +143,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Q
+  m_text: 'Q
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2f7e8524afc4c4f4984e01ac5af28ee0, type: 2}
   m_sharedMaterial: {fileID: -3930149932424947861, guid: 2f7e8524afc4c4f4984e01ac5af28ee0,
@@ -171,13 +173,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 12
-  m_fontSizeBase: 12
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 2
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -253,7 +255,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 50, y: 50}
+  m_SizeDelta: {x: 75, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1563038770408221624
 CanvasRenderer:
@@ -318,7 +320,7 @@ MonoBehaviour:
   Selected: 0
   selectedColor: {r: 1, g: 0, b: 0, a: 1}
   notSelectedColor: {r: 0.20784314, g: 0.20784314, b: 0.20784314, a: 1}
-  activeCDColor: {r: 0.77442217, g: 0, b: 1, a: 1}
+  activeCDColor: {r: 0.20784314, g: 0.20784314, b: 0.20784314, a: 1}
   hasActiveColor: {r: 0.034214735, g: 1, b: 0, a: 1}
   droneModeDisplayDictionary:
     dictionary:
@@ -330,6 +332,10 @@ MonoBehaviour:
       value:
         Color: {r: 0.20784314, g: 0.20784314, b: 0.20784314, a: 1}
         Sprite: {fileID: 21300000, guid: 97f1215247d3cf649bf2bb64966c8fb7, type: 3}
+    - key: 2
+      value:
+        Color: {r: 0.20784314, g: 0.20784314, b: 0.20784314, a: 1}
+        Sprite: {fileID: 21300000, guid: 8127408350880e74bb129d791ca54bd8, type: 3}
 --- !u!1 &2827463403139799946
 GameObject:
   m_ObjectHideFlags: 0
@@ -366,8 +372,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -20, y: 2.5}
-  m_SizeDelta: {x: 20, y: 20}
+  m_AnchoredPosition: {x: -30, y: 2.5}
+  m_SizeDelta: {x: 30, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8332983459662474619
 CanvasRenderer:
@@ -501,8 +507,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 12
-  m_fontSizeBase: 12
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -779,7 +785,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: -2.5, y: 2.5}
-  m_SizeDelta: {x: 20, y: 20}
+  m_SizeDelta: {x: 30, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8247689498652368630
 CanvasRenderer:

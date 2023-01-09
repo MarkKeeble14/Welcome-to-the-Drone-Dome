@@ -185,17 +185,30 @@ MonoBehaviour:
     type: 3}
   dieParticleEffect: {fileID: 1365371477070616360, guid: 3aa837da96f187a4db44e3d3734b7f61,
     type: 3}
-  popupText: {fileID: -5260616264727522277, guid: d52a68650b4dbcf44aa2e12f8a640e87,
-    type: 3}
-  minMaxResourceCanDrop: {x: 0, y: 3}
-  resourceDropOnDeath: {fileID: 5606348252680568883, guid: 316c4d481c099cc49a1a100962abbc79,
-    type: 3}
-  minMaxChanceToDropModule: {x: 1, y: 300}
-  moduleScavengeable: {fileID: 888590775230126577, guid: 6311f427d36f0df41b82f17a2b082059,
-    type: 3}
-  minMaxHeartCanDrop: {x: 0, y: 0}
-  heartDropOnDeath: {fileID: 8650152402177568256, guid: a670f5bd7f8707d46bd7fd9bd59c3cdb,
-    type: 3}
+  dropMap:
+    resourceDrop:
+      dropObject:
+        options:
+        - key: 0
+          value: 50
+        - key: 1
+          value: 50
+      type: 1
+      chance: {x: 1, y: 2}
+    moduleDrop:
+      dropObject:
+        options:
+        - key: 2
+          value: 100
+      type: 0
+      chance: {x: 1, y: 250}
+    heartDrop:
+      dropObject:
+        options:
+        - key: 3
+          value: 100
+      type: 0
+      chance: {x: 1, y: 10}
   flashDuration: 0.025
   flashColor: {r: 1, g: 1, b: 1, a: 1}
   defaultColor: {r: 1, g: 0, b: 0, a: 1}

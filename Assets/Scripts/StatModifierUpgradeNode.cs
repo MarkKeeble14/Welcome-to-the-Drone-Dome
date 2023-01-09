@@ -3,39 +3,41 @@ using TMPro;
 using System;
 
 [CreateAssetMenu(fileName = "StatModifierUpgradeNode", menuName = "UpgradeNode/StatModifierUpgradeNode")]
-public class StatModifierUpgradeNode : UpgradeNode
+public class StatModifierUpgradeNode : UnlockableUpgradeNode
 {
-    public int CurrentPoints;
-    public int MaxPoints;
-    public GrowthStatModifier statModifier;
+    [Header("Stat Modifier Upgrade Node")]
+    [SerializeField] protected int maxPoints = 5;
+    public int MaxPoints => maxPoints;
+    [SerializeField] protected GrowthStatModifier statModifier;
     public Action OnPurchase;
 
-    public override bool Maxed()
+    public override int GetMaxPoints()
     {
-        return CurrentPoints >= MaxPoints;
+        return MaxPoints + UnlockedPoints;
     }
 
-    public override void Purchase()
+    public override bool Purchase()
     {
-        if (Maxed()) return;
+        if (Maxed()) return false;
 
         OnPurchase?.Invoke();
         statModifier.Grow();
-        Purchased = true;
-        CurrentPoints++;
+        purchased = true;
+        currentPoints++;
+        return true;
     }
 
     public override void Reset()
     {
         base.Reset();
-        CurrentPoints = 0;
+        currentPoints = 0;
         statModifier.Reset();
     }
 
     public override void SetExtraUI(UpgradeNodeDisplay nodeDisplay)
     {
         base.SetExtraUI(nodeDisplay);
-        nodeDisplay.SetPoints(CurrentPoints, MaxPoints);
+        nodeDisplay.SetPoints(CurrentPoints, GetMaxPoints());
         nodeDisplay.AddExtraText("Change: " + (statModifier.GrowthChangeBy == StatMathOperation.ADD ? (statModifier.CurrentGrowth > 0 ? "+" : "") : "x")
                 + statModifier.CurrentGrowth.ToString());
     }

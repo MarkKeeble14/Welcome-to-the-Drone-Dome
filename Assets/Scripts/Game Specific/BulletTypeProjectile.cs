@@ -1,8 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletTypeProjectile : MonoBehaviour
+public class BulletTypeProjectile : Projectile
 {
     [Header("Projectile Properties")]
     [SerializeField] private LayerMask collideWithLayers;
@@ -40,9 +41,13 @@ public class BulletTypeProjectile : MonoBehaviour
             StartCoroutine(DestroyAfterTime());
     }
 
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        // Debug.Log(collision.gameObject.name);
         // Checks if object that was collided with belongs to a layer that we have set to ignore
         if (!LayerMaskHelper.IsInLayerMask(other.gameObject, collideWithLayers)) return;
 
@@ -52,7 +57,7 @@ public class BulletTypeProjectile : MonoBehaviour
         {
             hitHP.Damage(contactDamage, source);
         }
-        Contact();
+        HandleContact();
     }
 
     public void Set(float damage, Vector3 direction, float speed, ModuleType source)
@@ -67,7 +72,7 @@ public class BulletTypeProjectile : MonoBehaviour
         StartCoroutine(Travel(speed, direction));
     }
 
-    private void Contact()
+    private void HandleContact()
     {
         // Bounces are consumed first
         if (setNumBounces > 0)
@@ -80,7 +85,7 @@ public class BulletTypeProjectile : MonoBehaviour
         }
         else if (setNumCanPierceThrough <= 0)
         {
-            Destroy(gameObject);
+            ReleaseAction?.Invoke();
         }
         else if (setNumCanPierceThrough > 0)
         {
@@ -88,14 +93,14 @@ public class BulletTypeProjectile : MonoBehaviour
         }
         else if (setNumBounces <= 0)
         {
-            Destroy(gameObject);
+            ReleaseAction?.Invoke();
         }
     }
 
     private void RandomBounce()
     {
         StopCoroutine(Travel(speed, direction));
-        Vector2 newDirection = Random.insideUnitCircle.normalized;
+        Vector2 newDirection = UnityEngine.Random.insideUnitCircle.normalized;
         StartCoroutine(Travel(speed, new Vector3(newDirection.x, 0, newDirection.y)));
     }
 
@@ -131,6 +136,8 @@ public class BulletTypeProjectile : MonoBehaviour
     private IEnumerator DestroyAfterTime()
     {
         yield return new WaitForSeconds(lifetime);
-        Destroy(gameObject);
+
+        if (gameObject.activeSelf)
+            ReleaseAction?.Invoke();
     }
 }

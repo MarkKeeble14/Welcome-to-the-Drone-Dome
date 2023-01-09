@@ -12,10 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e95c5bb1e9fc830488f1f6c9d8da665a, type: 3}
   m_Name: ToxicFieldShouldExpand
   m_EditorClassIdentifier: 
-  Purchased: 0
-  Label: Toxic Field Radius Expansion While Active
-  Requirements: []
-  Active: 0
-  CurrentPoints: 0
-  NumPointsToBeActive: 2
-  NumPointsToBePurchased: 1
+  label: Expansion While Active
+  requirements: []
+  numPointsToBePurchased: 2
+  numPointsToBeActive: 2

@@ -11,8 +11,6 @@ public class HealthBehaviour : MonoBehaviour
     [SerializeField] private GameObject healParticleEffect;
     [SerializeField] private GameObject dieParticleEffect;
 
-    [SerializeField] protected PopupText popupText;
-
     public Action OnDie { get; set; }
 
     protected void Start()
@@ -22,17 +20,16 @@ public class HealthBehaviour : MonoBehaviour
 
     public void Damage(float damage, ModuleType source)
     {
-        Instantiate(popupText, transform.position, Quaternion.identity)
+        ObjectPooler.popupTextPool.Get()
             .Set(damage, GameManager._Instance.GetModuleColor(source),
-            (transform.position.y + transform.localScale.y / 2));
+            transform.position + Vector3.up * (transform.position.y + transform.localScale.y / 2));
         Damage(damage, false);
     }
 
     public virtual void Damage(float damage, bool spawnText, Color popUpTextColor)
     {
-        Instantiate(popupText, transform.position, Quaternion.identity)
-            .Set(damage, popUpTextColor,
-            (transform.position.y + transform.localScale.y / 2));
+        ObjectPooler.popupTextPool.Get()
+            .Set(damage, popUpTextColor, transform.position + Vector3.up * (transform.position.y + transform.localScale.y / 2));
         Damage(damage, false);
     }
 
@@ -41,8 +38,8 @@ public class HealthBehaviour : MonoBehaviour
         currentHealth -= damage;
         Instantiate(takeDamageParticleEffect, transform.position, Quaternion.identity);
         if (!spawnText) return;
-        Instantiate(popupText, transform.position, Quaternion.identity)
-            .Set(damage, Color.white, (transform.position.y + transform.localScale.y / 2));
+        ObjectPooler.popupTextPool.Get()
+            .Set(damage, Color.white, transform.position + Vector3.up * (transform.position.y + transform.localScale.y / 2));
     }
 
     public virtual void Heal(float healAmount, bool spawnText)
@@ -51,8 +48,8 @@ public class HealthBehaviour : MonoBehaviour
         currentHealth += healAmount;
         Instantiate(healParticleEffect, transform.position, Quaternion.identity);
         if (!spawnText) return;
-        Instantiate(popupText, transform.position, Quaternion.identity)
-            .Set("+", healAmount, Color.green, (transform.position.y + transform.localScale.y / 2));
+        ObjectPooler.popupTextPool.Get()
+           .Set("+", healAmount, Color.green, transform.position + Vector3.up * (transform.position.y + transform.localScale.y / 2));
     }
 
     protected void Update()

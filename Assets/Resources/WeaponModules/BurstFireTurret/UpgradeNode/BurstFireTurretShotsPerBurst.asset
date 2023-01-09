@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74a95fe61fac3304bb3ba7b13a15cd6e, type: 3}
   m_Name: BurstFireTurretShotsPerBurst
   m_EditorClassIdentifier: 
-  Purchased: 0
-  Label: Increase Number of Shots in Burst
-  Requirements: []
-  CurrentPoints: 0
-  MaxPoints: 5
+  label: Increase The Number of Shots In A Burst
+  requirements: []
+  PointsPerUnlock: 5
+  maxPoints: 5
   statModifier: {fileID: 11400000, guid: 6958146dd4ae6214c87c1ebb7259e6d6, type: 2}

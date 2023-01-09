@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74a95fe61fac3304bb3ba7b13a15cd6e, type: 3}
   m_Name: ExplosiveShellMortarRange
   m_EditorClassIdentifier: 
-  Purchased: 0
-  Label: Increase Mortar Range
-  Requirements: []
-  CurrentPoints: 0
-  MaxPoints: 5
+  label: Increase Mortar Range
+  requirements: []
+  PointsPerUnlock: 5
+  maxPoints: 5
   statModifier: {fileID: 11400000, guid: f9633a4e60121704c9ffce458ca00ba2, type: 2}

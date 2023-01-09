@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74a95fe61fac3304bb3ba7b13a15cd6e, type: 3}
   m_Name: DroneScavengeableSpeedBoost
   m_EditorClassIdentifier: 
-  Purchased: 0
-  Label: Increase Scavenging Speed Boost
-  Requirements: []
-  CurrentPoints: 0
-  MaxPoints: 5
+  label: Increase Scavenging Speed Boost
+  requirements: []
+  PointsPerUnlock: 5
+  maxPoints: 5
   statModifier: {fileID: 11400000, guid: c6dec0e3f682ba94eabb3d74402fcc2f, type: 2}

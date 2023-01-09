@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
+
 public class DroneLaserAreaActiveModule : DroneActiveModule
 {
     [SerializeField] private StatModifier range;
     [SerializeField] private StatModifier damage;
-    [SerializeField] private LineBetween laser;
     private LayerMask enemyLayer;
 
     public override ModuleType Type => ModuleType.LASER_ACTIVE;
@@ -14,6 +15,7 @@ public class DroneLaserAreaActiveModule : DroneActiveModule
     {
         // Get enemy layermask
         enemyLayer = LayerMask.GetMask("Enemy");
+
     }
 
     public override void Effect()
@@ -23,12 +25,16 @@ public class DroneLaserAreaActiveModule : DroneActiveModule
         {
             // Get health component
             HealthBehaviour hb = col.GetComponent<HealthBehaviour>();
+
             // Check to make sure enemy has health
             if (hb == null) continue;
+
+            // Create Laser
+            LineBetween spawned = ObjectPooler.laserBeamPool.Get();
+            spawned.Set(transform.position, col.transform.position, () => ObjectPooler.laserBeamPool.Release(spawned));
+
             // Do Damage
             hb.Damage(damage.Value, Type);
-            // Create Laser
-            Instantiate(laser, transform.position, Quaternion.identity).Set(transform.position, col.transform.position);
         }
     }
 }

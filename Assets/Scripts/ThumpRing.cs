@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,7 +20,7 @@ public class ThumpRing : MonoBehaviour
         enemyLayer = LayerMask.GetMask("Enemy");
     }
 
-    public IEnumerator ExecuteThump(bool destroyOnComplete)
+    public IEnumerator ExecuteThump(Action onEnd)
     {
         float currentRadius = 0f;
 
@@ -38,9 +39,7 @@ public class ThumpRing : MonoBehaviour
             yield return null;
         }
 
-        Destroy(gameObject);
-        if (destroyOnComplete)
-            Destroy(transform.parent.gameObject);
+        onEnd();
     }
 
     private List<Collider> Effect(float currentRadius, List<Collider> affectedColliders)
@@ -53,7 +52,7 @@ public class ThumpRing : MonoBehaviour
 
             affectedColliders.Add(col);
 
-            col.GetComponent<HealthBehaviour>().Damage(thumpDamage.Value, ModuleType.THUMPER_MORTAR);
+            col.GetComponent<HealthBehaviour>().Damage(thumpDamage.Value, ModuleType.SHOCKWAVE_MORTAR);
 
             if (knockbackForce.Value != 0)
             {

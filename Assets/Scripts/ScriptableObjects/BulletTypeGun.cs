@@ -34,7 +34,13 @@ public class BulletTypeGun : Gun
 
     private void ShootOne(Vector3 projectileOrigin, Transform shootAt, ModuleType source)
     {
-        BulletTypeProjectile currentProjectile = Instantiate(projectilePrefab, projectileOrigin, Quaternion.identity);
+        BulletTypeProjectile currentProjectile = (BulletTypeProjectile)ObjectPooler._Instance.GetProjectile(source);
+        currentProjectile.ReleaseAction = () =>
+        {
+            ObjectPooler._Instance.ReleaseProjectile(source, currentProjectile);
+        };
+        currentProjectile.transform.position = projectileOrigin;
+
         Vector3 direction = shootAt.position - projectileOrigin;
         currentProjectile.Set(projectileDamage.Value, direction.normalized, shootForce, source);
     }
@@ -46,7 +52,12 @@ public class BulletTypeGun : Gun
 
         for (int i = 0; i < projectilesPerShot.Value; i++)
         {
-            BulletTypeProjectile currentProjectile = Instantiate(projectilePrefab, projectileOrigin, Quaternion.identity);
+            BulletTypeProjectile currentProjectile = (BulletTypeProjectile)ObjectPooler._Instance.GetProjectile(source);
+            currentProjectile.ReleaseAction = () =>
+            {
+                ObjectPooler._Instance.ReleaseProjectile(source, currentProjectile);
+            };
+            currentProjectile.transform.position = projectileOrigin;
 
             currentProjectile.Set(projectileDamage.Value, direction.normalized, shootForce, source);
             direction = Quaternion.AngleAxis(angleBetweenProjectiles.Value, Vector3.up) * direction;
@@ -60,7 +71,12 @@ public class BulletTypeGun : Gun
 
         for (int i = 0; i < projectilesPerShot.Value; i++)
         {
-            BulletTypeProjectile currentProjectile = Instantiate(projectilePrefab, projectileOrigin, Quaternion.identity);
+            BulletTypeProjectile currentProjectile = (BulletTypeProjectile)ObjectPooler._Instance.GetProjectile(source);
+            currentProjectile.ReleaseAction = () =>
+            {
+                ObjectPooler._Instance.ReleaseProjectile(source, currentProjectile);
+            };
+            currentProjectile.transform.position = projectileOrigin;
 
             currentProjectile.Set(projectileDamage.Value, direction.normalized, shootForce, source);
             direction = Quaternion.AngleAxis(angleBetweenProjectiles.Value, Vector3.up) * direction;

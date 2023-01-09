@@ -7,6 +7,8 @@ public class UpgradePointsAvailableDisplay : MonoBehaviour
 {
     private UpgradeManager cachedInstance;
     [SerializeField] private TextMeshProUGUI text;
+    [SerializeField] private string prefix = "Remaining: ";
+    [SerializeField] private string suffix = "";
 
     private void Start()
     {
@@ -16,6 +18,6 @@ public class UpgradePointsAvailableDisplay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        text.text = cachedInstance.PointsAvailable.ToString();
+        text.text = prefix + cachedInstance.UpgradePointsAvailable.ToString() + suffix;
     }
 }

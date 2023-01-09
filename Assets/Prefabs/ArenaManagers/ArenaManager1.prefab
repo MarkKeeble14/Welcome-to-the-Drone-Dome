@@ -45,12 +45,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnEnemies: 1
-  allowLooping: 1
   awardInitialShopVisit: 1
   arenaWaves:
-  - RewardType: 2
+  - RewardType: 4
     CanRepeatWaveReward: 1
-    UpgradePointsAwarded: 1
+    UpgradePointsAwarded: 2
     CanRepeatedlyAwardUpgradePoints: 1
     EnemySpawns:
       options:
@@ -200,7 +199,6 @@ MonoBehaviour:
     - {fileID: 5638404428015688683, guid: 6cceafb925b214f4a917954323873b04, type: 3}
     MiniBossSpawns:
     - {fileID: 5638404428015688683, guid: 5cfa219bc4a2f0e42b80303a027312d7, type: 3}
-    - {fileID: 5638404428015688683, guid: 5cfa219bc4a2f0e42b80303a027312d7, type: 3}
   - RewardType: 1
     CanRepeatWaveReward: 0
     UpgradePointsAwarded: 0
@@ -227,4 +225,5 @@ MonoBehaviour:
     MiniBossSpawns: []
   cameraWidthAllowance: 20
   cameraHeightAllowance: 10
-  timeBetweenResourceClears: 60
+  timeBetweenResourceClears: 30
+  resourceClearFudgeFactor: 5

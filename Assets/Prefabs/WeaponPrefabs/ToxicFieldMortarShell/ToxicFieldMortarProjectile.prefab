@@ -127,6 +127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f79584250fd1a4b43a1a4291ff87004d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 4411560104125395868}
   poisonField: {fileID: 326367282432181740, guid: 070a70423ae90344ebeb5568f27e4ab4,
     type: 3}
   radius: {fileID: 11400000, guid: c777acd9553cd11498734bdd9c444c1b, type: 2}

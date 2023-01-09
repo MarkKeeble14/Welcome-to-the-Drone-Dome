@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a8b20fc3bfb3594f922d82c5e42ee50, type: 3}
   m_Name: DefaultTurretModuleProjectileSpreadStat
   m_EditorClassIdentifier: 
-  baseValue: 45
-  affectedValue: 15
+  baseValue: 25
+  affectedValue: 45
   minValue: 0
   hasMin: 0
   maxValue: 0
   hasMax: 0
   changeBy: 0
-  baseGrowth: -2
+  baseGrowth: -2.5
   growth: -2
   growthIncreaseUponGrow: 0
   growthChangeBy: 0

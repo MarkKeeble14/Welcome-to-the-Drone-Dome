@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74a95fe61fac3304bb3ba7b13a15cd6e, type: 3}
   m_Name: SniperTurretProjectileSpread
   m_EditorClassIdentifier: 
-  Purchased: 0
-  Label: Decrease Projectile Spread
-  Requirements:
+  label: Decrease Projectile Spread
+  requirements:
   - {fileID: 11400000, guid: 3c3a5166d383f9549904b9a3a59cdcb0, type: 2}
-  CurrentPoints: 0
-  MaxPoints: 3
+  PointsPerUnlock: 5
+  maxPoints: 5
   statModifier: {fileID: 11400000, guid: dba49587c6e11644aa0075b4b9e612ab, type: 2}

@@ -44,7 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3e22ff1bd3affe40ba0a0ace83deb05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startAttackOnStart: 1
+  startAttackOnStart: 0
+  targetBy: 2
+  targeting: {fileID: 0}
   gun: {fileID: 11400000, guid: fa17c6e0eec055b4a8e713afc4383066, type: 2}
   reloadBar: {fileID: 1724493836441531248, guid: 509cacbe67cbe0e46bd5e0ebb44810f3,
     type: 3}

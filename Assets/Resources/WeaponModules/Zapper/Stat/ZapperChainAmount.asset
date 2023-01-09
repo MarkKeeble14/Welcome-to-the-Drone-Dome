@@ -20,6 +20,6 @@ MonoBehaviour:
   hasMax: 0
   changeBy: 0
   baseGrowth: 2
-  growth: 1
+  growth: 2
   growthIncreaseUponGrow: 0
   growthChangeBy: 0

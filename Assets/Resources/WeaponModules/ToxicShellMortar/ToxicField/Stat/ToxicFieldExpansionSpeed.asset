@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a8b20fc3bfb3594f922d82c5e42ee50, type: 3}
   m_Name: ToxicFieldExpansionSpeed
   m_EditorClassIdentifier: 
-  baseValue: 0.25
-  affectedValue: 6
+  baseValue: 0.5
+  affectedValue: 0.25
   minValue: 0
   hasMin: 0
   maxValue: 0
   hasMax: 0
   changeBy: 0
-  baseGrowth: 0.25
-  growth: 1
+  baseGrowth: 0.5
+  growth: 0.25
   growthIncreaseUponGrow: 0
   growthChangeBy: 0

@@ -9,6 +9,6 @@ public class HeartScavengeable : AutoCollectScavengeable
     public override void OnPickup()
     {
         GameManager._Instance.HealPlayer(healAmount);
-        Destroy(transform.root.gameObject);
+        ReleaseToPool();
     }
 }

@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody rb;
 
     [SerializeField] private BoolSwitchUpgradeNode allowPlayerDash;
+    [SerializeField] private GameObject dashParticle;
     public float DashCooldown => dashCDStart.Value;
     private float dashCDTimer;
     public float CurrentDashCooldown
@@ -97,6 +98,8 @@ public class PlayerMovement : MonoBehaviour
     private IEnumerator ExecuteDash(Vector2 vector)
     {
         dashCDTimer = dashCDStart.Value;
+
+        Instantiate(dashParticle, transform);
 
         float t = 0;
 

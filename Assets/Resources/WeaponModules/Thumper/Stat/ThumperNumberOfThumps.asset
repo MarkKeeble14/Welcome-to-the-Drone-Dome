@@ -19,7 +19,7 @@ MonoBehaviour:
   maxValue: 0
   hasMax: 0
   changeBy: 0
-  baseGrowth: 0.34
-  growth: 1
+  baseGrowth: 1
+  growth: 0.34
   growthIncreaseUponGrow: 0
   growthChangeBy: 0

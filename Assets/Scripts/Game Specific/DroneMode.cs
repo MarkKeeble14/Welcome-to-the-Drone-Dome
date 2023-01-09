@@ -1,5 +1,6 @@
 ﻿public enum DroneMode
 {
-    FOLLOW,
-    SCAVENGE
+    ATTACK,
+    SCAVENGE,
+    STATION
 }

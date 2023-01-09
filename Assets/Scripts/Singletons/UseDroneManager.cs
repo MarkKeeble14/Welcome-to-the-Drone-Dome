@@ -24,21 +24,32 @@ public class UseDroneManager : MonoBehaviour
 
     [SerializeField] private float droneShoveDelay = .5f;
     [SerializeField] private float droneShoveMaxRadiusMod = 2f;
-    Vector2 mousePos;
 
     [SerializeField] private PlayerDroneController playerDroneController;
     private Transform cursorHovering;
+    [SerializeField] private Vector3 cursorWorldPos;
 
     private void LeftMousePressed(InputAction.CallbackContext obj)
     {
-        if (cursorHovering == null) return;
-        if (LayerMaskHelper.IsInLayerMask(cursorHovering.gameObject, shoveable))
+        // Stuff for Station Mode
+        if (playerDroneController.SelectedDrone != null && playerDroneController.SelectedDrone.CurrentMode == DroneMode.STATION)
         {
-            StartCoroutine(StartDrag(cursorHovering));
+            playerDroneController.SelectedDrone.SetStation(cursorWorldPos);
         }
-        else if (LayerMaskHelper.IsInLayerMask(cursorHovering.gameObject, targetable))
+
+        if (cursorHovering == null) return;
+
+        // Stuff for Attack mode
+        if (playerDroneController.SelectedDrone != null && playerDroneController.SelectedDrone.CurrentMode == DroneMode.ATTACK)
         {
-            StartCoroutine(ClickEnemySequence(cursorHovering.gameObject));
+            if (LayerMaskHelper.IsInLayerMask(cursorHovering.gameObject, shoveable))
+            {
+                StartCoroutine(StartDrag(cursorHovering));
+            }
+            else if (LayerMaskHelper.IsInLayerMask(cursorHovering.gameObject, targetable))
+            {
+                StartCoroutine(ClickEnemySequence(cursorHovering.gameObject));
+            }
         }
     }
 
@@ -71,7 +82,7 @@ public class UseDroneManager : MonoBehaviour
         MouseCursorManager._Instance.SetCursor(CursorType.HAND, true);
 
         usingDrone.AvailableForUse = false;
-        usingDrone.DisableAttackModules();
+        usingDrone.OnEnterScavengeMode();
         // Disable Collider
         usingDrone.Col.enabled = false;
 
@@ -140,7 +151,7 @@ public class UseDroneManager : MonoBehaviour
     private void ResetDrone(DroneController drone)
     {
         // Allow ambient attacking
-        drone.EnableAttackModules();
+        drone.OnEnterAttackMode();
         // Re-enable Collider
         drone.Col.enabled = true;
         drone.AvailableForUse = true;
@@ -221,10 +232,12 @@ public class UseDroneManager : MonoBehaviour
 
     private void Update()
     {
-        Ray ray = Camera.main.ScreenPointToRay(InputManager._Controls.Player.MousePosition.ReadValue<Vector2>());
+        Vector2 cursorScreenPos = InputManager._Controls.Player.MousePosition.ReadValue<Vector2>();
+        Ray ray = Camera.main.ScreenPointToRay(cursorScreenPos);
         RaycastHit hit;
-        Physics.Raycast(ray, out hit, Mathf.Infinity, targetable | shoveable);
+        Physics.Raycast(ray, out hit, Mathf.Infinity, targetable | shoveable | ground);
         cursorHovering = hit.transform;
+        cursorWorldPos = hit.point;
 
         if (MouseCursorManager._Instance.Locked) return;
         if (playerDroneController.SelectedDrone == null || !playerDroneController.SelectedDrone.AvailableForUse)

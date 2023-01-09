@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public abstract class DamageTriggerField : MonoBehaviour
@@ -15,21 +16,41 @@ public abstract class DamageTriggerField : MonoBehaviour
     protected void Start()
     {
         enemyLayer = LayerMask.GetMask("Enemy");
-        StartCoroutine(Lifetime());
     }
 
-    private IEnumerator Lifetime()
+    protected void Update()
     {
+        sameTargetCDDictionary.Update();
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (!LayerMaskHelper.IsInLayerMask(other.gameObject, enemyLayer)) return;
+        if (sameTargetCDDictionary.ContainsKey(other.gameObject)) return;
+
+        HealthBehaviour hb = other.gameObject.GetComponent<HealthBehaviour>();
+        HitHealthBehaviour(hb);
+        sameTargetCDDictionary.Add(other.gameObject, tickSpeed.Value);
+    }
+
+    public void Set(float radius, Action onEnd)
+    {
+        foreach (Transform child in transform)
+        {
+            child.localPosition = Vector3.zero;
+        }
+        StartCoroutine(Lifetime(radius, onEnd));
+    }
+
+    private IEnumerator Lifetime(float radius, Action onEnd)
+    {
+        StartCoroutine(Grow(radius));
+
         yield return new WaitForSeconds(duration.Value);
 
         StopAllCoroutines();
 
-        StartCoroutine(Fade());
-    }
-
-    public void SetRadius(float radius)
-    {
-        StartCoroutine(Grow(radius));
+        StartCoroutine(Fade(onEnd));
     }
 
 
@@ -46,7 +67,7 @@ public abstract class DamageTriggerField : MonoBehaviour
         reachedMaxRadius = true;
     }
 
-    private IEnumerator Fade()
+    private IEnumerator Fade(Action onEnd)
     {
         reachedMaxRadius = false;
         while (transform.localScale != Vector3.zero)
@@ -57,26 +78,11 @@ public abstract class DamageTriggerField : MonoBehaviour
             yield return null;
         }
 
-        Destroy(gameObject);
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (!LayerMaskHelper.IsInLayerMask(other.gameObject, enemyLayer)) return;
-        if (sameTargetCDDictionary.ContainsKey(other.gameObject)) return;
-
-        HealthBehaviour hb = other.gameObject.GetComponent<HealthBehaviour>();
-        HitHealthBehaviour(hb);
-        sameTargetCDDictionary.Add(other.gameObject, tickSpeed.Value);
+        onEnd?.Invoke();
     }
 
     protected virtual void HitHealthBehaviour(HealthBehaviour hb)
     {
         hb.Damage(damage.Value, true);
-    }
-
-    protected void Update()
-    {
-        sameTargetCDDictionary.Update();
     }
 }

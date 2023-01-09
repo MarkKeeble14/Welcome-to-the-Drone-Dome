@@ -5,14 +5,7 @@ using UnityEngine;
 public class EnemyHealth : HealthBehaviour
 {
     [Header("Enemy Health Behaviour")]
-    [SerializeField] private Vector2 minMaxResourceCanDrop;
-    [SerializeField] private GameObject resourceDropOnDeath;
-
-    [SerializeField] private Vector2 minMaxChanceToDropModule;
-    [SerializeField] private ModuleScavengeableParent moduleScavengeable;
-
-    [SerializeField] private Vector2 minMaxHeartCanDrop;
-    [SerializeField] private GameObject heartDropOnDeath;
+    [SerializeField] private DropMap dropMap;
 
     [SerializeField] private float flashDuration = 0.025f;
     [SerializeField] private Color flashColor;
@@ -61,26 +54,9 @@ public class EnemyHealth : HealthBehaviour
     protected override void Die()
     {
         // Drop XP
-        int numToDrop = Mathf.FloorToInt(RandomHelper.RandomIntExclusive(minMaxResourceCanDrop.x, minMaxResourceCanDrop.y)
-            * ShopManager._Instance.ResourceDropRateModifier);
-        for (int i = 0; i < numToDrop; i++)
-        {
-            Instantiate(resourceDropOnDeath, transform.position, Quaternion.identity);
-        }
-        numToDrop = RandomHelper.RandomIntExclusive(minMaxHeartCanDrop);
-        for (int i = 0; i < numToDrop; i++)
-        {
-            Instantiate(heartDropOnDeath, transform.position, Quaternion.identity);
-        }
-        if (ShopManager._Instance.AllowModuleDrops)
-        {
-            bool dropModule = RandomHelper.RandomIntExclusive(minMaxChanceToDropModule) <= minMaxChanceToDropModule.x;
-            if (dropModule)
-            {
-                ModuleScavengeableParent spawned = Instantiate(moduleScavengeable, transform.position, Quaternion.identity);
-                spawned.SetFromOptions(GameManager._Instance.AllModules);
-            }
-        }
+        dropMap.DropModules(transform.position);
+        dropMap.DropHearts(transform.position);
+        dropMap.DropResources(transform.position);
 
         base.Die();
     }

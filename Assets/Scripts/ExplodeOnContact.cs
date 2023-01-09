@@ -10,7 +10,7 @@ public class ExplodeOnContact : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (!LayerMaskHelper.IsInLayerMask(collision.gameObject, explodeOnContactWith)) return;
-        explodable.CallExplode();
+        explodable.CallExplode(true);
         Destroy(gameObject);
     }
 }

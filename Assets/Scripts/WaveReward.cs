@@ -4,4 +4,5 @@
     NEW_DRONE,
     UPGRADE,
     SHOP_VISIT,
+    MODULE_UNLOCKER
 }

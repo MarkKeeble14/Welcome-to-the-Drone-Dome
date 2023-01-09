@@ -7,25 +7,23 @@ public class ModuleScavengeableSkyPillar : MonoBehaviour
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private float height = 50f;
     [SerializeField] private float changeSpeed = 2.5f;
-    private bool canReach = true;
+    private bool canReach;
     [SerializeField] private float subsideBonusSpeed = 5f;
     private bool doneReach;
+    private Transform storeParent;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        Reach();
-    }
 
     public void Reach()
     {
+        canReach = true;
+        doneReach = false;
         StartCoroutine(ExecuteReach());
     }
 
-    public void Subside(bool destroyWhenDone)
+
+    public void Subside()
     {
-        transform.SetParent(null);
-        StartCoroutine(ExecuteSubside(destroyWhenDone));
+        StartCoroutine(ExecuteSubside());
     }
 
     private IEnumerator ExecuteReach()
@@ -57,8 +55,11 @@ public class ModuleScavengeableSkyPillar : MonoBehaviour
         }
     }
 
-    private IEnumerator ExecuteSubside(bool destroyWhenDone)
+    private IEnumerator ExecuteSubside()
     {
+        storeParent = transform.parent;
+        transform.SetParent(null);
+
         canReach = false;
         Vector3 targetPos = lineRenderer.GetPosition(1);
         while (Vector3.Distance(lineRenderer.GetPosition(0), targetPos) > 1f)
@@ -69,8 +70,6 @@ public class ModuleScavengeableSkyPillar : MonoBehaviour
         }
 
         // Debug.Log("Done Subside");
-
-        if (destroyWhenDone)
-            Destroy(gameObject);
+        transform.SetParent(storeParent);
     }
 }

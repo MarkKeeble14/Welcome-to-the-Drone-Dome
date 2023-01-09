@@ -32,7 +32,7 @@ public abstract class DroneGunModule : DroneWeaponModule
             if (gun.CurrentMagazineCount > 0)
             {
                 // Active
-                if ((target = targeting.GetTarget(gun.Range, TargetBy)) != null)
+                if ((target = targeting.GetTarget(gun.Range, transform, TargetBy)) != null)
                 {
                     yield return new WaitForSeconds(Fire());
                 }

@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74a95fe61fac3304bb3ba7b13a15cd6e, type: 3}
+  m_Script: {fileID: 11500000, guid: a65225e121c13f249a3e88ce3847af45, type: 3}
   m_Name: ThumperNumberOfThumps
   m_EditorClassIdentifier: 
-  Purchased: 0
-  Label: Increase Number of Activations
-  Requirements: []
-  CurrentPoints: 0
-  MaxPoints: 9
+  label: Increase The Number of Shockwaves Per Thumper
+  requirements: []
+  PointsPerUnlock: 5
+  maxPoints: 15
   statModifier: {fileID: 11400000, guid: 3359420d9687b16439ecf41ecbeb2fd3, type: 2}
+  pointsPerRank: 3

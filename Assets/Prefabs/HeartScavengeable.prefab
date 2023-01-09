@@ -30,7 +30,7 @@ Transform:
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5603791809426789704}
+  m_Father: {fileID: 8650152402177568259}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3653135518672737493
@@ -83,7 +83,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &8425645725024256907
+--- !u!1 &8650152402177568256
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -91,50 +91,66 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5603791809426789704}
-  - component: {fileID: 9158040334841475355}
-  - component: {fileID: 3177140490143085166}
-  - component: {fileID: 901749502942442695}
-  - component: {fileID: 8308283589305120839}
-  - component: {fileID: 4617502343322636111}
+  - component: {fileID: 8650152402177568259}
+  - component: {fileID: 689601405986238889}
+  - component: {fileID: 3639526741851279282}
+  - component: {fileID: 7753446396539884626}
+  - component: {fileID: 1619134597906631226}
+  - component: {fileID: 2952052786826231783}
   m_Layer: 12
-  m_Name: Pickup
+  m_Name: HeartScavengeable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5603791809426789704
+--- !u!4 &8650152402177568259
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8425645725024256907}
+  m_GameObject: {fileID: 8650152402177568256}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7128766097261012145}
-  m_Father: {fileID: 8650152402177568259}
+  m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &9158040334841475355
-MeshFilter:
+--- !u!114 &689601405986238889
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8425645725024256907}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &3177140490143085166
+  m_GameObject: {fileID: 8650152402177568256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5e9d3b340e07cf4eb9c7b72097f1a4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectPoolerPrefabKey: 3
+  autoCollectSpeed: 3
+  chanceToAutoCollect: {x: 1, y: 2}
+  timeTakenToAutoCollectSpeedMultiplier: 4
+  expireSpeed: 0.1
+  growDuration: 0.25
+  growSpeed: 1
+  pauseDuration: 2
+  rb: {fileID: 2952052786826231783}
+  col:
+  - {fileID: 1619134597906631226}
+  healAmount: 1
+--- !u!23 &3639526741851279282
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8425645725024256907}
+  m_GameObject: {fileID: 8650152402177568256}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -170,26 +186,34 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &901749502942442695
+--- !u!33 &7753446396539884626
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8650152402177568256}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!135 &1619134597906631226
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8425645725024256907}
+  m_GameObject: {fileID: 8650152402177568256}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &8308283589305120839
+--- !u!54 &2952052786826231783
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8425645725024256907}
+  m_GameObject: {fileID: 8650152402177568256}
   serializedVersion: 2
   m_Mass: 15
   m_Drag: 1
@@ -199,55 +223,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &4617502343322636111
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8425645725024256907}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5e9d3b340e07cf4eb9c7b72097f1a4a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  autoCollectSpeed: 3
-  chanceToAutoCollect: {x: 1, y: 2}
-  timeTakenToAutoCollectSpeedMultiplier: 4
-  expireSpeed: 0.1
-  growDuration: 0.35
-  growSpeed: 2
-  pauseDuration: 3
-  healAmount: 1
---- !u!1 &8650152402177568256
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8650152402177568259}
-  m_Layer: 12
-  m_Name: HeartScavengeable
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8650152402177568259
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8650152402177568256}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 5603791809426789704}
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

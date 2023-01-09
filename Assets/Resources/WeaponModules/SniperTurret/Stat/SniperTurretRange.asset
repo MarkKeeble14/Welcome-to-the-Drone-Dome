@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SniperTurretRange
   m_EditorClassIdentifier: 
   baseValue: 8
-  affectedValue: 5
+  affectedValue: 8
   minValue: 0
   hasMin: 0
   maxValue: 0

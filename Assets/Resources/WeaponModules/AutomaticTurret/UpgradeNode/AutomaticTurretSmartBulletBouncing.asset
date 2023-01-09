@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e95c5bb1e9fc830488f1f6c9d8da665a, type: 3}
   m_Name: AutomaticTurretSmartBulletBouncing
   m_EditorClassIdentifier: 
-  Purchased: 0
-  Label: Bullet Smart Bouncing
-  Requirements:
+  label: Bullets Will Bounce to Nearby Enemy Instead of Random Direction
+  requirements:
   - {fileID: 11400000, guid: b07af48201146124f84b679d9339b495, type: 2}
-  Active: 0
+  numPointsToBePurchased: 2
+  numPointsToBeActive: 2

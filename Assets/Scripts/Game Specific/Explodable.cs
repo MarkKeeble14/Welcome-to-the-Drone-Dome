@@ -3,15 +3,20 @@
 public abstract class Explodable : MonoBehaviour, IExplodable
 {
     public bool AllowChainExplosion = true;
+    private bool hasAlreadyExploded;
 
-    private bool hasAlreadyExploded = false;
+    private void OnEnable()
+    {
+        hasAlreadyExploded = false;
+    }
 
-    public void CallExplode()
+    public void CallExplode(bool destroy)
     {
         if (hasAlreadyExploded) return;
         hasAlreadyExploded = true;
         Explode();
-        Destroy(gameObject);
+        if (destroy)
+            Destroy(gameObject);
     }
 
     public abstract void Explode();

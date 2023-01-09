@@ -8,6 +8,7 @@ public class ExplosiveMortarProjectile : MortarProjectile
 
     public override void ArrivedAtPosition()
     {
-        explodable.CallExplode();
+        explodable.CallExplode(false);
+        ReleaseAction?.Invoke();
     }
 }

@@ -1,11 +1,8 @@
 using Cinemachine;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -37,6 +34,8 @@ public class GameManager : MonoBehaviour
 
     [Header("Level")]
     [SerializeField] private string[] levelNames;
+    [SerializeField] private ArenaManager[] levels;
+    private ArenaManager currentLevel;
     private int levelIndex = 0;
     private bool loadingLevel;
     private bool restartingGame;
@@ -45,6 +44,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float maxWaitTime = 5f;
 
     public bool OnLastLevel => levelIndex == levelNames.Length - 1;
+    public bool OnMainMenu => levelIndex == 0 && currentLevel == null;
+    public int OnLoop { get; private set; }
 
     [Header("Camera")]
     [SerializeField] private CinemachineVirtualCamera cinemachineVCam;
@@ -94,14 +95,25 @@ public class GameManager : MonoBehaviour
 
     public void OnPlayerDie()
     {
-        Debug.Log("You Lose!");
         UIManager._Instance.OpenLoseScreen();
     }
 
     public void Win()
     {
-        Debug.Log("You Win!");
         UIManager._Instance.OpenWinScreen();
+    }
+
+    public void Loop()
+    {
+        Debug.Log("Attempting to Loop");
+        if (loadingLevel) return;
+        loadingLevel = true;
+
+        // Scale Enemies
+        perLevelEnemyStatMap.OnLoop();
+
+        // Call Loop Sequence
+        StartCoroutine(LoopSequence());
     }
 
     public void SpawnAndAddDroneToOrbit()
@@ -121,7 +133,7 @@ public class GameManager : MonoBehaviour
 
     public void LoadNextLevel()
     {
-        // Debug.Log("Attempting to Load Next Level");
+        Debug.Log("Attempting to Load Next Level");
         if (loadingLevel) return;
         loadingLevel = true;
         StartCoroutine(LoadNextLevelSequence());
@@ -129,7 +141,32 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator LoadNextLevelSequence()
     {
-        // Collect all remaining resource
+        yield return StartCoroutine(PreLoadNextLevel());
+
+        // Load Next Level
+        // Debug.Log("Loading Next Level");
+        TransitionManager._Instance.FadeOut(() =>
+        {
+            LoadLevel(true);
+        });
+    }
+
+    private IEnumerator LoopSequence()
+    {
+        yield return StartCoroutine(PreLoadNextLevel());
+
+        // Load Next Level
+        // Debug.Log("Loading Next Level");
+        TransitionManager._Instance.FadeOut(() =>
+        {
+            levelIndex = 0;
+            LoadLevel(false);
+        });
+    }
+
+    private IEnumerator PreLoadNextLevel()
+    {
+        // Collect all remaining autocollectables
         List<AutoCollectScavengeable> collectedAutoCollectable = new List<AutoCollectScavengeable>();
         AutoCollectScavengeable[] remainingAutoCollectable = FindObjectsOfType<AutoCollectScavengeable>();
         foreach (AutoCollectScavengeable autoCollectable in remainingAutoCollectable)
@@ -141,6 +178,7 @@ public class GameManager : MonoBehaviour
             );
         }
 
+        // Wait until either all autocollectables have been autocollected, or for some certain max length of time
         float t = 0;
         while (t < maxWaitTime && collectedAutoCollectable.Count != remainingAutoCollectable.Length)
         {
@@ -149,12 +187,12 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
 
-        // Load Next Level
-        // Debug.Log("Loading Next Level");
-        TransitionManager._Instance.FadeOut(() =>
+        // Force end any remaining autocollectables autocollect sequence which resets and releases them back into the pool
+        remainingAutoCollectable = FindObjectsOfType<AutoCollectScavengeable>();
+        foreach (AutoCollectScavengeable autoCollectable in remainingAutoCollectable)
         {
-            LoadLevel(true);
-        });
+            autoCollectable.FailAutoCollect();
+        }
     }
 
     private void LoadLevel(bool incrementIndex)
@@ -168,11 +206,17 @@ public class GameManager : MonoBehaviour
         {
             // Increment the level index
             levelIndex++;
-
-            // Go next enemy stat map
-            perLevelEnemyStatMap.Next();
         }
+        // Go next enemy stat map
+        perLevelEnemyStatMap.SetIndex(levelIndex);
+
+        // Load Scene
         SceneManager.LoadScene(levelNames[levelIndex]);
+
+        // Spawn Arena Manager
+        if (currentLevel != null)
+            Destroy(currentLevel.gameObject);
+        currentLevel = Instantiate(levels[levelIndex], transform);
 
         // Reset active cooldowns
         playerDroneController.ResetDroneActiveCooldowns();
@@ -185,6 +229,7 @@ public class GameManager : MonoBehaviour
         cinemachineVCam.transform.position = new Vector3(0, cinemachineVCam.transform.position.y, 0);
         // No longer loading level
         loadingLevel = false;
+
 
         // Start Fade in transition
         TransitionManager._Instance.FadeIn();
@@ -203,8 +248,16 @@ public class GameManager : MonoBehaviour
             // Reset Drones
             ResetPlayerDrones();
 
+            // Release all scavengeables back to their respective pool
+            Scavengeable[] scavengeables = FindObjectsOfType<Scavengeable>();
+            foreach (Scavengeable scavengeable in scavengeables)
+            {
+                scavengeable.ReleaseToPool();
+            }
+
             // Reset Collectables
             ShopManager._Instance.ResetCollectables();
+            ShopManager._Instance.AddRandomModulesToAvailableModules();
         });
     }
 
@@ -302,9 +355,7 @@ public class GameManager : MonoBehaviour
 
     public DroneModule AddModule(DroneController drone, ModuleType type)
     {
-        DroneModule module = Instantiate(moduleTypeInfo.GetEntry(type).Value.Module, drone.transform);
-        drone.AddModule(module);
-        return module;
+        return drone.AddModule(moduleTypeInfo.GetEntry(type).Value.Module);
     }
 
     private void ResetScriptableObjects()

@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74a95fe61fac3304bb3ba7b13a15cd6e, type: 3}
   m_Name: AutomaticTurretFireRate
   m_EditorClassIdentifier: 
-  Purchased: 0
-  Label: Increase Rate of Fire
-  Requirements: []
-  CurrentPoints: 0
-  MaxPoints: 5
+  label: Increase Fire Rate
+  requirements: []
+  PointsPerUnlock: 5
+  maxPoints: 5
   statModifier: {fileID: 11400000, guid: bf5123cf8b54c9647a050fd7315ef1b4, type: 2}

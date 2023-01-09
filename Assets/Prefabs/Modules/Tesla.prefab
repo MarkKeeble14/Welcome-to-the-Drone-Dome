@@ -44,9 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66e4547dee52f004caef603d46aed0b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startAttackOnStart: 1
+  startAttackOnStart: 0
+  targetBy: 0
   range: {fileID: 11400000, guid: 326e34c7f9cf7ca46ab7ebfc7e8c26fd, type: 2}
   delay: {fileID: 11400000, guid: 4cd8538cf314a8445bfc05b170f075c4, type: 2}
   damage: {fileID: 11400000, guid: 5c3caab11b8373a4dbd3903468c1484e, type: 2}
-  teslaShock: {fileID: 9097088904429222468, guid: b31236e0ad5839d43a71864cb4151ed6,
-    type: 3}
+  setActiveWhenScavenging: {fileID: 11400000, guid: 91516e5ce42b2ab46b854bf9b7995f32,
+    type: 2}

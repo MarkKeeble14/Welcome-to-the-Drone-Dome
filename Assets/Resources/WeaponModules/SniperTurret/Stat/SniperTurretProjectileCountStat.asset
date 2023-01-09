@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: SniperTurretProjectileCountStat
   m_EditorClassIdentifier: 
   baseValue: 1
+  affectedValue: 1
   minValue: 1
   hasMin: 1
   maxValue: 0
   hasMax: 0
   changeBy: 0
-  baseGrowth: 1
+  baseGrowth: 2
+  growth: 1
   growthIncreaseUponGrow: 0
   growthChangeBy: 0

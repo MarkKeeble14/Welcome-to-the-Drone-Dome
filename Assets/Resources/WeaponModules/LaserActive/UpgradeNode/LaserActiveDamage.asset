@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74a95fe61fac3304bb3ba7b13a15cd6e, type: 3}
   m_Name: LaserActiveDamage
   m_EditorClassIdentifier: 
-  Purchased: 0
-  Label: Increase Laser Active Damage
-  Requirements: []
-  CurrentPoints: 0
-  MaxPoints: 5
+  label: Increase Damage
+  requirements: []
+  PointsPerUnlock: 5
+  maxPoints: 5
   statModifier: {fileID: 11400000, guid: 2348630b67d5df14abe695d1d5b82737, type: 2}

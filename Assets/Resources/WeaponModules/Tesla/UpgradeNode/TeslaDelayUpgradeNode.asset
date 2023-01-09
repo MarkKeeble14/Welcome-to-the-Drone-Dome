@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74a95fe61fac3304bb3ba7b13a15cd6e, type: 3}
   m_Name: TeslaDelayUpgradeNode
   m_EditorClassIdentifier: 
-  Purchased: 1
-  Label: Decrease Time Between Tesla Activations
-  Requirements: []
-  CurrentPoints: 3
-  MaxPoints: 5
+  label: Decrease Time Between Activations
+  requirements: []
+  PointsPerUnlock: 5
+  maxPoints: 5
   statModifier: {fileID: 11400000, guid: 4cd8538cf314a8445bfc05b170f075c4, type: 2}

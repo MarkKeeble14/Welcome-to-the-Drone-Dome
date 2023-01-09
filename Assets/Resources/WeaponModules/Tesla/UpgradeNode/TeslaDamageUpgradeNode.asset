@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74a95fe61fac3304bb3ba7b13a15cd6e, type: 3}
   m_Name: TeslaDamageUpgradeNode
   m_EditorClassIdentifier: 
-  Purchased: 1
-  Label: Increase Tesla Damage
-  Requirements: []
-  CurrentPoints: 5
-  MaxPoints: 5
+  label: Increase Damage
+  requirements: []
+  PointsPerUnlock: 5
+  maxPoints: 5
   statModifier: {fileID: 11400000, guid: 5c3caab11b8373a4dbd3903468c1484e, type: 2}

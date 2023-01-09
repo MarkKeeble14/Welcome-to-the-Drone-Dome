@@ -1,4 +1,6 @@
-﻿public class DroneBurstFireTurretModule : DroneGunModule
+﻿using UnityEngine.Pool;
+
+public class DroneBurstFireTurretModule : DroneGunModule
 {
     public override ModuleType Type => ModuleType.BURST_FIRE_TURRET;
 }

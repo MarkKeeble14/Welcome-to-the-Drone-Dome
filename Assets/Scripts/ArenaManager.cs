@@ -18,7 +18,6 @@ public partial class ArenaManager : MonoBehaviour
 
     [Header("Game Related")]
     [SerializeField] private bool spawnEnemies = true;
-    [SerializeField] private bool allowLooping;
     [SerializeField] private bool awardInitialShopVisit;
     [SerializeField] private List<WaveWrapper> arenaWaves = new List<WaveWrapper>();
     private int currentWaveIndex;
@@ -40,23 +39,21 @@ public partial class ArenaManager : MonoBehaviour
     [SerializeField] private float cameraHeightAllowance = 10;
     private Transform player;
 
-    private bool hasBegun;
-    private int onLoop = -1;
+    private bool inArena;
+    private bool isDone;
     private WaveWrapper currentWave;
     private Dictionary<GameObject, WaveWrapper> enemyWaveDictionary = new Dictionary<GameObject, WaveWrapper>();
 
     private bool inPostWaveClearPeriod;
     private float postWaveClearPeriodDuration = 1f;
 
-    private bool ShouldGiveReward => onLoop == 0 || (onLoop > 0 && currentWave.CanRepeatWaveReward);
-    private bool ShouldAwardUpgradePoints => onLoop == 0 || (onLoop > 0 && currentWave.CanRepeatedlyAwardUpgradePoints);
-    private bool CanClaimVictory => currentWaveIndex >= arenaWaves.Count - 1
-        && GameManager._Instance.OnLastLevel && !hasBegun;
+    private bool CanClaimVictory => isDone && GameManager._Instance.OnLastLevel;
     private bool CreepDeathShouldCountTowardsProgress => !inPostWaveClearPeriod;
     private int numberEnemiesAllowedAlive;
     private int numberEnemiesToKill;
     [SerializeField] private float timeBetweenResourceClears = 60f;
-    private float resourceClearFudgeFactor => timeBetweenResourceClears / 6;
+    [SerializeField] private float resourceClearFudgeFactor = 6f;
+    private float ResourceClearFudgeFactor => timeBetweenResourceClears / resourceClearFudgeFactor;
 
     private void Start()
     {
@@ -71,7 +68,7 @@ public partial class ArenaManager : MonoBehaviour
         progressBar = FindObjectOfType<EnemiesKilledBar>();
         bossInfoDisplay = FindObjectOfType<BossInfoDisplay>();
 
-        arenaInstructionsText.SetText("Press R to Begin The Challenge!");
+        arenaInstructionsText.SetText("Press R to Begin The Round!");
     }
 
     private void NextLevelPressed(InputAction.CallbackContext ctx)
@@ -83,14 +80,14 @@ public partial class ArenaManager : MonoBehaviour
         TryNextLevel();
     }
 
-
     private void TryNextLevel()
     {
-        // Debug.Log(onLoop + ", " + hasBegun);
-        if (onLoop == -1) return;
-        if (hasBegun) return;
-        if (CanClaimVictory) return;
-        GameManager._Instance.LoadNextLevel();
+        if (inArena) return;
+        if (CanClaimVictory)
+            GameManager._Instance.Loop();
+        else
+            GameManager._Instance.LoadNextLevel();
+
     }
 
     private void WinPressed(InputAction.CallbackContext ctx)
@@ -105,20 +102,9 @@ public partial class ArenaManager : MonoBehaviour
 
     private void BeginArenaPressed(InputAction.CallbackContext ctx)
     {
-        // If we don't allow looping, basically don't allow the player to loop
-        if (onLoop > -1 && !allowLooping) return;
         // Ensure that only one sequence may be ongoing at a time
-        if (hasBegun) return;
-        hasBegun = true;
-
-        // Increment loop count
-        onLoop++;
-        // Scale enemies
-        if (onLoop > 0)
-        {
-            Debug.Log("Growing Stat Map");
-            GameManager._Instance.EnemyStatMap.Grow();
-        }
+        if (isDone) return;
+        inArena = true;
 
         BeginArena();
     }
@@ -146,20 +132,6 @@ public partial class ArenaManager : MonoBehaviour
         StartCoroutine(ArenaSequence());
     }
 
-    private IEnumerator ClearResourceSequence()
-    {
-        yield return new WaitForSeconds(timeBetweenResourceClears + RandomHelper.RandomFloat(-resourceClearFudgeFactor, resourceClearFudgeFactor));
-
-        // Collect all remaining resource
-        AutoCollectScavengeable[] remainingAutoCollectable = FindObjectsOfType<AutoCollectScavengeable>();
-        foreach (AutoCollectScavengeable autoCollectable in remainingAutoCollectable)
-        {
-            autoCollectable.Expire();
-        }
-
-        StartCoroutine(ClearResourceSequence());
-    }
-
     private IEnumerator ArenaSequence()
     {
         if (awardInitialShopVisit)
@@ -171,16 +143,16 @@ public partial class ArenaManager : MonoBehaviour
     private IEnumerator WaveLoop()
     {
         // If not allowing looping, then we stop once we've cleared all waves
-        if (currentWaveIndex > arenaWaves.Count - 1)
+        if (isDone)
         {
-            ClearAllCreeps();
-            hasBegun = false;
+            inArena = false;
+
+            StopClearResourceSequence();
 
             // Set texts to appropriate strings; important to not disable gameObjects here, as doing so will cause
             // the arena manager to not be able to find them when it does it's "FindObjectOfType" on start
             arenaInstructionsText.SetText(
-                (!CanClaimVictory ? "Press Enter to Go To Next Level" : "") +
-                (allowLooping ? "\nPress R to Re-Challenge Tougher Foes" : "") +
+                (!CanClaimVictory ? "Press Enter to Go To Next Level\nRemaining Loot Will be Autocollected" : "Press Enter to Loop") +
                 (CanClaimVictory ? "\nPress F to Claim Victory" : "")
             );
             arenaRewardText.SetText("");
@@ -193,15 +165,7 @@ public partial class ArenaManager : MonoBehaviour
         numberEnemiesAllowedAlive = (int)(currentWave.NumEnemiesAliveAtOnce * GameManager._Instance.EnemyStatMap.NumEnemiesAliveMod.Value);
         numberEnemiesToKill = (int)(currentWave.EnemiesToKill * GameManager._Instance.EnemyStatMap.NumEnemiesToKillMod.Value);
 
-        // Set Reward Text
-        if (ShouldGiveReward)
-        {
-            arenaRewardText.SetText(currentWave.RewardType.ToString());
-        }
-        else
-        {
-            arenaRewardText.SetText(WaveReward.NONE.ToString());
-        }
+        arenaRewardText.SetText(currentWave.RewardType.ToString());
 
         // Determine whether next wave contains a boss or not; start the appropriate wave sequence
         CallSequence(currentWave.HasBoss ? WaveType.BOSS : WaveType.CREEP);
@@ -248,7 +212,7 @@ public partial class ArenaManager : MonoBehaviour
         }
 
         // Loop until wave has been cleared
-        while (!clearedWave)
+        while (!clearedWave && !isDone)
         {
             if (!spawnEnemies) yield return null;
             if (aliveCreepEnemies.Count < numberEnemiesAllowedAlive)
@@ -279,7 +243,7 @@ public partial class ArenaManager : MonoBehaviour
         }
 
         // Loop until wave has been cleared
-        while (!clearedWave)
+        while (!clearedWave && !isDone)
         {
             if (!spawnEnemies) yield return null;
             if (aliveCreepEnemies.Count < numberEnemiesAllowedAlive)
@@ -435,6 +399,31 @@ public partial class ArenaManager : MonoBehaviour
         };
     }
 
+    private IEnumerator ClearResourceSequence()
+    {
+        yield return new WaitForSeconds(timeBetweenResourceClears + RandomHelper.RandomFloat(-ResourceClearFudgeFactor, ResourceClearFudgeFactor));
+
+        // Collect all remaining resource
+        AutoCollectScavengeable[] remainingAutoCollectable = FindObjectsOfType<AutoCollectScavengeable>();
+        foreach (AutoCollectScavengeable autoCollectable in remainingAutoCollectable)
+        {
+            autoCollectable.Expire();
+        }
+
+        StartCoroutine(ClearResourceSequence());
+    }
+
+    private void StopClearResourceSequence()
+    {
+        StopCoroutine(ClearResourceSequence());
+
+        AutoCollectScavengeable[] remainingAutoCollectable = FindObjectsOfType<AutoCollectScavengeable>();
+        foreach (AutoCollectScavengeable autoCollectable in remainingAutoCollectable)
+        {
+            autoCollectable.CancelExpire();
+        }
+    }
+
     private IEnumerator PostWaveClearPeriod()
     {
         inPostWaveClearPeriod = true;
@@ -477,19 +466,8 @@ public partial class ArenaManager : MonoBehaviour
         Debug.Log("Cleared Wave");
 
         // Give the wave's reward
-        if (ShouldGiveReward)
-        {
-            GiveReward(currentWave.RewardType);
-        }
-        else
-        {
-            GiveReward(WaveReward.NONE);
-        }
-        // Award upgrade points
-        if (ShouldAwardUpgradePoints)
-        {
-            UpgradeManager._Instance.AddUpgradePoints(currentWave.UpgradePointsAwarded);
-        }
+        GiveReward(currentWave.RewardType);
+        UpgradeManager._Instance.AddUpgradePoints(currentWave.UpgradePointsAwarded);
 
         // Increase tracker
         currentWaveIndex++;
@@ -498,6 +476,10 @@ public partial class ArenaManager : MonoBehaviour
         {
             currentWave = arenaWaves[currentWaveIndex];
             currentWave.EnemiesKilledThisWave = 0;
+        }
+        else
+        {
+            isDone = true;
         }
     }
 
@@ -519,6 +501,10 @@ public partial class ArenaManager : MonoBehaviour
                 // Debug.Log("Given Shop Visit");
                 ShopReward();
                 break;
+            case WaveReward.MODULE_UNLOCKER:
+                // Debug.Log("Given Shop Visit");
+                ModuleUnlockerReward();
+                break;
             case WaveReward.NONE:
                 // Debug.Log("Given No Reward");
                 hasCompletedReward = true;
@@ -531,15 +517,21 @@ public partial class ArenaManager : MonoBehaviour
         ShopManager._Instance.OpenShop();
     }
 
-    private void AddDroneReward()
+    private void ModuleUnlockerReward()
     {
-        GameManager._Instance.SpawnAndAddDroneToOrbit();
+        ShopManager._Instance.GiveModuleUpgradeUnlocker();
+        WeaponUpgradeReward();
     }
 
     private void WeaponUpgradeReward()
     {
         UpgradeManager._Instance.OpenUpgradeTree();
     }
+    private void AddDroneReward()
+    {
+        GameManager._Instance.SpawnAndAddDroneToOrbit();
+    }
+
 
     public void ConfirmDoneShopVisit()
     {

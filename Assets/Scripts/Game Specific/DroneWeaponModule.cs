@@ -3,14 +3,16 @@ using UnityEngine;
 
 public abstract class DroneWeaponModule : DroneModule
 {
-    [Header("Base Attack Module")]
+    [Header("Base Weapon Module")]
     [SerializeField] private bool startAttackOnStart = true;
-    protected WeaponTargetingType targetBy;
+    [SerializeField] protected WeaponTargetingType targetBy;
     protected virtual WeaponTargetingType TargetBy
     {
         get { return targetBy; }
     }
-    [SerializeField] protected DroneAttackTargeting targeting;
+    protected bool activeWhenScavenging;
+    private bool active;
+    protected DroneAttackTargeting targeting;
     protected Transform target;
     protected LayerMask enemyLayer;
     public override ModuleCategory Category => ModuleCategory.WEAPON;
@@ -32,14 +34,33 @@ public abstract class DroneWeaponModule : DroneModule
         }
     }
 
-    public void StartAttack()
+    public void OnEnterScavengeMode()
+    {
+        if (activeWhenScavenging) return;
+        StopAttack();
+    }
+
+    public void OnEnterAttackMode()
+    {
+        if (active) return;
+        StartAttack();
+    }
+
+    public void OnAdd()
+    {
+        StartAttack();
+    }
+
+    protected void StartAttack()
     {
         StartCoroutine(Attack());
+        active = true;
     }
 
     public abstract IEnumerator Attack();
-    public void StopAttack()
+    protected void StopAttack()
     {
         StopAllCoroutines();
+        active = false;
     }
 }

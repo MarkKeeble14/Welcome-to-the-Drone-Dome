@@ -189,6 +189,8 @@ MonoBehaviour:
     m_RotationOrder: 4
   enableYAxis: 0
   allowPlayerDash: {fileID: 11400000, guid: 8ae570766b8e27b4fa4a7209e81b581b, type: 2}
+  dashParticle: {fileID: 1365371477070616360, guid: 917a334e9e8d7b34f8e8089871c277c4,
+    type: 3}
 --- !u!114 &1215513989
 MonoBehaviour:
   m_ObjectHideFlags: 0

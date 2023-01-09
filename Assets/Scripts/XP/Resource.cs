@@ -9,6 +9,6 @@ public class Resource : AutoCollectScavengeable
     public override void OnPickup()
     {
         ShopManager._Instance.AlterResource(Value);
-        Destroy(gameObject);
+        ObjectPooler._Instance.ReleaseSimpleObject(objectPoolerPrefabKey, gameObject);
     }
 }

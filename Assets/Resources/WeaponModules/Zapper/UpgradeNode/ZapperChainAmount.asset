@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74a95fe61fac3304bb3ba7b13a15cd6e, type: 3}
   m_Name: ZapperChainAmount
   m_EditorClassIdentifier: 
-  Purchased: 1
-  Label: Increase Number of Possible Chains
-  Requirements: []
-  CurrentPoints: 5
-  MaxPoints: 5
+  label: Increase Number of Chains
+  requirements: []
+  PointsPerUnlock: 5
+  maxPoints: 5
   statModifier: {fileID: 11400000, guid: 520ff0667d766c74ab6fbc481a971de4, type: 2}

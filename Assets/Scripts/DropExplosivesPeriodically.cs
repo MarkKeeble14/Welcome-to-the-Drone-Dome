@@ -5,20 +5,24 @@ using UnityEngine;
 public class DropExplosivesPeriodically : MonoBehaviour
 {
     [SerializeField] private GameObject explosiveToDrop;
-    [SerializeField] private float inBetweenDrops;
+    [SerializeField] private StatModifier inBetweenDrops;
 
-    // Start is called before the first frame update
-    void Start()
+    private void OnEnable()
     {
         StartCoroutine(DropExplosive());
     }
 
+    private void OnDisable()
+    {
+        StopCoroutine(DropExplosive());
+    }
+
     private IEnumerator DropExplosive()
     {
-        yield return new WaitForSeconds(inBetweenDrops);
+        yield return new WaitForSeconds(inBetweenDrops.Value);
 
         Instantiate(explosiveToDrop, transform.position, Quaternion.identity);
 
-        StartCoroutine(DropExplosive()); ;
+        StartCoroutine(DropExplosive());
     }
 }
