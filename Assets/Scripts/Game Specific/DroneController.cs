@@ -4,38 +4,39 @@ using UnityEngine;
 
 public class DroneController : MonoBehaviour
 {
+    [Header("Core")]
     public DroneMode CurrentMode;
-
     public bool AvailableForUse = true;
 
-    public Transform Follow;
+    public float ShoveStrength => droneBasics.ShoveStrength.Stat.Value;
+    public float MoveSpeed => droneBasics.MoveSpeed.Stat.Value;
+    public float OrbitDistance => droneBasics.OrbitDistance.Stat.Value;
+    public float OrbitSpeed => droneBasics.OrbitSpeed.Stat.Value;
+    public float ScavengeableSightRange => droneBasics.ScavengeableSightRange.Stat.Value;
+    public float ScavengingGrabRange => droneBasics.ScavengingGrabRange.Stat.Value;
+    public float ScavengingSpeedMod => droneBasics.ScavengingSpeedMod.Stat.Value;
+
+    [Header("Orbit")]
+    [SerializeField] private Transform rotateAround;
+    private float orbitTimer;
+
+    [Header("Scavenging")]
+    [SerializeField] private LayerMask scavengeableLayer;
+    [SerializeField] private LayerMask scavengeablePriorityLayer;
+    private Transform scavenging;
+
+    [Header("Station")]
     [SerializeField] private Vector3 station;
     private bool hasStation;
     [SerializeReference] private float stationCooldownStart = 10f;
     private float stationCooldownTimer;
     [SerializeField] private float droneStationHeight = 1f;
 
-    [SerializeField] private StatModifier moveSpeed;
-    public float MoveSpeed => moveSpeed.Value;
-
-    [SerializeField] private StatModifier shoveStrength;
-    public float ShoveStrength { get { return shoveStrength.Value; } }
-    [SerializeField] private int shoveLimit;
-    public int ShoveLimit { get { return shoveLimit; } }
-
-    [SerializeField] private LayerMask scavengeableLayer;
-    [SerializeField] private LayerMask scavengeablePriorityLayer;
-    [SerializeField] private StatModifier scavengeableSightRange;
-    [SerializeField] private StatModifier scavengingGrabRange;
-    [SerializeField] private StatModifier scavengingSpeedMod;
-    private Transform scavenging;
-
     private List<DronePassiveModule> passiveModules = new List<DronePassiveModule>();
-    public int NumPassives => passiveModules.Count;
     private List<DroneActiveModule> activeModules = new List<DroneActiveModule>();
-    public int NumActives => activeModules.Count;
     private List<DroneWeaponModule> weaponModules = new List<DroneWeaponModule>();
-    public int NumWeapons => weaponModules.Count;
+
+    [SerializeField] private List<ModuleType> extraDefaultModules = new List<ModuleType>();
     private List<DroneModule> appliedModules = new List<DroneModule>();
     public List<DroneModule> AppliedModules => appliedModules;
 
@@ -66,18 +67,43 @@ public class DroneController : MonoBehaviour
         }
     }
 
-
     [Header("References")]
-    public Collider Col;
-    [SerializeField] private DurationBar stationCooldown;
-    private Transform player;
     private PlayerDroneController playerDroneController;
+    private PlayerMovement playerMovement;
+    private Transform player;
+    private DroneBasicsModule droneBasics;
+    [SerializeField] private DurationBar stationCooldownBar;
+    private Collider col;
+    public Collider Col => col;
 
     private void Start()
     {
         // Set References
         player = GameManager._Instance.Player;
         playerDroneController = player.GetComponent<PlayerDroneController>();
+        col = GetComponent<SphereCollider>();
+        droneBasics = GetComponentInChildren<DroneBasicsModule>();
+
+        // Spawn Station Cooldown Bar
+        stationCooldownBar = Instantiate(stationCooldownBar, transform);
+    }
+
+    private void Update()
+    {
+        orbitTimer += Time.deltaTime * OrbitSpeed;
+        stationCooldownTimer -= Time.deltaTime;
+        switch (CurrentMode)
+        {
+            case DroneMode.ATTACK:
+                HandleFollowModeLogic();
+                break;
+            case DroneMode.SCAVENGE:
+                HandleScavengeModeLogic();
+                break;
+            case DroneMode.STATION:
+                HandleStationModeLogic();
+                break;
+        }
     }
 
     // Cycles the drone mode, current order is FOLLOW -> SCAVENGE -> FOLLOW
@@ -91,8 +117,8 @@ public class DroneController : MonoBehaviour
                 scavenging = null;
                 break;
             case DroneMode.SCAVENGE:
-                CurrentMode = DroneMode.STATION;
-                OnEnterStationMode();
+                CurrentMode = DroneMode.ATTACK;
+                OnEnterAttackMode();
                 break;
             case DroneMode.STATION:
                 CurrentMode = DroneMode.ATTACK;
@@ -129,20 +155,70 @@ public class DroneController : MonoBehaviour
         }
     }
 
+    public int GetNumberOfModules(ModuleCategory type)
+    {
+        return DroneModule.GetNumModulesOfCategory(type, appliedModules);
+    }
+
+    public void SetOrbitTimer(float value)
+    {
+        orbitTimer = value;
+    }
+
+    public void SetRotateAround(Transform target)
+    {
+        rotateAround = target;
+    }
 
     private void HandleFollowModeLogic()
     {
-        if (Follow == null) return;
+        RotateAroundTarget();
+    }
 
+    private void RotateAroundTarget()
+    {
+        if (rotateAround == null) return;
         transform.position =
-            Vector3.MoveTowards(transform.position, Follow.position, Time.deltaTime * moveSpeed.Value);
+            Vector3.MoveTowards(transform.position, GetOrbitPosition(), Time.deltaTime * MoveSpeed);
+    }
+
+    // Clamps the drone's position to be on a circles edge around the given anchor, with some min and max radius
+    private Vector3 GetOrbitPosition()
+    {
+        float radius = 1 * OrbitDistance; // Outer radius
+                                          // Find Direction
+        float angle = orbitTimer % 360;
+
+        Vector3 position = new Vector3(
+            rotateAround.position.x + Mathf.Cos(Mathf.Deg2Rad * angle) * radius,
+            rotateAround.position.y,
+            rotateAround.position.z + Mathf.Sin(Mathf.Deg2Rad * angle) * radius);
+        return position;
+    }
+
+    private Collider[] GetUnclaimedScavengeables(Collider[] colliders)
+    {
+        List<Collider> unclaimedScavengeables = new List<Collider>();
+        foreach (Collider col in colliders)
+        {
+            unclaimedScavengeables.Add(col);
+            foreach (DroneController drone in playerDroneController.TrackedDrones)
+            {
+                if (drone.scavenging == col.transform)
+                {
+                    unclaimedScavengeables.Remove(col);
+                    break;
+                }
+            }
+        }
+        return unclaimedScavengeables.ToArray();
     }
 
     private void FindNewScavengeable()
     {
         // Find new Target
         // Priority; if there are priority scavengeable objects in range, we grab those first
-        Collider[] inRange = Physics.OverlapSphere(player.position, scavengeableSightRange.Value, scavengeablePriorityLayer);
+        Collider[] inRange = Physics.OverlapSphere(player.position, ScavengeableSightRange, scavengeablePriorityLayer);
         if (inRange.Length > 0)
         {
             inRange = GetUnclaimedScavengeables(inRange);
@@ -151,7 +227,7 @@ public class DroneController : MonoBehaviour
         }
 
         // Otherwise, we scavenge the normal priority scavengeables
-        inRange = Physics.OverlapSphere(player.position, scavengeableSightRange.Value, scavengeableLayer);
+        inRange = Physics.OverlapSphere(player.position, ScavengeableSightRange, scavengeableLayer);
         if (inRange.Length > 0)
         {
             inRange = GetUnclaimedScavengeables(inRange);
@@ -171,8 +247,8 @@ public class DroneController : MonoBehaviour
         else
         {
             transform.position = Vector3.MoveTowards(transform.position, scavenging.position,
-                Time.deltaTime * moveSpeed.Value * scavengingSpeedMod.Value);
-            if (Vector3.Distance(transform.position, scavenging.position) <= scavengingGrabRange.Value)
+                Time.deltaTime * MoveSpeed * ScavengingSpeedMod);
+            if (Vector3.Distance(transform.position, scavenging.position) <= ScavengingSpeedMod)
             {
                 // "Pick Up" Object
                 scavenging.GetComponent<Scavengeable>().OnPickup();
@@ -187,7 +263,7 @@ public class DroneController : MonoBehaviour
     {
         if (hasStation)
         {
-            // If drone is out of screen, remove it's station
+            // If drone is ref of screen, remove it's station
             Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
             bool onScreen = screenPos.x > 0f && screenPos.x < Screen.width && screenPos.y > 0f && screenPos.y < Screen.height;
             if (!onScreen)
@@ -198,7 +274,7 @@ public class DroneController : MonoBehaviour
 
             // Move towards station
             transform.position =
-                Vector3.MoveTowards(transform.position, station, Time.deltaTime * moveSpeed.Value);
+                Vector3.MoveTowards(transform.position, station, Time.deltaTime * MoveSpeed);
         }
         else
         {
@@ -213,7 +289,14 @@ public class DroneController : MonoBehaviour
         station = pos + Vector3.one * droneStationHeight;
 
         stationCooldownTimer = stationCooldownStart;
-        stationCooldown.Set(stationCooldownTimer);
+        stationCooldownBar.SetText("Stationing");
+        stationCooldownBar.Set(stationCooldownTimer);
+    }
+
+    internal void ResetStationCooldown()
+    {
+        stationCooldownTimer = 0;
+        stationCooldownBar.Cancel();
     }
 
     public void ResetState()
@@ -236,8 +319,16 @@ public class DroneController : MonoBehaviour
         // Reset has Station
         hasStation = false;
 
-        // Add Built in Turret
-        GameManager._Instance.AddModule(this, ModuleType.DEFAULT_TURRET);
+        // Add Default Modules
+        foreach (ModuleType moduleType in GameManager._Instance.DefaultModules)
+        {
+            GameManager._Instance.AddModule(this, moduleType);
+        }
+
+        foreach (ModuleType moduleType in extraDefaultModules)
+        {
+            GameManager._Instance.AddModule(this, moduleType);
+        }
     }
 
     // Takes in a prefab and returns a new instance
@@ -245,7 +336,7 @@ public class DroneController : MonoBehaviour
     {
         // Instantiate new instance of passed in module prefab
         module = Instantiate(module, transform);
-
+        appliedModules.Add(module);
         // Determine which list to add it to
         switch (module.Category)
         {
@@ -253,6 +344,13 @@ public class DroneController : MonoBehaviour
                 AddActiveModule((DroneActiveModule)module);
                 break;
             case ModuleCategory.PASSIVE:
+                if (module.Type == ModuleType.HELP_PLAYER_MOVEMENT)
+                {
+                    // Specific case, if the module is of type "HelpPlayerMovementModule", we need to set the corresponding variable in the player
+                    if (playerMovement == null)
+                        playerMovement = GameManager._Instance.Player.GetComponent<PlayerMovement>();
+                    playerMovement.SetHelpPlayerMovementModule((HelpPlayerMovementModule)module);
+                }
                 AddPassiveModule((DronePassiveModule)module);
                 break;
             case ModuleCategory.WEAPON:
@@ -264,26 +362,20 @@ public class DroneController : MonoBehaviour
 
     private void AddPassiveModule(DronePassiveModule type)
     {
+        // Add the module
         passiveModules.Add(type);
-        if (!appliedModules.Contains(type))
-            appliedModules.Add(type);
     }
 
     private void AddActiveModule(DroneActiveModule type)
     {
+        // Add the module
         activeModules.Add(type);
-        if (!appliedModules.Contains(type))
-            appliedModules.Add(type);
     }
 
     private void AddWeaponModule(DroneWeaponModule type)
     {
         // Add the module
         weaponModules.Add(type);
-
-        // Add to master list
-        if (!appliedModules.Contains(type))
-            appliedModules.Add(type);
 
         // It can begin attacking asap if not in scavenge mode
         if (CurrentMode != DroneMode.SCAVENGE)
@@ -303,46 +395,5 @@ public class DroneController : MonoBehaviour
         {
             active.ResetCooldown();
         }
-    }
-
-    private Collider[] GetUnclaimedScavengeables(Collider[] colliders)
-    {
-        List<Collider> unclaimedScavengeables = new List<Collider>();
-        foreach (Collider col in colliders)
-        {
-            unclaimedScavengeables.Add(col);
-            foreach (DroneController drone in playerDroneController.TrackedDrones)
-            {
-                if (drone.scavenging == col.transform)
-                {
-                    unclaimedScavengeables.Remove(col);
-                    break;
-                }
-            }
-        }
-        return unclaimedScavengeables.ToArray();
-    }
-
-    private void Update()
-    {
-        stationCooldownTimer -= Time.deltaTime;
-        switch (CurrentMode)
-        {
-            case DroneMode.ATTACK:
-                HandleFollowModeLogic();
-                break;
-            case DroneMode.SCAVENGE:
-                HandleScavengeModeLogic();
-                break;
-            case DroneMode.STATION:
-                HandleStationModeLogic();
-                break;
-        }
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, scavengeableSightRange.Value);
     }
 }

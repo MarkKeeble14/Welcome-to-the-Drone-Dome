@@ -44,9 +44,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fa275f2cf7742e42bb19fea9b97a11c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  allModuleUpgradeNodes:
+  - {fileID: 11400000, guid: d97d21818468af741ae1fc4f6f79ead6, type: 2}
+  - {fileID: 11400000, guid: 92bbad934f5d4c3498fbeef0ea123137, type: 2}
+  - {fileID: 11400000, guid: 4ffb15fa208892c499c26b0232d42803, type: 2}
+  - {fileID: 11400000, guid: 3d2cc90037601704ea53cc0d50cd5ebf, type: 2}
+  - {fileID: 11400000, guid: a0993349a04c6174b9e7fe9d2746b7e9, type: 2}
+  - {fileID: 11400000, guid: b65890b2745f73142a1f76feb469f061, type: 2}
+  - {fileID: 11400000, guid: f22da79d554ab3a4a80b626021ac80fa, type: 2}
+  - {fileID: 11400000, guid: 18202f8b5468c4c4ba85413ad565f07d, type: 2}
+  upgradeTree:
+    Label: Thumper Mortar
+    nodes: []
   startAttackOnStart: 0
   targetBy: 0
-  targeting: {fileID: 0}
-  gun: {fileID: 11400000, guid: 4d56fc0fb8c383c4bab0d7a01ae9e016, type: 2}
+  shotsPerSecond:
+    stat: {fileID: 0}
+    index: 6
+  range:
+    stat: {fileID: 0}
+    index: 7
+  infiniteAmmo: 1
+  maxMagazineCount: 1
+  reloadTime: 0
   reloadBar: {fileID: 1724493836441531248, guid: 509cacbe67cbe0e46bd5e0ebb44810f3,
     type: 3}
+  projectileSpeed:
+    stat: {fileID: 0}
+    index: 0
+  arcAngle: 60
+  torquePower: 0
+  numThumps:
+    stat: {fileID: 0}
+    index: 3
+  timeBetweenThumps:
+    stat: {fileID: 0}
+    index: 5
+  radius:
+    stat: {fileID: 0}
+    index: 1
+  expansionSpeed:
+    stat: {fileID: 0}
+    index: 2
+  damage:
+    stat: {fileID: 0}
+    index: 0
+  knockback:
+    stat: {fileID: 0}
+    index: 4

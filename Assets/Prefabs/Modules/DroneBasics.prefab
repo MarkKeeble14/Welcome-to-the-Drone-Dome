@@ -1,0 +1,78 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &180533871957078769
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 180533871957078771}
+  - component: {fileID: 180533871957078768}
+  m_Layer: 0
+  m_Name: DroneBasics
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &180533871957078771
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 180533871957078769}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &180533871957078768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 180533871957078769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecd7163efbfd56846bfd16e6d65e09b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  occupiesModuleSlot: 0
+  allModuleUpgradeNodes:
+  - {fileID: 11400000, guid: 35dd3ddf8c6263941858a215478ad3a8, type: 2}
+  - {fileID: 11400000, guid: 8ed0ffcda847e4a46b0bf08b7144b1c7, type: 2}
+  - {fileID: 11400000, guid: 29660001f6dbe834f8683d9e9936ccd9, type: 2}
+  - {fileID: 11400000, guid: 136b93ff436b66c4fbf8f48bc6512298, type: 2}
+  - {fileID: 11400000, guid: 63b3e9ca62d2b5f4d886b4fdb846b862, type: 2}
+  - {fileID: 11400000, guid: 20e0881264b911a44884b8de0b37d2a6, type: 2}
+  - {fileID: 11400000, guid: 198c81343ee386649bed760d11447d7b, type: 2}
+  upgradeTree:
+    Label: Drone Basics
+  moveSpeed:
+    upgradeNode: {fileID: 0}
+    index: 0
+  shoveStrength:
+    upgradeNode: {fileID: 0}
+    index: 4
+  scavengeableSightRange:
+    upgradeNode: {fileID: 0}
+    index: 1
+  scavengingGrabRange:
+    upgradeNode: {fileID: 0}
+    index: 2
+  scavengingSpeedMod:
+    upgradeNode: {fileID: 0}
+    index: 3
+  orbitSpeed:
+    upgradeNode: {fileID: 0}
+    index: 6
+  orbitDistance:
+    upgradeNode: {fileID: 0}
+    index: 5

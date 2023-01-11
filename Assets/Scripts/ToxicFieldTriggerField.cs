@@ -5,10 +5,16 @@ using UnityEngine;
 public class ToxicFieldTriggerField : ModuleDamageTriggerField
 {
     [Header("Poison Field")]
-    [SerializeField] private BoolSwitchUpgradeNode expand;
-    [SerializeField] private StatModifier expandSpeed;
+    [SerializeField] private bool expand;
+    [SerializeField] private float expandSpeed;
 
     public override ModuleType Source => ModuleType.TOXIC_SHELL_MORTAR;
+
+    public void Set(bool expand, float expandSpeed)
+    {
+        this.expand = expand;
+        this.expandSpeed = expandSpeed;
+    }
 
     private new void Start()
     {
@@ -19,13 +25,13 @@ public class ToxicFieldTriggerField : ModuleDamageTriggerField
     private IEnumerator Expand()
     {
         // Debug.Log("Start Expanse");
-        while (expand.Active)
+        while (expand)
         {
             if (!reachedMaxRadius) yield return null;
 
             // Debug.Log("Expanding");
             transform.localScale
-                = Vector3.MoveTowards(transform.localScale, transform.localScale + Vector3.one, expandSpeed.Value * Time.deltaTime);
+                = Vector3.MoveTowards(transform.localScale, transform.localScale + Vector3.one, expandSpeed * Time.deltaTime);
 
             yield return null;
         }

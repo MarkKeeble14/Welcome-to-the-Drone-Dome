@@ -227,7 +227,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 4411560104125395868}
-  numThumps: {fileID: 11400000, guid: 3359420d9687b16439ecf41ecbeb2fd3, type: 2}
-  timeBetweenThumps: {fileID: 11400000, guid: dc0350dd45661e448b56f0a1463805e2, type: 2}
+  numThumps: {fileID: 0}
+  timeBetweenThumps: {fileID: 0}
+  radius: {fileID: 0}
+  expansionSpeed: {fileID: 0}
+  damage: {fileID: 0}
+  knockback: {fileID: 0}
   dissapearParticle: {fileID: 8732161867663413605, guid: bbfb1aa93994ccf448950b0c37641047,
     type: 3}

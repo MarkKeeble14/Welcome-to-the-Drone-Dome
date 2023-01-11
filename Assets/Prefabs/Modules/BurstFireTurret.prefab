@@ -44,9 +44,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5da3ddeee5d651d468aeb65fb7eb930c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  allModuleUpgradeNodes:
+  - {fileID: 11400000, guid: 4b21fa9e5fdebb949aece17c4234521f, type: 2}
+  - {fileID: 11400000, guid: 15da8850e0f5a7744bfad3997dbcaf81, type: 2}
+  - {fileID: 11400000, guid: ca972b47e4c221141939bf8edb93b960, type: 2}
+  - {fileID: 11400000, guid: d6c0b3e4a33ff194d99127bcd640f752, type: 2}
+  - {fileID: 11400000, guid: 42249a7d1ed92cd44a45ef4f3ccae70f, type: 2}
+  - {fileID: 11400000, guid: ceddd44d3ffc79e4f8195690e51109f1, type: 2}
+  - {fileID: 11400000, guid: ebc3aa09a4cfeb94cb4054a002c2d535, type: 2}
+  - {fileID: 11400000, guid: 7e5f2edd905d60b49ba1d29271d129fa, type: 2}
+  - {fileID: 11400000, guid: 729c15a725bcab54fb0dbd4eec8aa3a2, type: 2}
+  upgradeTree:
+    Label: Burst Fire Turret
+    nodes: []
   startAttackOnStart: 0
   targetBy: 0
-  targeting: {fileID: 0}
-  gun: {fileID: 11400000, guid: ffabd12ab7d417f47a6c794d8282cdb8, type: 2}
+  shotsPerSecond:
+    stat: {fileID: 0}
+    index: 1
+  range:
+    stat: {fileID: 0}
+    index: 8
+  infiniteAmmo: 1
+  maxMagazineCount: 1
+  reloadTime: 0
   reloadBar: {fileID: 1724493836441531248, guid: 509cacbe67cbe0e46bd5e0ebb44810f3,
     type: 3}
+  projectileDamage:
+    stat: {fileID: 0}
+    index: 0
+  projectileBounce:
+    stat: {fileID: 0}
+    index: 5
+  smartBounce:
+    boolSwitch: {fileID: 0}
+    index: 6
+  projectilePierce:
+    stat: {fileID: 0}
+    index: 7
+  projectilesPerShot:
+    stat: {fileID: 0}
+    index: 3
+  angleBetweenProjectiles:
+    stat: {fileID: 0}
+    index: 4
+  shootForce: 625
+  projectilesInBurst:
+    stat: {fileID: 0}
+    index: 2
+  timeBetweenBullets: 0.05

@@ -5,95 +5,67 @@ using UnityEngine;
 public class ShowSelectedDronesModulesDisplay : MonoBehaviour
 {
     [SerializeField] private SelectedDronesModuleDisplay UIPrefab;
-    private List<SelectedDronesModuleDisplay> selectedDroneModulesDisplay = new List<SelectedDronesModuleDisplay>();
 
-    [SerializeField] private Transform passivesList;
+    [SerializeField] private Transform passivesListParent;
     [SerializeField] private TextMeshProUGUI passivesLabel;
-    private int numPassives;
-    private int numActives;
-    private int numWeapons;
-
-    [SerializeField] private Transform activesList;
+    [SerializeField] private Transform activesListParent;
     [SerializeField] private TextMeshProUGUI activesLabel;
-    [SerializeField] private Transform weaponsList;
+    [SerializeField] private Transform weaponsListParent;
     [SerializeField] private TextMeshProUGUI weaponsLabel;
+    [SerializeField] private Transform otherListParent;
+    [SerializeField] private TextMeshProUGUI otherLabel;
+
+    private List<SelectedDronesModuleDisplay> spawnedList = new List<SelectedDronesModuleDisplay>();
+    private List<DroneModule> addedModules = new List<DroneModule>();
+
+    private void Update()
+    {
+        SetLabels();
+    }
 
     private void SetLabels()
     {
-        passivesLabel.text = "Passives: " + numPassives + "/" + GameManager._Instance.PassivesPerDrone;
-        activesLabel.text = "Actives: " + numActives + "/" + GameManager._Instance.ActivesPerDrone;
-        weaponsLabel.text = "Weapons: " + numWeapons + "/" + GameManager._Instance.WeaponsPerDrone;
+        passivesLabel.text = "Passives: " + DroneModule.GetNumModulesOfCategory(ModuleCategory.PASSIVE, addedModules) + "/" + GameManager._Instance.PassivesPerDrone;
+        activesLabel.text = "Actives: " + DroneModule.GetNumModulesOfCategory(ModuleCategory.ACTIVE, addedModules) + "/" + GameManager._Instance.ActivesPerDrone;
+        weaponsLabel.text = "Weapons: " + DroneModule.GetNumModulesOfCategory(ModuleCategory.WEAPON, addedModules) + "/" + GameManager._Instance.WeaponsPerDrone;
     }
 
-    public void Set(DroneController drone)
+    public void Set(List<DroneModule> modules)
     {
         Clear();
-        foreach (DroneModule module in drone.AppliedModules)
+        for (int i = 0; i < modules.Count; i++)
         {
-            AddModule(module.Type);
+            AddModule(modules[i]);
         }
     }
 
-    public void AddModule(ModuleType type)
+    public void AddModule(DroneModule module)
     {
-        switch (GameManager._Instance.GetModuleCategory(type))
+        addedModules.Add(module);
+        SelectedDronesModuleDisplay spawned = null;
+        switch (module.Category)
         {
             case ModuleCategory.ACTIVE:
-                AddActive(type);
+                spawned = Instantiate(UIPrefab, activesListParent);
                 break;
             case ModuleCategory.PASSIVE:
-                AddPassive(type);
+                spawned = Instantiate(UIPrefab, passivesListParent);
                 break;
             case ModuleCategory.WEAPON:
-                AddWeapon(type);
+                spawned = Instantiate(UIPrefab, weaponsListParent);
                 break;
         }
-        SetLabels();
+        spawned.Set(module, () => UpgradeManager._Instance.ShowModuleUpgradeTree(module));
+        spawnedList.Add(spawned);
     }
 
     public void Clear()
     {
-        // Remove Set Displays
-        ClearChildrenOfTransform(passivesList);
-        ClearChildrenOfTransform(activesList);
-        ClearChildrenOfTransform(weaponsList);
-
-        // Reset Labels
-        numPassives = 0;
-        numActives = 0;
-        numWeapons = 0;
-        SetLabels();
-    }
-
-    public void ClearChildrenOfTransform(Transform parent)
-    {
-        foreach (Transform child in parent)
+        foreach (SelectedDronesModuleDisplay display in spawnedList)
         {
-            Destroy(child.gameObject);
+            Destroy(display.gameObject);
         }
-    }
-
-    private void AddPassive(ModuleType type)
-    {
-        SelectedDronesModuleDisplay spawned = Instantiate(UIPrefab, passivesList);
-        spawned.Set(type, ModuleCategory.PASSIVE);
-        selectedDroneModulesDisplay.Add(spawned);
-        numPassives++;
-    }
-
-    private void AddActive(ModuleType type)
-    {
-        SelectedDronesModuleDisplay spawned = Instantiate(UIPrefab, activesList);
-        spawned.Set(type, ModuleCategory.ACTIVE);
-        selectedDroneModulesDisplay.Add(spawned);
-        numActives++;
-    }
-
-    private void AddWeapon(ModuleType type)
-    {
-        SelectedDronesModuleDisplay spawned = Instantiate(UIPrefab, weaponsList);
-        spawned.Set(type, ModuleCategory.WEAPON);
-        selectedDroneModulesDisplay.Add(spawned);
-        numWeapons++;
+        spawnedList.Clear();
+        addedModules.Clear();
     }
 }

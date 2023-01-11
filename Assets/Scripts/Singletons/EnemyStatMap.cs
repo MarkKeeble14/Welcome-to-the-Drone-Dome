@@ -1,11 +1,13 @@
-﻿[System.Serializable]
+﻿using UnityEngine;
+
+[System.Serializable]
 public class EnemyStatMap
 {
-    public GrowthStatModifier DamageMod;
-    public GrowthStatModifier MaxHealthMod;
-    public GrowthStatModifier SpeedMod;
-    public GrowthStatModifier NumEnemiesAliveMod;
-    public GrowthStatModifier NumEnemiesToKillMod;
+    [SerializeField] public GrowthStatModifier1 DamageMod;
+    [SerializeField] public GrowthStatModifier1 MaxHealthMod;
+    [SerializeField] public GrowthStatModifier1 SpeedMod;
+    [SerializeField] public GrowthStatModifier1 NumEnemiesAliveMod;
+    [SerializeField] public GrowthStatModifier1 NumEnemiesToKillMod;
 
     public void Grow()
     {

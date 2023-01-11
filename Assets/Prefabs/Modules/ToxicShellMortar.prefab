@@ -44,9 +44,55 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0c181e40c2e0964fbeef802dfb28f6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  allModuleUpgradeNodes:
+  - {fileID: 11400000, guid: 9b5a498dbd5739643ab53c8366730cc5, type: 2}
+  - {fileID: 11400000, guid: c688575a8c9d37a46bbd60b8e9f8375f, type: 2}
+  - {fileID: 11400000, guid: c6da7247b341a5a4791ae5ec300ef050, type: 2}
+  - {fileID: 11400000, guid: 4dd259600b39c614c976a2aa867e887a, type: 2}
+  - {fileID: 11400000, guid: 479b159eb2c9b4948af5f92fe2075fb8, type: 2}
+  - {fileID: 11400000, guid: ca5956139bd3ea6428e114e9ec79d9e4, type: 2}
+  - {fileID: 11400000, guid: e21d214e6dd70314ba9d7bbe295e1907, type: 2}
+  - {fileID: 11400000, guid: 414a0e64034238240a4a1c5ce36a920e, type: 2}
+  - {fileID: 11400000, guid: 6eac6051ff767ab47a3279b43b3bf7eb, type: 2}
+  upgradeTree:
+    Label: Toxic Shell Mortar
+    nodes: []
   startAttackOnStart: 0
   targetBy: 0
-  targeting: {fileID: 0}
-  gun: {fileID: 11400000, guid: bada323ac4579bc4490a9860d4b3e272, type: 2}
+  shotsPerSecond:
+    stat: {fileID: 0}
+    index: 7
+  range:
+    stat: {fileID: 0}
+    index: 8
+  infiniteAmmo: 1
+  maxMagazineCount: 1
+  reloadTime: 0
   reloadBar: {fileID: 1724493836441531248, guid: 509cacbe67cbe0e46bd5e0ebb44810f3,
     type: 3}
+  projectileSpeed:
+    stat: {fileID: 0}
+    index: 0
+  arcAngle: 60
+  torquePower: 0
+  tickDamage:
+    stat: {fileID: 0}
+    index: 0
+  tickSpeed:
+    stat: {fileID: 0}
+    index: 1
+  duration:
+    stat: {fileID: 0}
+    index: 3
+  radius:
+    stat: {fileID: 0}
+    index: 2
+  initialExpansionSpeed:
+    stat: {fileID: 0}
+    index: 6
+  shouldExpand:
+    boolSwitch: {fileID: 0}
+    index: 4
+  expandSpeed:
+    stat: {fileID: 0}
+    index: 5

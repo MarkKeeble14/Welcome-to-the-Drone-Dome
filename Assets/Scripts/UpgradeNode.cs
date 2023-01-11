@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System;
+using System.Collections.Generic;
 
 [System.Serializable]
 public abstract class UpgradeNode : ScriptableObject
@@ -26,6 +28,7 @@ public abstract class UpgradeNode : ScriptableObject
             return true;
         }
     }
+
     public abstract int GetMaxPoints();
 
     public bool Maxed()
@@ -43,5 +46,62 @@ public abstract class UpgradeNode : ScriptableObject
     public virtual void SetExtraUI(UpgradeNodeDisplay nodeDisplay)
     {
         // Default is nothing, but this can be overridden in a child class to set extra UI, such as points
+    }
+
+    public void UpdateRequirement(UpgradeNode newNode, int i)
+    {
+        // Debug.Log("Update Requirement at: " + i + ", New Node: " + newNode);
+        requirements[i] = newNode;
+
+    }
+
+    public static StatModifierUpgradeNode GetStatModifierUpgradeNode(LoadStatModifierInfo info, List<UpgradeNode> list)
+    {
+        return ((StatModifierUpgradeNode)list[info.Index]);
+    }
+
+    public static BoolSwitchUpgradeNode GetBoolSwitchUpgradeNode(LoadBoolSwitchInfo info, List<UpgradeNode> list)
+    {
+        return (BoolSwitchUpgradeNode)list[info.Index];
+    }
+
+    public static List<UpgradeNode> CloneUpgradeNodesForTree(List<UpgradeNode> original, UpgradeTree tree)
+    {
+        // Update References of Nodes
+        List<UpgradeNode> newNodes = new List<UpgradeNode>();
+        foreach (UpgradeNode node in original)
+        {
+            UpgradeNode newNode = Instantiate(node);
+            // Debug.Log("Cloned Node ID: " + newNode.GetInstanceID());
+            newNodes.Add(newNode);
+            tree.AddNode(newNode);
+
+            /*
+            if (newNode is StatModifierUpgradeNode)
+                Debug.Log("Clone Stat: " + newNode.label + " - " + ((StatModifierUpgradeNode)newNode).Stat.GetInstanceID());
+            */
+        }
+
+        // Update Requirements in Nodes
+        foreach (UpgradeNode newNode in newNodes)
+        {
+            if (newNode.Requirements.Length <= 0) continue;
+            for (int i = 0; i < newNode.Requirements.Length; i++)
+            {
+                UpgradeNode originalRequirement = newNode.Requirements[i];
+                foreach (UpgradeNode checkNode in newNodes)
+                {
+                    // Debug.Log(originalRequirement.name + " -> " + checkNode.name.Substring(0, checkNode.name.Length - "(Clone)".Length));
+                    if (originalRequirement.name == checkNode.name.Substring(0, checkNode.name.Length - "(Clone)".Length))
+                    {
+                        newNode.UpdateRequirement(checkNode, i);
+                        break;
+                    }
+                }
+            }
+        }
+
+        // Update List so modules can find stats here
+        return newNodes;
     }
 }

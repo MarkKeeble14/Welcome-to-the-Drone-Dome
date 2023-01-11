@@ -1,0 +1,195 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90a3a60cca884124588729d21601fb7a, type: 3}
+  m_Name: LevelAndLoopStatMap
+  m_EditorClassIdentifier: 
+  enemyStatMaps:
+  - DamageMod:
+      baseValue: 1
+      affectedValue: 1
+      minValue: 0
+      hasMin: 0
+      maxValue: 0
+      hasMax: 0
+      changeBy: 0
+      baseGrowth: 1.5
+      growth: 0
+      growthIncreaseUponGrow: 0
+      growthChangeBy: 1
+    MaxHealthMod:
+      baseValue: 1
+      affectedValue: 1
+      minValue: 0
+      hasMin: 0
+      maxValue: 0
+      hasMax: 0
+      changeBy: 0
+      baseGrowth: 1.5
+      growth: 0
+      growthIncreaseUponGrow: 0
+      growthChangeBy: 1
+    SpeedMod:
+      baseValue: 1
+      affectedValue: 1
+      minValue: 0
+      hasMin: 0
+      maxValue: 0
+      hasMax: 0
+      changeBy: 0
+      baseGrowth: 1.1
+      growth: 0
+      growthIncreaseUponGrow: 0
+      growthChangeBy: 1
+    NumEnemiesAliveMod:
+      baseValue: 1
+      affectedValue: 1
+      minValue: 0
+      hasMin: 0
+      maxValue: 0
+      hasMax: 0
+      changeBy: 0
+      baseGrowth: 1.1
+      growth: 0
+      growthIncreaseUponGrow: 0
+      growthChangeBy: 1
+    NumEnemiesToKillMod:
+      baseValue: 1
+      affectedValue: 1
+      minValue: 0
+      hasMin: 0
+      maxValue: 0
+      hasMax: 0
+      changeBy: 0
+      baseGrowth: 1.3
+      growth: 0
+      growthIncreaseUponGrow: 0
+      growthChangeBy: 1
+  - DamageMod:
+      baseValue: 1
+      affectedValue: 1
+      minValue: 0
+      hasMin: 0
+      maxValue: 0
+      hasMax: 0
+      changeBy: 0
+      baseGrowth: 2
+      growth: 0
+      growthIncreaseUponGrow: 0
+      growthChangeBy: 0
+    MaxHealthMod:
+      baseValue: 1
+      affectedValue: 1
+      minValue: 0
+      hasMin: 0
+      maxValue: 0
+      hasMax: 0
+      changeBy: 0
+      baseGrowth: 2.25
+      growth: 0
+      growthIncreaseUponGrow: 0
+      growthChangeBy: 1
+    SpeedMod:
+      baseValue: 1
+      affectedValue: 1
+      minValue: 0
+      hasMin: 0
+      maxValue: 0
+      hasMax: 0
+      changeBy: 0
+      baseGrowth: 1.1
+      growth: 0
+      growthIncreaseUponGrow: 0
+      growthChangeBy: 1
+    NumEnemiesAliveMod:
+      baseValue: 1
+      affectedValue: 1
+      minValue: 0
+      hasMin: 0
+      maxValue: 0
+      hasMax: 0
+      changeBy: 0
+      baseGrowth: 1.2
+      growth: 0
+      growthIncreaseUponGrow: 0
+      growthChangeBy: 1
+    NumEnemiesToKillMod:
+      baseValue: 1
+      affectedValue: 1
+      minValue: 0
+      hasMin: 0
+      maxValue: 0
+      hasMax: 0
+      changeBy: 0
+      baseGrowth: 1.5
+      growth: 0
+      growthIncreaseUponGrow: 0
+      growthChangeBy: 1
+  - DamageMod:
+      baseValue: 1
+      affectedValue: 1
+      minValue: 0
+      hasMin: 0
+      maxValue: 0
+      hasMax: 0
+      changeBy: 0
+      baseGrowth: 2.75
+      growth: 0
+      growthIncreaseUponGrow: 0
+      growthChangeBy: 1
+    MaxHealthMod:
+      baseValue: 1
+      affectedValue: 1
+      minValue: 0
+      hasMin: 0
+      maxValue: 0
+      hasMax: 0
+      changeBy: 0
+      baseGrowth: 3.5
+      growth: 0
+      growthIncreaseUponGrow: 0
+      growthChangeBy: 1
+    SpeedMod:
+      baseValue: 1
+      affectedValue: 1
+      minValue: 0
+      hasMin: 0
+      maxValue: 0
+      hasMax: 0
+      changeBy: 0
+      baseGrowth: 1.1
+      growth: 0
+      growthIncreaseUponGrow: 0
+      growthChangeBy: 1
+    NumEnemiesAliveMod:
+      baseValue: 1
+      affectedValue: 1
+      minValue: 0
+      hasMin: 0
+      maxValue: 0
+      hasMax: 0
+      changeBy: 0
+      baseGrowth: 1.1
+      growth: 0
+      growthIncreaseUponGrow: 0
+      growthChangeBy: 1
+    NumEnemiesToKillMod:
+      baseValue: 1
+      affectedValue: 1
+      minValue: 0
+      hasMin: 0
+      maxValue: 0
+      hasMax: 0
+      changeBy: 0
+      baseGrowth: 4
+      growth: 0
+      growthIncreaseUponGrow: 0
+      growthChangeBy: 1

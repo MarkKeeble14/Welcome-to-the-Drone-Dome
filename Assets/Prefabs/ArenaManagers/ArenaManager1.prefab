@@ -47,7 +47,7 @@ MonoBehaviour:
   spawnEnemies: 1
   awardInitialShopVisit: 1
   arenaWaves:
-  - RewardType: 4
+  - RewardType: 2
     CanRepeatWaveReward: 1
     UpgradePointsAwarded: 2
     CanRepeatedlyAwardUpgradePoints: 1
@@ -91,7 +91,7 @@ MonoBehaviour:
     MiniBossSpawns: []
   - RewardType: 2
     CanRepeatWaveReward: 1
-    UpgradePointsAwarded: 2
+    UpgradePointsAwarded: 3
     CanRepeatedlyAwardUpgradePoints: 1
     EnemySpawns:
       options:
@@ -110,7 +110,7 @@ MonoBehaviour:
     BossZoomOut: 0
     BossSpawns: []
     MiniBossSpawns: []
-  - RewardType: 2
+  - RewardType: 3
     CanRepeatWaveReward: 1
     UpgradePointsAwarded: 2
     CanRepeatedlyAwardUpgradePoints: 1

@@ -44,10 +44,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec85dbb3b0d4af143b3157c3c8e1ac22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  allModuleUpgradeNodes:
+  - {fileID: 11400000, guid: 6e3b433a8032c7f4fb333cf8c9e0f4a2, type: 2}
+  - {fileID: 11400000, guid: da33607684909a04687fad91eaf236dd, type: 2}
+  - {fileID: 11400000, guid: 5c04d65ae45a4bb45ad3cd775d504a3c, type: 2}
+  - {fileID: 11400000, guid: bba182ae4a62c8a498350173f15ab455, type: 2}
+  - {fileID: 11400000, guid: 764a902bfd83e9945b4a9a51c5f95c67, type: 2}
+  upgradeTree:
+    Label: Zapper
+    nodes: []
   startAttackOnStart: 0
   targetBy: 0
-  fireRange: {fileID: 11400000, guid: b4593390a298eb84bbe1c27c9a72213f, type: 2}
-  chainRange: {fileID: 11400000, guid: 699f06f554e4ace45bced6cba7c9a9d6, type: 2}
-  delay: {fileID: 11400000, guid: f0a83989ccf3a2449be06f491814fd52, type: 2}
-  damage: {fileID: 11400000, guid: 2b318ff76f38bf44aa570e9721b3c703, type: 2}
-  chainAmount: {fileID: 11400000, guid: 520ff0667d766c74ab6fbc481a971de4, type: 2}
+  damage:
+    stat: {fileID: 0}
+    index: 0
+  delay:
+    stat: {fileID: 0}
+    index: 1
+  fireRange:
+    stat: {fileID: 0}
+    index: 2
+  chainRange:
+    stat: {fileID: 0}
+    index: 3
+  chainAmount:
+    stat: {fileID: 0}
+    index: 4

@@ -39,7 +39,7 @@ public class DroneDisplayUnit : MonoBehaviour
         indexText.text = index.ToString();
     }
 
-    public bool HasActives => representingDrone.NumActives > 0;
+    public bool HasActives => representingDrone.GetNumberOfModules(ModuleCategory.ACTIVE) > 0;
 
     private void Update()
     {

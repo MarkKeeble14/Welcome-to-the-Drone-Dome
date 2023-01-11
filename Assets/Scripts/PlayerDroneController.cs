@@ -15,7 +15,6 @@ public class PlayerDroneController : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private int maxDrones = 5;
 
-    private PlayerDroneOrbitController playerDroneOrbitController;
     private Dictionary<DroneController, DroneData> droneDataDict = new Dictionary<DroneController, DroneData>();
     private DronesDisplay DronesDisplay
     {
@@ -23,29 +22,6 @@ public class PlayerDroneController : MonoBehaviour
         {
             return UIManager._Instance.CurrentDroneDisplay;
         }
-    }
-
-
-    public List<DroneModule> AppliedModules
-    {
-        get
-        {
-            List<DroneModule> moduleTypes = new List<DroneModule>();
-            foreach (DroneController drone in trackedDrones)
-            {
-                foreach (DroneModule module in drone.AppliedModules)
-                {
-                    if (!moduleTypes.Contains(module))
-                        moduleTypes.Add(module);
-                }
-            }
-            return moduleTypes;
-        }
-    }
-
-    private void Awake()
-    {
-        playerDroneOrbitController = GetComponent<PlayerDroneOrbitController>();
     }
 
     // Adds a drone to the orbiting list and sets anything that needs to be set to do so
@@ -64,7 +40,14 @@ public class PlayerDroneController : MonoBehaviour
         if (!droneDataDict.ContainsKey(drone))
             droneDataDict.Add(drone, new DroneData(drone, drone.GetComponent<DroneAttackTargeting>()));
 
-        playerDroneOrbitController.AddDroneToOrbit(drone);
+        drone.SetRotateAround(transform);
+
+        // Reset orbit timers of drones
+        float angle = 360 / trackedDrones.Count;
+        for (int i = 0; i < trackedDrones.Count; i++)
+        {
+            trackedDrones[i].SetOrbitTimer(angle * i);
+        }
     }
 
     public DroneData ReleaseControlOfSelectedDrone(bool canUseScavengers)
@@ -82,7 +65,7 @@ public class PlayerDroneController : MonoBehaviour
         DroneData toReturn = droneDataDict[manipDrone];
 
         // Remove that drone from the players orbit
-        playerDroneOrbitController.RemoveDroneFromOrbit(manipDrone);
+        manipDrone.SetRotateAround(null);
 
         return toReturn;
     }
@@ -232,5 +215,13 @@ public class PlayerDroneController : MonoBehaviour
     public void ActivateDroneActive(InputAction.CallbackContext ctx)
     {
         TryActivateSelectedDroneActive();
+    }
+
+    public void ResetDroneStationCooldowns()
+    {
+        foreach (DroneController drone in trackedDrones)
+        {
+            drone.ResetStationCooldown();
+        }
     }
 }

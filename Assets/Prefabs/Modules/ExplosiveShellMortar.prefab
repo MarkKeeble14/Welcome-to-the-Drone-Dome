@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9135238598581667649}
-  - component: {fileID: -7179537087782703240}
+  - component: {fileID: 8078189052341251817}
   m_Layer: 0
   m_Name: ExplosiveShellMortar
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-7179537087782703240
+--- !u!114 &8078189052341251817
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,12 +41,64 @@ MonoBehaviour:
   m_GameObject: {fileID: 1953204332388901580}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36bbb8fdd04567145b1c8b659b268502, type: 3}
+  m_Script: {fileID: 11500000, guid: c3e22ff1bd3affe40ba0a0ace83deb05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  allModuleUpgradeNodes:
+  - {fileID: 11400000, guid: 59884e60413406443bfda0c743ca2db1, type: 2}
+  - {fileID: 11400000, guid: 000b779a5b159dd4e86cf8489301f5c9, type: 2}
+  - {fileID: 11400000, guid: 33b489245b9c8dd4a9595d6c2308864a, type: 2}
+  - {fileID: 11400000, guid: 081c657b625e8e54d806d04ab983886f, type: 2}
+  - {fileID: 11400000, guid: 3427ac3c6cd86434fa2750c6aece0753, type: 2}
+  - {fileID: 11400000, guid: b4b19ee8aeaaa9945b67836af2fb752b, type: 2}
+  - {fileID: 11400000, guid: 033a997da5586d146bfc3c62d75b8899, type: 2}
+  - {fileID: 11400000, guid: e5b7eeb03ef072a44b116a9c92091425, type: 2}
+  - {fileID: 11400000, guid: 6a1e6a1e2aa0e5c458e760a05f50861b, type: 2}
+  - {fileID: 11400000, guid: b12353b088ef09a4eb9b33bee347dce1, type: 2}
+  upgradeTree:
+    Label: Explosive Dropper Mortar
+    nodes: []
   startAttackOnStart: 0
   targetBy: 0
-  targeting: {fileID: 0}
-  gun: {fileID: 11400000, guid: f358af9a31550ad4e9a3d5645d34ace9, type: 2}
+  shotsPerSecond:
+    stat: {fileID: 0}
+    index: 7
+  range:
+    stat: {fileID: 0}
+    index: 8
+  infiniteAmmo: 1
+  maxMagazineCount: 1
+  reloadTime: 0
   reloadBar: {fileID: 1724493836441531248, guid: 509cacbe67cbe0e46bd5e0ebb44810f3,
     type: 3}
+  projectileSpeed:
+    stat: {fileID: 0}
+    index: 0
+  arcAngle: 75
+  torquePower: 0
+  mainDamage:
+    stat: {fileID: 0}
+    index: 0
+  mainRadius:
+    stat: {fileID: 0}
+    index: 1
+  mainPower:
+    stat: {fileID: 0}
+    index: 2
+  mainLift: {fileID: 11400000, guid: d9499be53ea79da4ca89c02761dfc353, type: 2}
+  shouldDrop:
+    boolSwitch: {fileID: 0}
+    index: 9
+  timeBetweenDrops:
+    stat: {fileID: 0}
+    index: 6
+  miniDamage:
+    stat: {fileID: 0}
+    index: 3
+  miniRadius:
+    stat: {fileID: 0}
+    index: 4
+  miniPower:
+    stat: {fileID: 0}
+    index: 5
+  miniLift: {fileID: 11400000, guid: 48bafaee6f290b94c84970ad87b3f5cd, type: 2}

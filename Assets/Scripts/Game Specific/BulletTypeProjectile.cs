@@ -9,17 +9,14 @@ public class BulletTypeProjectile : Projectile
     [SerializeField] private LayerMask collideWithLayers;
 
     [Header("Contact Damage")]
-    [SerializeField] private bool hasContactDamage;
     private float contactDamage;
 
     [Header("Bouncing")]
-    [SerializeField] private BoolSwitchUpgradeNode smartBouncingEnabled;
     [SerializeField] private float smartBouncingDetectionRange = 3f;
-    [SerializeField] private StatModifier numBounces;
+    private bool setSmartBounce;
     private int setNumBounces;
 
     [Header("Piercing")]
-    [SerializeField] private StatModifier numCanPierceThrough;
     private int setNumCanPierceThrough;
 
     [Header("Lifetime")]
@@ -60,14 +57,12 @@ public class BulletTypeProjectile : Projectile
         HandleContact();
     }
 
-    public void Set(float damage, Vector3 direction, float speed, ModuleType source)
+    public void Set(float damage, int numBounce, bool smartBounce, int numPierce, Vector3 direction, float speed, ModuleType source)
     {
-        if (hasContactDamage)
-        {
-            contactDamage = damage;
-        }
-        setNumBounces = (int)numBounces.Value;
-        setNumCanPierceThrough = (int)numCanPierceThrough.Value;
+        contactDamage = damage;
+        setNumBounces = numBounce;
+        setNumCanPierceThrough = numPierce;
+        setSmartBounce = smartBounce;
         this.source = source;
         StartCoroutine(Travel(speed, direction));
     }
@@ -77,7 +72,7 @@ public class BulletTypeProjectile : Projectile
         // Bounces are consumed first
         if (setNumBounces > 0)
         {
-            if (smartBouncingEnabled)
+            if (setSmartBounce)
                 BounceToNearbyEnemy();
             else
                 RandomBounce();

@@ -70,12 +70,9 @@ public class UseDroneManager : MonoBehaviour
 
         // Check to make sure selected drone is strong enough to shove selected object
         Shoveable targetedShoveable = null;
-        if ((targetedShoveable = targetedObject.GetComponent<Shoveable>()) != null)
+        if ((targetedShoveable = targetedObject.GetComponent<Shoveable>()) == null)
         {
-            if (targetedShoveable.ShoveRequirement > usingDrone.ShoveLimit)
-            {
-                yield break;
-            }
+            yield break;
         }
 
         // Confirmed can go through with the action, begin the actual logic for the shove
@@ -200,20 +197,17 @@ public class UseDroneManager : MonoBehaviour
 
         DroneController controllingDrone = droneData.DroneController;
 
-        // Get's the enemy orbit grid component
-        DroneAttackingEnemyOrbitController dAtkECont = enemy.GetComponent<DroneAttackingEnemyOrbitController>();
-
         // Disable Collider
         controllingDrone.Col.enabled = false;
 
         // Add the drone to the enemies orbit grid
-        dAtkECont.AddDroneToOrbit(controllingDrone);
+        controllingDrone.SetRotateAround(enemy.transform);
 
         // Sets the drone to focus one target
-        droneData.DroneTargeting.OverridingTarget = dAtkECont.transform;
+        droneData.DroneTargeting.OverridingTarget = enemy.transform;
 
         // Wait until enemy has died
-        yield return new WaitUntil(() => dAtkECont == null
+        yield return new WaitUntil(() => enemy == null
         || controllingDrone.CurrentMode == DroneMode.SCAVENGE);
 
         // Add the drone back to the player's orbit

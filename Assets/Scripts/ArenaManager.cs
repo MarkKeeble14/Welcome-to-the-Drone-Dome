@@ -456,6 +456,7 @@ public partial class ArenaManager : MonoBehaviour
     private void ClearedWave()
     {
         progressBar.OnFill -= ClearedWave;
+        progressBar.IncrementCounter();
 
         // Set cleared intervel to true so Wave Coroutine knows it has been completed
         clearedWave = true;

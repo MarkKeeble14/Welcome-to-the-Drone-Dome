@@ -25,4 +25,9 @@ public class DroneBlockBulletsModule : DronePassiveModule
             Destroy(other.gameObject);
         }
     }
+
+    protected override void LoadModuleData()
+    {
+        throw new System.NotImplementedException();
+    }
 }

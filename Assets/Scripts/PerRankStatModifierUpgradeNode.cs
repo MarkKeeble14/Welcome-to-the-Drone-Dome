@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System;
 
-[CreateAssetMenu(fileName = "PerRankStatModifierUpgradeNode", menuName = "UpgradeNode/PerRankStatModifierUpgradeNode")]
 public class PerRankStatModifierUpgradeNode : StatModifierUpgradeNode
 {
     [Header("Per Rank Upgrade Node")]

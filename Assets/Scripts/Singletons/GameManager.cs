@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
         = new SerializableDictionary<ModuleType, DroneModuleInfo>();
     public SerializableDictionary<ModuleType, DroneModuleInfo> ModuleTypeInfo => moduleTypeInfo;
     public List<ModuleType> AllModules => moduleTypeInfo.KeysWhereValueMeetsCondition(moduleInfo => !moduleInfo.Unobtainable);
+    [SerializeField] private List<ModuleType> defaultModules = new List<ModuleType>();
+    public List<ModuleType> DefaultModules => defaultModules;
     [SerializeField] private int numDronesToStart = 1;
     [SerializeField] private int activesPerDrone = 1;
     public int ActivesPerDrone => activesPerDrone;
@@ -124,8 +126,8 @@ public class GameManager : MonoBehaviour
         // Spawn Drone
         DroneController spawnedDrone = Instantiate(dronePrefab,
             Player.position + new Vector3(0, DroneSpawnHeight, 0), Quaternion.identity);
-        AddModule(spawnedDrone, ModuleType.DEFAULT_TURRET);
         GameElements._Instance.AddedObjects.Add(spawnedDrone.gameObject);
+        spawnedDrone.ResetState();
 
         // Add new drone to orbit
         playerDroneController.AddDroneToOrbit(spawnedDrone);
@@ -218,7 +220,8 @@ public class GameManager : MonoBehaviour
             Destroy(currentLevel.gameObject);
         currentLevel = Instantiate(levels[levelIndex], transform);
 
-        // Reset active cooldowns
+        // Reset drones per stage
+        playerDroneController.ResetDroneStationCooldowns();
         playerDroneController.ResetDroneActiveCooldowns();
         playerDroneController.ResetDronePositions();
         // Reset player position
@@ -304,7 +307,7 @@ public class GameManager : MonoBehaviour
         switch (GetModuleCategory(type))
         {
             case ModuleCategory.ACTIVE:
-                if (drone.NumActives >= activesPerDrone)
+                if (drone.GetNumberOfModules(ModuleCategory.ACTIVE) >= activesPerDrone)
                 {
                     arenaShopHelperText.gameObject.SetActive(true);
                     arenaShopHelperText.text = "Unable to Add More Active Modules to this Drone";
@@ -312,7 +315,7 @@ public class GameManager : MonoBehaviour
                 }
                 break;
             case ModuleCategory.PASSIVE:
-                if (drone.NumPassives >= passivesPerDrone)
+                if (drone.GetNumberOfModules(ModuleCategory.PASSIVE) >= passivesPerDrone)
                 {
                     arenaShopHelperText.gameObject.SetActive(true);
                     arenaShopHelperText.text = "Unable to Add More Passive Modules to this Drone";
@@ -320,7 +323,7 @@ public class GameManager : MonoBehaviour
                 }
                 break;
             case ModuleCategory.WEAPON:
-                if (drone.NumWeapons >= weaponsPerDrone)
+                if (drone.GetNumberOfModules(ModuleCategory.WEAPON) >= weaponsPerDrone)
                 {
                     arenaShopHelperText.gameObject.SetActive(true);
                     arenaShopHelperText.text = "Unable to Add More Weapon Modules to this Drone";
@@ -346,9 +349,6 @@ public class GameManager : MonoBehaviour
             ShopManager._Instance.AlterResource(-cost);
         }
 
-        // Add new selection to show selected drone modules
-        showSelectedDronesModules.AddModule(type);
-
         // Actually add module
         return AddModule(drone, type);
     }
@@ -360,12 +360,14 @@ public class GameManager : MonoBehaviour
 
     private void ResetScriptableObjects()
     {
+        /*
         StatModifier[] statModifiers = Resources.LoadAll<StatModifier>("");
         foreach (StatModifier statModifier in statModifiers)
         {
             // Debug.Log("Resetting: " + statModifier);
             statModifier.Reset();
         }
+        */
 
         UpgradeNode[] upgradeNodes = Resources.LoadAll<UpgradeNode>("");
         foreach (UpgradeNode node in upgradeNodes)
@@ -373,7 +375,6 @@ public class GameManager : MonoBehaviour
             // Debug.Log("Resetting: " + node);
             node.Reset();
         }
-
         perLevelEnemyStatMap.Reset();
     }
 

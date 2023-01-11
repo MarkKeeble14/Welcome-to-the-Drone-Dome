@@ -4,33 +4,38 @@ public abstract class DroneActiveModule : DroneModule
 {
     public override ModuleCategory Category => ModuleCategory.ACTIVE;
 
-    public bool CoolingDown => cooldown < cooldownStart.Value;
+    public bool CoolingDown => cooldown < cooldownStart.Stat.Value;
 
-    [SerializeField] protected StatModifier cooldownStart;
-    public float CooldownStart => cooldownStart.Value;
+    [SerializeField] private LoadStatModifierInfo cooldownStart;
+    public float CooldownStart => cooldownStart.Stat.Value;
     private float cooldown;
     public float CurrentCooldown
     {
         get
         {
-            if (cooldown < cooldownStart.Value)
+            if (cooldown < cooldownStart.Stat.Value)
             {
                 return cooldown;
             }
             else
             {
-                return cooldownStart.Value;
+                return cooldownStart.Stat.Value;
             }
         }
+    }
+
+    protected override void LoadModuleData()
+    {
+        cooldownStart.SetStat(UpgradeNode.GetStatModifierUpgradeNode(cooldownStart, allModuleUpgradeNodes));
     }
 
     public void ResetCooldown()
     {
         // Set cooldown
-        cooldown = cooldownStart.Value;
+        cooldown = cooldownStart.Stat.Value;
     }
 
-    protected void Awake()
+    protected void Start()
     {
         ResetCooldown();
     }

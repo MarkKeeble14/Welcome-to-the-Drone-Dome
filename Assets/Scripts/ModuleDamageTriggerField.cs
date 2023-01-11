@@ -4,6 +4,6 @@
 
     protected override void HitHealthBehaviour(HealthBehaviour hb)
     {
-        hb.Damage(damage.Value, Source);
+        hb.Damage(damage, Source);
     }
 }

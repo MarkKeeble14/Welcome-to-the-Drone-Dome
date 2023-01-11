@@ -44,7 +44,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e78326a50b96f604dbf3f95620af9936, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldownStart: {fileID: 11400000, guid: e30b71a2ac131c84ba5b9a0efebf9537, type: 2}
-  range: {fileID: 11400000, guid: e2e4274487501cd459a40810e1fb3306, type: 2}
-  damage: {fileID: 11400000, guid: 2348630b67d5df14abe695d1d5b82737, type: 2}
-  laser: {fileID: 9097088904429222468, guid: 3d17618ab0af2fd4eafda02a1767c354, type: 3}
+  allModuleUpgradeNodes:
+  - {fileID: 11400000, guid: 362c84ae99653554488a2d42993c63a0, type: 2}
+  - {fileID: 11400000, guid: 20c6229829fbedb40ab478801ecd58ca, type: 2}
+  - {fileID: 11400000, guid: 99294b281f1a48e4ab9a683bb8d1cc60, type: 2}
+  upgradeTree:
+    Label: Laser (Active)
+    nodes: []
+  cooldownStart:
+    stat: {fileID: 0}
+    index: 0
+  range:
+    stat: {fileID: 0}
+    index: 2
+  damage:
+    stat: {fileID: 0}
+    index: 1

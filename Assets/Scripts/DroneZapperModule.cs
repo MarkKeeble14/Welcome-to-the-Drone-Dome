@@ -5,17 +5,27 @@ using UnityEngine;
 public class DroneZapperModule : DroneWeaponModule
 {
     [Header("Zapper Module")]
-    [SerializeField] protected StatModifier fireRange;
-    [SerializeField] protected StatModifier chainRange;
-    [SerializeField] protected StatModifier delay;
-    [SerializeField] protected StatModifier damage;
-    [SerializeField] protected StatModifier chainAmount;
+    [Header("Upgradeables")]
+    [SerializeField] private LoadStatModifierInfo damage;
+    [SerializeField] private LoadStatModifierInfo delay;
+    [SerializeField] private LoadStatModifierInfo fireRange;
+    [SerializeField] private LoadStatModifierInfo chainRange;
+    [SerializeField] private LoadStatModifierInfo chainAmount;
 
     public override ModuleType Type => ModuleType.ZAPPER;
 
+    protected override void LoadModuleData()
+    {
+        damage.SetStat(UpgradeNode.GetStatModifierUpgradeNode(damage, allModuleUpgradeNodes));
+        delay.SetStat(UpgradeNode.GetStatModifierUpgradeNode(delay, allModuleUpgradeNodes));
+        fireRange.SetStat(UpgradeNode.GetStatModifierUpgradeNode(fireRange, allModuleUpgradeNodes));
+        chainRange.SetStat(UpgradeNode.GetStatModifierUpgradeNode(chainRange, allModuleUpgradeNodes));
+        chainAmount.SetStat(UpgradeNode.GetStatModifierUpgradeNode(chainAmount, allModuleUpgradeNodes));
+    }
+
     public override IEnumerator Attack()
     {
-        yield return new WaitForSeconds(delay.Value);
+        yield return new WaitForSeconds(delay.Stat.Value);
         DoDamage();
         StartCoroutine(Attack());
     }
@@ -27,9 +37,9 @@ public class DroneZapperModule : DroneWeaponModule
         LineBetween spawned;
 
         // For the number of chaining available
-        for (int i = 0; i < chainAmount.Value; i++)
+        for (int i = 0; i < chainAmount.Stat.Value; i++)
         {
-            target = targeting.GetTarget((i == 0 ? fireRange.Value : chainRange.Value), hasTouched[i], TargetBy, hasTouched);
+            target = targeting.GetTarget((i == 0 ? fireRange.Stat.Value : chainRange.Stat.Value), hasTouched[i], TargetBy, hasTouched);
             // Nothing to hit
             if (target == null)
                 break;
@@ -41,7 +51,7 @@ public class DroneZapperModule : DroneWeaponModule
             HealthBehaviour hb = null;
             if ((hb = target.GetComponent<HealthBehaviour>()) != null)
             {
-                hb.Damage(damage.Value, ModuleType.ZAPPER);
+                hb.Damage(damage.Stat.Value, ModuleType.ZAPPER);
             }
         }
 
@@ -52,6 +62,6 @@ public class DroneZapperModule : DroneWeaponModule
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.cyan;
-        Gizmos.DrawWireSphere(transform.position, fireRange.Value);
+        Gizmos.DrawWireSphere(transform.position, fireRange.Stat.Value);
     }
 }

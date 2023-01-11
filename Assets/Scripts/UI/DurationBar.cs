@@ -1,11 +1,20 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
+using TMPro;
 
 public class DurationBar : Bar
 {
+    [SerializeField] private TextMeshProUGUI text;
     public void Set(float duration)
     {
         StartCoroutine(Sequence(duration));
+    }
+
+    public void Cancel()
+    {
+        HardSetBar(0);
+        StopAllCoroutines();
     }
 
     private new void Update()
@@ -31,5 +40,10 @@ public class DurationBar : Bar
             HardSetBar(t / duration);
             yield return null;
         }
+    }
+
+    public void SetText(string text)
+    {
+        this.text.text = text;
     }
 }

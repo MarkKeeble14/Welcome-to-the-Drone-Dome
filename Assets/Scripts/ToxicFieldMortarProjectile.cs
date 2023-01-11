@@ -5,13 +5,38 @@ using UnityEngine;
 public class ToxicFieldMortarProjectile : MortarProjectile
 {
     [SerializeField] private DamageTriggerFieldType fieldType = DamageTriggerFieldType.TOXIC_FIELD;
-    [SerializeField] private StatModifier radius;
+    [SerializeField] private float radius;
+    [SerializeField] protected float damage;
+    [SerializeField] private float tickSpeed;
+    [SerializeField] private float duration;
+    [SerializeField] private float growSpeed;
+    [SerializeField] private BoolSwitchUpgradeNode expand;
+    [SerializeField] private float expandSpeed;
+
+    public void SetStats(float radius, float damage, float tickSpeed, float duration, float growSpeed,
+        BoolSwitchUpgradeNode expand, float expandSpeed)
+    {
+        this.radius = radius;
+        this.damage = damage;
+        this.tickSpeed = tickSpeed;
+        this.duration = duration;
+        this.growSpeed = growSpeed;
+        this.expand = expand;
+        this.expandSpeed = expandSpeed;
+    }
 
     public override void ArrivedAtPosition()
     {
-        DamageTriggerField spawned = ObjectPooler._Instance.GetDamageTriggerField(fieldType);
+        // Spawn
+        ToxicFieldTriggerField spawned = (ToxicFieldTriggerField)ObjectPooler._Instance.GetDamageTriggerField(fieldType);
         spawned.transform.position = transform.position;
-        spawned.Set(radius.Value, () => ObjectPooler._Instance.ReleaseDamageTriggerField(fieldType, spawned));
+
+        // Set
+        spawned.Set(expand, expandSpeed);
+        spawned.Set(radius, damage, tickSpeed, duration, growSpeed,
+            () => ObjectPooler._Instance.ReleaseDamageTriggerField(fieldType, spawned));
+
+        // Release
         ReleaseAction?.Invoke();
     }
 }

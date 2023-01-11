@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 4411560104125395866}
   - component: {fileID: 4411560104125395869}
   - component: {fileID: 4411560104125395868}
-  - component: {fileID: -6834323941361707655}
-  - component: {fileID: -265951979870801114}
+  - component: {fileID: -3099063039132875894}
+  - component: {fileID: 452990515365041458}
   m_Layer: 8
   m_Name: ExplosiveMortarProjectile
   m_TagString: Untagged
@@ -116,7 +116,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 3
---- !u!114 &-6834323941361707655
+--- !u!114 &-3099063039132875894
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -129,8 +129,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 4411560104125395868}
-  explodable: {fileID: -265951979870801114}
---- !u!114 &-265951979870801114
+  mainExplodeable: {fileID: 452990515365041458}
+  toDrop: {fileID: 4569656131609978824, guid: 0631cf19f24147c4f8d597e7302a6151, type: 3}
+--- !u!114 &452990515365041458
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -139,19 +140,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 4411560104125395870}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f25f757c3b7cd741973bdb212ceb1bc, type: 3}
+  m_Script: {fileID: 11500000, guid: 83eecaf2178e98744a0e4d4fad64ac72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AllowChainExplosion: 0
+  AllowChainExplosion: 1
   explosionData:
     dealDamageTo:
       serializedVersion: 2
-      m_Bits: 128
+      m_Bits: 2176
     visualEffect: {fileID: 8732161867663413605, guid: 61b02ba42f7972043bf66d099f6886ab,
       type: 3}
     audioEffect: {fileID: 0}
-    radius: {fileID: 11400000, guid: 3e04b6d6ad9a6cd4ba1ceb5dc6cca164, type: 2}
-    power: {fileID: 11400000, guid: ef9775c75eeb5af4db960eb86c994974, type: 2}
-    lift: {fileID: 11400000, guid: f6d0cfacdd1552d499b0509eb157acbc, type: 2}
-    damage: {fileID: 11400000, guid: f02de6475e41d7f44b2743166e6308e8, type: 2}
+    radius: 3
+    power: 500
+    lift: 50
+    damage: 10
   source: 5

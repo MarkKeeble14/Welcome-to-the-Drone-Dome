@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections;
 
 public class UpgradeNodeDisplay : MonoBehaviour
 {
@@ -19,21 +20,19 @@ public class UpgradeNodeDisplay : MonoBehaviour
     [SerializeField] private Color fullyPurchasedColor;
     [SerializeField] private Color unlockedColor;
 
-    [SerializeField] private float purchaseButtonSizeWithUnlockBtnActive;
-    [SerializeField] private float purchaseButtonSizeWithUnlockBtnInactive;
-
-    private UpgradeNode node;
+    [SerializeField] private UpgradeNode node;
     private UnlockableUpgradeNode repUnlockable;
 
-    public void Set(UpgradeNode node, Action action)
+    public void Set(ref UpgradeNode node)
     {
+
         this.node = node;
         if (node is UnlockableUpgradeNode)
         {
             repUnlockable = (UnlockableUpgradeNode)node;
             SetUnlock(repUnlockable);
         }
-        SetOnClick(action);
+        SetOnClick();
     }
 
     private void Update()
@@ -42,12 +41,10 @@ public class UpgradeNodeDisplay : MonoBehaviour
         if (ShopManager._Instance.AllowUnlockModuleUpgrade && repUnlockable != null && repUnlockable.CanBeUnlocked())
         {
             unlockButton.gameObject.SetActive(true);
-            rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, purchaseButtonSizeWithUnlockBtnActive);
         }
         else
         {
             unlockButton.gameObject.SetActive(false);
-            rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, purchaseButtonSizeWithUnlockBtnInactive);
         }
         // Set other aspects of UI
         SetColor(node);
@@ -95,9 +92,13 @@ public class UpgradeNodeDisplay : MonoBehaviour
         }
     }
 
-    private void SetOnClick(Action action)
+    private void SetOnClick()
     {
-        purchaseButton.onClick.AddListener(delegate { action(); });
+        purchaseButton.onClick.AddListener(delegate
+        {
+            // Debug.Log("OnClick Instance ID: " + node.GetInstanceID() + ", " + ((StatModifierUpgradeNode)node).Stat.GetInstanceID());
+            UpgradeManager._Instance.TryPurchaseNode(node);
+        });
     }
 
     public void SetLabel(string label)

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class MortarProjectile : Projectile
 {
+    [Header("Base Mortar Projectile")]
     [SerializeField] private Rigidbody rb;
     private LayerMask explodeOnCollideWith;
 

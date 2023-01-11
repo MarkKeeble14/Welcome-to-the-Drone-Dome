@@ -157,9 +157,9 @@ MonoBehaviour:
     - {fileID: 5638404428015688683, guid: 6cceafb925b214f4a917954323873b04, type: 3}
     MiniBossSpawns:
     - {fileID: 5638404428015688683, guid: 5cfa219bc4a2f0e42b80303a027312d7, type: 3}
-  - RewardType: 2
+  - RewardType: 4
     CanRepeatWaveReward: 1
-    UpgradePointsAwarded: 3
+    UpgradePointsAwarded: 0
     CanRepeatedlyAwardUpgradePoints: 1
     EnemySpawns:
       options:
@@ -183,7 +183,7 @@ MonoBehaviour:
     - {fileID: 5638404428015688683, guid: 3f1d27f70df04fd449f28e6ac46696a4, type: 3}
   - RewardType: 2
     CanRepeatWaveReward: 1
-    UpgradePointsAwarded: 3
+    UpgradePointsAwarded: 5
     CanRepeatedlyAwardUpgradePoints: 1
     EnemySpawns:
       options:

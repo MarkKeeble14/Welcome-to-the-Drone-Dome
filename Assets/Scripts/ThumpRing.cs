@@ -7,11 +7,7 @@ public class ThumpRing : MonoBehaviour
 {
     [SerializeField] private Material thumpMaterial;
     [SerializeField] private int pointsCount = 50;
-    [SerializeField] private StatModifier maxRadius;
-    [SerializeField] private StatModifier speed;
     [SerializeField] private float startWidth = .5f;
-    [SerializeField] private StatModifier thumpDamage;
-    [SerializeField] private StatModifier knockbackForce;
     [SerializeField] private LineRenderer lineRenderer;
     private LayerMask enemyLayer;
 
@@ -20,7 +16,7 @@ public class ThumpRing : MonoBehaviour
         enemyLayer = LayerMask.GetMask("Enemy");
     }
 
-    public IEnumerator ExecuteThump(Action onEnd)
+    public IEnumerator ExecuteThump(Action onEnd, float maxRadius, float expansionSpeed, float damage, float knockback)
     {
         float currentRadius = 0f;
 
@@ -31,18 +27,18 @@ public class ThumpRing : MonoBehaviour
         List<Collider> affectedColliders = new List<Collider>();
 
         // Expand
-        while (currentRadius < maxRadius.Value)
+        while (currentRadius < maxRadius)
         {
-            currentRadius += Time.deltaTime * speed.Value;
-            Expand(currentRadius, lineRenderer);
-            affectedColliders = Effect(currentRadius, affectedColliders);
+            currentRadius += Time.deltaTime * expansionSpeed;
+            Expand(currentRadius, lineRenderer, maxRadius);
+            affectedColliders = Effect(currentRadius, affectedColliders, knockback, damage);
             yield return null;
         }
 
         onEnd();
     }
 
-    private List<Collider> Effect(float currentRadius, List<Collider> affectedColliders)
+    private List<Collider> Effect(float currentRadius, List<Collider> affectedColliders, float knockbackForce, float damage)
     {
         Collider[] hit = Physics.OverlapSphere(transform.position, currentRadius, enemyLayer);
 
@@ -52,21 +48,21 @@ public class ThumpRing : MonoBehaviour
 
             affectedColliders.Add(col);
 
-            col.GetComponent<HealthBehaviour>().Damage(thumpDamage.Value, ModuleType.SHOCKWAVE_MORTAR);
+            col.GetComponent<HealthBehaviour>().Damage(damage, ModuleType.SHOCKWAVE_MORTAR);
 
-            if (knockbackForce.Value != 0)
+            if (knockbackForce != 0)
             {
                 Rigidbody rb = col.GetComponent<Rigidbody>();
                 if (!rb) continue;
                 Vector3 direction = (col.transform.position - transform.position).normalized;
-                rb.AddForce(direction * knockbackForce.Value, ForceMode.Impulse);
+                rb.AddForce(direction * knockbackForce, ForceMode.Impulse);
             }
         }
 
         return affectedColliders;
     }
 
-    private void Expand(float currentRadius, LineRenderer lineRenderer)
+    private void Expand(float currentRadius, LineRenderer lineRenderer, float maxRadius)
     {
         float angleBetweenPoints = 360f / pointsCount;
 
@@ -79,6 +75,6 @@ public class ThumpRing : MonoBehaviour
             lineRenderer.SetPosition(i, transform.position + position);
         }
 
-        lineRenderer.widthMultiplier = Mathf.Lerp(0f, startWidth, 1f - currentRadius / maxRadius.Value);
+        lineRenderer.widthMultiplier = Mathf.Lerp(0f, startWidth, 1f - currentRadius / maxRadius);
     }
 }

@@ -8,7 +8,8 @@ public class StatModifierUpgradeNode : UnlockableUpgradeNode
     [Header("Stat Modifier Upgrade Node")]
     [SerializeField] protected int maxPoints = 5;
     public int MaxPoints => maxPoints;
-    [SerializeField] protected GrowthStatModifier statModifier;
+    [SerializeField] protected GrowthStatModifier1 statModifier;
+    public StatModifier1 Stat => statModifier;
     public Action OnPurchase;
 
     public override int GetMaxPoints()

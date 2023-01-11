@@ -45,8 +45,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d25e3193e6b35e44bf38982606327db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: {fileID: 11400000, guid: 761fede42aa726c4e8ac1fb8a74e57af, type: 2}
-  sameTargetCD: {fileID: 11400000, guid: 813938b5cb8816d41835127110200c67, type: 2}
+  allModuleUpgradeNodes:
+  - {fileID: 11400000, guid: e514f2cd0439f994a8ee62592146cb77, type: 2}
+  - {fileID: 11400000, guid: ebfa102710ba88940895ba7c8d558567, type: 2}
+  upgradeTree:
+    Label: Drone Contact Damage
+    nodes: []
+  damage:
+    stat: {fileID: 0}
+    index: 0
+  sameTargetCD:
+    stat: {fileID: 0}
+    index: 1
 --- !u!135 &5596381930452508690
 SphereCollider:
   m_ObjectHideFlags: 0

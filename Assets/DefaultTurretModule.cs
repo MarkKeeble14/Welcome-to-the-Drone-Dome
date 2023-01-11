@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
-public class DefaultTurretModule : DroneGunModule
+
+public class DefaultTurretModule : BulletTypeTurretModule
 {
     public override ModuleType Type => ModuleType.DEFAULT_TURRET;
 }

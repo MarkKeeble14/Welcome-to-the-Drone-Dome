@@ -17,8 +17,10 @@ public abstract class DroneWeaponModule : DroneModule
     protected LayerMask enemyLayer;
     public override ModuleCategory Category => ModuleCategory.WEAPON;
 
-    protected void Awake()
+    protected new void Awake()
     {
+        base.Awake();
+
         // Get Attack Targeting Component from Drone
         targeting = transform.parent.GetComponent<DroneAttackTargeting>();
 

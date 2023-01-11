@@ -4,8 +4,24 @@ using UnityEngine;
 
 public class ThumperMortarProjectile : MortarProjectile
 {
-    [SerializeField] private StatModifier numThumps;
-    [SerializeField] private StatModifier timeBetweenThumps;
+    [Header("Upgradeables")]
+    [SerializeField] private int numThumps;
+    [SerializeField] private float timeBetweenThumps;
+    [SerializeField] private float radius;
+    [SerializeField] private float expansionSpeed;
+    [SerializeField] private float damage;
+    [SerializeField] private float knockback;
+
+    public void SetStats(int numThumps, float timeBetweenThumps, float radius, float expansionSpeed, float damage, float knockback)
+    {
+        this.numThumps = numThumps;
+        this.timeBetweenThumps = timeBetweenThumps;
+        this.radius = radius;
+        this.expansionSpeed = expansionSpeed;
+        this.damage = damage;
+        this.knockback = knockback;
+    }
+
     [SerializeField] private GameObject dissapearParticle;
     private bool activated;
 
@@ -25,7 +41,7 @@ public class ThumperMortarProjectile : MortarProjectile
     {
         List<ThumpRing> spawnedRings = new List<ThumpRing>();
 
-        for (int i = 0; i < numThumps.Value; i++)
+        for (int i = 0; i < numThumps; i++)
         {
             ThumpRing spawned = ObjectPooler.thumpRingPool.Get();
             spawnedRings.Add(spawned);
@@ -36,10 +52,10 @@ public class ThumperMortarProjectile : MortarProjectile
                 spawnedRings.Remove(spawned);
                 ObjectPooler.thumpRingPool.Release(spawned);
                 // Debug.Log("Removed: " + spawned + ", Remaining: " + spawnedRings.Count);
-            }));
+            }, radius, expansionSpeed, damage, knockback));
 
-            if (i != numThumps.Value - 1)
-                yield return new WaitForSeconds(timeBetweenThumps.Value);
+            if (i != numThumps - 1)
+                yield return new WaitForSeconds(timeBetweenThumps);
         }
 
         Instantiate(dissapearParticle, transform.position, Quaternion.identity);

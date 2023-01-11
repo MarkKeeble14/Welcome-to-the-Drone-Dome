@@ -5,10 +5,10 @@ using UnityEngine;
 public abstract class DamageTriggerField : MonoBehaviour
 {
     [Header("Base")]
-    [SerializeField] protected StatModifier damage;
-    [SerializeField] private StatModifier tickSpeed;
-    [SerializeField] private StatModifier duration;
-    [SerializeField] private StatModifier growSpeed;
+    [SerializeField] protected float damage;
+    [SerializeField] private float tickSpeed;
+    [SerializeField] private float duration;
+    [SerializeField] private float growSpeed;
     private LayerMask enemyLayer;
     private TimerDictionary<GameObject> sameTargetCDDictionary = new TimerDictionary<GameObject>();
     protected bool reachedMaxRadius;
@@ -30,11 +30,15 @@ public abstract class DamageTriggerField : MonoBehaviour
 
         HealthBehaviour hb = other.gameObject.GetComponent<HealthBehaviour>();
         HitHealthBehaviour(hb);
-        sameTargetCDDictionary.Add(other.gameObject, tickSpeed.Value);
+        sameTargetCDDictionary.Add(other.gameObject, tickSpeed);
     }
 
-    public void Set(float radius, Action onEnd)
+    public void Set(float radius, float damage, float tickSpeed, float duration, float growSpeed, Action onEnd)
     {
+        this.damage = damage;
+        this.tickSpeed = tickSpeed;
+        this.duration = duration;
+        this.growSpeed = growSpeed;
         foreach (Transform child in transform)
         {
             child.localPosition = Vector3.zero;
@@ -46,7 +50,7 @@ public abstract class DamageTriggerField : MonoBehaviour
     {
         StartCoroutine(Grow(radius));
 
-        yield return new WaitForSeconds(duration.Value);
+        yield return new WaitForSeconds(duration);
 
         StopAllCoroutines();
 
@@ -59,7 +63,7 @@ public abstract class DamageTriggerField : MonoBehaviour
         while (transform.localScale.x != radius)
         {
             transform.localScale
-                = Vector3.MoveTowards(transform.localScale, Vector3.one * radius, growSpeed.Value * Time.deltaTime);
+                = Vector3.MoveTowards(transform.localScale, Vector3.one * radius, growSpeed * Time.deltaTime);
 
             yield return null;
         }
@@ -73,7 +77,7 @@ public abstract class DamageTriggerField : MonoBehaviour
         while (transform.localScale != Vector3.zero)
         {
             transform.localScale
-                = Vector3.MoveTowards(transform.localScale, Vector3.zero, growSpeed.Value * Time.deltaTime);
+                = Vector3.MoveTowards(transform.localScale, Vector3.zero, growSpeed * Time.deltaTime);
 
             yield return null;
         }
@@ -83,6 +87,6 @@ public abstract class DamageTriggerField : MonoBehaviour
 
     protected virtual void HitHealthBehaviour(HealthBehaviour hb)
     {
-        hb.Damage(damage.Value, true);
+        hb.Damage(damage, true);
     }
 }

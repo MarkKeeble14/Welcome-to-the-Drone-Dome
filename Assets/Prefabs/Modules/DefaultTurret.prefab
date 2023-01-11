@@ -44,9 +44,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb2bdba878361b04fac1eddce2b11321, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  occupiesModuleSlot: 0
+  allModuleUpgradeNodes:
+  - {fileID: 11400000, guid: 89c93d6748dcc474092aea724323e855, type: 2}
+  - {fileID: 11400000, guid: 07a5f2c7cf4358943ba7d1e7f0c1520b, type: 2}
+  - {fileID: 11400000, guid: cc2fc7f9262b5bb40869732f6e2bc08f, type: 2}
+  - {fileID: 11400000, guid: 4645f69929fc1ff4e8ce889c7da7e33e, type: 2}
+  - {fileID: 11400000, guid: dce58e4c0f86a8746a0eca6d4bfdf7dd, type: 2}
+  - {fileID: 11400000, guid: db6a404f81125014f897150025508238, type: 2}
+  - {fileID: 11400000, guid: 5e4714932a4883b4dbb4b1078bc3d8c7, type: 2}
+  - {fileID: 11400000, guid: 492a11c358f0a16499aed3982ee6b6f7, type: 2}
+  upgradeTree:
+    Label: Built In Turret
   startAttackOnStart: 0
   targetBy: 0
-  targeting: {fileID: 0}
-  gun: {fileID: 11400000, guid: 8ccac81aecb1f1e45ba3fbe8c2e35437, type: 2}
+  shotsPerSecond:
+    upgradeNode: {fileID: 0}
+    index: 1
+  range:
+    upgradeNode: {fileID: 0}
+    index: 2
+  infiniteAmmo: 1
+  maxMagazineCount: 1
+  reloadTime: 0
   reloadBar: {fileID: 1724493836441531248, guid: 509cacbe67cbe0e46bd5e0ebb44810f3,
     type: 3}
+  projectileDamage:
+    upgradeNode: {fileID: 0}
+    index: 0
+  projectileBounce:
+    upgradeNode: {fileID: 0}
+    index: 5
+  smartBounce:
+    boolSwitch: {fileID: 0}
+    index: 6
+  projectilePierce:
+    upgradeNode: {fileID: 0}
+    index: 7
+  projectilesPerShot:
+    upgradeNode: {fileID: 0}
+    index: 3
+  angleBetweenProjectiles:
+    upgradeNode: {fileID: 0}
+    index: 4
+  shootForce: 500

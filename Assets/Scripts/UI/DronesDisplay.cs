@@ -16,6 +16,7 @@ public class DronesDisplay : MonoBehaviour
     [Header("References")]
     [SerializeField] private PlayerDroneController playerDroneController;
     [SerializeField] private ShowSelectedDronesModulesDisplay showSelectedDronesModules;
+    [SerializeField] private ShowSelectedDronesModulesDisplay pickSelectedDronesModule;
 
     public void Set()
     {
@@ -58,13 +59,18 @@ public class DronesDisplay : MonoBehaviour
         // Select new Unit
         currentlySelectedUnit = uiDictionary[selectedDrone];
         currentlySelectedUnit.Selected = true;
+
+        // For Shop?
         showSelectedDronesModules.gameObject.SetActive(true);
-        showSelectedDronesModules.Set(selectedDrone);
+        showSelectedDronesModules.Set(selectedDrone.AppliedModules);
+        pickSelectedDronesModule.Set(selectedDrone.AppliedModules);
     }
 
     public void DeselectSelectedDrone()
     {
         showSelectedDronesModules.gameObject.SetActive(false);
+        pickSelectedDronesModule.Clear();
+
         currentlySelectedUnit.Selected = false;
         currentlySelectedUnit = null;
     }

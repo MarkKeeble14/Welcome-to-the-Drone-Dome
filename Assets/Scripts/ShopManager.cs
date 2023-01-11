@@ -89,6 +89,9 @@ public class ShopManager : MonoBehaviour
         }
     }
 
+    [SerializeField] private ShowSelectedDronesModulesDisplay showSelectedDronesModulesDisplay;
+    [SerializeField] private PlayerDroneController playerDroneController;
+
     public void UseModuleUpgradeUnlocker()
     {
         moduleUpgradeUnlockers--;
@@ -227,7 +230,10 @@ public class ShopManager : MonoBehaviour
     {
         bool didBuy = GameManager._Instance.TryAddModule(type, purchaseCost, FreePurchase) != null;
         if (didBuy)
+        {
             RemoveAtIndex(index);
+            showSelectedDronesModulesDisplay.Set(playerDroneController.SelectedDrone.AppliedModules);
+        }
         return didBuy;
     }
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,11 +6,83 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private StatModifier moveSpeed;
-    [SerializeField] private StatModifier dashDuration;
-    [SerializeField] private StatModifier dashSpeed;
-    [SerializeField] private StatModifier dashCDStart;
+    private HelpPlayerMovementModule helpPlayerMovementModule;
+    [Header("Movement Stats")]
+    [SerializeField] private BoolSwitchUpgradeNode allowPlayerDash;
+    [SerializeField] private StatModifierUpgradeNode defaultMoveSpeedNode;
+    public float MoveSpeed
+    {
+        get
+        {
+            StatModifierUpgradeNode node;
+            if (helpPlayerMovementModule == null)
+            {
+                node = defaultMoveSpeedNode;
+            }
+            else
+            {
+                node = helpPlayerMovementModule.MoveSpeed;
+            }
+            if (!enableYAxis) return node.Stat.Value;
+            switch (state)
+            {
+                case PlayerYAxisState.CROUCHING:
+                    return node.Stat.Value * crouchingDampenSpeed;
+                case PlayerYAxisState.IN_AIR:
+                    return node.Stat.Value * hoveringDampenSpeed;
+                default:
+                    return node.Stat.Value;
+            }
+        }
+    }
+    [SerializeField] private StatModifierUpgradeNode defaultDashSpeedNode;
+    public float DashSpeed
+    {
+        get
+        {
+            if (helpPlayerMovementModule == null)
+            {
+                return defaultDashSpeedNode.Stat.Value;
+            }
+            else
+            {
+                return helpPlayerMovementModule.DashSpeed.Stat.Value;
+            }
+        }
+    }
+    [SerializeField] private StatModifierUpgradeNode defaultDashDurationNode;
+    public float DashDuration
+    {
+        get
+        {
+            if (helpPlayerMovementModule == null)
+            {
+                return defaultDashDurationNode.Stat.Value;
+            }
+            else
+            {
+                return helpPlayerMovementModule.DashDuration.Stat.Value;
+            }
+        }
+    }
+    [SerializeField] private StatModifierUpgradeNode defaultDashCooldownNode;
+    public float DashCooldown
+    {
+        get
+        {
+            if (helpPlayerMovementModule == null)
+            {
+                return defaultDashCooldownNode.Stat.Value;
+            }
+            else
+            {
+                return helpPlayerMovementModule.DashCooldown.Stat.Value;
+            }
+        }
+    }
 
+    [Header("Y Axis")]
+    [SerializeField] private bool enableYAxis;
     [SerializeField] private float crouchingDampenSpeed = .5f;
     [SerializeField] private float hoveringDampenSpeed = 1f;
     [SerializeField] private float hoveringHeight = 2f;
@@ -18,17 +91,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float descensionSpeed = 7.5f;
     [SerializeField] private AnimationCurve ascensionCurve;
     [SerializeField] private AnimationCurve descensionCurve;
-
-    [SerializeField] private bool enableYAxis;
-
     private PlayerYAxisState state = PlayerYAxisState.STANDING;
 
     private Vector2 moveVector;
     private Rigidbody rb;
-
-    [SerializeField] private BoolSwitchUpgradeNode allowPlayerDash;
+    [Header("References")]
     [SerializeField] private GameObject dashParticle;
-    public float DashCooldown => dashCDStart.Value;
     private float dashCDTimer;
     public float CurrentDashCooldown
     {
@@ -38,22 +106,6 @@ public class PlayerMovement : MonoBehaviour
                 return dashCDTimer;
             else
                 return 0;
-        }
-    }
-    private float MoveSpeed
-    {
-        get
-        {
-            if (!enableYAxis) return moveSpeed.Value;
-            switch (state)
-            {
-                case PlayerYAxisState.CROUCHING:
-                    return moveSpeed.Value * crouchingDampenSpeed;
-                case PlayerYAxisState.IN_AIR:
-                    return moveSpeed.Value * hoveringDampenSpeed;
-                default:
-                    return moveSpeed.Value;
-            }
         }
     }
 
@@ -89,7 +141,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!allowPlayerDash.Active) return;
         if (dashCDTimer > 0) return;
-        Vector2 dashVector = InputManager._Controls.Player.Move.ReadValue<Vector2>().normalized * dashDuration.Value;
+        Vector2 dashVector = InputManager._Controls.Player.Move.ReadValue<Vector2>().normalized * DashDuration;
         StopAllCoroutines();
 
         StartCoroutine(ExecuteDash(dashVector));
@@ -97,19 +149,19 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator ExecuteDash(Vector2 vector)
     {
-        dashCDTimer = dashCDStart.Value;
+        dashCDTimer = DashCooldown;
 
         Instantiate(dashParticle, transform);
 
         float t = 0;
 
-        while (t < dashDuration.Value)
+        while (t < DashDuration)
         {
             // overrideControl = true;
             Vector3 targetPos = new Vector3(vector.x, 0, vector.y) +
                 new Vector3(transform.position.x, TargetY, transform.position.z);
             transform.position = Vector3.MoveTowards(transform.position, targetPos,
-                moveSpeed.Value * dashSpeed.Value * Time.deltaTime);
+                MoveSpeed * DashSpeed * Time.deltaTime);
             t += Time.deltaTime;
             yield return null;
         }
@@ -188,5 +240,10 @@ public class PlayerMovement : MonoBehaviour
                 state = PlayerYAxisState.STANDING;
                 break;
         }
+    }
+
+    public void SetHelpPlayerMovementModule(HelpPlayerMovementModule module)
+    {
+        helpPlayerMovementModule = module;
     }
 }
