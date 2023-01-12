@@ -358,6 +358,11 @@ public class GameManager : MonoBehaviour
         return drone.AddModule(moduleTypeInfo.GetEntry(type).Value.Module);
     }
 
+    public bool RemoveModule(DroneController drone, DroneModule module)
+    {
+        return drone.RemoveModule(module);
+    }
+
     private void ResetScriptableObjects()
     {
         /*

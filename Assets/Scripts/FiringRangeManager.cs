@@ -57,6 +57,7 @@ public class FiringRangeManager : MonoBehaviour
         {
             FiringRangeModuleButton spawned = Instantiate(firingRangeModuleButton, listParent);
             spawnedModuleButtons.Add(type, spawned);
+            DroneModule module = null;
             spawned.Set(type, () =>
             {
                 if (playerDroneController.SelectedDrone == null)
@@ -66,9 +67,25 @@ public class FiringRangeManager : MonoBehaviour
                     return;
                 }
                 firingRangeHelperText.gameObject.SetActive(false);
-                GameManager._Instance.AddModule(playerDroneController.SelectedDrone, type);
-                Destroy(spawnedModuleButtons[type].gameObject);
-                spawnedModuleButtons.Remove(type);
+                spawned.SetPurchased(true);
+                module = GameManager._Instance.AddModule(playerDroneController.SelectedDrone, type);
+            }, () =>
+            {
+                if (playerDroneController.SelectedDrone == null)
+                {
+                    firingRangeHelperText.gameObject.SetActive(true);
+                    firingRangeHelperText.text = "You Must First Select a Drone to Remove a Module";
+                    return;
+                }
+                if (!GameManager._Instance.RemoveModule(playerDroneController.SelectedDrone, module))
+                {
+                    firingRangeHelperText.gameObject.SetActive(true);
+                    firingRangeHelperText.text = "Unable to Remove Module";
+                }
+                else
+                {
+                    spawned.SetPurchased(false);
+                }
             });
         }
     }

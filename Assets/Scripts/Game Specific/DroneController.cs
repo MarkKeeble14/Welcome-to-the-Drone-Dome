@@ -92,6 +92,7 @@ public class DroneController : MonoBehaviour
     {
         orbitTimer += Time.deltaTime * OrbitSpeed;
         stationCooldownTimer -= Time.deltaTime;
+
         switch (CurrentMode)
         {
             case DroneMode.ATTACK:
@@ -109,6 +110,7 @@ public class DroneController : MonoBehaviour
     // Cycles the drone mode, current order is FOLLOW -> SCAVENGE -> FOLLOW
     public void CycleDroneMode()
     {
+        if (!AvailableForUse) return;
         switch (CurrentMode)
         {
             case DroneMode.ATTACK:
@@ -344,13 +346,6 @@ public class DroneController : MonoBehaviour
                 AddActiveModule((DroneActiveModule)module);
                 break;
             case ModuleCategory.PASSIVE:
-                if (module.Type == ModuleType.HELP_PLAYER_MOVEMENT)
-                {
-                    // Specific case, if the module is of type "HelpPlayerMovementModule", we need to set the corresponding variable in the player
-                    if (playerMovement == null)
-                        playerMovement = GameManager._Instance.Player.GetComponent<PlayerMovement>();
-                    playerMovement.SetHelpPlayerMovementModule((HelpPlayerMovementModule)module);
-                }
                 AddPassiveModule((DronePassiveModule)module);
                 break;
             case ModuleCategory.WEAPON:
@@ -358,6 +353,17 @@ public class DroneController : MonoBehaviour
                 break;
         }
         return module;
+    }
+
+    public bool RemoveModule(DroneModule module)
+    {
+        if (appliedModules.Contains(module))
+        {
+            Destroy(module.gameObject);
+            appliedModules.Remove(module);
+            return true;
+        }
+        return false;
     }
 
     private void AddPassiveModule(DronePassiveModule type)

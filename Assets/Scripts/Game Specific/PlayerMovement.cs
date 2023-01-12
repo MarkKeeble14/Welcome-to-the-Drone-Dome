@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private HelpPlayerMovementModule helpPlayerMovementModule;
     [Header("Movement Stats")]
     [SerializeField] private BoolSwitchUpgradeNode allowPlayerDash;
     [SerializeField] private StatModifierUpgradeNode defaultMoveSpeedNode;
@@ -14,24 +13,15 @@ public class PlayerMovement : MonoBehaviour
     {
         get
         {
-            StatModifierUpgradeNode node;
-            if (helpPlayerMovementModule == null)
-            {
-                node = defaultMoveSpeedNode;
-            }
-            else
-            {
-                node = helpPlayerMovementModule.MoveSpeed;
-            }
-            if (!enableYAxis) return node.Stat.Value;
+            if (!enableYAxis) return defaultMoveSpeedNode.Stat.Value;
             switch (state)
             {
                 case PlayerYAxisState.CROUCHING:
-                    return node.Stat.Value * crouchingDampenSpeed;
+                    return defaultMoveSpeedNode.Stat.Value * crouchingDampenSpeed;
                 case PlayerYAxisState.IN_AIR:
-                    return node.Stat.Value * hoveringDampenSpeed;
+                    return defaultMoveSpeedNode.Stat.Value * hoveringDampenSpeed;
                 default:
-                    return node.Stat.Value;
+                    return defaultMoveSpeedNode.Stat.Value;
             }
         }
     }
@@ -40,14 +30,7 @@ public class PlayerMovement : MonoBehaviour
     {
         get
         {
-            if (helpPlayerMovementModule == null)
-            {
-                return defaultDashSpeedNode.Stat.Value;
-            }
-            else
-            {
-                return helpPlayerMovementModule.DashSpeed.Stat.Value;
-            }
+            return defaultDashSpeedNode.Stat.Value;
         }
     }
     [SerializeField] private StatModifierUpgradeNode defaultDashDurationNode;
@@ -55,14 +38,7 @@ public class PlayerMovement : MonoBehaviour
     {
         get
         {
-            if (helpPlayerMovementModule == null)
-            {
-                return defaultDashDurationNode.Stat.Value;
-            }
-            else
-            {
-                return helpPlayerMovementModule.DashDuration.Stat.Value;
-            }
+            return defaultDashDurationNode.Stat.Value;
         }
     }
     [SerializeField] private StatModifierUpgradeNode defaultDashCooldownNode;
@@ -70,14 +46,7 @@ public class PlayerMovement : MonoBehaviour
     {
         get
         {
-            if (helpPlayerMovementModule == null)
-            {
-                return defaultDashCooldownNode.Stat.Value;
-            }
-            else
-            {
-                return helpPlayerMovementModule.DashCooldown.Stat.Value;
-            }
+            return defaultDashCooldownNode.Stat.Value;
         }
     }
 
@@ -240,10 +209,5 @@ public class PlayerMovement : MonoBehaviour
                 state = PlayerYAxisState.STANDING;
                 break;
         }
-    }
-
-    public void SetHelpPlayerMovementModule(HelpPlayerMovementModule module)
-    {
-        helpPlayerMovementModule = module;
     }
 }

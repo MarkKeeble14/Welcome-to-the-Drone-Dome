@@ -1,0 +1,6 @@
+﻿public enum UpgradeUIState
+{
+    SHOW_UPGRADE_TREE_OPTIONS,
+    SHOW_DRONE_MODULES,
+    SHOW_UPGRADE_TREE
+}

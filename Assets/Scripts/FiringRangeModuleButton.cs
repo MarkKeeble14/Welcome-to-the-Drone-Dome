@@ -5,11 +5,30 @@ using TMPro;
 
 public class FiringRangeModuleButton : MonoBehaviour
 {
-    [SerializeField] private Button button;
+    [SerializeField] private Button purchaseButton;
+    [SerializeField] private Button deleteButton;
     [SerializeField] private TextMeshProUGUI text;
-    public void Set(ModuleType type, Action action)
+    private bool purchased;
+    public void SetPurchased(bool value)
+    {
+        purchased = value;
+    }
+
+    public void Set(ModuleType type, Action onAdd, Action onDelete)
     {
         text.text = type.ToString();
-        button.onClick.AddListener(delegate { action(); });
+        purchaseButton.onClick.AddListener(delegate
+        {
+            onAdd();
+        });
+        deleteButton.onClick.AddListener(delegate
+        {
+            onDelete();
+        });
+    }
+
+    private void Update()
+    {
+        deleteButton.gameObject.SetActive(purchased);
     }
 }

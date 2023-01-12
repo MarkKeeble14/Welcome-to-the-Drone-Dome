@@ -17,14 +17,14 @@ MonoBehaviour:
   PointsPerUnlock: 5
   maxPoints: 5
   statModifier:
-    baseValue: 3
-    affectedValue: 3
+    baseValue: 3.25
+    affectedValue: 6
     minValue: 0
     hasMin: 0
     maxValue: 0
     hasMax: 0
     changeBy: 0
     baseGrowth: 0.25
-    growth: 0
+    growth: 0.25
     growthIncreaseUponGrow: 0
     growthChangeBy: 0

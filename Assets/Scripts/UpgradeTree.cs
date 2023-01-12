@@ -7,7 +7,7 @@ using UnityEngine;
 public class UpgradeTree
 {
     public string Label;
-    private List<UpgradeNode> nodes = new List<UpgradeNode>();
+    [SerializeField] private List<UpgradeNode> nodes = new List<UpgradeNode>();
 
     public List<UpgradeNodeDisplay> ShowNodes(UpgradeNodeDisplay upgradeNodePrefab, Transform t)
     {

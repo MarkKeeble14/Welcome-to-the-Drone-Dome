@@ -92,6 +92,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a04fe3ce41fbe5540883dd4eb265d19a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  changeSpeed: 3
+  startPercentage: 1
   fill: {fileID: 3578915047314956342}
 --- !u!114 &6272537523190300038
 MonoBehaviour:

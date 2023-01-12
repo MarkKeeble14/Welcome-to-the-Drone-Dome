@@ -33,7 +33,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] private DronesDisplay mainMenuFiringRangeDroneDisplay;
     [SerializeField] private DronesDisplay inGameDroneDisplay;
     [SerializeField] private DronesDisplay shopDroneDisplay;
-    [SerializeField] private DronesDisplay upgradeDroneDisplay;
 
     public void SetCurrentDronesDisplayForMenu()
     {
@@ -74,10 +73,6 @@ public class UIManager : MonoBehaviour
         inGameUI.SetActive(false);
         shopUI.SetActive(false);
         upgradeUI.SetActive(true);
-
-        // Set other UI
-        currentDronesDisplay = upgradeDroneDisplay;
-        upgradeDroneDisplay.Set();
     }
 
     public void OpenWinScreen()

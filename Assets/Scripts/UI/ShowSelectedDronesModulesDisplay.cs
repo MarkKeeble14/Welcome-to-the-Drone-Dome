@@ -55,7 +55,7 @@ public class ShowSelectedDronesModulesDisplay : MonoBehaviour
                 spawned = Instantiate(UIPrefab, weaponsListParent);
                 break;
         }
-        spawned.Set(module, () => UpgradeManager._Instance.ShowModuleUpgradeTree(module));
+        spawned.Set(module, () => UpgradeManager._Instance.ShowUpgradeTree(module.UpgradeTree));
         spawnedList.Add(spawned);
     }
 

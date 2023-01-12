@@ -16,12 +16,18 @@ public class UpgradeManager : MonoBehaviour
         _Instance = this;
     }
 
+    [Header("Currency")]
     [SerializeField] private int upgradePointsAvailable;
     public int UpgradePointsAvailable => upgradePointsAvailable;
 
-    private List<UpgradeTree> availableUpgradeTrees = new List<UpgradeTree>();
+    [Header("Upgradeable")]
+    [SerializeField] private UpgradeTree playerMovementUpgradeTree;
+    public UpgradeTree PlayerMovementUpgradeTree => playerMovementUpgradeTree;
+    private List<UpgradeTree> otherUpgradeTrees = new List<UpgradeTree>();
+
     [Header("References")]
     [SerializeField] private ShowSelectedDronesModulesDisplay showModulesDisplay;
+    [SerializeField] private ShowUpgradeTreeOptions upgradeTreeOptionsDisplay;
     [SerializeField] private UpgradeNodeDisplay upgradeNodePrefab;
     [SerializeField] private Transform upgradeTreeDisplay;
     [SerializeField] private Transform upgradeTreeNodeParent;
@@ -30,7 +36,14 @@ public class UpgradeManager : MonoBehaviour
     [SerializeField] private PlayerDroneController playerDroneController;
     [SerializeField] private Button backButton;
     [SerializeField] private Button doneButton;
-    [SerializeField] private DronesDisplay upgradeDronesDisplay;
+
+    private UpgradeUIState CurrentUIState = UpgradeUIState.SHOW_UPGRADE_TREE_OPTIONS;
+    private UpgradeUIState PreviousUIState = UpgradeUIState.SHOW_UPGRADE_TREE_OPTIONS;
+
+    private void Start()
+    {
+        otherUpgradeTrees.Add(playerMovementUpgradeTree);
+    }
 
     public void AddUpgradePoints(int amount)
     {
@@ -54,39 +67,7 @@ public class UpgradeManager : MonoBehaviour
         // UI
         UIManager._Instance.OpenUpgradeUI();
 
-        ShowSelectedDroneModules();
-        // ShowSelectedDroneUpgradeTree();
-    }
-
-    private void ShowSelectedDroneModules()
-    {
-        upgradeTreeDisplay.gameObject.SetActive(false);
-        showModulesDisplay.gameObject.SetActive(true);
-        backButton.gameObject.SetActive(false);
-        doneButton.gameObject.SetActive(true);
-        upgradeDronesDisplay.gameObject.SetActive(true);
-
-        showModulesDisplay.Set(playerDroneController.SelectedDrone.AppliedModules);
-    }
-
-    public void ShowModuleUpgradeTree(DroneModule module)
-    {
-        upgradeTreeDisplay.gameObject.SetActive(true);
-        showModulesDisplay.gameObject.SetActive(false);
-        backButton.gameObject.SetActive(true);
-        doneButton.gameObject.SetActive(false);
-        upgradeDronesDisplay.gameObject.SetActive(false);
-
-        ShowUpgradeTree(module.UpgradeTree);
-    }
-
-    private void ShowUpgradeTree(UpgradeTree tree)
-    {
-        DestroyShownUpgradeNodes();
-
-        // Debug.Log("Showing Tree: " + tree);
-        spawnedUpgradeNodes = tree.ShowNodes(upgradeNodePrefab, upgradeTreeNodeParent);
-        sectionText.text = tree.Label;
+        ShowUpgradeTreeOptions();
     }
 
     public void CloseUpgradeTree()
@@ -97,6 +78,92 @@ public class UpgradeManager : MonoBehaviour
         // UI
         UIManager._Instance.CloseUpgradeUI();
         UIManager._Instance.OpenInGameUI();
+    }
+
+    private void ShowUI(UpgradeUIState state)
+    {
+        upgradeTreeOptionsDisplay.gameObject.SetActive(false);
+        upgradeTreeDisplay.gameObject.SetActive(false);
+        showModulesDisplay.gameObject.SetActive(false);
+        switch (state)
+        {
+            case UpgradeUIState.SHOW_UPGRADE_TREE_OPTIONS:
+                upgradeTreeOptionsDisplay.gameObject.SetActive(true);
+                // Buttons
+                backButton.gameObject.SetActive(false);
+                doneButton.gameObject.SetActive(true);
+                break;
+            case UpgradeUIState.SHOW_DRONE_MODULES:
+                showModulesDisplay.gameObject.SetActive(true);
+                // Buttons
+                backButton.gameObject.SetActive(true);
+                doneButton.gameObject.SetActive(false);
+                break;
+            case UpgradeUIState.SHOW_UPGRADE_TREE:
+                upgradeTreeDisplay.gameObject.SetActive(true);
+                // Buttons
+                backButton.gameObject.SetActive(true);
+                doneButton.gameObject.SetActive(false);
+                break;
+        }
+    }
+
+    private void ShowUpgradeTreeOptions()
+    {
+        PreviousUIState = CurrentUIState;
+        CurrentUIState = UpgradeUIState.SHOW_UPGRADE_TREE_OPTIONS;
+        ShowUI(CurrentUIState);
+
+        upgradeTreeOptionsDisplay.Set(
+            playerDroneController.TrackedDrones,
+            otherUpgradeTrees,
+            drone => ShowDroneModules(drone),
+            tree => ShowUpgradeTree(tree)
+            );
+    }
+
+    private void ShowDroneModules(DroneController drone)
+    {
+        PreviousUIState = CurrentUIState;
+        CurrentUIState = UpgradeUIState.SHOW_DRONE_MODULES;
+        ShowUI(CurrentUIState);
+
+        // Debug.Log("Show Selected Drone Modules: " + drone);
+        showModulesDisplay.Set(drone.AppliedModules);
+    }
+
+    public void ShowUpgradeTree(UpgradeTree tree)
+    {
+        PreviousUIState = CurrentUIState;
+        CurrentUIState = UpgradeUIState.SHOW_UPGRADE_TREE;
+        ShowUI(CurrentUIState);
+
+        DestroyShownUpgradeNodes();
+
+        // Debug.Log("Showing Tree: " + tree);
+        spawnedUpgradeNodes = tree.ShowNodes(upgradeNodePrefab, upgradeTreeNodeParent);
+        sectionText.text = tree.Label;
+    }
+
+    public void Back()
+    {
+        if (CurrentUIState == UpgradeUIState.SHOW_DRONE_MODULES)
+        {
+            CurrentUIState = UpgradeUIState.SHOW_UPGRADE_TREE_OPTIONS;
+            ShowUI(CurrentUIState);
+        }
+        else if (CurrentUIState == UpgradeUIState.SHOW_UPGRADE_TREE)
+        {
+            if (PreviousUIState == UpgradeUIState.SHOW_DRONE_MODULES)
+            {
+                CurrentUIState = UpgradeUIState.SHOW_DRONE_MODULES;
+            }
+            else
+            {
+                CurrentUIState = UpgradeUIState.SHOW_UPGRADE_TREE_OPTIONS;
+            }
+            ShowUI(CurrentUIState);
+        }
     }
 
     public void TryPurchaseNode(UpgradeNode node)
@@ -122,14 +189,5 @@ public class UpgradeManager : MonoBehaviour
         upgradePointsAvailable--;
         // UpdateUpgradeTree();
         Debug.Log("Successfully Purchased: " + node.Label);
-    }
-
-    public void Back()
-    {
-        upgradeTreeDisplay.gameObject.SetActive(false);
-        showModulesDisplay.gameObject.SetActive(true);
-        backButton.gameObject.SetActive(false);
-        doneButton.gameObject.SetActive(true);
-        upgradeDronesDisplay.gameObject.SetActive(true);
     }
 }
