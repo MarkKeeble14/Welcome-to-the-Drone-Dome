@@ -193,13 +193,18 @@ MonoBehaviour:
           value: 50
       type: 1
       chance: {x: 4, y: 8}
-    moduleDrop:
+    droneModuleDrop:
+      dropObject:
+        options: []
+      type: 0
+      chance: {x: 0, y: 0}
+    upgradeNodeDrop:
       dropObject:
         options:
-        - key: 2
+        - key: 4
           value: 100
       type: 0
-      chance: {x: 1, y: 8}
+      chance: {x: 1, y: 2}
     heartDrop:
       dropObject:
         options:

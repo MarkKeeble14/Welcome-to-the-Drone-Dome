@@ -7,6 +7,7 @@ public class DroneController : MonoBehaviour
     [Header("Core")]
     public DroneMode CurrentMode;
     public bool AvailableForUse = true;
+    public bool selected;
 
     public float ShoveStrength => droneBasics.ShoveStrength.Stat.Value;
     public float MoveSpeed => droneBasics.MoveSpeed.Stat.Value;
@@ -39,6 +40,20 @@ public class DroneController : MonoBehaviour
     [SerializeField] private List<ModuleType> extraDefaultModules = new List<ModuleType>();
     private List<DroneModule> appliedModules = new List<DroneModule>();
     public List<DroneModule> AppliedModules => appliedModules;
+    public bool HasNewlyUnlockedNode
+    {
+        get
+        {
+            foreach (DroneModule module in appliedModules)
+            {
+                if (module.UpgradeTree.HasNewlyUnlockedNode)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
 
     public bool CanActivateActives
     {
@@ -69,10 +84,14 @@ public class DroneController : MonoBehaviour
 
     [Header("References")]
     private PlayerDroneController playerDroneController;
-    private PlayerMovement playerMovement;
     private Transform player;
     private DroneBasicsModule droneBasics;
     [SerializeField] private DurationBar stationCooldownBar;
+    [SerializeField] private Material defaultMaterial;
+    [SerializeField] private Material scavengingMaterial;
+    [SerializeField] private Material selectedMaterial;
+    [SerializeField] private Material unavailableMaterial;
+    [SerializeField] new private Renderer renderer;
     private Collider col;
     public Collider Col => col;
 
@@ -90,6 +109,8 @@ public class DroneController : MonoBehaviour
 
     private void Update()
     {
+        SetMaterial();
+
         orbitTimer += Time.deltaTime * OrbitSpeed;
         stationCooldownTimer -= Time.deltaTime;
 
@@ -104,6 +125,26 @@ public class DroneController : MonoBehaviour
             case DroneMode.STATION:
                 HandleStationModeLogic();
                 break;
+        }
+    }
+
+    private void SetMaterial()
+    {
+        if (!AvailableForUse)
+        {
+            renderer.material = unavailableMaterial;
+        }
+        else if (selected)
+        {
+            renderer.material = selectedMaterial;
+        }
+        else if (CurrentMode == DroneMode.SCAVENGE)
+        {
+            renderer.material = scavengingMaterial;
+        }
+        else
+        {
+            renderer.material = defaultMaterial;
         }
     }
 
@@ -359,6 +400,18 @@ public class DroneController : MonoBehaviour
     {
         if (appliedModules.Contains(module))
         {
+            switch (module.Category)
+            {
+                case ModuleCategory.WEAPON:
+                    weaponModules.Remove((DroneWeaponModule)module);
+                    break;
+                case ModuleCategory.ACTIVE:
+                    activeModules.Remove((DroneActiveModule)module);
+                    break;
+                case ModuleCategory.PASSIVE:
+                    passiveModules.Remove((DronePassiveModule)module);
+                    break;
+            }
             Destroy(module.gameObject);
             appliedModules.Remove(module);
             return true;

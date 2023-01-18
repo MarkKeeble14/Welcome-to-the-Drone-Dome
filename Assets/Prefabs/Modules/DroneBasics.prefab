@@ -55,6 +55,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 198c81343ee386649bed760d11447d7b, type: 2}
   upgradeTree:
     Label: Drone Basics
+    nodes: []
+    upgradeTreeRelation: 13
   moveSpeed:
     upgradeNode: {fileID: 0}
     index: 0

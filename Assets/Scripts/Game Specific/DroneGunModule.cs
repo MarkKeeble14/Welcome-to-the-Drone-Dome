@@ -12,6 +12,7 @@ public abstract class DroneGunModule : DroneWeaponModule
     [SerializeField] protected int maxMagazineCount = 10;
     protected int currentMagazineCount;
     [SerializeField] protected float reloadTime = 2f;
+    private float preventWaitCancelingTimer;
 
     [Header("References")]
     [SerializeField] private DurationBar reloadBar;
@@ -32,6 +33,14 @@ public abstract class DroneGunModule : DroneWeaponModule
 
         // Reload the Gun
         Reload();
+    }
+
+    private void Update()
+    {
+        if (preventWaitCancelingTimer > 0)
+            preventWaitCancelingTimer -= Time.deltaTime;
+        else
+            preventWaitCancelingTimer = 0;
     }
 
     protected override void LoadModuleData()
@@ -82,27 +91,33 @@ public abstract class DroneGunModule : DroneWeaponModule
     {
         while (true)
         {
-            if (CurrentMagazineCount > 0)
+            yield return new WaitForSeconds(preventWaitCancelingTimer);
+
+            // Active
+            if ((target = targeting.GetTarget(range.Stat.Value, transform, TargetBy)) != null)
             {
-                // Active
-                if ((target = targeting.GetTarget(range.Stat.Value, transform, TargetBy)) != null)
+                float nextShotTime = Fire();
+
+                if (CurrentMagazineCount > 0)
                 {
-                    yield return new WaitForSeconds(Fire());
+                    preventWaitCancelingTimer = nextShotTime;
+                    yield return new WaitForSeconds(nextShotTime);
                 }
                 else
                 {
-                    yield return null;
+                    float reloadTime = Reload();
+
+                    reloadBar.SetText("Reloading");
+                    reloadBar.Set(reloadTime);
+
+                    // Needs to Reload
+                    preventWaitCancelingTimer = reloadTime;
+                    yield return new WaitForSeconds(reloadTime);
                 }
             }
             else
             {
-                float reloadTime = Reload();
-
-                reloadBar.SetText("Reloading");
-                reloadBar.Set(reloadTime);
-
-                // Needs to Reload
-                yield return new WaitForSeconds(reloadTime);
+                yield return null;
             }
         }
     }

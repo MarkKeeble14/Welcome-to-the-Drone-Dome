@@ -3,7 +3,7 @@ using TMPro;
 using System;
 
 [CreateAssetMenu(fileName = "StatModifierUpgradeNode", menuName = "UpgradeNode/StatModifierUpgradeNode")]
-public class StatModifierUpgradeNode : UnlockableUpgradeNode
+public class StatModifierUpgradeNode : OverChargeableUpgradeNode
 {
     [Header("Stat Modifier Upgrade Node")]
     [SerializeField] protected int maxPoints = 5;
@@ -14,7 +14,7 @@ public class StatModifierUpgradeNode : UnlockableUpgradeNode
 
     public override int GetMaxPoints()
     {
-        return MaxPoints + UnlockedPoints;
+        return MaxPoints + OverChargedPoints;
     }
 
     public override bool Purchase()
@@ -41,5 +41,10 @@ public class StatModifierUpgradeNode : UnlockableUpgradeNode
         nodeDisplay.SetPoints(CurrentPoints, GetMaxPoints());
         nodeDisplay.AddExtraText("Change: " + (statModifier.GrowthChangeBy == StatMathOperation.ADD ? (statModifier.CurrentGrowth > 0 ? "+" : "") : "x")
                 + statModifier.CurrentGrowth.ToString());
+    }
+
+    public override string GetStatState()
+    {
+        return statModifier.Value.ToString();
     }
 }

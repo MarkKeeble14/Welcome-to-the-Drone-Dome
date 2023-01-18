@@ -490,24 +490,22 @@ public partial class ArenaManager : MonoBehaviour
         switch (reward)
         {
             case WaveReward.UPGRADE:
-                // Debug.Log("Given Drone Upgrade");
                 WeaponUpgradeReward();
                 break;
             case WaveReward.NEW_DRONE:
-                // Debug.Log("Given New Alpha Drone");
                 AddDroneReward();
                 hasCompletedReward = true;
                 break;
             case WaveReward.SHOP_VISIT:
-                // Debug.Log("Given Shop Visit");
                 ShopReward();
                 break;
             case WaveReward.MODULE_UNLOCKER:
-                // Debug.Log("Given Shop Visit");
                 ModuleUnlockerReward();
                 break;
+            case WaveReward.MODULE_OVERCHARGER:
+                ModuleOverChargerReward();
+                break;
             case WaveReward.NONE:
-                // Debug.Log("Given No Reward");
                 hasCompletedReward = true;
                 break;
         }
@@ -520,7 +518,13 @@ public partial class ArenaManager : MonoBehaviour
 
     private void ModuleUnlockerReward()
     {
-        ShopManager._Instance.GiveModuleUpgradeUnlocker();
+        ShopManager._Instance.AddModuleUpgradeUnlocker();
+        WeaponUpgradeReward();
+    }
+
+    private void ModuleOverChargerReward()
+    {
+        ShopManager._Instance.AddModuleUpgradeOverCharger();
         WeaponUpgradeReward();
     }
 
@@ -532,7 +536,6 @@ public partial class ArenaManager : MonoBehaviour
     {
         GameManager._Instance.SpawnAndAddDroneToOrbit();
     }
-
 
     public void ConfirmDoneShopVisit()
     {

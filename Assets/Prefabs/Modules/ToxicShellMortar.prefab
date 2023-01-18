@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0c181e40c2e0964fbeef802dfb28f6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  occupiesModuleSlot: 1
   allModuleUpgradeNodes:
   - {fileID: 11400000, guid: 9b5a498dbd5739643ab53c8366730cc5, type: 2}
   - {fileID: 11400000, guid: c688575a8c9d37a46bbd60b8e9f8375f, type: 2}
@@ -57,13 +58,14 @@ MonoBehaviour:
   upgradeTree:
     Label: Toxic Shell Mortar
     nodes: []
+    upgradeTreeRelation: 6
   startAttackOnStart: 0
   targetBy: 0
   shotsPerSecond:
-    stat: {fileID: 0}
+    upgradeNode: {fileID: 0}
     index: 7
   range:
-    stat: {fileID: 0}
+    upgradeNode: {fileID: 0}
     index: 8
   infiniteAmmo: 1
   maxMagazineCount: 1
@@ -71,28 +73,28 @@ MonoBehaviour:
   reloadBar: {fileID: 1724493836441531248, guid: 509cacbe67cbe0e46bd5e0ebb44810f3,
     type: 3}
   projectileSpeed:
-    stat: {fileID: 0}
+    upgradeNode: {fileID: 0}
     index: 0
   arcAngle: 60
   torquePower: 0
   tickDamage:
-    stat: {fileID: 0}
+    upgradeNode: {fileID: 0}
     index: 0
   tickSpeed:
-    stat: {fileID: 0}
+    upgradeNode: {fileID: 0}
     index: 1
   duration:
-    stat: {fileID: 0}
+    upgradeNode: {fileID: 0}
     index: 3
   radius:
-    stat: {fileID: 0}
+    upgradeNode: {fileID: 0}
     index: 2
   initialExpansionSpeed:
-    stat: {fileID: 0}
+    upgradeNode: {fileID: 0}
     index: 6
   shouldExpand:
     boolSwitch: {fileID: 0}
     index: 4
   expandSpeed:
-    stat: {fileID: 0}
+    upgradeNode: {fileID: 0}
     index: 5

@@ -1,11 +1,12 @@
 using Cinemachine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public partial class GameManager : MonoBehaviour
 {
     public static GameManager _Instance { get; private set; }
     private void Awake()
@@ -21,6 +22,12 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private SerializableDictionary<ModuleType, DroneModuleInfo> moduleTypeInfo
         = new SerializableDictionary<ModuleType, DroneModuleInfo>();
+    [SerializeField]
+    private SerializableDictionary<UpgradeTreeRelation, ModuleType> upgradeTreeRelationInfo
+    = new SerializableDictionary<UpgradeTreeRelation, ModuleType>();
+    [SerializeField]
+    private SerializableDictionary<UpgradeTreeRelation, UpgradeTreeDisplayInfo> upgradeTreeDisplayInfo
+= new SerializableDictionary<UpgradeTreeRelation, UpgradeTreeDisplayInfo>();
     public SerializableDictionary<ModuleType, DroneModuleInfo> ModuleTypeInfo => moduleTypeInfo;
     public List<ModuleType> AllModules => moduleTypeInfo.KeysWhereValueMeetsCondition(moduleInfo => !moduleInfo.Unobtainable);
     [SerializeField] private List<ModuleType> defaultModules = new List<ModuleType>();
@@ -30,6 +37,7 @@ public class GameManager : MonoBehaviour
     public int ActivesPerDrone => activesPerDrone;
     [SerializeField] private int passivesPerDrone = 1;
     public int PassivesPerDrone => passivesPerDrone;
+
     [SerializeField] private int weaponsPerDrone = 3;
     public int WeaponsPerDrone => weaponsPerDrone;
     public float DroneSpawnHeight => targetCameraZoom.y + 1;
@@ -58,6 +66,7 @@ public class GameManager : MonoBehaviour
     [Header("References")]
     public Transform Player;
     [SerializeField] private PlayerDroneController playerDroneController;
+    public PlayerDroneController PlayerDroneController => playerDroneController;
     [SerializeField] private PlayerMovement playerMovement;
     [SerializeField] private PlayerHealth playerHealth;
     [SerializeField] private DroneController dronePrefab;
@@ -233,7 +242,6 @@ public class GameManager : MonoBehaviour
         // No longer loading level
         loadingLevel = false;
 
-
         // Start Fade in transition
         TransitionManager._Instance.FadeIn();
     }
@@ -282,14 +290,46 @@ public class GameManager : MonoBehaviour
         });
     }
 
+    public DroneModuleInfo GetModuleInfo(ModuleType type)
+    {
+        return moduleTypeInfo.GetEntry(type).Value;
+    }
+
     public ModuleCategory GetModuleCategory(ModuleType type)
     {
-        return moduleTypeInfo.GetEntry(type).Value.Category;
+        return GetModuleInfo(type).Category;
     }
 
     public Color GetModuleColor(ModuleType type)
     {
-        return moduleTypeInfo.GetEntry(type).Value.Color;
+        return GetModuleInfo(type).Color;
+    }
+
+    public Sprite GetModuleSprite(ModuleType type)
+    {
+        return GetModuleInfo(type).Sprite;
+    }
+
+    public UpgradeTreeDisplayInfo GetOtherInfo(UpgradeTreeRelation upgradeTreeRelation)
+    {
+        return upgradeTreeDisplayInfo.GetEntry(upgradeTreeRelation).Value;
+    }
+
+    public UpgradeTreeDisplayInfo GetUpgradeTreeDisplayInfo(UpgradeTreeRelation type)
+    {
+        if (upgradeTreeRelationInfo.ContainsKey(type))
+        {
+            ModuleType moduleType = upgradeTreeRelationInfo.GetEntry(type).Value;
+            return new UpgradeTreeDisplayInfo(GetModuleColor(moduleType), EnumToStringHelper.GetStringValue(moduleType), GetModuleSprite(moduleType));
+        }
+        else if (upgradeTreeDisplayInfo.ContainsKey(type))
+        {
+            return upgradeTreeDisplayInfo.GetEntry(type).Value;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     public DroneModule TryAddModule(ModuleType type, int cost, bool free)
@@ -365,21 +405,15 @@ public class GameManager : MonoBehaviour
 
     private void ResetScriptableObjects()
     {
-        /*
-        StatModifier[] statModifiers = Resources.LoadAll<StatModifier>("");
-        foreach (StatModifier statModifier in statModifiers)
-        {
-            // Debug.Log("Resetting: " + statModifier);
-            statModifier.Reset();
-        }
-        */
-
+        // Upgrade Nodes
         UpgradeNode[] upgradeNodes = Resources.LoadAll<UpgradeNode>("");
         foreach (UpgradeNode node in upgradeNodes)
         {
             // Debug.Log("Resetting: " + node);
             node.Reset();
         }
+
+        // Stat Map
         perLevelEnemyStatMap.Reset();
     }
 

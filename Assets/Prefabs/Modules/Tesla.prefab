@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66e4547dee52f004caef603d46aed0b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  occupiesModuleSlot: 1
   allModuleUpgradeNodes:
   - {fileID: 11400000, guid: 48d08c7792e6b3147994a056398d4d48, type: 2}
   - {fileID: 11400000, guid: 836a1f3b33d2bf04fb50d336810d805a, type: 2}
@@ -52,16 +53,17 @@ MonoBehaviour:
   upgradeTree:
     Label: Tesla Coil
     nodes: []
+    upgradeTreeRelation: 4
   startAttackOnStart: 0
   targetBy: 0
   range:
-    stat: {fileID: 0}
+    upgradeNode: {fileID: 0}
     index: 2
   delay:
-    stat: {fileID: 0}
+    upgradeNode: {fileID: 0}
     index: 1
   damage:
-    stat: {fileID: 0}
+    upgradeNode: {fileID: 0}
     index: 0
   canBeActiveWhenScavenging:
     boolSwitch: {fileID: 0}

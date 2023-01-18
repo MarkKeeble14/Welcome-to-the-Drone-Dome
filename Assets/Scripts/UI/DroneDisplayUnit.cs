@@ -18,7 +18,19 @@ public class DroneDisplayUnit : MonoBehaviour
     [SerializeField] private Image droneModePic;
     [SerializeField] private Button button;
     [SerializeField] private TextMeshProUGUI indexText;
-    public bool Selected;
+    private bool selected;
+    public bool Selected
+    {
+        get
+        {
+            return selected;
+        }
+        set
+        {
+            representingDrone.selected = value;
+            selected = value;
+        }
+    }
 
     [SerializeField] private Color selectedColor;
     [SerializeField] private Color notSelectedColor;

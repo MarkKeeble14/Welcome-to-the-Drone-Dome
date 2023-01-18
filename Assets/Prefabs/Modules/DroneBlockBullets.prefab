@@ -44,3 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e6bedf0dccb8c246bf3a6e58b998297, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  occupiesModuleSlot: 1
+  allModuleUpgradeNodes: []
+  upgradeTree:
+    Label: 
+    nodes: []
+    upgradeTreeRelation: 8

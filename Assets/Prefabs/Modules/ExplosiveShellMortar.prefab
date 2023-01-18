@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3e22ff1bd3affe40ba0a0ace83deb05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  occupiesModuleSlot: 1
   allModuleUpgradeNodes:
   - {fileID: 11400000, guid: 59884e60413406443bfda0c743ca2db1, type: 2}
   - {fileID: 11400000, guid: 000b779a5b159dd4e86cf8489301f5c9, type: 2}
@@ -58,13 +59,14 @@ MonoBehaviour:
   upgradeTree:
     Label: Explosive Dropper Mortar
     nodes: []
+    upgradeTreeRelation: 5
   startAttackOnStart: 0
   targetBy: 0
   shotsPerSecond:
-    stat: {fileID: 0}
+    upgradeNode: {fileID: 0}
     index: 7
   range:
-    stat: {fileID: 0}
+    upgradeNode: {fileID: 0}
     index: 8
   infiniteAmmo: 1
   maxMagazineCount: 1
@@ -72,33 +74,47 @@ MonoBehaviour:
   reloadBar: {fileID: 1724493836441531248, guid: 509cacbe67cbe0e46bd5e0ebb44810f3,
     type: 3}
   projectileSpeed:
-    stat: {fileID: 0}
+    upgradeNode: {fileID: 0}
     index: 0
   arcAngle: 75
   torquePower: 0
   mainDamage:
-    stat: {fileID: 0}
+    upgradeNode: {fileID: 0}
     index: 0
   mainRadius:
-    stat: {fileID: 0}
+    upgradeNode: {fileID: 0}
     index: 1
   mainPower:
-    stat: {fileID: 0}
+    upgradeNode: {fileID: 0}
     index: 2
-  mainLift: {fileID: 11400000, guid: d9499be53ea79da4ca89c02761dfc353, type: 2}
+  mainLift:
+    baseValue: 1
+    affectedValue: 0
+    minValue: 0
+    hasMin: 0
+    maxValue: 0
+    hasMax: 0
+    changeBy: 0
   shouldDrop:
     boolSwitch: {fileID: 0}
     index: 9
   timeBetweenDrops:
-    stat: {fileID: 0}
+    upgradeNode: {fileID: 0}
     index: 6
   miniDamage:
-    stat: {fileID: 0}
+    upgradeNode: {fileID: 0}
     index: 3
   miniRadius:
-    stat: {fileID: 0}
+    upgradeNode: {fileID: 0}
     index: 4
   miniPower:
-    stat: {fileID: 0}
+    upgradeNode: {fileID: 0}
     index: 5
-  miniLift: {fileID: 11400000, guid: 48bafaee6f290b94c84970ad87b3f5cd, type: 2}
+  miniLift:
+    baseValue: 1
+    affectedValue: 0
+    minValue: 0
+    hasMin: 0
+    maxValue: 0
+    hasMax: 0
+    changeBy: 0

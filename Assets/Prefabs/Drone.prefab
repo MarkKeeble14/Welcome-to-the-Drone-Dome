@@ -126,6 +126,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CurrentMode: 0
   AvailableForUse: 1
+  selected: 0
   rotateAround: {fileID: 0}
   scavengeableLayer:
     serializedVersion: 2
@@ -139,6 +140,11 @@ MonoBehaviour:
   extraDefaultModules: 
   stationCooldownBar: {fileID: 1724493836441531248, guid: 509cacbe67cbe0e46bd5e0ebb44810f3,
     type: 3}
+  defaultMaterial: {fileID: 2100000, guid: 319192146a994a04cace55af4ede6b2d, type: 2}
+  scavengingMaterial: {fileID: 2100000, guid: 02a5281a1141626478fe825f622317f4, type: 2}
+  selectedMaterial: {fileID: 2100000, guid: 00e15e74aef5c0442922ea171445619f, type: 2}
+  unavailableMaterial: {fileID: 2100000, guid: 6de3fd35e8235e24d8d1ff47a0d3d7aa, type: 2}
+  renderer: {fileID: 5163690858416789681}
 --- !u!114 &4564883555859428555
 MonoBehaviour:
   m_ObjectHideFlags: 0

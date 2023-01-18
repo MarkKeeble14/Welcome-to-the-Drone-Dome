@@ -18,27 +18,38 @@ public class ShopManager : MonoBehaviour
     }
 
     [Header("Currencies")]
+    [Header("Money")]
     [SerializeField] private int startingPlayerResource;
     [SerializeField] private int currentPlayerResource;
     public int CurrentPlayerResource => currentPlayerResource;
+
+    [Header("Free Purchases")]
     [SerializeField] private int freePurchases;
     public int FreePurchasesRemaining => freePurchases;
     public bool FreePurchase
     {
         get { return freePurchases > 0; }
     }
+
+    [Header("Module Over Chargers")]
+    [SerializeField] private int moduleUpgradeOverChargers;
+    public int NumModuleOverChargers => moduleUpgradeOverChargers;
+    public bool AllowModuleOverCharge => moduleUpgradeOverChargers > 0;
+
+    [Header("Module Unlockers")]
+    [SerializeField] private int startingModuleUnlockers;
+    [SerializeField] private int moduleUpgradeUnlockers;
+    public int NumModuleUnlockers => moduleUpgradeUnlockers;
+    public bool AllowModuleUnlock => moduleUpgradeUnlockers > 0;
+
+    [Header("Modules")]
     [SerializeField] private int numberOfStartingModules = 3;
     [SerializeField] private int maxAvailableModules = 5;
     public int MaxAvailableModules => maxAvailableModules;
-    [SerializeField] private int moduleUpgradeUnlockers;
-    public int NumModuleUnlockers => moduleUpgradeUnlockers;
-    public bool AllowUnlockModuleUpgrade => moduleUpgradeUnlockers > 0;
-
     [SerializeField] private bool preventDuplicateBeginningOfferings;
 
-    [Header("Modules")]
+    [Header("Module Info")]
     [SerializeField] private DroneWeaponModuleChoice weaponModuleChoicePrefab;
-    [SerializeField] private Transform weaponModuleChoiceListParent;
     [SerializeField] private Dictionary<ModuleType, int> moduleCostDictionary = new Dictionary<ModuleType, int>();
 
     private ModuleType[] availableModules;
@@ -89,14 +100,10 @@ public class ShopManager : MonoBehaviour
         }
     }
 
+    [Header("References")]
+    [SerializeField] private Transform weaponModuleChoiceListParent;
     [SerializeField] private ShowSelectedDronesModulesDisplay showSelectedDronesModulesDisplay;
     [SerializeField] private PlayerDroneController playerDroneController;
-
-    public void UseModuleUpgradeUnlocker()
-    {
-        moduleUpgradeUnlockers--;
-    }
-
 
     // Some modifier that makes resources less likely to drop when the player has a ton
     public float ResourceDropRateModifier
@@ -165,6 +172,7 @@ public class ShopManager : MonoBehaviour
     public void ResetCollectables()
     {
         currentPlayerResource = startingPlayerResource;
+        moduleUpgradeUnlockers = startingModuleUnlockers;
         ClearAvailableModules();
     }
 
@@ -272,8 +280,23 @@ public class ShopManager : MonoBehaviour
         freePurchases -= 1;
     }
 
-    public void GiveModuleUpgradeUnlocker()
+    public void UseModuleUpgradeUnlocker()
+    {
+        moduleUpgradeUnlockers--;
+    }
+
+    public void AddModuleUpgradeUnlocker()
     {
         moduleUpgradeUnlockers++;
+    }
+
+    public void UseModuleUpgradeOverCharger()
+    {
+        moduleUpgradeOverChargers--;
+    }
+
+    public void AddModuleUpgradeOverCharger()
+    {
+        moduleUpgradeOverChargers++;
     }
 }

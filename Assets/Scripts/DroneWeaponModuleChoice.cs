@@ -17,7 +17,7 @@ public class DroneWeaponModuleChoice : MonoBehaviour
 
     public void Set(ModuleType type, int defaultCost, int indexInList)
     {
-        nameText.text = ModuleTypeStringValues.GetStringValue(type);
+        nameText.text = EnumToStringHelper.GetStringValue(type);
         intendedCost = defaultCost;
         categoryText.text = GameManager._Instance.GetModuleCategory(type).ToString();
 

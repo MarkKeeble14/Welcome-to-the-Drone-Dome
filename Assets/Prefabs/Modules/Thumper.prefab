@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fa275f2cf7742e42bb19fea9b97a11c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  occupiesModuleSlot: 1
   allModuleUpgradeNodes:
   - {fileID: 11400000, guid: d97d21818468af741ae1fc4f6f79ead6, type: 2}
   - {fileID: 11400000, guid: 92bbad934f5d4c3498fbeef0ea123137, type: 2}
@@ -56,13 +57,14 @@ MonoBehaviour:
   upgradeTree:
     Label: Thumper Mortar
     nodes: []
+    upgradeTreeRelation: 9
   startAttackOnStart: 0
   targetBy: 0
   shotsPerSecond:
-    stat: {fileID: 0}
+    upgradeNode: {fileID: 0}
     index: 6
   range:
-    stat: {fileID: 0}
+    upgradeNode: {fileID: 0}
     index: 7
   infiniteAmmo: 1
   maxMagazineCount: 1
@@ -70,25 +72,25 @@ MonoBehaviour:
   reloadBar: {fileID: 1724493836441531248, guid: 509cacbe67cbe0e46bd5e0ebb44810f3,
     type: 3}
   projectileSpeed:
-    stat: {fileID: 0}
+    upgradeNode: {fileID: 0}
     index: 0
   arcAngle: 60
   torquePower: 0
   numThumps:
-    stat: {fileID: 0}
+    upgradeNode: {fileID: 0}
     index: 3
   timeBetweenThumps:
-    stat: {fileID: 0}
+    upgradeNode: {fileID: 0}
     index: 5
   radius:
-    stat: {fileID: 0}
+    upgradeNode: {fileID: 0}
     index: 1
   expansionSpeed:
-    stat: {fileID: 0}
+    upgradeNode: {fileID: 0}
     index: 2
   damage:
-    stat: {fileID: 0}
+    upgradeNode: {fileID: 0}
     index: 0
   knockback:
-    stat: {fileID: 0}
+    upgradeNode: {fileID: 0}
     index: 4

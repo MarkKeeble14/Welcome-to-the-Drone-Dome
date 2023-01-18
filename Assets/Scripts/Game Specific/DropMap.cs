@@ -1,10 +1,12 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 [System.Serializable]
 public class DropMap
 {
     public Drop resourceDrop;
-    public Drop moduleDrop;
+    public Drop droneModuleDrop;
+    public Drop upgradeNodeDrop;
     public Drop heartDrop;
 
     public void DropResources(Vector3 position)
@@ -18,11 +20,21 @@ public class DropMap
 
     public void DropModules(Vector3 position)
     {
-        foreach (GameObject module in moduleDrop.DropObjects(1))
+        foreach (GameObject module in droneModuleDrop.DropObjects(1))
         {
             ShopManager._Instance.NumModulesActive++;
-            ModuleScavengeableParent mParent = module.GetComponent<ModuleScavengeableParent>();
+            DroneModuleScavengeableParent mParent = module.GetComponent<DroneModuleScavengeableParent>();
             mParent.SetFromOptions(GameManager._Instance.AllModules, position);
+            module.transform.localScale = Vector3.one;
+        }
+    }
+
+    public void DropUpgradeNodes(Vector3 position)
+    {
+        foreach (GameObject module in upgradeNodeDrop.DropObjects(1))
+        {
+            DroneModuleUpgradeScavengeableParent mParent = module.GetComponent<DroneModuleUpgradeScavengeableParent>();
+            mParent.SetFromOptions(UpgradeManager._Instance.AllUpgradeTrees, position);
             module.transform.localScale = Vector3.one;
         }
     }

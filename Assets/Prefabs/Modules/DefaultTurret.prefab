@@ -56,6 +56,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 492a11c358f0a16499aed3982ee6b6f7, type: 2}
   upgradeTree:
     Label: Built In Turret
+    nodes: []
+    upgradeTreeRelation: 12
   startAttackOnStart: 0
   targetBy: 0
   shotsPerSecond:

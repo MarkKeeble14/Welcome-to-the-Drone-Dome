@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd45584073acaf04bb9ee2022188487b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  occupiesModuleSlot: 1
   allModuleUpgradeNodes:
   - {fileID: 11400000, guid: 0dbd840c5966e65469ddc2c577b3e3a2, type: 2}
   - {fileID: 11400000, guid: 3762c566a42b98a478a7c7ce1651d268, type: 2}
@@ -56,13 +57,14 @@ MonoBehaviour:
   upgradeTree:
     Label: Automatic Turret
     nodes: []
+    upgradeTreeRelation: 1
   startAttackOnStart: 0
   targetBy: 0
   shotsPerSecond:
-    stat: {fileID: 0}
+    upgradeNode: {fileID: 0}
     index: 1
   range:
-    stat: {fileID: 0}
+    upgradeNode: {fileID: 0}
     index: 7
   infiniteAmmo: 1
   maxMagazineCount: 1
@@ -70,21 +72,21 @@ MonoBehaviour:
   reloadBar: {fileID: 1724493836441531248, guid: 509cacbe67cbe0e46bd5e0ebb44810f3,
     type: 3}
   projectileDamage:
-    stat: {fileID: 0}
+    upgradeNode: {fileID: 0}
     index: 0
   projectileBounce:
-    stat: {fileID: 0}
+    upgradeNode: {fileID: 0}
     index: 4
   smartBounce:
     boolSwitch: {fileID: 0}
     index: 5
   projectilePierce:
-    stat: {fileID: 0}
+    upgradeNode: {fileID: 0}
     index: 6
   projectilesPerShot:
-    stat: {fileID: 0}
+    upgradeNode: {fileID: 0}
     index: 2
   angleBetweenProjectiles:
-    stat: {fileID: 0}
+    upgradeNode: {fileID: 0}
     index: 3
   shootForce: 625

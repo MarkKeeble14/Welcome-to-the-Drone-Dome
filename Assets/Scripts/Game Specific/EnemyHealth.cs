@@ -55,6 +55,7 @@ public class EnemyHealth : HealthBehaviour
     {
         // Drop XP
         dropMap.DropModules(transform.position);
+        dropMap.DropUpgradeNodes(transform.position);
         dropMap.DropHearts(transform.position);
         dropMap.DropResources(transform.position);
 

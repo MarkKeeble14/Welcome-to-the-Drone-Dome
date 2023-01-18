@@ -16,18 +16,26 @@ public abstract class UpgradeNode : ScriptableObject
     protected bool purchased;
     [SerializeField] private UpgradeNode[] requirements;
     public UpgradeNode[] Requirements => requirements;
+    public bool NewlyUnlocked { get; set; }
+
     public bool Available
     {
         get
         {
             foreach (UpgradeNode node in Requirements)
             {
-                if (!node.Purchased)
+                if (!node.Maxed())
                     return false;
             }
             return true;
         }
     }
+    private bool locked = true;
+    public bool Locked => locked;
+
+    [SerializeField] private string shortLabel;
+    public string ShortLabel => shortLabel;
+    public abstract string GetStatState();
 
     public abstract int GetMaxPoints();
 
@@ -41,6 +49,13 @@ public abstract class UpgradeNode : ScriptableObject
     public virtual void Reset()
     {
         purchased = false;
+        locked = true;
+    }
+
+    public void Unlock()
+    {
+        locked = false;
+        NewlyUnlocked = true;
     }
 
     public virtual void SetExtraUI(UpgradeNodeDisplay nodeDisplay)
@@ -52,7 +67,6 @@ public abstract class UpgradeNode : ScriptableObject
     {
         // Debug.Log("Update Requirement at: " + i + ", New Node: " + newNode);
         requirements[i] = newNode;
-
     }
 
     public static StatModifierUpgradeNode GetStatModifierUpgradeNode(LoadStatModifierInfo info, List<UpgradeNode> list)

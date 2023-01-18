@@ -12,6 +12,7 @@ public abstract class DroneModule : MonoBehaviour
 
     [SerializeField] private UpgradeTree upgradeTree;
     public UpgradeTree UpgradeTree => upgradeTree;
+    public bool HasNewlyUnlockedNode => upgradeTree.HasNewlyUnlockedNode;
 
     protected void Awake()
     {

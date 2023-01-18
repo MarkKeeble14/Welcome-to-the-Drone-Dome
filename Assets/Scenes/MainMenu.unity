@@ -618,15 +618,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'With a Drone Selected (Number Keys), Press Tab to Cycle it''s Mode (Attack
-    -> Scavenge -> Station)
+  m_text: 'With a Drone Selected, Press Tab to Cycle it''s Mode (Attack -> Scavenge
+    -> Scavenge)
 
 
-    A Drone in Attack Mode Can be Commanded to Focus
-    an Enemy
-
-
-    A Drone in Station Mode Can be Commanded to Stay at a Position
+    A Drone in Attack Mode Can be Commanded to Focus an Enemy
 
 
     A
@@ -638,8 +634,8 @@ MonoBehaviour:
 
     Nuts are Currency
 
-    Modules are Equipment that get Attached
-    to a Drone'
+    Modules are Upgradeable Equipment that get
+    Attached to a Drone'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2f7e8524afc4c4f4984e01ac5af28ee0, type: 2}
   m_sharedMaterial: {fileID: -3930149932424947861, guid: 2f7e8524afc4c4f4984e01ac5af28ee0,
@@ -4728,7 +4724,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Press E While Moving to Dash, Cooldown in Bottom Right!
+  m_text: 'Press E While Moving to Dash, Cooldown in Bottom Right!
+
+
+    Select a
+    Drone Using The Number Keys!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2f7e8524afc4c4f4984e01ac5af28ee0, type: 2}
   m_sharedMaterial: {fileID: -3930149932424947861, guid: 2f7e8524afc4c4f4984e01ac5af28ee0,

@@ -51,4 +51,9 @@ public class BoolSwitchUpgradeNode : UpgradeNode
         base.SetExtraUI(nodeDisplay);
         nodeDisplay.SetPoints(CurrentPoints, NumPointsToBeActive);
     }
+
+    public override string GetStatState()
+    {
+        return Active ? "On" : "Off";
+    }
 }

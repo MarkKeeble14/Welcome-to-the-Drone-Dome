@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec85dbb3b0d4af143b3157c3c8e1ac22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  occupiesModuleSlot: 1
   allModuleUpgradeNodes:
   - {fileID: 11400000, guid: 6e3b433a8032c7f4fb333cf8c9e0f4a2, type: 2}
   - {fileID: 11400000, guid: da33607684909a04687fad91eaf236dd, type: 2}
@@ -53,20 +54,21 @@ MonoBehaviour:
   upgradeTree:
     Label: Zapper
     nodes: []
+    upgradeTreeRelation: 11
   startAttackOnStart: 0
   targetBy: 0
   damage:
-    stat: {fileID: 0}
+    upgradeNode: {fileID: 0}
     index: 0
   delay:
-    stat: {fileID: 0}
+    upgradeNode: {fileID: 0}
     index: 1
   fireRange:
-    stat: {fileID: 0}
+    upgradeNode: {fileID: 0}
     index: 2
   chainRange:
-    stat: {fileID: 0}
+    upgradeNode: {fileID: 0}
     index: 3
   chainAmount:
-    stat: {fileID: 0}
+    upgradeNode: {fileID: 0}
     index: 4

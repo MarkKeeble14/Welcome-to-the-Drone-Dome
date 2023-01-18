@@ -1,5 +1,108 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &521994443
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 521994444}
+  - component: {fileID: 521994445}
+  - component: {fileID: 521994447}
+  - component: {fileID: 521994446}
+  m_Layer: 5
+  m_Name: StatSheet
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &521994444
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 521994443}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4776038879049639449}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -250, y: 0}
+  m_SizeDelta: {x: 500, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &521994445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 521994443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 10
+    m_Right: 10
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 3
+  m_Spacing: 10
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 0
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 1
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
+--- !u!222 &521994447
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 521994443}
+  m_CullTransparentMesh: 1
+--- !u!114 &521994446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 521994443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.7529412, g: 0.7529412, b: 0.7529412, a: 0.39215687}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &435473074945409181
 GameObject:
   m_ObjectHideFlags: 0
@@ -293,7 +396,7 @@ MonoBehaviour:
   m_ChildAlignment: 4
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 100, y: 100}
+  m_CellSize: {x: 100, y: 150}
   m_Spacing: {x: 10, y: 10}
   m_Constraint: 0
   m_ConstraintCount: 2
@@ -867,7 +970,7 @@ MonoBehaviour:
   m_ChildAlignment: 4
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 100, y: 100}
+  m_CellSize: {x: 100, y: 150}
   m_Spacing: {x: 10, y: 10}
   m_Constraint: 0
   m_ConstraintCount: 2
@@ -951,7 +1054,6 @@ MonoBehaviour:
     type: 3}
   playerDroneController: {fileID: 5673612855749514959}
   showSelectedDronesModules: {fileID: 4776038879413524555}
-  pickSelectedDronesModule: {fileID: 3999473889480972641}
 --- !u!1 &2326095249472418239
 GameObject:
   m_ObjectHideFlags: 0
@@ -1460,9 +1562,9 @@ GameObject:
   - component: {fileID: 5068146427731272204}
   - component: {fileID: 4042690736122345873}
   - component: {fileID: 4902650970491206554}
-  - component: {fileID: 6888406313915017051}
   - component: {fileID: 8757300564270680371}
   - component: {fileID: 5386432491129731038}
+  - component: {fileID: 3736188358817474931}
   m_Layer: 5
   m_Name: CapacityDisplay
   m_TagString: Untagged
@@ -1588,20 +1690,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &6888406313915017051
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2692978549849168703}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd1821d6dd178dd419624054372e0250, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  text: {fileID: 4902650970491206554}
-  prefix: 'Module Capacity: '
 --- !u!95 &8757300564270680371
 Animator:
   serializedVersion: 4
@@ -1637,6 +1725,21 @@ MonoBehaviour:
   anim: {fileID: 8757300564270680371}
   animationName: GrowShrink
   text: {fileID: 4902650970491206554}
+--- !u!114 &3736188358817474931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2692978549849168703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b6b5a09a3969e944a9cd370c12f5782, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stat: 4
+  prefix: 'Module Capacity At: '
+  suffix: 
 --- !u!1 &2749230999998791586
 GameObject:
   m_ObjectHideFlags: 0
@@ -1732,6 +1835,7 @@ RectTransform:
   - {fileID: 4776038877951760803}
   - {fileID: 4776038878770271837}
   - {fileID: 3787669999093201137}
+  - {fileID: 5330953276156331041}
   m_Father: {fileID: 4776038879049639449}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3830,6 +3934,9 @@ MonoBehaviour:
     - key: 3
       value: {fileID: 8650152402177568256, guid: a670f5bd7f8707d46bd7fd9bd59c3cdb,
         type: 3}
+    - key: 4
+      value: {fileID: 5606348252680568883, guid: eadca2fff1c302f40a46c933069d57ea,
+        type: 3}
   popupText: {fileID: -5260616264727522277, guid: d52a68650b4dbcf44aa2e12f8a640e87,
     type: 3}
   thumpRing: {fileID: 1787925591237206604, guid: 8eab25419b60c0242b9633520f31a828,
@@ -4161,9 +4268,11 @@ MonoBehaviour:
   startingPlayerResource: 200
   currentPlayerResource: 0
   freePurchases: 1
+  moduleUpgradeOverChargers: 0
+  startingModuleUnlockers: 0
+  moduleUpgradeUnlockers: 0
   numberOfStartingModules: 3
   maxAvailableModules: 5
-  moduleUpgradeUnlockers: 0
   preventDuplicateBeginningOfferings: 1
   weaponModuleChoicePrefab: {fileID: 8374118837565256538, guid: 5df2017314294974fb2839bc1edb74a5,
     type: 3}
@@ -4191,11 +4300,16 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 07649bc98e8653444a473b176bbfd556, type: 2}
     - {fileID: 11400000, guid: c4ecde4891fe208428aac68f48196455, type: 2}
     - {fileID: 11400000, guid: 14ec3157a84ace24aa298dee27a21469, type: 2}
+    upgradeTreeRelation: 14
   showModulesDisplay: {fileID: 3999473889480972641}
   upgradeTreeOptionsDisplay: {fileID: 5654781567717398334}
+  upgradeTreeDisplay: {fileID: 440699976661460504}
+  StatSheet: {fileID: 521994443}
   upgradeNodePrefab: {fileID: 1687224695371793726, guid: e0af65e525a3834479253a951bc649cf,
     type: 3}
-  upgradeTreeDisplay: {fileID: 440699976661460504}
+  statSheetNodePrefab: {fileID: 925136577338020063, guid: e78131f4e9b06df43a6bb1e324603f68,
+    type: 3}
+  statSheetNodeList: {fileID: 521994444}
   upgradeTreeNodeParent: {fileID: 4776038878150691453}
   sectionText: {fileID: 4776038878801954536}
   playerDroneController: {fileID: 5673612855749514959}
@@ -4620,7 +4734,6 @@ MonoBehaviour:
     type: 3}
   playerDroneController: {fileID: 5673612855749514959}
   showSelectedDronesModules: {fileID: 4776038879413524555}
-  pickSelectedDronesModule: {fileID: 3999473889480972641}
 --- !u!1 &4776038878122231115
 GameObject:
   m_ObjectHideFlags: 0
@@ -5078,7 +5191,8 @@ MonoBehaviour:
     - key: 1
       value:
         Category: 2
-        Color: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 1}
+        Color: {r: 0.6037736, g: 0.36112493, b: 0.36112493, a: 1}
+        Sprite: {fileID: 21300000, guid: 8127408350880e74bb129d791ca54bd8, type: 3}
         Cost: 150
         Unobtainable: 0
         Module: {fileID: 379274733884255895, guid: 5e3ca4881121ace4b8fd5e0ae2f8bc48,
@@ -5087,6 +5201,7 @@ MonoBehaviour:
       value:
         Category: 2
         Color: {r: 0.2735849, g: 0.2735849, b: 0.2735849, a: 1}
+        Sprite: {fileID: 21300000, guid: 8127408350880e74bb129d791ca54bd8, type: 3}
         Cost: 225
         Unobtainable: 0
         Module: {fileID: 7640907775963712354, guid: 0fa83a8858e14674eaf7e37ffbab18e0,
@@ -5095,6 +5210,7 @@ MonoBehaviour:
       value:
         Category: 2
         Color: {r: 0, g: 0, b: 0, a: 1}
+        Sprite: {fileID: 21300000, guid: 8127408350880e74bb129d791ca54bd8, type: 3}
         Cost: 300
         Unobtainable: 0
         Module: {fileID: 4640293473740311605, guid: 7f6a24c1e252ecd4499761c03afaca65,
@@ -5103,6 +5219,7 @@ MonoBehaviour:
       value:
         Category: 2
         Color: {r: 0, g: 0.8589959, b: 1, a: 1}
+        Sprite: {fileID: 21300000, guid: 8127408350880e74bb129d791ca54bd8, type: 3}
         Cost: 450
         Unobtainable: 0
         Module: {fileID: -8902635472391825138, guid: 80cd0796f84808040a6b1a099e8e84a9,
@@ -5111,6 +5228,7 @@ MonoBehaviour:
       value:
         Category: 2
         Color: {r: 1, g: 0.8884187, b: 0, a: 1}
+        Sprite: {fileID: 21300000, guid: 8127408350880e74bb129d791ca54bd8, type: 3}
         Cost: 500
         Unobtainable: 0
         Module: {fileID: 8078189052341251817, guid: 6a3a32e85bde9f740aafccc9a639a436,
@@ -5119,6 +5237,7 @@ MonoBehaviour:
       value:
         Category: 2
         Color: {r: 0.32277036, g: 1, b: 0, a: 1}
+        Sprite: {fileID: 21300000, guid: 8127408350880e74bb129d791ca54bd8, type: 3}
         Cost: 500
         Unobtainable: 0
         Module: {fileID: -3562164904018843066, guid: d3595c67286bb474ca7ffaaf308bfe54,
@@ -5127,6 +5246,7 @@ MonoBehaviour:
       value:
         Category: 0
         Color: {r: 0.6415094, g: 0.000000008921954, b: 0, a: 1}
+        Sprite: {fileID: 21300000, guid: 8127408350880e74bb129d791ca54bd8, type: 3}
         Cost: 200
         Unobtainable: 0
         Module: {fileID: 4055614465958680814, guid: ad8f2aa268932934caad0b85b5c7e682,
@@ -5135,6 +5255,7 @@ MonoBehaviour:
       value:
         Category: 2
         Color: {r: 1, g: 0.5034603, b: 0, a: 1}
+        Sprite: {fileID: 21300000, guid: 8127408350880e74bb129d791ca54bd8, type: 3}
         Cost: 450
         Unobtainable: 0
         Module: {fileID: 2637234051701483023, guid: 4640d7e835ba38c4fac37bfb6bfa38de,
@@ -5143,6 +5264,7 @@ MonoBehaviour:
       value:
         Category: 1
         Color: {r: 1, g: 0.09277995, b: 0, a: 1}
+        Sprite: {fileID: 21300000, guid: 8127408350880e74bb129d791ca54bd8, type: 3}
         Cost: 500
         Unobtainable: 0
         Module: {fileID: 5516310540854053371, guid: 2d4fec09374eb6f4cbd091c5724061a8,
@@ -5151,6 +5273,7 @@ MonoBehaviour:
       value:
         Category: 0
         Color: {r: 0.6509434, g: 0.6226949, b: 0.6226949, a: 1}
+        Sprite: {fileID: 21300000, guid: 8127408350880e74bb129d791ca54bd8, type: 3}
         Cost: 0
         Unobtainable: 1
         Module: {fileID: 8667300432664881384, guid: 639b6dcbbbc5ddd4c97674067958131d,
@@ -5159,6 +5282,7 @@ MonoBehaviour:
       value:
         Category: 2
         Color: {r: 0.1346612, g: 0, b: 1, a: 1}
+        Sprite: {fileID: 21300000, guid: 8127408350880e74bb129d791ca54bd8, type: 3}
         Cost: 400
         Unobtainable: 0
         Module: {fileID: 8448290797234922353, guid: a94da25304c76254b9ab0989b19d6e2e,
@@ -5166,7 +5290,8 @@ MonoBehaviour:
     - key: 12
       value:
         Category: 2
-        Color: {r: 0.735849, g: 0.735849, b: 0.735849, a: 1}
+        Color: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 1}
+        Sprite: {fileID: 21300000, guid: 8127408350880e74bb129d791ca54bd8, type: 3}
         Cost: 0
         Unobtainable: 1
         Module: {fileID: -6039860713011740396, guid: 04196a8509eb31642a75d6f9f2dd1dbb,
@@ -5175,18 +5300,46 @@ MonoBehaviour:
       value:
         Category: 0
         Color: {r: 1, g: 1, b: 1, a: 1}
+        Sprite: {fileID: 21300000, guid: 8127408350880e74bb129d791ca54bd8, type: 3}
         Cost: 0
         Unobtainable: 1
         Module: {fileID: 180533871957078768, guid: 463a8f0132d671640954776110794d46,
           type: 3}
+  upgradeTreeRelationInfo:
+    dictionary:
+    - key: 1
+      value: 1
+    - key: 2
+      value: 2
+    - key: 3
+      value: 3
+    - key: 4
+      value: 4
+    - key: 5
+      value: 5
+    - key: 6
+      value: 6
+    - key: 7
+      value: 7
+    - key: 8
+      value: 8
+    - key: 9
+      value: 9
+    - key: 10
+      value: 10
+    - key: 11
+      value: 11
+    - key: 12
+      value: 12
+    - key: 13
+      value: 13
+  upgradeTreeDisplayInfo:
+    dictionary:
     - key: 14
       value:
-        Category: 0
-        Color: {r: 1, g: 1, b: 1, a: 1}
-        Cost: 0
-        Unobtainable: 1
-        Module: {fileID: 6351739119946926993, guid: 9ab33738c650b9d43aabffcf00481666,
-          type: 3}
+        color: {r: 1, g: 0, b: 0.9822674, a: 1}
+        text: Player Movement
+        sprite: {fileID: 21300000, guid: 8127408350880e74bb129d791ca54bd8, type: 3}
   defaultModules: 0c0000000d000000
   numDronesToStart: 1
   activesPerDrone: 1
@@ -5842,9 +5995,9 @@ GameObject:
   - component: {fileID: 4776038878770271837}
   - component: {fileID: 4776038878770271838}
   - component: {fileID: 4776038878770271839}
-  - component: {fileID: 4776038878770271836}
   - component: {fileID: 1570775122067584748}
   - component: {fileID: 1426860125}
+  - component: {fileID: 3895522865615159811}
   m_Layer: 5
   m_Name: UpgradePointsAvailable
   m_TagString: Untagged
@@ -5970,21 +6123,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &4776038878770271836
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4776038878770271834}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49e635a4636e7d845bf33e8769d741ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  text: {fileID: 4776038878770271839}
-  prefix: 'Upgrade Points: '
-  suffix: 
 --- !u!95 &1570775122067584748
 Animator:
   serializedVersion: 4
@@ -6020,6 +6158,21 @@ MonoBehaviour:
   anim: {fileID: 1570775122067584748}
   animationName: GrowShrink
   text: {fileID: 4776038878770271839}
+--- !u!114 &3895522865615159811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4776038878770271834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b6b5a09a3969e944a9cd370c12f5782, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stat: 3
+  prefix: 'Upgrade Points: '
+  suffix: 
 --- !u!1 &4776038878773004521
 GameObject:
   m_ObjectHideFlags: 0
@@ -6677,9 +6830,9 @@ GameObject:
   - component: {fileID: 4776038878856046528}
   - component: {fileID: 4776038878856046533}
   - component: {fileID: 4776038878856046530}
-  - component: {fileID: 4776038878856046531}
   - component: {fileID: 9214968903463915612}
   - component: {fileID: 1033202970}
+  - component: {fileID: 1187069370926547262}
   m_Layer: 5
   m_Name: CollectableCount
   m_TagString: Untagged
@@ -6805,20 +6958,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &4776038878856046531
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4776038878856046529}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a893c33656879b24b91c648d13e80b23, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  text: {fileID: 4776038878856046530}
-  prefix: $
 --- !u!95 &9214968903463915612
 Animator:
   serializedVersion: 4
@@ -6854,6 +6993,21 @@ MonoBehaviour:
   anim: {fileID: 9214968903463915612}
   animationName: GrowShrink
   text: {fileID: 4776038878856046530}
+--- !u!114 &1187069370926547262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4776038878856046529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b6b5a09a3969e944a9cd370c12f5782, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stat: 2
+  prefix: $
+  suffix: 
 --- !u!1 &4776038878886860334
 GameObject:
   m_ObjectHideFlags: 0
@@ -7178,6 +7332,7 @@ RectTransform:
   m_Children:
   - {fileID: 4776038879714192723}
   - {fileID: 952438443877588653}
+  - {fileID: 521994444}
   m_Father: {fileID: 4776038878043542409}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7755,7 +7910,6 @@ MonoBehaviour:
     type: 3}
   playerDroneController: {fileID: 5673612855749514959}
   showSelectedDronesModules: {fileID: 4776038879413524555}
-  pickSelectedDronesModule: {fileID: 3999473889480972641}
 --- !u!1 &4776038879202349307
 GameObject:
   m_ObjectHideFlags: 0
@@ -9287,8 +9441,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -200, y: 0}
-  m_SizeDelta: {x: 400, y: 0}
+  m_AnchoredPosition: {x: -300, y: -25}
+  m_SizeDelta: {x: 600, y: -50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4776038879667437695
 MonoBehaviour:
@@ -9473,9 +9627,9 @@ GameObject:
   - component: {fileID: 4776038879695114275}
   - component: {fileID: 4776038879695114276}
   - component: {fileID: 4776038879695114277}
-  - component: {fileID: 4776038879695114274}
   - component: {fileID: 88578067952360386}
   - component: {fileID: 601583695}
+  - component: {fileID: 4321507893361646068}
   m_Layer: 5
   m_Name: CollectableCount
   m_TagString: Untagged
@@ -9601,20 +9755,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &4776038879695114274
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4776038879695114272}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a893c33656879b24b91c648d13e80b23, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  text: {fileID: 4776038879695114277}
-  prefix: $
 --- !u!95 &88578067952360386
 Animator:
   serializedVersion: 4
@@ -9650,6 +9790,21 @@ MonoBehaviour:
   anim: {fileID: 88578067952360386}
   animationName: GrowShrink
   text: {fileID: 4776038879695114277}
+--- !u!114 &4321507893361646068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4776038879695114272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b6b5a09a3969e944a9cd370c12f5782, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stat: 2
+  prefix: $
+  suffix: 
 --- !u!1 &4776038879702209386
 GameObject:
   m_ObjectHideFlags: 0
@@ -10504,7 +10659,7 @@ GameObject:
   - component: {fileID: 905426366872238285}
   - component: {fileID: 1465085471568437870}
   - component: {fileID: 528790969928362515}
-  - component: {fileID: 4913251734605989854}
+  - component: {fileID: 2623528206106947932}
   m_Layer: 5
   m_Name: FreePurchasesDisplay
   m_TagString: Untagged
@@ -10665,7 +10820,7 @@ MonoBehaviour:
   anim: {fileID: 1465085471568437870}
   animationName: GrowShrink
   text: {fileID: 905426366872238285}
---- !u!114 &4913251734605989854
+--- !u!114 &2623528206106947932
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10674,10 +10829,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 4969436961567527595}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e4f1582b6d3d7c42a49c1e831cc0994, type: 3}
+  m_Script: {fileID: 11500000, guid: 2b6b5a09a3969e944a9cd370c12f5782, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: {fileID: 905426366872238285}
+  stat: 5
+  prefix: 'Free Purchases: '
+  suffix: 
 --- !u!1 &5364785612211848800
 GameObject:
   m_ObjectHideFlags: 0
@@ -11080,6 +11237,195 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!1 &5805660975461716369
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5330953276156331041}
+  - component: {fileID: 5584596879485733821}
+  - component: {fileID: 7829200941371005119}
+  - component: {fileID: 3969514711609779365}
+  - component: {fileID: 1660444241411780611}
+  - component: {fileID: 8773022556859408153}
+  m_Layer: 5
+  m_Name: ModuleOverChargersAvailable
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &5330953276156331041
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5805660975461716369}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 952438443877588653}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 250, y: -691.33716}
+  m_SizeDelta: {x: 450, y: 72.2}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &5584596879485733821
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5805660975461716369}
+  m_CullTransparentMesh: 1
+--- !u!114 &7829200941371005119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5805660975461716369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: 'Module Over Chargers: 2'
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 2f7e8524afc4c4f4984e01ac5af28ee0, type: 2}
+  m_sharedMaterial: {fileID: -3930149932424947861, guid: 2f7e8524afc4c4f4984e01ac5af28ee0,
+    type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294962688
+  m_fontColor: {r: 0, g: 0.9315822, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 32
+  m_fontSizeBase: 32
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 2
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!95 &3969514711609779365
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5805660975461716369}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9ab93b4994103c44fa83a4afb0ed60e2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 2
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1660444241411780611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5805660975461716369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11ab36ed5589e3b41930e1896e5a8906, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 3969514711609779365}
+  animationName: GrowShrink
+  text: {fileID: 7829200941371005119}
+--- !u!114 &8773022556859408153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5805660975461716369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b6b5a09a3969e944a9cd370c12f5782, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stat: 0
+  prefix: 'Module Over Chargers: '
+  suffix: 
 --- !u!1 &5935922121464482115
 GameObject:
   m_ObjectHideFlags: 0
@@ -12019,8 +12365,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b6b5a09a3969e944a9cd370c12f5782, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: {fileID: 5661619390446872773}
+  stat: 1
   prefix: 'Module Unlockers: '
+  suffix: 
 --- !u!1 &7584720069191667005
 GameObject:
   m_ObjectHideFlags: 0
@@ -12097,9 +12444,9 @@ GameObject:
   - component: {fileID: 894797808207954155}
   - component: {fileID: 9166733067040100027}
   - component: {fileID: 7556847773282507563}
-  - component: {fileID: 5004081937689672001}
   - component: {fileID: 6968732553078426539}
   - component: {fileID: 2145739504328702653}
+  - component: {fileID: 8996257016360127274}
   m_Layer: 5
   m_Name: CapacityDisplay
   m_TagString: Untagged
@@ -12225,20 +12572,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &5004081937689672001
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7707544556574254105}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd1821d6dd178dd419624054372e0250, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  text: {fileID: 7556847773282507563}
-  prefix: 'Module Capacity: '
 --- !u!95 &6968732553078426539
 Animator:
   serializedVersion: 4
@@ -12274,6 +12607,21 @@ MonoBehaviour:
   anim: {fileID: 6968732553078426539}
   animationName: GrowShrink
   text: {fileID: 7556847773282507563}
+--- !u!114 &8996257016360127274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7707544556574254105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b6b5a09a3969e944a9cd370c12f5782, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stat: 4
+  prefix: 'Module Capacity At: '
+  suffix: 
 --- !u!1 &7910452148645237309
 GameObject:
   m_ObjectHideFlags: 0
@@ -12903,7 +13251,6 @@ MonoBehaviour:
     type: 3}
   playerDroneController: {fileID: 5673612855749514959}
   showSelectedDronesModules: {fileID: 4776038879413524555}
-  pickSelectedDronesModule: {fileID: 3999473889480972641}
 --- !u!1 &9031991252782966744
 GameObject:
   m_ObjectHideFlags: 0

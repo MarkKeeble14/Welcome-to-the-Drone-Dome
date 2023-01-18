@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,14 +25,35 @@ public class UpgradeManager : MonoBehaviour
     [SerializeField] private UpgradeTree playerMovementUpgradeTree;
     public UpgradeTree PlayerMovementUpgradeTree => playerMovementUpgradeTree;
     private List<UpgradeTree> otherUpgradeTrees = new List<UpgradeTree>();
+    public List<UpgradeTree> AllUpgradeTrees
+    {
+        get
+        {
+            List<UpgradeTree> trees = new List<UpgradeTree>();
+            foreach (DroneController drone in playerDroneController.TrackedDrones)
+            {
+                foreach (DroneModule module in drone.AppliedModules)
+                {
+                    trees.Add(module.UpgradeTree);
+                }
+            }
+            trees.AddRange(otherUpgradeTrees);
+            return trees;
+        }
+    }
 
     [Header("References")]
     [SerializeField] private ShowSelectedDronesModulesDisplay showModulesDisplay;
     [SerializeField] private ShowUpgradeTreeOptions upgradeTreeOptionsDisplay;
-    [SerializeField] private UpgradeNodeDisplay upgradeNodePrefab;
     [SerializeField] private Transform upgradeTreeDisplay;
+    [SerializeField] private GameObject StatSheet;
+    [SerializeField] private UpgradeNodeDisplay upgradeNodePrefab;
+    [SerializeField] private StatSheetNode statSheetNodePrefab;
+    [SerializeField] private Transform statSheetNodeList;
     [SerializeField] private Transform upgradeTreeNodeParent;
     private List<UpgradeNodeDisplay> spawnedUpgradeNodes = new List<UpgradeNodeDisplay>();
+    private List<StatSheetNode> spawnedStatSheetNodes = new List<StatSheetNode>();
+
     [SerializeField] private TextMeshProUGUI sectionText;
     [SerializeField] private PlayerDroneController playerDroneController;
     [SerializeField] private Button backButton;
@@ -59,6 +81,15 @@ public class UpgradeManager : MonoBehaviour
         }
     }
 
+    private void DestroyStatSheetNodes()
+    {
+        // Remove all old offering game objects/displays
+        foreach (Transform child in statSheetNodeList)
+        {
+            Destroy(child.gameObject);
+        }
+    }
+
     public void OpenUpgradeTree()
     {
         // Pause Game
@@ -72,6 +103,11 @@ public class UpgradeManager : MonoBehaviour
 
     public void CloseUpgradeTree()
     {
+        foreach (UpgradeTree tree in AllUpgradeTrees)
+        {
+            tree.ResetNewlyUnlockedNodes();
+        }
+
         // Resume Game
         PauseManager._Instance.Resume();
 
@@ -85,6 +121,7 @@ public class UpgradeManager : MonoBehaviour
         upgradeTreeOptionsDisplay.gameObject.SetActive(false);
         upgradeTreeDisplay.gameObject.SetActive(false);
         showModulesDisplay.gameObject.SetActive(false);
+        StatSheet.SetActive(false);
         switch (state)
         {
             case UpgradeUIState.SHOW_UPGRADE_TREE_OPTIONS:
@@ -101,12 +138,14 @@ public class UpgradeManager : MonoBehaviour
                 break;
             case UpgradeUIState.SHOW_UPGRADE_TREE:
                 upgradeTreeDisplay.gameObject.SetActive(true);
+                StatSheet.SetActive(true);
                 // Buttons
                 backButton.gameObject.SetActive(true);
                 doneButton.gameObject.SetActive(false);
                 break;
         }
     }
+
 
     private void ShowUpgradeTreeOptions()
     {
@@ -138,10 +177,16 @@ public class UpgradeManager : MonoBehaviour
         CurrentUIState = UpgradeUIState.SHOW_UPGRADE_TREE;
         ShowUI(CurrentUIState);
 
+        DestroyStatSheetNodes();
         DestroyShownUpgradeNodes();
 
         // Debug.Log("Showing Tree: " + tree);
         spawnedUpgradeNodes = tree.ShowNodes(upgradeNodePrefab, upgradeTreeNodeParent);
+        foreach (UpgradeNodeDisplay upgradeNodeDisplay in spawnedUpgradeNodes)
+        {
+            StatSheetNode spawned = Instantiate(statSheetNodePrefab, statSheetNodeList);
+            spawned.Set(upgradeNodeDisplay.GetNode());
+        }
         sectionText.text = tree.Label;
     }
 
