@@ -141,7 +141,7 @@ public class ObjectPooler : MonoBehaviour
         }, text =>
         {
             Destroy(text.gameObject);
-        }, false, 100);
+        }, true, 100);
     }
 
     public ObjectPool<Projectile> GetProjectilePool(ModuleType source)

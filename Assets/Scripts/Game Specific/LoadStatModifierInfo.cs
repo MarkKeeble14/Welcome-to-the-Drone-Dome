@@ -6,7 +6,7 @@ public struct LoadStatModifierInfo
     [SerializeField] private StatModifierUpgradeNode upgradeNode;
     public StatModifierUpgradeNode UpgradeNode => upgradeNode;
 
-    public StatModifier1 Stat => upgradeNode.Stat;
+    public StatModifier Stat => upgradeNode.Stat;
 
     [SerializeField] private int index;
     public int Index => index;

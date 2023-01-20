@@ -34,7 +34,7 @@ public class DropMap
         foreach (GameObject module in upgradeNodeDrop.DropObjects(1))
         {
             DroneModuleUpgradeScavengeableParent mParent = module.GetComponent<DroneModuleUpgradeScavengeableParent>();
-            mParent.SetFromOptions(UpgradeManager._Instance.AllUpgradeTrees, position);
+            mParent.SetFromOptions(UpgradeManager._Instance.AllAvailableUpgradeTrees, position);
             module.transform.localScale = Vector3.one;
         }
     }

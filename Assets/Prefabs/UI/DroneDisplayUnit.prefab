@@ -317,7 +317,6 @@ MonoBehaviour:
   droneModePic: {fileID: 9068295421138428705}
   button: {fileID: 7948001499157909458}
   indexText: {fileID: 3501355193627566358}
-  Selected: 0
   selectedColor: {r: 1, g: 0, b: 0, a: 1}
   notSelectedColor: {r: 0.20784314, g: 0.20784314, b: 0.20784314, a: 1}
   activeCDColor: {r: 0.20784314, g: 0.20784314, b: 0.20784314, a: 1}
@@ -327,15 +326,15 @@ MonoBehaviour:
     - key: 0
       value:
         Color: {r: 0.20784314, g: 0.20784314, b: 0.20784314, a: 1}
-        Sprite: {fileID: 21300000, guid: f1c74c357a0be5c4fb147a33d44f87a4, type: 3}
+        Sprite: {fileID: 21300000, guid: 8127408350880e74bb129d791ca54bd8, type: 3}
     - key: 1
       value:
         Color: {r: 0.20784314, g: 0.20784314, b: 0.20784314, a: 1}
-        Sprite: {fileID: 21300000, guid: 97f1215247d3cf649bf2bb64966c8fb7, type: 3}
+        Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
     - key: 2
       value:
         Color: {r: 0.20784314, g: 0.20784314, b: 0.20784314, a: 1}
-        Sprite: {fileID: 21300000, guid: 8127408350880e74bb129d791ca54bd8, type: 3}
+        Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!1 &2827463403139799946
 GameObject:
   m_ObjectHideFlags: 0

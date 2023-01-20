@@ -35,18 +35,37 @@ public class UpgradeTree
     [SerializeField] private UpgradeTreeRelation upgradeTreeRelation;
     public UpgradeTreeRelation UpgradeTreeRelation => upgradeTreeRelation;
 
-    public List<UpgradeNodeDisplay> ShowNodes(UpgradeNodeDisplay upgradeNodePrefab, Transform t)
+    public List<UpgradeNodeDisplay> ShowNodes(UpgradeNodeDisplay upgradeNodePrefab, Transform t, Action<UpgradeNode> onClick, bool inGame)
     {
-        List<UpgradeNodeDisplay> spawnedNodes = new List<UpgradeNodeDisplay>();
-        for (int i = 0; i < nodes.Count; i++)
+        if (inGame)
         {
-            UpgradeNode node = nodes[i];
-            UpgradeNodeDisplay spawned = GameObject.Instantiate(upgradeNodePrefab, t);
-            spawned.Set(ref node);
-            spawnedNodes.Add(spawned);
+            List<UpgradeNodeDisplay> spawnedNodes = new List<UpgradeNodeDisplay>();
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                UpgradeNode node = nodes[i];
+                UpgradeNodeDisplay spawned = GameObject.Instantiate(upgradeNodePrefab, t);
+                spawned.Set(ref node, onClick);
+                spawnedNodes.Add(spawned);
+            }
+            return spawnedNodes;
 
         }
-        return spawnedNodes;
+        else
+        {
+            List<UpgradeNodeDisplay> spawnedNodes = new List<UpgradeNodeDisplay>();
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                if (nodes[i] is IUpgradeNodePermanantelyUpgradeable)
+                {
+                    UpgradeNode node = nodes[i];
+                    UpgradeNodeDisplay spawned = GameObject.Instantiate(upgradeNodePrefab, t);
+                    spawned.Set(ref node, onClick);
+                    spawnedNodes.Add(spawned);
+                }
+            }
+            return spawnedNodes;
+        }
+
     }
 
     public void AddNode(UpgradeNode upgradeNode)
@@ -60,15 +79,17 @@ public class UpgradeTree
     public UpgradeNode GetRandomNode()
     {
         if (potentialNodes.Count <= 0) return null;
-        UpgradeNode node = potentialNodes[UnityEngine.Random.Range(0, nodes.Count - 1)];
+
+        UpgradeNode node = potentialNodes[UnityEngine.Random.Range(0, potentialNodes.Count - 1)];
+        Debug.Log("Random Node: " + node);
+        potentialNodes.Remove(node);
+
         if (node.Locked)
         {
-            potentialNodes.Remove(node);
             return node;
         }
         else
         {
-            potentialNodes.Remove(node);
             return GetRandomNode();
         }
     }

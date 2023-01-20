@@ -30,16 +30,16 @@ public class ShowSelectedDronesModulesDisplay : MonoBehaviour
         weaponsLabel.text = "Weapons: " + DroneModule.GetNumModulesOfCategory(ModuleCategory.WEAPON, addedModules) + "/" + GameManager._Instance.WeaponsPerDrone;
     }
 
-    public void Set(List<DroneModule> modules)
+    public void Set(List<DroneModule> modules, bool interactable)
     {
         Clear();
         for (int i = 0; i < modules.Count; i++)
         {
-            AddModule(modules[i]);
+            AddModule(modules[i], interactable);
         }
     }
 
-    public void AddModule(DroneModule module)
+    public void AddModule(DroneModule module, bool interactable)
     {
         addedModules.Add(module);
         SelectedDronesModuleDisplay spawned = null;
@@ -55,7 +55,7 @@ public class ShowSelectedDronesModulesDisplay : MonoBehaviour
                 spawned = Instantiate(UIPrefab, weaponsListParent);
                 break;
         }
-        spawned.Set(module, () => UpgradeManager._Instance.ShowUpgradeTree(module.UpgradeTree));
+        spawned.Set(module, () => UpgradeManager._Instance.ShowUpgradeTree(module.UpgradeTree), interactable);
         spawnedList.Add(spawned);
     }
 

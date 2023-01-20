@@ -3,9 +3,9 @@
 public abstract class OverChargeableUpgradeNode : UpgradeNode
 {
     [Header("Over Chargeable Upgrade Node")]
+    [SerializeField] protected int PointsPerOverCharge = 5;
     protected int overChargedPoints;
     public int OverChargedPoints => overChargedPoints;
-    [SerializeField] protected int PointsPerOverCharge = 5;
 
     public bool HasBeenUnlocked => OverChargedPoints > 0;
 

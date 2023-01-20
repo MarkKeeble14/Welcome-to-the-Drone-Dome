@@ -25,7 +25,7 @@ public class UpgradeManager : MonoBehaviour
     [SerializeField] private UpgradeTree playerMovementUpgradeTree;
     public UpgradeTree PlayerMovementUpgradeTree => playerMovementUpgradeTree;
     private List<UpgradeTree> otherUpgradeTrees = new List<UpgradeTree>();
-    public List<UpgradeTree> AllUpgradeTrees
+    public List<UpgradeTree> AllAvailableUpgradeTrees
     {
         get
         {
@@ -47,7 +47,7 @@ public class UpgradeManager : MonoBehaviour
     [SerializeField] private ShowUpgradeTreeOptions upgradeTreeOptionsDisplay;
     [SerializeField] private Transform upgradeTreeDisplay;
     [SerializeField] private GameObject StatSheet;
-    [SerializeField] private UpgradeNodeDisplay upgradeNodePrefab;
+    [SerializeField] private UpgradeNodeDisplay inGameUpgradeNodePrefab;
     [SerializeField] private StatSheetNode statSheetNodePrefab;
     [SerializeField] private Transform statSheetNodeList;
     [SerializeField] private Transform upgradeTreeNodeParent;
@@ -103,7 +103,7 @@ public class UpgradeManager : MonoBehaviour
 
     public void CloseUpgradeTree()
     {
-        foreach (UpgradeTree tree in AllUpgradeTrees)
+        foreach (UpgradeTree tree in AllAvailableUpgradeTrees)
         {
             tree.ResetNewlyUnlockedNodes();
         }
@@ -168,7 +168,7 @@ public class UpgradeManager : MonoBehaviour
         ShowUI(CurrentUIState);
 
         // Debug.Log("Show Selected Drone Modules: " + drone);
-        showModulesDisplay.Set(drone.AppliedModules);
+        showModulesDisplay.Set(drone.AppliedModules, true);
     }
 
     public void ShowUpgradeTree(UpgradeTree tree)
@@ -181,7 +181,7 @@ public class UpgradeManager : MonoBehaviour
         DestroyShownUpgradeNodes();
 
         // Debug.Log("Showing Tree: " + tree);
-        spawnedUpgradeNodes = tree.ShowNodes(upgradeNodePrefab, upgradeTreeNodeParent);
+        spawnedUpgradeNodes = tree.ShowNodes(inGameUpgradeNodePrefab, upgradeTreeNodeParent, node => TryPurchaseNode(node), true);
         foreach (UpgradeNodeDisplay upgradeNodeDisplay in spawnedUpgradeNodes)
         {
             StatSheetNode spawned = Instantiate(statSheetNodePrefab, statSheetNodeList);

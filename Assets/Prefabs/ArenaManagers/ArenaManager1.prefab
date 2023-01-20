@@ -28,7 +28,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2158898538885881177}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -47,10 +48,13 @@ MonoBehaviour:
   spawnEnemies: 1
   awardInitialShopVisit: 1
   arenaWaves:
-  - RewardType: 5
-    CanRepeatWaveReward: 1
+  - RewardType: 1
+    SubWaveRewards:
+    - Reward: 2
+      Count: 1
     UpgradePointsAwarded: 2
     CanRepeatedlyAwardUpgradePoints: 1
+    CanRepeatWaveReward: 1
     EnemySpawns:
       options:
       - key: {fileID: 5638404428015688683, guid: fd6e99f1c89d8b64388ded8d053fad19,
@@ -63,15 +67,18 @@ MonoBehaviour:
         value: 100
     EnemiesKilledThisWave: 0
     EnemiesToKill: 3
-    NumEnemiesAliveAtOnce: 5
+    NumEnemiesAliveAtOnce: 6
     NumOtherSpawnsAtOnce: 0
     BossZoomOut: 0
     BossSpawns: []
     MiniBossSpawns: []
-  - RewardType: 5
-    CanRepeatWaveReward: 1
+  - RewardType: 1
+    SubWaveRewards:
+    - Reward: 2
+      Count: 2
     UpgradePointsAwarded: 2
     CanRepeatedlyAwardUpgradePoints: 1
+    CanRepeatWaveReward: 1
     EnemySpawns:
       options:
       - key: {fileID: 5638404428015688683, guid: fd6e99f1c89d8b64388ded8d053fad19,
@@ -90,9 +97,10 @@ MonoBehaviour:
     BossSpawns: []
     MiniBossSpawns: []
   - RewardType: 2
-    CanRepeatWaveReward: 1
+    SubWaveRewards: []
     UpgradePointsAwarded: 3
     CanRepeatedlyAwardUpgradePoints: 1
+    CanRepeatWaveReward: 1
     EnemySpawns:
       options:
       - key: {fileID: 5638404428015688683, guid: fd6e99f1c89d8b64388ded8d053fad19,
@@ -110,10 +118,13 @@ MonoBehaviour:
     BossZoomOut: 0
     BossSpawns: []
     MiniBossSpawns: []
-  - RewardType: 3
-    CanRepeatWaveReward: 1
+  - RewardType: 1
+    SubWaveRewards:
+    - Reward: 2
+      Count: 1
     UpgradePointsAwarded: 2
     CanRepeatedlyAwardUpgradePoints: 1
+    CanRepeatWaveReward: 1
     EnemySpawns:
       options:
       - key: {fileID: 5638404428015688683, guid: fd6e99f1c89d8b64388ded8d053fad19,
@@ -133,9 +144,10 @@ MonoBehaviour:
     MiniBossSpawns:
     - {fileID: 5638404428015688683, guid: 5cfa219bc4a2f0e42b80303a027312d7, type: 3}
   - RewardType: 2
-    CanRepeatWaveReward: 1
+    SubWaveRewards: []
     UpgradePointsAwarded: 2
     CanRepeatedlyAwardUpgradePoints: 1
+    CanRepeatWaveReward: 1
     EnemySpawns:
       options:
       - key: {fileID: 5638404428015688683, guid: fd6e99f1c89d8b64388ded8d053fad19,
@@ -154,10 +166,13 @@ MonoBehaviour:
     BossSpawns:
     - {fileID: 5638404428015688683, guid: 6cceafb925b214f4a917954323873b04, type: 3}
     MiniBossSpawns: []
-  - RewardType: 3
-    CanRepeatWaveReward: 1
+  - RewardType: 1
+    SubWaveRewards:
+    - Reward: 2
+      Count: 1
     UpgradePointsAwarded: 0
     CanRepeatedlyAwardUpgradePoints: 1
+    CanRepeatWaveReward: 1
     EnemySpawns:
       options:
       - key: {fileID: 5638404428015688683, guid: fd6e99f1c89d8b64388ded8d053fad19,
@@ -177,9 +192,10 @@ MonoBehaviour:
     MiniBossSpawns:
     - {fileID: 5638404428015688683, guid: 5cfa219bc4a2f0e42b80303a027312d7, type: 3}
   - RewardType: 2
-    CanRepeatWaveReward: 1
+    SubWaveRewards: []
     UpgradePointsAwarded: 3
     CanRepeatedlyAwardUpgradePoints: 1
+    CanRepeatWaveReward: 1
     EnemySpawns:
       options:
       - key: {fileID: 5638404428015688683, guid: fd6e99f1c89d8b64388ded8d053fad19,
@@ -199,10 +215,13 @@ MonoBehaviour:
     - {fileID: 5638404428015688683, guid: 6cceafb925b214f4a917954323873b04, type: 3}
     MiniBossSpawns:
     - {fileID: 5638404428015688683, guid: 5cfa219bc4a2f0e42b80303a027312d7, type: 3}
-  - RewardType: 1
-    CanRepeatWaveReward: 0
+  - RewardType: 0
+    SubWaveRewards:
+    - Reward: 0
+      Count: 1
     UpgradePointsAwarded: 0
     CanRepeatedlyAwardUpgradePoints: 0
+    CanRepeatWaveReward: 0
     EnemySpawns:
       options:
       - key: {fileID: 5638404428015688683, guid: fd6e99f1c89d8b64388ded8d053fad19,
@@ -227,3 +246,81 @@ MonoBehaviour:
   cameraHeightAllowance: 10
   timeBetweenResourceClears: 30
   resourceClearFudgeFactor: 5
+  playerCredits: {fileID: 11400000, guid: 9e7520a7fd0a9be46a773ce0f92ed668, type: 2}
+  popupText: {fileID: -5260616264727522277, guid: d52a68650b4dbcf44aa2e12f8a640e87,
+    type: 3}
+--- !u!1001 &7333623055993162047
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 8573123807695300156}
+    m_Modifications:
+    - target: {fileID: 7701380739148040643, guid: f67941fd4731b0543877de9db52d5716,
+        type: 3}
+      propertyPath: m_Name
+      value: Spawning
+      objectReference: {fileID: 0}
+    - target: {fileID: 8661461775116489830, guid: f67941fd4731b0543877de9db52d5716,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8661461775116489830, guid: f67941fd4731b0543877de9db52d5716,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8661461775116489830, guid: f67941fd4731b0543877de9db52d5716,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8661461775116489830, guid: f67941fd4731b0543877de9db52d5716,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8661461775116489830, guid: f67941fd4731b0543877de9db52d5716,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8661461775116489830, guid: f67941fd4731b0543877de9db52d5716,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8661461775116489830, guid: f67941fd4731b0543877de9db52d5716,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8661461775116489830, guid: f67941fd4731b0543877de9db52d5716,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8661461775116489830, guid: f67941fd4731b0543877de9db52d5716,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8661461775116489830, guid: f67941fd4731b0543877de9db52d5716,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8661461775116489830, guid: f67941fd4731b0543877de9db52d5716,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f67941fd4731b0543877de9db52d5716, type: 3}
+--- !u!4 &2158898538885881177 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8661461775116489830, guid: f67941fd4731b0543877de9db52d5716,
+    type: 3}
+  m_PrefabInstance: {fileID: 7333623055993162047}
+  m_PrefabAsset: {fileID: 0}

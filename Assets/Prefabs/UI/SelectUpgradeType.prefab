@@ -324,7 +324,7 @@ MonoBehaviour:
   button: {fileID: 405162621121451022}
   typeIcon: {fileID: 621646755298000985}
   droneIcon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  otherIcon: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  otherIcon: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   backgroundImage: {fileID: 7448875474477515072}
   newBackgroundColor: {r: 1, g: 1, b: 0, a: 1}
   defaultBackgroundColor: {r: 0.20784314, g: 0.20784314, b: 0.20784314, a: 1}

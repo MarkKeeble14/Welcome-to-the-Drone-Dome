@@ -50,6 +50,7 @@ public class SelectUpgradeNodeDisplay : MonoBehaviour
         DroneModuleIcon spawned = Instantiate(iconPrefab, iconList);
         UpgradeTreeDisplayInfo info = GameManager._Instance.GetOtherInfo(tree.UpgradeTreeRelation);
         spawned.Set(info.Sprite, info.Color);
+        otherIcon = info.Sprite;
 
         button.onClick.AddListener(delegate
         {

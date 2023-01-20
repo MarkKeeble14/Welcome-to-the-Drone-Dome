@@ -49,7 +49,10 @@ public class BoolSwitchUpgradeNode : UpgradeNode
     public override void SetExtraUI(UpgradeNodeDisplay nodeDisplay)
     {
         base.SetExtraUI(nodeDisplay);
-        nodeDisplay.SetPoints(CurrentPoints, NumPointsToBeActive);
+        if (nodeDisplay is InGameUpgradeNodeDisplay)
+        {
+            ((InGameUpgradeNodeDisplay)nodeDisplay).SetPoints(CurrentPoints, NumPointsToBeActive);
+        }
     }
 
     public override string GetStatState()

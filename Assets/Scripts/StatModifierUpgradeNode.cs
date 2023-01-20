@@ -3,13 +3,13 @@ using TMPro;
 using System;
 
 [CreateAssetMenu(fileName = "StatModifierUpgradeNode", menuName = "UpgradeNode/StatModifierUpgradeNode")]
-public class StatModifierUpgradeNode : OverChargeableUpgradeNode
+public class StatModifierUpgradeNode : OverChargeableUpgradeNode, IUpgradeNodePermanantelyUpgradeable
 {
     [Header("Stat Modifier Upgrade Node")]
     [SerializeField] protected int maxPoints = 5;
     public int MaxPoints => maxPoints;
-    [SerializeField] protected GrowthStatModifier1 statModifier;
-    public StatModifier1 Stat => statModifier;
+    [SerializeField] protected GrowthStatModifier statModifier;
+    public StatModifier Stat => statModifier;
     public Action OnPurchase;
 
     public override int GetMaxPoints()
@@ -38,7 +38,10 @@ public class StatModifierUpgradeNode : OverChargeableUpgradeNode
     public override void SetExtraUI(UpgradeNodeDisplay nodeDisplay)
     {
         base.SetExtraUI(nodeDisplay);
-        nodeDisplay.SetPoints(CurrentPoints, GetMaxPoints());
+        if (nodeDisplay is InGameUpgradeNodeDisplay)
+        {
+            ((InGameUpgradeNodeDisplay)nodeDisplay).SetPoints(CurrentPoints, GetMaxPoints());
+        }
         nodeDisplay.AddExtraText("Change: " + (statModifier.GrowthChangeBy == StatMathOperation.ADD ? (statModifier.CurrentGrowth > 0 ? "+" : "") : "x")
                 + statModifier.CurrentGrowth.ToString());
     }
@@ -46,5 +49,25 @@ public class StatModifierUpgradeNode : OverChargeableUpgradeNode
     public override string GetStatState()
     {
         return statModifier.Value.ToString();
+    }
+
+    public void Upgrade()
+    {
+        ++statModifier.numTimesBaseUpgraded;
+    }
+
+    public void HardReset()
+    {
+        statModifier.numTimesBaseUpgraded = 0;
+    }
+
+    public string GetLabel()
+    {
+        return Label;
+    }
+
+    public string GetToShow()
+    {
+        return "Value: " + Math.Round(statModifier.Value, 2).ToString();
     }
 }

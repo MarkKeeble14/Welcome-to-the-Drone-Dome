@@ -19,9 +19,10 @@ MonoBehaviour:
   maxPoints: 5
   statModifier:
     baseValue: 0
+    hardBaseValue: 0
     affectedValue: 0
     minValue: 0
-    hasMin: 0
+    hasMin: 1
     maxValue: 0
     hasMax: 0
     changeBy: 0
@@ -29,3 +30,4 @@ MonoBehaviour:
     growth: 1
     growthIncreaseUponGrow: 0
     growthChangeBy: 0
+    baseValuePermaGrowth: 0.05

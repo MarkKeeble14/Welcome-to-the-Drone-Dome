@@ -182,11 +182,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_IgnoreLayout: 0
-  m_MinWidth: -1
+  m_MinWidth: 100
   m_MinHeight: -1
-  m_PreferredWidth: -1
+  m_PreferredWidth: 200
   m_PreferredHeight: -1
-  m_FlexibleWidth: 1
+  m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
 --- !u!1 &2202942212332521148
@@ -354,11 +354,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_IgnoreLayout: 0
-  m_MinWidth: -1
+  m_MinWidth: 300
   m_MinHeight: -1
-  m_PreferredWidth: -1
+  m_PreferredWidth: 400
   m_PreferredHeight: -1
-  m_FlexibleWidth: 2
+  m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
 --- !u!1 &2673479938794247518
@@ -571,9 +571,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2229119554957405247}
-  - component: {fileID: 1687224695371793726}
   - component: {fileID: 7532482819658151428}
   - component: {fileID: 9019927766086761929}
+  - component: {fileID: 6772002864238418374}
   m_Layer: 5
   m_Name: UpgradeNodeDisplay
   m_TagString: Untagged
@@ -603,35 +603,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 500, y: 125}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1687224695371793726
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2905923315673472925}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1c4ef174b4fb5a419e4201885fac73b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  labelText: {fileID: 3242685435021703362}
-  pointsText: {fileID: 4338097839131042998}
-  extraText: {fileID: 3816368227432220867}
-  unlockButtonText: {fileID: 8591262663765748054}
-  backgroundImage: {fileID: 9019927766086761929}
-  overChargeButton: {fileID: 3480301716009532121}
-  purchaseButton: {fileID: 9167235329310304522}
-  unlockButton: {fileID: 4836686461676172359}
-  alterColorOf: {fileID: 2295030118700985522}
-  unavailableColor: {r: 0.3962264, g: 0.3962264, b: 0.3962264, a: 0.6666667}
-  availableColor: {r: 0.7529412, g: 0.7529412, b: 0.7529412, a: 1}
-  partiallyPurchasedColor: {r: 0.23462613, g: 0.745283, b: 0, a: 1}
-  fullyPurchasedColor: {r: 0.15606391, g: 1, b: 0, a: 1}
-  overChargedColor: {r: 0.6386628, g: 0, b: 1, a: 1}
-  newBackgroundColor: {r: 1, g: 1, b: 0, a: 1}
-  defaultBackgroundColor: {r: 0.20784314, g: 0.20784314, b: 0.20784314, a: 1}
-  node: {fileID: 0}
 --- !u!222 &7532482819658151428
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -670,6 +641,35 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6772002864238418374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2905923315673472925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81c069453f4e31d4eb90484173870687, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  labelText: {fileID: 3242685435021703362}
+  extraText: {fileID: 3816368227432220867}
+  backgroundImage: {fileID: 9019927766086761929}
+  purchaseButton: {fileID: 9167235329310304522}
+  node: {fileID: 0}
+  unlockButtonText: {fileID: 8591262663765748054}
+  pointsText: {fileID: 4338097839131042998}
+  overChargeButton: {fileID: 3480301716009532121}
+  unlockButton: {fileID: 4836686461676172359}
+  alterColorOf: {fileID: 2295030118700985522}
+  unavailableColor: {r: 0.20784314, g: 0.20784314, b: 0.20784314, a: 1}
+  availableColor: {r: 0.77254903, g: 0.77254903, b: 0.77254903, a: 1}
+  partiallyPurchasedColor: {r: 0, g: 1, b: 0.059423923, a: 1}
+  fullyPurchasedColor: {r: 0.016360158, g: 0.5943396, b: 0, a: 1}
+  overChargedColor: {r: 0.6844139, g: 0.039215688, b: 0.972549, a: 1}
+  newlyUnlockedBackgroundColor: {r: 0.97654676, g: 1, b: 0, a: 1}
+  defaultBackgroundColor: {r: 0.20784314, g: 0.20784314, b: 0.20784314, a: 1}
 --- !u!1 &3725087283899615406
 GameObject:
   m_ObjectHideFlags: 0

@@ -18,8 +18,6 @@ public class FiringRangeManager : MonoBehaviour
     private Dictionary<ModuleType, FiringRangeModuleButton> spawnedModuleButtons = new Dictionary<ModuleType, FiringRangeModuleButton>();
 
     [Header("References")]
-    [SerializeField] private GameObject regularUI;
-    [SerializeField] private GameObject firingRangeUI;
     [SerializeField] private Transform listParent;
     [SerializeField] private FiringRangeModuleButton firingRangeModuleButton;
     [SerializeField] private PlayerDroneController playerDroneController;
@@ -32,8 +30,7 @@ public class FiringRangeManager : MonoBehaviour
 
     public void Open()
     {
-        firingRangeUI.SetActive(true);
-        regularUI.SetActive(false);
+        MainMenuUIManager._Instance.OpenFiringRange();
         PauseManager._Instance.Pause();
         UIManager._Instance.SetCurrentDronesDisplayForFiringRange();
         UIManager._Instance.CurrentDroneDisplay.Set();
@@ -93,8 +90,7 @@ public class FiringRangeManager : MonoBehaviour
 
     public void Close()
     {
-        regularUI.SetActive(true);
-        firingRangeUI.SetActive(false);
+        MainMenuUIManager._Instance.CloseFiringRange();
         PauseManager._Instance.Resume();
 
         UIManager._Instance.SetCurrentDronesDisplayForMenu();

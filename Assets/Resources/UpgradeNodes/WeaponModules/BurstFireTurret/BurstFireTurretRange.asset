@@ -18,8 +18,9 @@ MonoBehaviour:
   PointsPerOverCharge: 5
   maxPoints: 5
   statModifier:
-    baseValue: 4
-    affectedValue: 4
+    baseValue: 7
+    hardBaseValue: 7
+    affectedValue: 7
     minValue: 0
     hasMin: 0
     maxValue: 0
@@ -29,3 +30,4 @@ MonoBehaviour:
     growth: 0.5
     growthIncreaseUponGrow: 0
     growthChangeBy: 0
+    baseValuePermaGrowth: 0.05

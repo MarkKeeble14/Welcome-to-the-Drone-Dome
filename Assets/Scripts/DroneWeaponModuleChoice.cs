@@ -18,7 +18,9 @@ public class DroneWeaponModuleChoice : MonoBehaviour
     public void Set(ModuleType type, int defaultCost, int indexInList)
     {
         nameText.text = EnumToStringHelper.GetStringValue(type);
+
         intendedCost = defaultCost;
+
         categoryText.text = GameManager._Instance.GetModuleCategory(type).ToString();
 
         discard.onClick.AddListener(delegate
@@ -45,19 +47,21 @@ public class DroneWeaponModuleChoice : MonoBehaviour
         if (ShopManager._Instance.FreePurchase)
         {
             actualCost = 0;
-            intendedCostText.gameObject.SetActive(true);
+            // intendedCostText.gameObject.SetActive(true);
             intendedCostText.text = intendedCost.ToString();
             intendedCostText.fontStyle = FontStyles.Strikethrough;
 
             actualCostText.text = "Free";
+            intendedCostText.gameObject.SetActive(false);
         }
         else
         {
             intendedCostText.fontStyle = FontStyles.Normal;
-            intendedCostText.gameObject.SetActive(false);
+            // intendedCostText.gameObject.SetActive(false);
 
             actualCost = intendedCost;
             actualCostText.text = actualCost.ToString();
+
         }
     }
 }

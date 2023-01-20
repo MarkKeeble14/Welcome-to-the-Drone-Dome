@@ -312,6 +312,7 @@ public partial class GameManager : MonoBehaviour
 
     public UpgradeTreeDisplayInfo GetOtherInfo(UpgradeTreeRelation upgradeTreeRelation)
     {
+        // Debug.Log(upgradeTreeRelation);
         return upgradeTreeDisplayInfo.GetEntry(upgradeTreeRelation).Value;
     }
 
@@ -419,12 +420,12 @@ public partial class GameManager : MonoBehaviour
 
     public void IncreaseCameraZoom(float bossZoomOut)
     {
-        targetCameraZoom = targetCameraZoom + new Vector3(0, bossZoomOut, 0);
+        // targetCameraZoom = targetCameraZoom + new Vector3(0, bossZoomOut, 0);
     }
 
     public void DecreaseCameraZoom(float bossZoomOut)
     {
-        targetCameraZoom = targetCameraZoom - new Vector3(0, bossZoomOut, 0);
+        // targetCameraZoom = targetCameraZoom - new Vector3(0, bossZoomOut, 0);
     }
 
     private void Update()
@@ -438,5 +439,15 @@ public partial class GameManager : MonoBehaviour
     public void HealPlayer(float healAmount)
     {
         playerHealth.Heal(healAmount, true);
+    }
+
+    public void HardResetStatNodes()
+    {
+        UpgradeNode[] nodes = Resources.LoadAll<UpgradeNode>("UpgradeNodes");
+        foreach (UpgradeNode node in nodes)
+        {
+            if (node is IUpgradeNodePermanantelyUpgradeable)
+                ((IUpgradeNodePermanantelyUpgradeable)node).HardReset();
+        }
     }
 }

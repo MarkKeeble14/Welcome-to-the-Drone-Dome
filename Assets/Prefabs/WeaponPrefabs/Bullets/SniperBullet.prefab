@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 4411560104125395870}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 86293c00da70c70439befa7312b44e45, type: 2}
+  - {fileID: 2100000, guid: 3d91da379ae202c40ac5e55b0893a8a6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -130,13 +130,7 @@ MonoBehaviour:
   collideWithLayers:
     serializedVersion: 2
     m_Bits: 128
-  hasContactDamage: 1
-  smartBouncingEnabled: {fileID: 11400000, guid: 2826bcdd9c5441f4a97eb722fc96f634,
-    type: 2}
   smartBouncingDetectionRange: 5
-  numBounces: {fileID: 11400000, guid: 0f5ebe1faf053c64480f17499ed8278f, type: 2}
-  numCanPierceThrough: {fileID: 11400000, guid: fff13d627a5e23943a6475c9f5e2b6fb,
-    type: 2}
   shouldDestroyAfterTime: 1
   lifetime: 5
   rb: {fileID: 4411560104125395868}

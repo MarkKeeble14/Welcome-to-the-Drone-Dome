@@ -14,9 +14,9 @@ public class ExplosiveMortarProjectile : MortarProjectile
         ReleaseAction?.Invoke();
     }
 
-    public void Set(StatModifier1 mainDamage, StatModifier1 mainRadius, StatModifier1 mainPower, StatModifier1 mainLift,
-        BoolSwitchUpgradeNode shouldDrop, StatModifier1 timeBetweenDrops,
-        StatModifier1 droppedDamage, StatModifier1 droppedRadius, StatModifier1 droppedPower, StatModifier1 droppedLift)
+    public void Set(StatModifier mainDamage, StatModifier mainRadius, StatModifier mainPower, StatModifier mainLift,
+        BoolSwitchUpgradeNode shouldDrop, StatModifier timeBetweenDrops,
+        StatModifier droppedDamage, StatModifier droppedRadius, StatModifier droppedPower, StatModifier droppedLift)
     {
         // Set main explodeable values
         mainExplodeable.SetExplosionData(mainDamage.Value, mainRadius.Value, mainPower.Value, mainLift.Value);
@@ -31,7 +31,7 @@ public class ExplosiveMortarProjectile : MortarProjectile
         StopAllCoroutines();
     }
 
-    private IEnumerator DropExplosives(StatModifier1 timeBetweenDrops, StatModifier1 damage, StatModifier1 radius, StatModifier1 power, StatModifier1 lift)
+    private IEnumerator DropExplosives(StatModifier timeBetweenDrops, StatModifier damage, StatModifier radius, StatModifier power, StatModifier lift)
     {
         yield return new WaitForSeconds(timeBetweenDrops.Value);
 

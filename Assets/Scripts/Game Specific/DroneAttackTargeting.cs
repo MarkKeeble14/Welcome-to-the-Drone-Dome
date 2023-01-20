@@ -8,23 +8,38 @@ public class DroneAttackTargeting : MonoBehaviour
 
     [SerializeField] private LayerMask enemyLayer;
 
+    private void Update()
+    {
+        if (OverridingTarget)
+        {
+            transform.LookAt(OverridingTarget);
+        }
+    }
+
     public Transform GetTarget(float range, Transform t, WeaponTargetingType targetBy)
     {
         if (OverridingTarget != null)
             return OverridingTarget;
         Collider[] inRange = Physics.OverlapSphere(t.position, range, enemyLayer);
         if (inRange.Length == 0) return null;
+        Transform toReturn = null;
         switch (targetBy)
         {
             case WeaponTargetingType.ANY:
-                return inRange[0].transform;
+                toReturn = inRange[0].transform;
+                break;
             case WeaponTargetingType.CLOSEST:
-                return TransformHelper.GetClosestTransformToTransform(t, inRange);
+                toReturn = TransformHelper.GetClosestTransformToTransform(t, inRange);
+                break;
             case WeaponTargetingType.FURTHEST:
-                return TransformHelper.GetFurthestTransformToTransform(t, inRange);
+                toReturn = TransformHelper.GetFurthestTransformToTransform(t, inRange);
+                break;
             default:
-                return null;
+                toReturn = null;
+                break;
         }
+        transform.LookAt(toReturn);
+        return toReturn;
     }
 
     public Transform GetTarget(float range, Transform t, WeaponTargetingType targetBy, List<Transform> exclude)
@@ -42,16 +57,23 @@ public class DroneAttackTargeting : MonoBehaviour
                 candidateTargets.Add(col);
         }
 
+        Transform toReturn = null;
         switch (targetBy)
         {
             case WeaponTargetingType.ANY:
-                return candidateTargets[0].transform;
+                toReturn = candidateTargets[0].transform;
+                break;
             case WeaponTargetingType.CLOSEST:
-                return TransformHelper.GetClosestTransformToTransform(t, candidateTargets);
+                toReturn = TransformHelper.GetClosestTransformToTransform(t, candidateTargets);
+                break;
             case WeaponTargetingType.FURTHEST:
-                return TransformHelper.GetFurthestTransformToTransform(t, candidateTargets);
+                toReturn = TransformHelper.GetFurthestTransformToTransform(t, candidateTargets);
+                break;
             default:
-                return null;
+                toReturn = null;
+                break;
         }
+        transform.LookAt(toReturn);
+        return toReturn;
     }
 }

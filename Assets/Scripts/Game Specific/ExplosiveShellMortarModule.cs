@@ -6,13 +6,13 @@ public class ExplosiveShellMortarModule : DroneMortarModule
     [SerializeField] private LoadStatModifierInfo mainDamage;
     [SerializeField] private LoadStatModifierInfo mainRadius;
     [SerializeField] private LoadStatModifierInfo mainPower;
-    [SerializeField] private StatModifier1 mainLift;
+    [SerializeField] private StatModifier mainLift;
     [SerializeField] private LoadBoolSwitchInfo shouldDrop;
     [SerializeField] private LoadStatModifierInfo timeBetweenDrops;
     [SerializeField] private LoadStatModifierInfo miniDamage;
     [SerializeField] private LoadStatModifierInfo miniRadius;
     [SerializeField] private LoadStatModifierInfo miniPower;
-    [SerializeField] private StatModifier1 miniLift;
+    [SerializeField] private StatModifier miniLift;
     public override ModuleType Type => ModuleType.EXPLOSIVE_SHELL_MORTAR;
 
     protected override void LoadModuleData()

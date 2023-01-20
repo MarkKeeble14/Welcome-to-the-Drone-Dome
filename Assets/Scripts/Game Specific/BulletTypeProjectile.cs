@@ -59,11 +59,19 @@ public class BulletTypeProjectile : Projectile
 
     public void Set(float damage, int numBounce, bool smartBounce, int numPierce, Vector3 direction, float speed, ModuleType source)
     {
+        // Set stats
         contactDamage = damage;
         setNumBounces = numBounce;
         setNumCanPierceThrough = numPierce;
         setSmartBounce = smartBounce;
+
+        // Set source
         this.source = source;
+
+        // Rotate to face direction
+        transform.rotation = Quaternion.LookRotation(direction);
+
+        // Move in direction
         StartCoroutine(Travel(speed, direction));
     }
 

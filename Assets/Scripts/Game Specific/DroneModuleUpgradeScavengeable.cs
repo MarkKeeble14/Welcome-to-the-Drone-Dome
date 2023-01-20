@@ -30,7 +30,6 @@ public class DroneModuleUpgradeScavengeable : AutoCollectScavengeable
 
     public override void ReleaseToPool()
     {
-        ShopManager._Instance.NumModulesActive--;
         ObjectPooler._Instance.ReleaseSimpleObject(objectPoolerPrefabKey, transform.parent.gameObject);
     }
 
@@ -53,7 +52,11 @@ public class DroneModuleUpgradeScavengeable : AutoCollectScavengeable
         UpgradeTree selectedTree = trees[Random.Range(0, trees.Count)];
         node = selectedTree.GetRandomNode();
 
-        if (node == null) Cancel();
+        if (node == null)
+        {
+            Cancel();
+            return;
+        }
 
         UpgradeTreeDisplayInfo info = GameManager._Instance.GetUpgradeTreeDisplayInfo(selectedTree.UpgradeTreeRelation);
         color = info.Color;

@@ -17,10 +17,18 @@ public class SelectedDronesModuleDisplay : MonoBehaviour
         backgroundImage.color = v ? newBackgroundColor : defaultBackgroundColor;
     }
 
-    public void Set(DroneModule module, Action action)
+    public void Set(DroneModule module, Action action, bool interactable)
     {
-        SetNew(module.HasNewlyUnlockedNode);
+        if (interactable)
+        {
+            button.interactable = true;
+            SetNew(module.HasNewlyUnlockedNode);
+            button.onClick.AddListener(delegate { action(); });
+        }
+        else
+        {
+            button.interactable = false;
+        }
         typeText.text = EnumToStringHelper.GetStringValue(module.Type);
-        button.onClick.AddListener(delegate { action(); });
     }
 }

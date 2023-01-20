@@ -54,9 +54,15 @@ public partial class ArenaManager : MonoBehaviour
     [SerializeField] private float timeBetweenResourceClears = 60f;
     [SerializeField] private float resourceClearFudgeFactor = 6f;
     private float ResourceClearFudgeFactor => timeBetweenResourceClears / resourceClearFudgeFactor;
+    [SerializeField] private StoreInt playerCredits;
+    private PlayerSpawning playerSpawning;
+
+    private LayerMask enemyLayer;
+    [SerializeField] private PopupText popupText;
 
     private void Start()
     {
+        enemyLayer = LayerMask.GetMask("Enemy");
         // Add Controls
         InputManager._Controls.Player.BeginArena.started += BeginArenaPressed;
         InputManager._Controls.Player.NextLevel.started += NextLevelPressed;
@@ -67,6 +73,7 @@ public partial class ArenaManager : MonoBehaviour
         arenaRewardText = FindObjectOfType<ArenaRewardText>();
         progressBar = FindObjectOfType<EnemiesKilledBar>();
         bossInfoDisplay = FindObjectOfType<BossInfoDisplay>();
+        playerSpawning = FindObjectOfType<PlayerSpawning>();
 
         arenaInstructionsText.SetText("Press R to Begin The Round!");
     }
@@ -87,7 +94,6 @@ public partial class ArenaManager : MonoBehaviour
             GameManager._Instance.Loop();
         else
             GameManager._Instance.LoadNextLevel();
-
     }
 
     private void WinPressed(InputAction.CallbackContext ctx)
@@ -147,6 +153,10 @@ public partial class ArenaManager : MonoBehaviour
         {
             inArena = false;
 
+            // Player gains a credit every time they complete an arena
+            playerCredits.Value++;
+            Instantiate(popupText, player.transform.position, Quaternion.identity).Set("+1 Credit!\nNew Total: " + playerCredits.Value.ToString(), Color.yellow, player.transform.position, 2);
+
             StopClearResourceSequence();
 
             // Set texts to appropriate strings; important to not disable gameObjects here, as doing so will cause
@@ -165,7 +175,14 @@ public partial class ArenaManager : MonoBehaviour
         numberEnemiesAllowedAlive = (int)(currentWave.NumEnemiesAliveAtOnce * GameManager._Instance.EnemyStatMap.NumEnemiesAliveMod.Value);
         numberEnemiesToKill = (int)(currentWave.EnemiesToKill * GameManager._Instance.EnemyStatMap.NumEnemiesToKillMod.Value);
 
-        arenaRewardText.SetText(currentWave.RewardType.ToString());
+        if (currentWave.RewardType != WaveReward.NONE)
+        {
+            arenaRewardText.SetText(currentWave.RewardType.ToString());
+        }
+        else
+        {
+            arenaRewardText.SetText(currentWave.SubWaveRewards[0].Reward.ToString());
+        }
 
         // Determine whether next wave contains a boss or not; start the appropriate wave sequence
         CallSequence(currentWave.HasBoss ? WaveType.BOSS : WaveType.CREEP);
@@ -260,36 +277,32 @@ public partial class ArenaManager : MonoBehaviour
         Debug.Log("Boss Sequence Ended");
     }
 
+    public Vector3 GetRandomPosOnPlane(GameObject plane)
+    {
+        Vector3 newVec = new Vector3(plane.transform.position.x + Random.Range(-5f, 5f),
+                                     player.position.y,
+                                     plane.transform.position.z + Random.Range(-5f, 5f));
+        return newVec;
+    }
+
     private Vector3 GetSpawnPosition()
     {
-        if (player == null) return Vector3.zero;
-        int spawnSide = RandomHelper.RandomIntExclusive(0, 4);
-        Vector3 r = player.position;
-        switch (spawnSide)
+        SpawningPad platform = playerSpawning.GetSpawnablePlatform();
+        Vector3 spawnPos;
+        if (platform == null)
         {
-            case 0:// Left
-                r += new Vector3(-cameraWidthAllowance, 0,
-                    RandomHelper.RandomFloat(-cameraHeightAllowance / 2, cameraHeightAllowance / 2));
-                break;
-            case 1:// Right
-                r += new Vector3(cameraWidthAllowance, 0,
-                    RandomHelper.RandomFloat(-cameraHeightAllowance / 2, cameraHeightAllowance / 2));
-                break;
-            case 2:// Up
-                r += new Vector3(RandomHelper.RandomFloat(-cameraWidthAllowance / 2, cameraWidthAllowance / 2), 0,
-                    cameraHeightAllowance);
-                break;
-            case 3://Down
-                r += new Vector3(RandomHelper.RandomFloat(-cameraWidthAllowance / 2, cameraWidthAllowance / 2), 0,
-                    -cameraHeightAllowance);
-                break;
+            spawnPos = Vector3.zero;
         }
-        return r;
+        else
+        {
+            spawnPos = GetRandomPosOnPlane(platform.gameObject);
+        }
+        return spawnPos;
     }
 
     private void SpawnBossEnemy(GameObject bossVariant)
     {
-        GameObject enemySpawned = Instantiate(bossVariant, GetSpawnPosition(), Quaternion.identity);
+        GameObject enemySpawned = Instantiate(bossVariant, GetSpawnPosition() + (Vector3.up * bossVariant.transform.localScale.y / 2), Quaternion.identity);
         aliveBossEnemies.Add(enemySpawned);
 
         bossInfoDisplay.SpawnNewDisplay(enemySpawned);
@@ -310,7 +323,7 @@ public partial class ArenaManager : MonoBehaviour
 
     private void SpawnMiniBossEnemy(GameObject bossVariant)
     {
-        GameObject enemySpawned = Instantiate(bossVariant, GetSpawnPosition(), Quaternion.identity);
+        GameObject enemySpawned = Instantiate(bossVariant, GetSpawnPosition() + (Vector3.up * bossVariant.transform.localScale.y / 2), Quaternion.identity);
         aliveCreepEnemies.Add(enemySpawned);
         enemyWaveDictionary.Add(enemySpawned, currentWave);
 
@@ -343,7 +356,7 @@ public partial class ArenaManager : MonoBehaviour
 
     private void SpawnCreepEnemy(GameObject enemyVariant)
     {
-        GameObject enemySpawned = Instantiate(enemyVariant, GetSpawnPosition(), Quaternion.identity);
+        GameObject enemySpawned = Instantiate(enemyVariant, GetSpawnPosition() + (Vector3.up * enemyVariant.transform.localScale.y / 2), Quaternion.identity);
         aliveCreepEnemies.Add(enemySpawned);
         enemyWaveDictionary.Add(enemySpawned, currentWave);
 
@@ -467,7 +480,7 @@ public partial class ArenaManager : MonoBehaviour
         Debug.Log("Cleared Wave");
 
         // Give the wave's reward
-        GiveReward(currentWave.RewardType);
+        GiveReward(currentWave);
         UpgradeManager._Instance.AddUpgradePoints(currentWave.UpgradePointsAwarded);
 
         // Increase tracker
@@ -484,26 +497,32 @@ public partial class ArenaManager : MonoBehaviour
         }
     }
 
-    private void GiveReward(WaveReward reward)
+    private void GiveReward(WaveWrapper wave)
     {
+        foreach (SubWaveRewardWrapper subWaveReward in wave.SubWaveRewards)
+        {
+            switch (subWaveReward.Reward)
+            {
+                case SubWaveReward.NEW_DRONE:
+                    AddDroneReward();
+                    break;
+                case SubWaveReward.MODULE_UNLOCKER:
+                    ModuleUnlockerReward();
+                    break;
+                case SubWaveReward.MODULE_OVERCHARGER:
+                    ModuleOverChargerReward();
+                    break;
+            }
+        }
+
         hasCompletedReward = false;
-        switch (reward)
+        switch (wave.RewardType)
         {
             case WaveReward.UPGRADE:
                 WeaponUpgradeReward();
                 break;
-            case WaveReward.NEW_DRONE:
-                AddDroneReward();
-                hasCompletedReward = true;
-                break;
             case WaveReward.SHOP_VISIT:
                 ShopReward();
-                break;
-            case WaveReward.MODULE_UNLOCKER:
-                ModuleUnlockerReward();
-                break;
-            case WaveReward.MODULE_OVERCHARGER:
-                ModuleOverChargerReward();
                 break;
             case WaveReward.NONE:
                 hasCompletedReward = true;

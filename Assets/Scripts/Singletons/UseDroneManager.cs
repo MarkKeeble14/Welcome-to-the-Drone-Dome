@@ -79,7 +79,7 @@ public class UseDroneManager : MonoBehaviour
         MouseCursorManager._Instance.SetCursor(CursorType.HAND, true);
 
         usingDrone.AvailableForUse = false;
-        usingDrone.OnEnterScavengeMode();
+
         // Disable Collider
         usingDrone.Col.enabled = false;
 
@@ -111,6 +111,7 @@ public class UseDroneManager : MonoBehaviour
             usingDrone.transform.position
                 = Vector3.MoveTowards(usingDrone.transform.position,
                 GetDroneCirclingPosition(targetedObject, mouseReleasePos, usingDrone), usingDrone.MoveSpeed * 3 * Time.deltaTime);
+            usingDrone.transform.LookAt(targetedObject);
 
             yield return null;
         }
@@ -208,7 +209,7 @@ public class UseDroneManager : MonoBehaviour
 
         // Wait until enemy has died
         yield return new WaitUntil(() => enemy == null
-        || controllingDrone.CurrentMode == DroneMode.SCAVENGE);
+        || controllingDrone.CurrentMode == DroneMode.SCAVENGE); ;
 
         // Add the drone back to the player's orbit
         playerDroneController.AddDroneToOrbit(droneData.DroneController);

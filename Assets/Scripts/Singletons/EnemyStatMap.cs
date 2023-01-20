@@ -3,11 +3,11 @@
 [System.Serializable]
 public class EnemyStatMap
 {
-    [SerializeField] public GrowthStatModifier1 DamageMod;
-    [SerializeField] public GrowthStatModifier1 MaxHealthMod;
-    [SerializeField] public GrowthStatModifier1 SpeedMod;
-    [SerializeField] public GrowthStatModifier1 NumEnemiesAliveMod;
-    [SerializeField] public GrowthStatModifier1 NumEnemiesToKillMod;
+    [SerializeField] public GrowthStatModifier DamageMod;
+    [SerializeField] public GrowthStatModifier MaxHealthMod;
+    [SerializeField] public GrowthStatModifier SpeedMod;
+    [SerializeField] public GrowthStatModifier NumEnemiesAliveMod;
+    [SerializeField] public GrowthStatModifier NumEnemiesToKillMod;
 
     public void Grow()
     {

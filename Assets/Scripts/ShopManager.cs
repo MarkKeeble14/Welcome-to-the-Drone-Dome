@@ -42,6 +42,9 @@ public class ShopManager : MonoBehaviour
     public int NumModuleUnlockers => moduleUpgradeUnlockers;
     public bool AllowModuleUnlock => moduleUpgradeUnlockers > 0;
 
+    [Header("Credits")]
+    [SerializeField] private StoreInt credits;
+
     [Header("Modules")]
     [SerializeField] private int numberOfStartingModules = 3;
     [SerializeField] private int maxAvailableModules = 5;
@@ -240,7 +243,7 @@ public class ShopManager : MonoBehaviour
         if (didBuy)
         {
             RemoveAtIndex(index);
-            showSelectedDronesModulesDisplay.Set(playerDroneController.SelectedDrone.AppliedModules);
+            showSelectedDronesModulesDisplay.Set(playerDroneController.SelectedDrone.AppliedModules, false);
         }
         return didBuy;
     }

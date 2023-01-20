@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [System.Serializable]
-public class GrowthStatModifier1 : StatModifier1
+public class GrowthStatModifier : StatModifier
 {
     [Header("Growth")]
     [SerializeField] private float baseGrowth = 1;
@@ -11,12 +11,14 @@ public class GrowthStatModifier1 : StatModifier1
     [SerializeField] private StatMathOperation growthChangeBy;
     public StatMathOperation GrowthChangeBy => growthChangeBy;
 
+
     public new void Reset()
     {
         growth = baseGrowth;
 
         base.Reset();
     }
+
 
     public void Grow()
     {

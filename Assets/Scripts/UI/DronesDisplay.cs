@@ -61,7 +61,7 @@ public class DronesDisplay : MonoBehaviour
 
         // For Shop?
         showSelectedDronesModules.gameObject.SetActive(true);
-        showSelectedDronesModules.Set(selectedDrone.AppliedModules);
+        showSelectedDronesModules.Set(selectedDrone.AppliedModules, false);
     }
 
     public void DeselectSelectedDrone()

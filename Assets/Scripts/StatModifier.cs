@@ -1,13 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class StatModifier1
+public class StatModifier
 {
-    [SerializeField] private float baseValue = 1;
+    [Header("Stat Modifier")]
+    [SerializeField] protected float baseValue = 1;
     public float BaseValue => baseValue;
     [SerializeField] private float affectedValue;
-    public float Value => affectedValue;
+    public float Value => affectedValue + (numTimesBaseUpgraded * baseValuePermaGrowth);
     [SerializeField] private float minValue;
     [SerializeField] private bool hasMin;
     [SerializeField] private float maxValue;
@@ -15,6 +17,10 @@ public class StatModifier1
 
     [SerializeField] private StatMathOperation changeBy;
     private List<float> affectingValue = new List<float>();
+
+    [Header("Perma Growth")]
+    [SerializeField] private float baseValuePermaGrowth = 0.05f;
+    [SerializeField] public int numTimesBaseUpgraded;
 
     public void AddEffect(float x)
     {

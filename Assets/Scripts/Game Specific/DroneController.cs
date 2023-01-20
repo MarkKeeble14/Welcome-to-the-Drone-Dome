@@ -259,6 +259,7 @@ public class DroneController : MonoBehaviour
 
     private void FindNewScavengeable()
     {
+        if (player == null) return;
         // Find new Target
         // Priority; if there are priority scavengeable objects in range, we grab those first
         Collider[] inRange = Physics.OverlapSphere(player.position, ScavengeableSightRange, scavengeablePriorityLayer);
@@ -291,6 +292,7 @@ public class DroneController : MonoBehaviour
         {
             transform.position = Vector3.MoveTowards(transform.position, scavenging.position,
                 Time.deltaTime * MoveSpeed * ScavengingSpeedMod);
+            transform.LookAt(scavenging.position);
             if (Vector3.Distance(transform.position, scavenging.position) <= ScavengingSpeedMod)
             {
                 // "Pick Up" Object
