@@ -33,6 +33,29 @@ public class DroneController : MonoBehaviour
     private float stationCooldownTimer;
     [SerializeField] private float droneStationHeight = 1f;
 
+    [SerializeField] private int activesPerDrone;
+    public int ActivesPerDrone
+    {
+        get { return activesPerDrone; }
+    }
+    [SerializeField] private int passivesPerDrone;
+    public int PassivesPerDrone
+    {
+        get { return passivesPerDrone; }
+    }
+    [SerializeField] private int weaponsPerDrone;
+    public int WeaponsPerDrone
+    {
+        get { return weaponsPerDrone; }
+    }
+
+    private int weaponSlotsAdded;
+    public int WeaponSlotsAdded => weaponSlotsAdded;
+    private int passiveSlotsAdded;
+    public int PassiveSlotsAdded => passiveSlotsAdded;
+    private int activeSlotsAdded;
+    public int ActiveSlotsAdded => activeSlotsAdded;
+
     private List<DronePassiveModule> passiveModules = new List<DronePassiveModule>();
     private List<DroneActiveModule> activeModules = new List<DroneActiveModule>();
     private List<DroneWeaponModule> weaponModules = new List<DroneWeaponModule>();
@@ -126,6 +149,22 @@ public class DroneController : MonoBehaviour
                 HandleStationModeLogic();
                 break;
         }
+    }
+
+    public void AddActiveSlot()
+    {
+        activesPerDrone++;
+        activeSlotsAdded++;
+    }
+    public void AddPassiveSlot()
+    {
+        passivesPerDrone++;
+        passiveSlotsAdded++;
+    }
+    public void AddWeaponSlot()
+    {
+        weaponsPerDrone++;
+        weaponSlotsAdded++;
     }
 
     private void SetMaterial()

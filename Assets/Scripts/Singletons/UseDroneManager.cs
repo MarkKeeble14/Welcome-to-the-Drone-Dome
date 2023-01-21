@@ -26,7 +26,7 @@ public class UseDroneManager : MonoBehaviour
     [SerializeField] private float droneShoveMaxRadiusMod = 2f;
 
     [SerializeField] private PlayerDroneController playerDroneController;
-    private Transform cursorHovering;
+    [SerializeField] private Transform cursorHovering;
     [SerializeField] private Vector3 cursorWorldPos;
 
     private void LeftMousePressed(InputAction.CallbackContext obj)

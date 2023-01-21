@@ -33,13 +33,6 @@ public partial class GameManager : MonoBehaviour
     [SerializeField] private List<ModuleType> defaultModules = new List<ModuleType>();
     public List<ModuleType> DefaultModules => defaultModules;
     [SerializeField] private int numDronesToStart = 1;
-    [SerializeField] private int activesPerDrone = 1;
-    public int ActivesPerDrone => activesPerDrone;
-    [SerializeField] private int passivesPerDrone = 1;
-    public int PassivesPerDrone => passivesPerDrone;
-
-    [SerializeField] private int weaponsPerDrone = 3;
-    public int WeaponsPerDrone => weaponsPerDrone;
     public float DroneSpawnHeight => targetCameraZoom.y + 1;
 
     [Header("Level")]
@@ -348,7 +341,7 @@ public partial class GameManager : MonoBehaviour
         switch (GetModuleCategory(type))
         {
             case ModuleCategory.ACTIVE:
-                if (drone.GetNumberOfModules(ModuleCategory.ACTIVE) >= activesPerDrone)
+                if (drone.GetNumberOfModules(ModuleCategory.ACTIVE) >= drone.ActivesPerDrone)
                 {
                     arenaShopHelperText.gameObject.SetActive(true);
                     arenaShopHelperText.text = "Unable to Add More Active Modules to this Drone";
@@ -356,7 +349,7 @@ public partial class GameManager : MonoBehaviour
                 }
                 break;
             case ModuleCategory.PASSIVE:
-                if (drone.GetNumberOfModules(ModuleCategory.PASSIVE) >= passivesPerDrone)
+                if (drone.GetNumberOfModules(ModuleCategory.PASSIVE) >= drone.PassivesPerDrone)
                 {
                     arenaShopHelperText.gameObject.SetActive(true);
                     arenaShopHelperText.text = "Unable to Add More Passive Modules to this Drone";
@@ -364,7 +357,7 @@ public partial class GameManager : MonoBehaviour
                 }
                 break;
             case ModuleCategory.WEAPON:
-                if (drone.GetNumberOfModules(ModuleCategory.WEAPON) >= weaponsPerDrone)
+                if (drone.GetNumberOfModules(ModuleCategory.WEAPON) >= drone.WeaponsPerDrone)
                 {
                     arenaShopHelperText.gameObject.SetActive(true);
                     arenaShopHelperText.text = "Unable to Add More Weapon Modules to this Drone";

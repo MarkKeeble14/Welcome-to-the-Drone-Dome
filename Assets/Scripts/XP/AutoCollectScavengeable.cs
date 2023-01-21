@@ -8,7 +8,6 @@ public abstract class AutoCollectScavengeable : Scavengeable
     [SerializeField] private float autoCollectSpeed = 5f;
     [SerializeField] private Vector2 chanceToAutoCollect = new Vector2(1, 4);
     [SerializeField] private float timeTakenToAutoCollectSpeedMultiplier = 2f;
-    private float timeTakenToAutoCollect = 1;
     private bool setToAutoCollect;
 
     [Header("Expiry")]
@@ -21,11 +20,6 @@ public abstract class AutoCollectScavengeable : Scavengeable
     [Header("References")]
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Collider[] col;
-    private void Update()
-    {
-        if (setToAutoCollect)
-            timeTakenToAutoCollect += Time.deltaTime;
-    }
 
     public void AutoCollect(Action action)
     {
@@ -115,9 +109,11 @@ public abstract class AutoCollectScavengeable : Scavengeable
         // Cache the player to reduce number of accesses
         Transform cachedPlayer = GameManager._Instance.Player;
 
+        float timeTakenToAutoCollect = 1f;
         // Move towards player position
         while (Vector3.Distance(transform.position, cachedPlayer.position) > .25f)
         {
+            timeTakenToAutoCollect += Time.deltaTime;
             transform.position = Vector3.MoveTowards(transform.position, cachedPlayer.position,
                 Time.deltaTime * autoCollectSpeed * (timeTakenToAutoCollect * timeTakenToAutoCollectSpeedMultiplier));
 
@@ -137,5 +133,12 @@ public abstract class AutoCollectScavengeable : Scavengeable
         {
             ReleaseToPool();
         }
+    }
+
+    public override void ReleaseToPool()
+    {
+        base.ReleaseToPool();
+        setToAutoCollect = false;
+        expiring = false;
     }
 }

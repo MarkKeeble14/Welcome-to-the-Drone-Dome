@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System.Linq;
+using UnityEngine.UI;
 
 public class ShopManager : MonoBehaviour
 {
@@ -31,6 +32,12 @@ public class ShopManager : MonoBehaviour
         get { return freePurchases > 0; }
     }
 
+    [Header("Modules")]
+    [SerializeField] private int moduleUnlockerCost;
+    [SerializeField] private float moduleUnlockerCostGrowth;
+    [SerializeField] private int moduleOverchargerCost;
+    [SerializeField] private float moduleOverchargerCostGrowth;
+
     [Header("Module Over Chargers")]
     [SerializeField] private int moduleUpgradeOverChargers;
     public int NumModuleOverChargers => moduleUpgradeOverChargers;
@@ -42,10 +49,6 @@ public class ShopManager : MonoBehaviour
     public int NumModuleUnlockers => moduleUpgradeUnlockers;
     public bool AllowModuleUnlock => moduleUpgradeUnlockers > 0;
 
-    [Header("Credits")]
-    [SerializeField] private StoreInt credits;
-
-    [Header("Modules")]
     [SerializeField] private int numberOfStartingModules = 3;
     [SerializeField] private int maxAvailableModules = 5;
     public int MaxAvailableModules => maxAvailableModules;
@@ -107,6 +110,9 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private Transform weaponModuleChoiceListParent;
     [SerializeField] private ShowSelectedDronesModulesDisplay showSelectedDronesModulesDisplay;
     [SerializeField] private PlayerDroneController playerDroneController;
+    [SerializeField] private TextMeshProUGUI buyExtraHelperText;
+    [SerializeField] private TextMeshProUGUI moduleUnlockerButtonText;
+    [SerializeField] private TextMeshProUGUI moduleOVerchargerButtonText;
 
     // Some modifier that makes resources less likely to drop when the player has a ton
     public float ResourceDropRateModifier
@@ -115,7 +121,7 @@ public class ShopManager : MonoBehaviour
         {
             if (currentPlayerResource > 500)
             {
-                return MathHelper.Normalize(currentPlayerResource, 500, costOfAllAvailableModules, 1.25f, .25f);
+                return MathHelper.Normalize(currentPlayerResource, 500, costOfAllAvailableModules + moduleOverchargerCost + moduleUnlockerCost, 1.5f, .25f);
             }
             else
             {
@@ -131,6 +137,9 @@ public class ShopManager : MonoBehaviour
         SetModuleCostDictionary();
 
         ClearAvailableModules();
+
+        SetModuleUnlockerText();
+        SetModuleOverchargerText();
     }
 
     private void SetModuleCostDictionary()
@@ -271,6 +280,8 @@ public class ShopManager : MonoBehaviour
 
         // Generate Weapon Module Choices
         GenerateModuleChoiceUI();
+
+        SetAllPurchaseModuleSlotText();
     }
 
     private int GetDroneModuleCost(ModuleType type)
@@ -301,5 +312,142 @@ public class ShopManager : MonoBehaviour
     public void AddModuleUpgradeOverCharger()
     {
         moduleUpgradeOverChargers++;
+    }
+
+    public void BuyModuleUnlocker()
+    {
+        if (CurrentPlayerResource > moduleUnlockerCost)
+        {
+            buyExtraHelperText.gameObject.SetActive(false);
+            currentPlayerResource -= moduleUnlockerCost;
+            moduleUnlockerCost = Mathf.RoundToInt(moduleUnlockerCost * moduleUnlockerCostGrowth);
+            AddModuleUpgradeUnlocker();
+            SetModuleUnlockerText();
+        }
+        else
+        {
+            buyExtraHelperText.gameObject.SetActive(true);
+            buyExtraHelperText.text = "Insufficnet Funds";
+        }
+    }
+
+    private void SetModuleUnlockerText()
+    {
+        moduleUnlockerButtonText.text = "Buy Module Unlocker: $" + moduleUnlockerCost;
+    }
+
+    private void SetModuleOverchargerText()
+    {
+        moduleOVerchargerButtonText.text = "Buy Module Overcharger: $" + moduleOverchargerCost;
+    }
+
+    public void BuyModuleOvercharger()
+    {
+        if (CurrentPlayerResource > moduleOverchargerCost)
+        {
+            buyExtraHelperText.gameObject.SetActive(false);
+            currentPlayerResource -= moduleOverchargerCost;
+            moduleOverchargerCost = Mathf.RoundToInt(moduleOverchargerCost * moduleOverchargerCostGrowth);
+            AddModuleUpgradeOverCharger();
+            SetModuleOverchargerText();
+        }
+        else
+        {
+            buyExtraHelperText.gameObject.SetActive(true);
+            buyExtraHelperText.text = "Insufficnet Funds";
+        }
+    }
+    [SerializeField] private int baseActiveSlotCost = 750;
+    [SerializeField] private int basePassiveSlotCost = 750;
+    [SerializeField] private int baseWeaponSlotCost = 500;
+    private int activeSlotCost;
+    private int passiveSlotCost;
+    private int weaponSlotCost;
+    [SerializeField] private float activeSlotCostGrowth = 500f;
+    [SerializeField] private float passiveSlotCostGrowth = 250f;
+    [SerializeField] private float weaponSlotCostGrowth = 400f;
+    [SerializeField] private Image activeSlotButton;
+    [SerializeField] private TextMeshProUGUI activeSlotButtonText;
+    [SerializeField] private Image passiveSlotButton;
+    [SerializeField] private TextMeshProUGUI passiveSlotButtonText;
+    [SerializeField] private Image weaponSlotButton;
+    [SerializeField] private TextMeshProUGUI weaponSlotButtonText;
+
+    private void SetPurchaseModuleSlotText(TextMeshProUGUI text, int cost)
+    {
+        text.text = "+Slot: $" + cost;
+    }
+
+    private void SetAllPurchaseModuleSlotText()
+    {
+        if (playerDroneController.SelectedDrone == null) return;
+        activeSlotCost = baseActiveSlotCost + Mathf.RoundToInt(playerDroneController.SelectedDrone.ActiveSlotsAdded * activeSlotCostGrowth);
+        passiveSlotCost = basePassiveSlotCost + Mathf.RoundToInt(playerDroneController.SelectedDrone.PassiveSlotsAdded * passiveSlotCostGrowth);
+        weaponSlotCost = baseWeaponSlotCost + Mathf.RoundToInt(playerDroneController.SelectedDrone.WeaponSlotsAdded * weaponSlotCostGrowth);
+        SetPurchaseModuleSlotText(activeSlotButtonText, activeSlotCost);
+        SetPurchaseModuleSlotText(passiveSlotButtonText, passiveSlotCost);
+        SetPurchaseModuleSlotText(weaponSlotButtonText, weaponSlotCost);
+    }
+
+    public void TryBuyActiveSlot()
+    {
+        BuyModuleSlot(ModuleCategory.ACTIVE);
+    }
+    public void TryBuyPassiveSlot()
+    {
+        BuyModuleSlot(ModuleCategory.PASSIVE);
+    }
+    public void TryBuyWeaponSlot()
+    {
+        BuyModuleSlot(ModuleCategory.WEAPON);
+    }
+
+    private float flashDuration = .1f;
+    public void BuyModuleSlot(ModuleCategory category)
+    {
+        switch (category)
+        {
+            case ModuleCategory.ACTIVE:
+                if (CurrentPlayerResource < activeSlotCost)
+                {
+                    StartCoroutine(FlashImageColor(activeSlotButton, Color.red, flashDuration));
+                    return;
+                }
+                StartCoroutine(FlashImageColor(activeSlotButton, Color.green, flashDuration));
+                currentPlayerResource -= activeSlotCost;
+                playerDroneController.SelectedDrone.AddActiveSlot();
+                SetAllPurchaseModuleSlotText();
+                break;
+            case ModuleCategory.PASSIVE:
+                if (CurrentPlayerResource < passiveSlotCost)
+                {
+                    StartCoroutine(FlashImageColor(passiveSlotButton, Color.red, flashDuration));
+                    return;
+                }
+                StartCoroutine(FlashImageColor(passiveSlotButton, Color.green, flashDuration));
+                currentPlayerResource -= passiveSlotCost;
+                playerDroneController.SelectedDrone.AddPassiveSlot();
+                SetAllPurchaseModuleSlotText();
+                break;
+            case ModuleCategory.WEAPON:
+                if (CurrentPlayerResource < weaponSlotCost)
+                {
+                    StartCoroutine(FlashImageColor(weaponSlotButton, Color.red, flashDuration));
+                    return;
+                }
+                StartCoroutine(FlashImageColor(weaponSlotButton, Color.green, flashDuration));
+                currentPlayerResource -= weaponSlotCost;
+                playerDroneController.SelectedDrone.AddWeaponSlot();
+                SetAllPurchaseModuleSlotText();
+                break;
+        }
+    }
+
+    [SerializeField] private Color buttonDefaultColor;
+    private IEnumerator FlashImageColor(Image image, Color color, float duration)
+    {
+        image.color = color;
+        yield return new WaitForSecondsRealtime(duration);
+        image.color = buttonDefaultColor;
     }
 }

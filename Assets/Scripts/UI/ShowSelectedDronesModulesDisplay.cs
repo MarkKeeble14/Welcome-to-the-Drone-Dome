@@ -18,6 +18,8 @@ public class ShowSelectedDronesModulesDisplay : MonoBehaviour
     private List<SelectedDronesModuleDisplay> spawnedList = new List<SelectedDronesModuleDisplay>();
     private List<DroneModule> addedModules = new List<DroneModule>();
 
+    [SerializeField] private PlayerDroneController playerDroneController;
+
     private void Update()
     {
         SetLabels();
@@ -25,9 +27,9 @@ public class ShowSelectedDronesModulesDisplay : MonoBehaviour
 
     private void SetLabels()
     {
-        passivesLabel.text = "Passives: " + DroneModule.GetNumModulesOfCategory(ModuleCategory.PASSIVE, addedModules) + "/" + GameManager._Instance.PassivesPerDrone;
-        activesLabel.text = "Actives: " + DroneModule.GetNumModulesOfCategory(ModuleCategory.ACTIVE, addedModules) + "/" + GameManager._Instance.ActivesPerDrone;
-        weaponsLabel.text = "Weapons: " + DroneModule.GetNumModulesOfCategory(ModuleCategory.WEAPON, addedModules) + "/" + GameManager._Instance.WeaponsPerDrone;
+        passivesLabel.text = "Passives: " + DroneModule.GetNumModulesOfCategory(ModuleCategory.PASSIVE, addedModules) + "/" + playerDroneController.SelectedDrone.PassivesPerDrone;
+        activesLabel.text = "Actives: " + DroneModule.GetNumModulesOfCategory(ModuleCategory.ACTIVE, addedModules) + "/" + playerDroneController.SelectedDrone.ActivesPerDrone;
+        weaponsLabel.text = "Weapons: " + DroneModule.GetNumModulesOfCategory(ModuleCategory.WEAPON, addedModules) + "/" + playerDroneController.SelectedDrone.WeaponsPerDrone;
     }
 
     public void Set(List<DroneModule> modules, bool interactable)

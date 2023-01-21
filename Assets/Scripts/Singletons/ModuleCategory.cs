@@ -1,4 +1,5 @@
-﻿public enum ModuleCategory
+﻿[System.Serializable]
+public enum ModuleCategory
 {
     PASSIVE,
     ACTIVE,
