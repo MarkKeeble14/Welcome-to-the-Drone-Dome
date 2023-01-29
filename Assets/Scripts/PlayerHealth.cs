@@ -6,12 +6,13 @@ public class PlayerHealth : HealthBehaviour
 {
     [Header("Player Health Behaviour")]
     [SerializeField] private float iFrameDuration;
+    private float iFrameDurationTimer;
     [SerializeField] private Color hasIFrameColor;
     private Color defaultColor;
     [SerializeField] private float defaultEmission;
     [SerializeField] private float hasIFrameEmission;
     [SerializeField] private LayerMask enemyLayer;
-    private bool hasIFrames;
+    public bool HasIFrames => iFrameDurationTimer > 0;
 
     [Header("Knockback")]
     [SerializeField] private bool knockbackInRadiusWhenHit;
@@ -22,13 +23,19 @@ public class PlayerHealth : HealthBehaviour
     [Header("References")]
     [SerializeField] private Material material;
     [SerializeField] private new Renderer renderer;
-    [SerializeField] private Collider col;
     [SerializeField] private Rigidbody rb;
+    [SerializeField] private PlayerMovement playerMovement;
     [SerializeField] private Bar healthBar;
+
+    private int playerLayer;
+    private int playerIgnoreEnemyLayer;
 
     private new void Start()
     {
         base.Start();
+
+        playerLayer = LayerMask.NameToLayer("Player");
+        playerIgnoreEnemyLayer = LayerMask.NameToLayer("PlayerIgnoreEnemy");
 
         // Set Variables
         material = new Material(material);
@@ -38,7 +45,7 @@ public class PlayerHealth : HealthBehaviour
 
     private void OnCollisionStay(Collision collision)
     {
-        if (hasIFrames) return;
+        if (HasIFrames) return;
         if (!LayerMaskHelper.IsInLayerMask(collision.gameObject, enemyLayer)) return;
 
         // Get Enemy Component and deal contact damage
@@ -57,14 +64,14 @@ public class PlayerHealth : HealthBehaviour
     public override void Damage(float damage, bool spawnText)
     {
         // Technically unneccessary since we're disabling the players collider while they have active I-Frames
-        if (hasIFrames) return;
+        if (HasIFrames) return;
 
         base.Damage(damage, spawnText);
 
         if (knockbackInRadiusWhenHit)
             Knockback();
 
-        StartCoroutine(TrackIFrames());
+        iFrameDurationTimer = iFrameDuration;
     }
 
     private void Knockback()
@@ -88,29 +95,23 @@ public class PlayerHealth : HealthBehaviour
     {
         base.Update();
 
-        // col.enabled = !hasIFrames;
-        // rb.isKinematic = hasIFrames;
-
-        if (hasIFrames)
+        if (HasIFrames || playerMovement.Dashing)
         {
+            gameObject.layer = playerIgnoreEnemyLayer;
+
+            iFrameDurationTimer -= Time.deltaTime;
+
             material.color = hasIFrameColor;
             material.SetColor("_EmissionColor", hasIFrameColor * hasIFrameEmission);
         }
         else
         {
+            gameObject.layer = playerLayer;
+            iFrameDurationTimer = 0;
             material.color = defaultColor;
             material.SetColor("_EmissionColor", defaultColor * defaultEmission);
         }
 
         healthBar.SetBar(currentHealth / maxHealth);
-    }
-
-    private IEnumerator TrackIFrames()
-    {
-        hasIFrames = true;
-
-        yield return new WaitForSeconds(iFrameDuration);
-
-        hasIFrames = false;
     }
 }

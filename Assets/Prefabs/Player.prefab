@@ -219,6 +219,10 @@ MonoBehaviour:
     type: 2}
   defaultDashCooldownNode: {fileID: 11400000, guid: 14ec3157a84ace24aa298dee27a21469,
     type: 2}
+  raycastCheckDistance: 0.5
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 524288
   enableYAxis: 0
   crouchingDampenSpeed: 0.5
   hoveringDampenSpeed: 1
@@ -293,8 +297,8 @@ MonoBehaviour:
     m_Bits: 46208
   material: {fileID: 2100000, guid: 650c94e2e1848d441a0ef8eb963914cd, type: 2}
   renderer: {fileID: 4017266790250071897}
-  col: {fileID: 0}
   rb: {fileID: 4017266790250071903}
+  playerMovement: {fileID: 4017266790250071900}
   healthBar: {fileID: 0}
 --- !u!114 &4268123852268635566
 MonoBehaviour:

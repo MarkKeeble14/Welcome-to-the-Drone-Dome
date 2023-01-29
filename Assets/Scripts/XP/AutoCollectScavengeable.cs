@@ -128,7 +128,6 @@ public abstract class AutoCollectScavengeable : Scavengeable
         if (RandomHelper.RandomIntExclusive(chanceToAutoCollect) <= chanceToAutoCollect.x)
         {
             OnPickup();
-            ReleaseToPool();
         }
         else
         {

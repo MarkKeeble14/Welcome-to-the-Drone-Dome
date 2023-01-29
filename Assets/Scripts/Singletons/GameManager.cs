@@ -215,6 +215,9 @@ public partial class GameManager : MonoBehaviour
         // Load Scene
         SceneManager.LoadScene(levelNames[levelIndex]);
 
+        // Reset Upgrade Point Cost on a Per Level Basis
+        ShopManager._Instance.ResetUpgradePointCost(incrementIndex);
+
         // Spawn Arena Manager
         if (currentLevel != null)
             Destroy(currentLevel.gameObject);

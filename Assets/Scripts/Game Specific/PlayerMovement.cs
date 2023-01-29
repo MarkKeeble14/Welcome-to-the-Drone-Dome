@@ -50,6 +50,9 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    [SerializeField] private float raycastCheckDistance;
+    [SerializeField] private LayerMask wallLayer;
+
     [Header("Y Axis")]
     [SerializeField] private bool enableYAxis;
     [SerializeField] private float crouchingDampenSpeed = .5f;
@@ -62,10 +65,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private AnimationCurve descensionCurve;
     private PlayerYAxisState state = PlayerYAxisState.STANDING;
 
-    private Vector2 moveVector;
-    private Rigidbody rb;
     [Header("References")]
     [SerializeField] private GameObject dashParticle;
+    public bool Dashing { get; private set; }
+    private Vector2 moveVector;
+    private Rigidbody rb;
+
     private float dashCDTimer;
     public float CurrentDashCooldown
     {
@@ -110,7 +115,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!allowPlayerDash.Active) return;
         if (dashCDTimer > 0) return;
-        Vector2 dashVector = InputManager._Controls.Player.Move.ReadValue<Vector2>().normalized * DashDuration;
+        Vector2 dashVector = InputManager._Controls.Player.Move.ReadValue<Vector2>().normalized;
         StopAllCoroutines();
 
         StartCoroutine(ExecuteDash(dashVector));
@@ -124,16 +129,32 @@ public class PlayerMovement : MonoBehaviour
 
         float t = 0;
 
+        Dashing = true;
         while (t < DashDuration)
         {
             // overrideControl = true;
-            Vector3 targetPos = new Vector3(vector.x, 0, vector.y) +
-                new Vector3(transform.position.x, TargetY, transform.position.z);
-            transform.position = Vector3.MoveTowards(transform.position, targetPos,
-                MoveSpeed * DashSpeed * Time.deltaTime);
+            Vector3 targetPos = transform.position + new Vector3(vector.x, 0, vector.y); ;
+
+            // Check if allow move
+            Vector3 direction = targetPos - transform.position;
+            RaycastHit hit;
+            Physics.Raycast(transform.position, direction, out hit, Mathf.Infinity, wallLayer);
+            if (hit.transform != null)
+            {
+                targetPos = hit.point;
+            }
+
+            // Move
+            transform.position = Vector3.MoveTowards(transform.position, targetPos, MoveSpeed * DashSpeed * Time.deltaTime);
+            if (transform.position == hit.point)
+            {
+                break;
+            }
             t += Time.deltaTime;
+
             yield return null;
         }
+        Dashing = false;
 
         // overrideControl = false;
     }
@@ -151,9 +172,16 @@ public class PlayerMovement : MonoBehaviour
 
         // Get player input then move the player accordingly
         moveVector = InputManager._Controls.Player.Move.ReadValue<Vector2>();
+        Vector3 direction = new Vector3(moveVector.x, 0, moveVector.y);
 
-        // Move player accordingly
-        transform.position += (MoveSpeed * Time.deltaTime) * new Vector3(moveVector.x, 0, moveVector.y);
+        // Move player accordingly, if not hitting wall
+        RaycastHit hit;
+        Physics.Raycast(transform.position, direction, out hit, raycastCheckDistance, wallLayer);
+        if (hit.transform != null)
+        {
+            return;
+        }
+        transform.position += (MoveSpeed * Time.deltaTime) * direction;
     }
 
     private void LateUpdate()

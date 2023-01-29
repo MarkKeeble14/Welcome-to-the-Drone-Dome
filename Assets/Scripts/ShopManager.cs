@@ -32,9 +32,19 @@ public class ShopManager : MonoBehaviour
         get { return freePurchases > 0; }
     }
 
-    [Header("Modules")]
+
+    [Header("Other Purchases")]
+    [Header("Upgrade Point")]
+    [SerializeField] private int baseUpgradePointCost;
+    [SerializeField] private int baseUpgradePointCostGrowth;
+    private int upgradePointCost;
+    [SerializeField] private float upgradePointCostGrowth;
+
+    [Header("Module Unlocker")]
     [SerializeField] private int moduleUnlockerCost;
     [SerializeField] private float moduleUnlockerCostGrowth;
+
+    [Header("Module Overcharger")]
     [SerializeField] private int moduleOverchargerCost;
     [SerializeField] private float moduleOverchargerCostGrowth;
 
@@ -129,9 +139,16 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private ShowSelectedDronesModulesDisplay showSelectedDronesModulesDisplay;
     [SerializeField] private PlayerDroneController playerDroneController;
     [SerializeField] private TextMeshProUGUI buyExtraHelperText;
+    [SerializeField] private TextMeshProUGUI upgradePointsButtonText;
     [SerializeField] private TextMeshProUGUI moduleUnlockerButtonText;
     [SerializeField] private TextMeshProUGUI moduleOVerchargerButtonText;
 
+    public void ResetUpgradePointCost(bool grow)
+    {
+        if (grow)
+            baseUpgradePointCost += baseUpgradePointCostGrowth;
+        upgradePointCost = baseUpgradePointCost;
+    }
 
     // Some modifier that makes resources less likely to drop when the player has a ton
     public float ResourceDropRateModifier
@@ -157,8 +174,11 @@ public class ShopManager : MonoBehaviour
 
         ClearAvailableModules();
 
+        ResetUpgradePointCost(false);
+
         SetModuleUnlockerText();
         SetModuleOverchargerText();
+        SetUpgradePointText();
     }
 
     public void CloseShop()
@@ -358,6 +378,28 @@ public class ShopManager : MonoBehaviour
     private void SetModuleOverchargerText()
     {
         moduleOVerchargerButtonText.text = "Buy Module Overcharger: $" + moduleOverchargerCost;
+    }
+
+    private void SetUpgradePointText()
+    {
+        upgradePointsButtonText.text = "Buy Upgrade Point: $" + upgradePointCost;
+    }
+
+    public void BuyUpgradePoint()
+    {
+        if (CurrentPlayerResource > upgradePointCost)
+        {
+            buyExtraHelperText.gameObject.SetActive(false);
+            currentPlayerResource -= upgradePointCost;
+            upgradePointCost = Mathf.RoundToInt(upgradePointCost * upgradePointCostGrowth);
+            UpgradeManager._Instance.AddUpgradePoints(1);
+            SetUpgradePointText();
+        }
+        else
+        {
+            buyExtraHelperText.gameObject.SetActive(true);
+            buyExtraHelperText.text = "Insufficnet Funds";
+        }
     }
 
     public void BuyModuleOvercharger()

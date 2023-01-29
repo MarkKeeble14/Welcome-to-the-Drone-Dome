@@ -23,8 +23,8 @@ TagManager:
   - ScavengeablePriority
   - MakeupColliderForScavengeable
   - SpawningPad
-  - 
-  - 
+  - PlayerIgnoreEnemy
+  - Wall
   - 
   - 
   - 
