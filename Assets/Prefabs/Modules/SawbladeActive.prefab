@@ -1,0 +1,171 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1953204332388901580
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9135238598581667649}
+  - component: {fileID: 5697209468552936255}
+  m_Layer: 0
+  m_Name: SawbladeActive
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9135238598581667649
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1953204332388901580}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 7702576840001327714}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5697209468552936255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1953204332388901580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 577bc057585596241ac49bb5bab8b0f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  occupiesModuleSlot: 1
+  allModuleUpgradeNodes:
+  - {fileID: 11400000, guid: 728a31326476f6240b6cd468e157d3dd, type: 2}
+  - {fileID: 11400000, guid: 5c3cbe6b01ac337429937b5c63ab2ff2, type: 2}
+  - {fileID: 11400000, guid: 2af4e42c1e88cf34fb41b54c37e8528a, type: 2}
+  - {fileID: 11400000, guid: 8b0ab9f965d851a4b82b47267f682b1f, type: 2}
+  - {fileID: 11400000, guid: ae946b7c7f50560499c3d18b49e9dedb, type: 2}
+  - {fileID: 11400000, guid: 295f573559df4f044a8fad77d755c84a, type: 2}
+  - {fileID: 11400000, guid: 18b9bd1a0223def4fa52f99b0c2e4db0, type: 2}
+  - {fileID: 11400000, guid: d2c50adf5e5c6a849b5a58bef26f068d, type: 2}
+  upgradeTree:
+    Label: Sawblades
+    nodes: []
+    upgradeTreeRelation: 15
+  visual: {fileID: 3708261140356638367}
+  cooldownStart:
+    index: 0
+  damage:
+    index: 1
+  tickSpeed:
+    index: 7
+  range:
+    index: 3
+  maxTimeAlive:
+    index: 6
+  speed:
+    index: 4
+  size:
+    index: 5
+  numBlades:
+    index: 2
+  projectileOrigin: {fileID: 7702576840001327714}
+--- !u!1001 &1017624790260568909
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 9135238598581667649}
+    m_Modifications:
+    - target: {fileID: 6732370770139829435, guid: a4e356824e25dc943858914b41c53dd8,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7276225495978656047, guid: a4e356824e25dc943858914b41c53dd8,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7276225495978656047, guid: a4e356824e25dc943858914b41c53dd8,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7276225495978656047, guid: a4e356824e25dc943858914b41c53dd8,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7276225495978656047, guid: a4e356824e25dc943858914b41c53dd8,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7276225495978656047, guid: a4e356824e25dc943858914b41c53dd8,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7276225495978656047, guid: a4e356824e25dc943858914b41c53dd8,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7276225495978656047, guid: a4e356824e25dc943858914b41c53dd8,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7276225495978656047, guid: a4e356824e25dc943858914b41c53dd8,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7276225495978656047, guid: a4e356824e25dc943858914b41c53dd8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7276225495978656047, guid: a4e356824e25dc943858914b41c53dd8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7276225495978656047, guid: a4e356824e25dc943858914b41c53dd8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8555210838094189078, guid: a4e356824e25dc943858914b41c53dd8,
+        type: 3}
+      propertyPath: m_Name
+      value: ModuleVisual
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a4e356824e25dc943858914b41c53dd8, type: 3}
+--- !u!114 &3708261140356638367 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -4798242875843578414, guid: a4e356824e25dc943858914b41c53dd8,
+    type: 3}
+  m_PrefabInstance: {fileID: 1017624790260568909}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b32fbac1f70aecf4abd24eec1f688e67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &7702576840001327714 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7276225495978656047, guid: a4e356824e25dc943858914b41c53dd8,
+    type: 3}
+  m_PrefabInstance: {fileID: 1017624790260568909}
+  m_PrefabAsset: {fileID: 0}

@@ -3,6 +3,7 @@
 public class PauseManager : MonoBehaviour
 {
     public static PauseManager _Instance { get; private set; }
+
     private void Awake()
     {
         if (_Instance != null)

@@ -310,7 +310,6 @@ MonoBehaviour:
   changeColorOnSelect:
   - {fileID: 1563038770408221625}
   - {fileID: 9068295421138428705}
-  - {fileID: 5127492679844484738}
   - {fileID: 8902651812662203943}
   showActiveImage: {fileID: 3761116991342806466}
   showActiveContainer: {fileID: 5127492679844484738}
@@ -319,8 +318,9 @@ MonoBehaviour:
   indexText: {fileID: 3501355193627566358}
   selectedColor: {r: 1, g: 0, b: 0, a: 1}
   notSelectedColor: {r: 0.20784314, g: 0.20784314, b: 0.20784314, a: 1}
-  activeCDColor: {r: 0.20784314, g: 0.20784314, b: 0.20784314, a: 1}
-  hasActiveColor: {r: 0.034214735, g: 1, b: 0, a: 1}
+  cannotActivateActiveColor: {r: 1, g: 0, b: 0, a: 0.2509804}
+  canActivateActivesColor: {r: 0, g: 1, b: 0, a: 1}
+  activeOnCDColor: {r: 1, g: 0, b: 0, a: 1}
   droneModeDisplayDictionary:
     dictionary:
     - key: 0

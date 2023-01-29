@@ -12,21 +12,15 @@ public class ShowSelectedDronesModulesDisplay : MonoBehaviour
     [SerializeField] private TextMeshProUGUI activesLabel;
     [SerializeField] private Transform weaponsListParent;
     [SerializeField] private TextMeshProUGUI weaponsLabel;
-    [SerializeField] private Transform otherListParent;
-    [SerializeField] private TextMeshProUGUI otherLabel;
 
     private List<SelectedDronesModuleDisplay> spawnedList = new List<SelectedDronesModuleDisplay>();
     private List<DroneModule> addedModules = new List<DroneModule>();
 
     [SerializeField] private PlayerDroneController playerDroneController;
 
-    private void Update()
-    {
-        SetLabels();
-    }
-
     private void SetLabels()
     {
+        if (playerDroneController.SelectedDrone == null) return;
         passivesLabel.text = "Passives: " + DroneModule.GetNumModulesOfCategory(ModuleCategory.PASSIVE, addedModules) + "/" + playerDroneController.SelectedDrone.PassivesPerDrone;
         activesLabel.text = "Actives: " + DroneModule.GetNumModulesOfCategory(ModuleCategory.ACTIVE, addedModules) + "/" + playerDroneController.SelectedDrone.ActivesPerDrone;
         weaponsLabel.text = "Weapons: " + DroneModule.GetNumModulesOfCategory(ModuleCategory.WEAPON, addedModules) + "/" + playerDroneController.SelectedDrone.WeaponsPerDrone;
@@ -39,6 +33,7 @@ public class ShowSelectedDronesModulesDisplay : MonoBehaviour
         {
             AddModule(modules[i], interactable);
         }
+        SetLabels();
     }
 
     public void AddModule(DroneModule module, bool interactable)

@@ -26,6 +26,11 @@ public class TimerDictionary<T>
         }
     }
 
+    public void Clear()
+    {
+        dictionary.Clear();
+    }
+
     public void Add(T key, float time)
     {
         dictionary.Add(key, time);

@@ -7474,38 +7474,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5317224943472701016, guid: fbb8872622a51fd47aaea2bac96dda1e,
+    - target: {fileID: 5413740797164009118, guid: fbb8872622a51fd47aaea2bac96dda1e,
         type: 3}
-      propertyPath: m_fontAsset
-      value: 
-      objectReference: {fileID: 11400000, guid: 2f7e8524afc4c4f4984e01ac5af28ee0,
-        type: 2}
-    - target: {fileID: 5317224943472701016, guid: fbb8872622a51fd47aaea2bac96dda1e,
-        type: 3}
-      propertyPath: m_hasFontAssetChanged
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5832490042329973002, guid: fbb8872622a51fd47aaea2bac96dda1e,
-        type: 3}
-      propertyPath: m_fontAsset
-      value: 
-      objectReference: {fileID: 11400000, guid: 2f7e8524afc4c4f4984e01ac5af28ee0,
-        type: 2}
-    - target: {fileID: 5832490042329973002, guid: fbb8872622a51fd47aaea2bac96dda1e,
-        type: 3}
-      propertyPath: m_hasFontAssetChanged
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8379254071208168871, guid: fbb8872622a51fd47aaea2bac96dda1e,
-        type: 3}
-      propertyPath: m_fontAsset
-      value: 
-      objectReference: {fileID: 11400000, guid: 2f7e8524afc4c4f4984e01ac5af28ee0,
-        type: 2}
-    - target: {fileID: 8379254071208168871, guid: fbb8872622a51fd47aaea2bac96dda1e,
-        type: 3}
-      propertyPath: m_hasFontAssetChanged
-      value: 1
+      propertyPath: m_AnchoredPosition.x
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fbb8872622a51fd47aaea2bac96dda1e, type: 3}

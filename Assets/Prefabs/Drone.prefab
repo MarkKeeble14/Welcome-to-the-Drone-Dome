@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 5163690858416789683}
   - component: {fileID: 5163690858416789680}
   - component: {fileID: 5163690858416789681}
-  - component: {fileID: 5163690858416789678}
   - component: {fileID: 4860089302937057967}
   - component: {fileID: 5163690858416789679}
   - component: {fileID: 4564883555859428555}
+  - component: {fileID: 1560711020314775454}
   m_Layer: 9
   m_Name: Drone
   m_TagString: Untagged
@@ -87,19 +87,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &5163690858416789678
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5163690858416789677}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4860089302937057967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,6 +115,7 @@ MonoBehaviour:
   AvailableForUse: 1
   selected: 0
   rotateAround: {fileID: 0}
+  minMaxHemisphereSpawnAt: {x: 2, y: 5}
   scavengeableLayer:
     serializedVersion: 2
     m_Bits: 4096
@@ -136,7 +124,7 @@ MonoBehaviour:
     m_Bits: 32768
   station: {x: 0, y: 0, z: 0}
   stationCooldownStart: 10
-  droneStationHeight: 1
+  droneYTranslation: 1
   activesPerDrone: 1
   passivesPerDrone: 1
   weaponsPerDrone: 3
@@ -164,3 +152,16 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
+--- !u!65 &1560711020314775454
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5163690858416789677}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}

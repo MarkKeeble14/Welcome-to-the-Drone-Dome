@@ -20,12 +20,12 @@ MonoBehaviour:
   statModifier:
     baseValue: 5
     affectedValue: 5
-    minValue: 0
-    hasMin: 0
+    minValue: 1
+    hasMin: 1
     maxValue: 0
     hasMax: 0
     changeBy: 0
-    baseValuePermaGrowth: -0.05
+    baseValuePermaGrowth: -0.025
     numTimesBaseUpgraded: 0
     baseGrowth: -0.5
     growth: -0.5

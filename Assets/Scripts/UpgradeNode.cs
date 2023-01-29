@@ -39,7 +39,7 @@ public abstract class UpgradeNode : ScriptableObject
 
     public abstract int GetMaxPoints();
 
-    public bool Maxed()
+    public virtual bool Maxed()
     {
         return CurrentPoints >= GetMaxPoints();
     }

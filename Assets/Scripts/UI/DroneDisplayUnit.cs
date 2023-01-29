@@ -31,11 +31,13 @@ public class DroneDisplayUnit : MonoBehaviour
             selected = value;
         }
     }
+    public bool HasActives => representingDrone.GetNumberOfModules(ModuleCategory.ACTIVE) > 0;
 
     [SerializeField] private Color selectedColor;
     [SerializeField] private Color notSelectedColor;
-    [SerializeField] private Color activeCDColor;
-    [SerializeField] private Color hasActiveColor;
+    [SerializeField] private Color cannotActivateActiveColor;
+    [SerializeField] private Color canActivateActivesColor;
+    [SerializeField] private Color activeOnCDColor;
 
     private DroneController representingDrone;
 
@@ -51,15 +53,30 @@ public class DroneDisplayUnit : MonoBehaviour
         indexText.text = index.ToString();
     }
 
-    public bool HasActives => representingDrone.GetNumberOfModules(ModuleCategory.ACTIVE) > 0;
-
     private void Update()
     {
         // Control Color to display info
         if (HasActives)
         {
             showActiveContainer.gameObject.SetActive(true);
-            showActiveImage.color = representingDrone.CanActivateActives ? hasActiveColor : activeCDColor;
+
+            if (!representingDrone.CanActivateActives)
+            {
+                if (representingDrone.CoolingDown)
+                {
+                    showActiveImage.color = activeOnCDColor;
+                }
+                else
+                {
+                    showActiveImage.color = cannotActivateActiveColor;
+                }
+            }
+            else
+            {
+                showActiveImage.color = canActivateActivesColor;
+            }
+
+            showActiveImage.fillAmount = representingDrone.CooldownTime.x / representingDrone.CooldownTime.y;
         }
         else
         {
@@ -71,9 +88,6 @@ public class DroneDisplayUnit : MonoBehaviour
             image.color = Selected ? selectedColor : notSelectedColor;
         }
         SetBasedOnDroneMode();
-
-        Vector2 cooldownPercent = representingDrone.CooldownTime;
-        showActiveImage.fillAmount = cooldownPercent.x / cooldownPercent.y;
     }
 
     private void SetBasedOnDroneMode()

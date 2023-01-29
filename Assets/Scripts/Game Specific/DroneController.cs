@@ -21,6 +21,9 @@ public class DroneController : MonoBehaviour
     [SerializeField] private Transform rotateAround;
     private float orbitTimer;
 
+    [Header("Spawning")]
+    [SerializeField] private Vector2 minMaxHemisphereSpawnAt;
+
     [Header("Scavenging")]
     [SerializeField] private LayerMask scavengeableLayer;
     [SerializeField] private LayerMask scavengeablePriorityLayer;
@@ -31,7 +34,7 @@ public class DroneController : MonoBehaviour
     private bool hasStation;
     [SerializeReference] private float stationCooldownStart = 10f;
     private float stationCooldownTimer;
-    [SerializeField] private float droneStationHeight = 1f;
+    [SerializeField] private float droneYTranslation = 1f;
 
     [SerializeField] private int activesPerDrone;
     public int ActivesPerDrone
@@ -85,6 +88,7 @@ public class DroneController : MonoBehaviour
             foreach (DroneActiveModule active in activeModules)
             {
                 if (active.CoolingDown) return false;
+                if (!active.Attached) return false;
             }
             return true;
         }
@@ -105,6 +109,18 @@ public class DroneController : MonoBehaviour
         }
     }
 
+    public bool CoolingDown
+    {
+        get
+        {
+            foreach (DroneActiveModule active in activeModules)
+            {
+                if (active.CoolingDown) return true;
+            }
+            return false;
+        }
+    }
+
     [Header("References")]
     private PlayerDroneController playerDroneController;
     private Transform player;
@@ -115,19 +131,17 @@ public class DroneController : MonoBehaviour
     [SerializeField] private Material selectedMaterial;
     [SerializeField] private Material unavailableMaterial;
     [SerializeField] new private Renderer renderer;
-    private Collider col;
-    public Collider Col => col;
 
     private void Start()
     {
         // Set References
         player = GameManager._Instance.Player;
         playerDroneController = player.GetComponent<PlayerDroneController>();
-        col = GetComponent<SphereCollider>();
         droneBasics = GetComponentInChildren<DroneBasicsModule>();
 
         // Spawn Station Cooldown Bar
         stationCooldownBar = Instantiate(stationCooldownBar, transform);
+        stationCooldownBar.name = "StationCooldownDurationBar";
     }
 
     private void Update()
@@ -273,7 +287,7 @@ public class DroneController : MonoBehaviour
 
         Vector3 position = new Vector3(
             rotateAround.position.x + Mathf.Cos(Mathf.Deg2Rad * angle) * radius,
-            rotateAround.position.y,
+            rotateAround.position.y + droneYTranslation,
             rotateAround.position.z + Mathf.Sin(Mathf.Deg2Rad * angle) * radius);
         return position;
     }
@@ -370,7 +384,7 @@ public class DroneController : MonoBehaviour
     {
         if (stationCooldownTimer > 0) return;
         hasStation = true;
-        station = pos + Vector3.one * droneStationHeight;
+        station = pos + Vector3.one * droneYTranslation;
 
         stationCooldownTimer = stationCooldownStart;
         stationCooldownBar.SetText("Stationing");
@@ -415,11 +429,18 @@ public class DroneController : MonoBehaviour
         }
     }
 
+
     // Takes in a prefab and returns a new instance
     public DroneModule AddModule(DroneModule module)
     {
         // Instantiate new instance of passed in module prefab
         module = Instantiate(module, transform);
+
+        Vector3 hemispherePos = UnityEngine.Random.onUnitSphere;
+        hemispherePos.y = Mathf.Abs(hemispherePos.y);
+        module.transform.position += hemispherePos * RandomHelper.RandomFloat(minMaxHemisphereSpawnAt);
+        module.Set(this);
+
         appliedModules.Add(module);
         // Determine which list to add it to
         switch (module.Category)

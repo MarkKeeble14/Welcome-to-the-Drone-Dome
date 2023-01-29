@@ -14,7 +14,8 @@
     ZAPPER,
     DEFAULT_TURRET,
     DRONE_BASICS,
-    HELP_PLAYER_MOVEMENT
+    HELP_PLAYER_MOVEMENT,
+    SAWBLADE_ACTIVE
 }
 
 public static class EnumToStringHelper
@@ -53,6 +54,8 @@ public static class EnumToStringHelper
                 return "Drone Basics";
             case ModuleType.HELP_PLAYER_MOVEMENT:
                 return "Help Player Movement";
+            case ModuleType.SAWBLADE_ACTIVE:
+                return "Sawblades";
             default:
                 return "Unmatched Module Type";
         }

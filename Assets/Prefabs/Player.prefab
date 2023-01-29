@@ -279,7 +279,9 @@ MonoBehaviour:
   dieParticleEffect: {fileID: 1365371477070616360, guid: 3aa837da96f187a4db44e3d3734b7f61,
     type: 3}
   iFrameDuration: 1
-  hasIFrameColor: {r: 1, g: 1, b: 1, a: 0.5019608}
+  hasIFrameColor: {r: 1, g: 0, b: 0, a: 1}
+  defaultEmission: 6
+  hasIFrameEmission: 10
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -308,7 +310,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trackedDrones: []
   selectedDrone: {fileID: 0}
-  maxDrones: 5
+  maxDrones: 3
 --- !u!114 &3483537132347607205
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -14,6 +14,8 @@ public class DroneZapperModule : DroneWeaponModule
 
     public override ModuleType Type => ModuleType.ZAPPER;
 
+    [SerializeField] private Transform origin;
+
     protected override void LoadModuleData()
     {
         damage.SetStat(UpgradeNode.GetStatModifierUpgradeNode(damage, allModuleUpgradeNodes));
@@ -25,6 +27,7 @@ public class DroneZapperModule : DroneWeaponModule
 
     public override IEnumerator Attack()
     {
+        if (!Attached) yield return null;
         yield return new WaitForSeconds(delay.Stat.Value);
         DoDamage();
         StartCoroutine(Attack());
@@ -33,7 +36,7 @@ public class DroneZapperModule : DroneWeaponModule
     protected void DoDamage()
     {
         List<Transform> hasTouched = new List<Transform>();
-        hasTouched.Add(transform);
+        hasTouched.Add(origin);
         LineBetween spawned;
 
         // For the number of chaining available
@@ -62,6 +65,6 @@ public class DroneZapperModule : DroneWeaponModule
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.cyan;
-        Gizmos.DrawWireSphere(transform.position, fireRange.Stat.Value);
+        Gizmos.DrawWireSphere(origin.position, fireRange.Stat.Value);
     }
 }

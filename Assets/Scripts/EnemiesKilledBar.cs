@@ -5,6 +5,7 @@ public class EnemiesKilledBar : ProgressBar
 {
 
     private int waveCounter = 1;
+    public int WavesCompleted => waveCounter;
     [SerializeField] private TextMeshProUGUI text;
     [SerializeField] private string prefix;
 

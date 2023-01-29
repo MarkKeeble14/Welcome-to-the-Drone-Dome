@@ -158,10 +158,10 @@ MonoBehaviour:
   autoCollectSpeed: 5
   chanceToAutoCollect: {x: 1, y: 4}
   timeTakenToAutoCollectSpeedMultiplier: 2
-  expireSpeed: 0.1
+  expireSpeed: 0.5
   growDuration: 0.25
   growSpeed: 2.5
-  pauseDuration: 2
+  pauseDuration: 1
   rb: {fileID: 6800638877678195742}
   col:
   - {fileID: 7365761487249773200}

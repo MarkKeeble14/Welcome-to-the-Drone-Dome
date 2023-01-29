@@ -80,9 +80,6 @@ public class UseDroneManager : MonoBehaviour
 
         usingDrone.AvailableForUse = false;
 
-        // Disable Collider
-        usingDrone.Col.enabled = false;
-
         // Dragging around
         while (InputManager._Controls.Player.LeftMouseClick.IsPressed())
         {
@@ -150,8 +147,6 @@ public class UseDroneManager : MonoBehaviour
     {
         // Allow ambient attacking
         drone.OnEnterAttackMode();
-        // Re-enable Collider
-        drone.Col.enabled = true;
         drone.AvailableForUse = true;
         // Add the drone back to the player's orbit
         playerDroneController.AddDroneToOrbit(drone);
@@ -198,9 +193,6 @@ public class UseDroneManager : MonoBehaviour
 
         DroneController controllingDrone = droneData.DroneController;
 
-        // Disable Collider
-        controllingDrone.Col.enabled = false;
-
         // Add the drone to the enemies orbit grid
         controllingDrone.SetRotateAround(enemy.transform);
 
@@ -216,9 +208,6 @@ public class UseDroneManager : MonoBehaviour
 
         // Make the drone no longer focus the dead target
         droneData.DroneTargeting.OverridingTarget = null;
-
-        // Re-enable Collider
-        controllingDrone.Col.enabled = true;
     }
     private void Start()
     {

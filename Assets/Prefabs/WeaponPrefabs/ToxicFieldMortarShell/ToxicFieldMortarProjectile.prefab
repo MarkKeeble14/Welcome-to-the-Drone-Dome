@@ -128,6 +128,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 4411560104125395868}
-  poisonField: {fileID: 326367282432181740, guid: 070a70423ae90344ebeb5568f27e4ab4,
-    type: 3}
-  radius: {fileID: 11400000, guid: c777acd9553cd11498734bdd9c444c1b, type: 2}
+  explodeOnCollideWith:
+    serializedVersion: 2
+    m_Bits: 133248
+  fieldType: 0
+  radius: 0
+  damage: 0
+  tickSpeed: 0
+  duration: 0
+  growSpeed: 0
+  expand: {fileID: 0}
+  expandSpeed: 0

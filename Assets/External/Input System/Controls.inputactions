@@ -318,17 +318,6 @@
                 },
                 {
                     "name": "",
-                    "id": "52469c1e-30a6-4fda-9c00-1ed92c3bd4fb",
-                    "path": "<Keyboard>/leftShift",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Crouch",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "7cc141b3-f379-4ffa-b8bf-ca11060a4465",
                     "path": "<Keyboard>/q",
                     "interactions": "",

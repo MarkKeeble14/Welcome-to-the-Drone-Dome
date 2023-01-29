@@ -227,11 +227,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 4411560104125395868}
-  numThumps: {fileID: 0}
-  timeBetweenThumps: {fileID: 0}
-  radius: {fileID: 0}
-  expansionSpeed: {fileID: 0}
-  damage: {fileID: 0}
-  knockback: {fileID: 0}
+  explodeOnCollideWith:
+    serializedVersion: 2
+    m_Bits: 133248
+  numThumps: 0
+  timeBetweenThumps: 0
+  radius: 0
+  expansionSpeed: 0
+  damage: 0
+  knockback: 0
   dissapearParticle: {fileID: 8732161867663413605, guid: bbfb1aa93994ccf448950b0c37641047,
     type: 3}

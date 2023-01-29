@@ -1,0 +1,22 @@
+Create Module Prefab
+Create DroneModuleScript
+- Any additional required module scripts
+
+Create all UpgradeNodes (ScriptableObjects) for the new node
+- Check previous code for examples
+
+Inside of PoolManager, Must create new Pool for object if not fit into one of the current types
+- New Pool Variable
+
+Must Create new Module_Type Enum
+Must Create new Upgrade_Tree_Relation Enum
+
+Inside of GameManager
+	- Must set new element in ModuleTypeInfo for new Module Type and detail information
+	- If DroneModule
+		- Must set new element in UpgradeTreeRelationInfo for Upgrade Tree Relation
+	- If not Specifically DroneModule
+		- Must set new element in UpgradeTreeDisplayInfo for new module type and detail information
+
+Inside of MainMenuUI
+- Must Add new element to AllImplementedUpgradeTrees containing all upgrade nodes of new module type that we wish to be persented when credit shopping

@@ -96,7 +96,7 @@ MonoBehaviour:
     BossZoomOut: 0
     BossSpawns: []
     MiniBossSpawns: []
-  - RewardType: 2
+  - RewardType: 1
     SubWaveRewards: []
     UpgradePointsAwarded: 3
     CanRepeatedlyAwardUpgradePoints: 1
@@ -242,13 +242,11 @@ MonoBehaviour:
     - {fileID: 5638404428015688683, guid: 6cceafb925b214f4a917954323873b04, type: 3}
     - {fileID: 5638404428015688683, guid: 6cceafb925b214f4a917954323873b04, type: 3}
     MiniBossSpawns: []
-  cameraWidthAllowance: 20
-  cameraHeightAllowance: 10
-  timeBetweenResourceClears: 30
-  resourceClearFudgeFactor: 5
   playerCredits: {fileID: 11400000, guid: 9e7520a7fd0a9be46a773ce0f92ed668, type: 2}
   popupText: {fileID: -5260616264727522277, guid: d52a68650b4dbcf44aa2e12f8a640e87,
     type: 3}
+  timeBetweenResourceClears: 20
+  resourceClearFudgeFactor: 5
 --- !u!1001 &7333623055993162047
 PrefabInstance:
   m_ObjectHideFlags: 0

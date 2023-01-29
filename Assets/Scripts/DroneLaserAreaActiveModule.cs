@@ -11,6 +11,8 @@ public class DroneLaserAreaActiveModule : DroneActiveModule
 
     public override ModuleType Type => ModuleType.LASER_ACTIVE;
 
+    [SerializeField] private Transform origin;
+
     private new void Start()
     {
         base.Start();
@@ -21,7 +23,7 @@ public class DroneLaserAreaActiveModule : DroneActiveModule
 
     public override void Effect()
     {
-        Collider[] inRange = Physics.OverlapSphere(transform.position, range.Stat.Value, enemyLayer);
+        Collider[] inRange = Physics.OverlapSphere(origin.position, range.Stat.Value, enemyLayer);
         foreach (Collider col in inRange)
         {
             // Get health component
@@ -32,7 +34,7 @@ public class DroneLaserAreaActiveModule : DroneActiveModule
 
             // Create Laser
             LineBetween spawned = ObjectPooler.laserBeamPool.Get();
-            spawned.Set(transform.position, col.transform.position, () => ObjectPooler.laserBeamPool.Release(spawned));
+            spawned.Set(origin.position, col.transform.position, () => ObjectPooler.laserBeamPool.Release(spawned));
 
             // Do Damage
             hb.Damage(damage.Stat.Value, Type);

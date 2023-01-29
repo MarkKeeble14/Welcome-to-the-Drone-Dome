@@ -27,42 +27,36 @@ public partial class ArenaManager : MonoBehaviour
     private bool clearedWave;
     private bool hasCompletedReward;
     public bool HasCompletedReward { get; private set; }
+    private bool inArena;
+    private bool isDone;
+    private WaveWrapper currentWave;
+    private Dictionary<GameObject, WaveWrapper> enemyWaveDictionary = new Dictionary<GameObject, WaveWrapper>();
+    private bool CanClaimVictory => isDone && GameManager._Instance.OnLastLevel;
+    private bool CreepDeathShouldCountTowardsProgress => !inPostWaveClearPeriod;
+    private int numberEnemiesAllowedAlive;
+    private int numberEnemiesToKill;
+
+    private bool inPostWaveClearPeriod;
+    private float postWaveClearPeriodDuration = 1f;
 
     [Header("References")]
     private BossInfoDisplay bossInfoDisplay;
     private EnemiesKilledBar progressBar;
     private ArenaInstructionsText arenaInstructionsText;
     private ArenaRewardText arenaRewardText;
-
-    [Header("Settings")]
-    [SerializeField] private float cameraWidthAllowance = 20;
-    [SerializeField] private float cameraHeightAllowance = 10;
+    [SerializeField] private StoreInt playerCredits;
+    private PlayerSpawning playerSpawning;
+    [SerializeField] private PopupText popupText;
     private Transform player;
 
-    private bool inArena;
-    private bool isDone;
-    private WaveWrapper currentWave;
-    private Dictionary<GameObject, WaveWrapper> enemyWaveDictionary = new Dictionary<GameObject, WaveWrapper>();
 
-    private bool inPostWaveClearPeriod;
-    private float postWaveClearPeriodDuration = 1f;
-
-    private bool CanClaimVictory => isDone && GameManager._Instance.OnLastLevel;
-    private bool CreepDeathShouldCountTowardsProgress => !inPostWaveClearPeriod;
-    private int numberEnemiesAllowedAlive;
-    private int numberEnemiesToKill;
+    [Header("Resource Clearing")]
     [SerializeField] private float timeBetweenResourceClears = 60f;
     [SerializeField] private float resourceClearFudgeFactor = 6f;
     private float ResourceClearFudgeFactor => timeBetweenResourceClears / resourceClearFudgeFactor;
-    [SerializeField] private StoreInt playerCredits;
-    private PlayerSpawning playerSpawning;
-
-    private LayerMask enemyLayer;
-    [SerializeField] private PopupText popupText;
 
     private void Start()
     {
-        enemyLayer = LayerMask.GetMask("Enemy");
         // Add Controls
         InputManager._Controls.Player.BeginArena.started += BeginArenaPressed;
         InputManager._Controls.Player.NextLevel.started += NextLevelPressed;
@@ -168,7 +162,7 @@ public partial class ArenaManager : MonoBehaviour
             arenaRewardText.SetText("");
             yield break;
         }
-        Debug.Log("Wave Loop Started: " + gameObject);
+        //  Debug.Log("Wave Loop Started: " + gameObject);
 
         // Set flags to false before starting next wave
         clearedWave = false;
@@ -187,15 +181,15 @@ public partial class ArenaManager : MonoBehaviour
         // Determine whether next wave contains a boss or not; start the appropriate wave sequence
         CallSequence(currentWave.HasBoss ? WaveType.BOSS : WaveType.CREEP);
 
-        Debug.Log("Waiting To Clear Wave");
+        //  Debug.Log("Waiting To Clear Wave");
 
         yield return new WaitUntil(() => clearedWave);
 
-        Debug.Log("Waiting To Give Reward");
+        // Debug.Log("Waiting To Give Reward");
 
         yield return new WaitUntil(() => hasCompletedReward);
 
-        Debug.Log("Has Given Reward");
+        // Debug.Log("Has Given Reward");
 
         StartCoroutine(WaveLoop());
     }
@@ -219,7 +213,7 @@ public partial class ArenaManager : MonoBehaviour
 
     private IEnumerator WaveSequence()
     {
-        Debug.Log("Wave Sequence Started");
+        // Debug.Log("Wave Sequence Started");
 
         // Spawn Boss
         foreach (GameObject boss in currentWave.MiniBossSpawns)
@@ -243,12 +237,12 @@ public partial class ArenaManager : MonoBehaviour
             yield return null;
         }
 
-        Debug.Log("Wave Sequence Ended");
+        // Debug.Log("Wave Sequence Ended");
     }
 
     private IEnumerator BossSequence()
     {
-        Debug.Log("Boss Sequence Started");
+        // Debug.Log("Boss Sequence Started");
         // Remove all creeps
         // ClearAllCreeps();
 
@@ -274,7 +268,7 @@ public partial class ArenaManager : MonoBehaviour
             yield return null;
         }
 
-        Debug.Log("Boss Sequence Ended");
+        // Debug.Log("Boss Sequence Ended");
     }
 
     public Vector3 GetRandomPosOnPlane(GameObject plane)

@@ -3,7 +3,6 @@ using UnityEngine;
 
 public abstract class DroneGunModule : DroneWeaponModule
 {
-
     [Header("Upgradeables")]
     [SerializeField] protected LoadStatModifierInfo shotsPerSecond;
     [SerializeField] protected LoadStatModifierInfo range;
@@ -16,6 +15,8 @@ public abstract class DroneGunModule : DroneWeaponModule
 
     [Header("References")]
     [SerializeField] private DurationBar reloadBar;
+    [SerializeField] private Transform projectileOrigin;
+    [SerializeField] private Transform reloadBarHolder;
 
     public int CurrentMagazineCount
     {
@@ -27,9 +28,9 @@ public abstract class DroneGunModule : DroneWeaponModule
         base.Awake();
 
         // Create and Set the Reload Bar
-        reloadBar = Instantiate(reloadBar, transform);
-        reloadBar.SetText("Reloading");
+        reloadBar = Instantiate(reloadBar, reloadBarHolder);
         reloadBar.HardSetBar(1);
+        reloadBar.SetText(EnumToStringHelper.GetStringValue(Type) + "\nReloading");
 
         // Reload the Gun
         Reload();
@@ -84,7 +85,7 @@ public abstract class DroneGunModule : DroneWeaponModule
 
     private float Fire()
     {
-        return Shoot(transform.position, target, Type);
+        return Shoot(projectileOrigin.position, target, Type);
     }
 
     public override IEnumerator Attack()
@@ -93,8 +94,13 @@ public abstract class DroneGunModule : DroneWeaponModule
         {
             yield return new WaitForSeconds(preventWaitCancelingTimer);
 
+            if (!Attached)
+            {
+                continue;
+            }
+
             // Active
-            if ((target = targeting.GetTarget(range.Stat.Value, transform, TargetBy)) != null)
+            if ((target = targeting.GetTarget(range.Stat.Value, projectileOrigin, TargetBy)) != null)
             {
                 float nextShotTime = Fire();
 
@@ -107,7 +113,7 @@ public abstract class DroneGunModule : DroneWeaponModule
                 {
                     float reloadTime = Reload();
 
-                    reloadBar.SetText("Reloading");
+                    reloadBar.SetText(EnumToStringHelper.GetStringValue(Type) + "\nReloading");
                     reloadBar.Set(reloadTime);
 
                     // Needs to Reload

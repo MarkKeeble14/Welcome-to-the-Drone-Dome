@@ -246,13 +246,11 @@ MonoBehaviour:
     - {fileID: 5638404428015688683, guid: 6cceafb925b214f4a917954323873b04, type: 3}
     - {fileID: 5638404428015688683, guid: 6cceafb925b214f4a917954323873b04, type: 3}
     MiniBossSpawns: []
-  cameraWidthAllowance: 20
-  cameraHeightAllowance: 10
-  timeBetweenResourceClears: 20
-  resourceClearFudgeFactor: 3
   playerCredits: {fileID: 11400000, guid: 9e7520a7fd0a9be46a773ce0f92ed668, type: 2}
   popupText: {fileID: -5260616264727522277, guid: d52a68650b4dbcf44aa2e12f8a640e87,
     type: 3}
+  timeBetweenResourceClears: 15
+  resourceClearFudgeFactor: 3
 --- !u!1001 &3083564978410872426
 PrefabInstance:
   m_ObjectHideFlags: 0

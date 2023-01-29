@@ -8,6 +8,8 @@ public class PlayerHealth : HealthBehaviour
     [SerializeField] private float iFrameDuration;
     [SerializeField] private Color hasIFrameColor;
     private Color defaultColor;
+    [SerializeField] private float defaultEmission;
+    [SerializeField] private float hasIFrameEmission;
     [SerializeField] private LayerMask enemyLayer;
     private bool hasIFrames;
 
@@ -24,7 +26,6 @@ public class PlayerHealth : HealthBehaviour
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Bar healthBar;
 
-
     private new void Start()
     {
         base.Start();
@@ -35,8 +36,9 @@ public class PlayerHealth : HealthBehaviour
         defaultColor = material.color;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionStay(Collision collision)
     {
+        if (hasIFrames) return;
         if (!LayerMaskHelper.IsInLayerMask(collision.gameObject, enemyLayer)) return;
 
         // Get Enemy Component and deal contact damage
@@ -92,10 +94,12 @@ public class PlayerHealth : HealthBehaviour
         if (hasIFrames)
         {
             material.color = hasIFrameColor;
+            material.SetColor("_EmissionColor", hasIFrameColor * hasIFrameEmission);
         }
         else
         {
             material.color = defaultColor;
+            material.SetColor("_EmissionColor", defaultColor * defaultEmission);
         }
 
         healthBar.SetBar(currentHealth / maxHealth);

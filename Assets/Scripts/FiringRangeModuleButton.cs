@@ -16,14 +16,16 @@ public class FiringRangeModuleButton : MonoBehaviour
 
     public void Set(ModuleType type, Action onAdd, Action onDelete)
     {
-        text.text = type.ToString();
+        text.text = EnumToStringHelper.GetStringValue(type);
         purchaseButton.onClick.AddListener(delegate
         {
-            onAdd();
+            if (!purchased)
+                onAdd();
         });
         deleteButton.onClick.AddListener(delegate
         {
-            onDelete();
+            if (purchased)
+                onDelete();
         });
     }
 

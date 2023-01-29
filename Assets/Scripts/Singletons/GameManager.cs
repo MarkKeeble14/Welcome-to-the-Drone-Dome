@@ -26,8 +26,7 @@ public partial class GameManager : MonoBehaviour
     private SerializableDictionary<UpgradeTreeRelation, ModuleType> upgradeTreeRelationInfo
     = new SerializableDictionary<UpgradeTreeRelation, ModuleType>();
     [SerializeField]
-    private SerializableDictionary<UpgradeTreeRelation, UpgradeTreeDisplayInfo> upgradeTreeDisplayInfo
-= new SerializableDictionary<UpgradeTreeRelation, UpgradeTreeDisplayInfo>();
+    private SerializableDictionary<UpgradeTreeRelation, UpgradeTreeDisplayInfo> upgradeTreeDisplayInfo = new SerializableDictionary<UpgradeTreeRelation, UpgradeTreeDisplayInfo>();
     public SerializableDictionary<ModuleType, DroneModuleInfo> ModuleTypeInfo => moduleTypeInfo;
     public List<ModuleType> AllModules => moduleTypeInfo.KeysWhereValueMeetsCondition(moduleInfo => !moduleInfo.Unobtainable);
     [SerializeField] private List<ModuleType> defaultModules = new List<ModuleType>();
@@ -44,7 +43,6 @@ public partial class GameManager : MonoBehaviour
     private bool restartingGame;
     [SerializeField] private bool shouldLoadOnStart;
     [SerializeField] private int loadOnStart;
-    [SerializeField] private float maxWaitTime = 5f;
 
     public bool OnLastLevel => levelIndex == levelNames.Length - 1;
     public bool OnMainMenu => levelIndex == 0 && currentLevel == null;
@@ -63,7 +61,6 @@ public partial class GameManager : MonoBehaviour
     [SerializeField] private PlayerMovement playerMovement;
     [SerializeField] private PlayerHealth playerHealth;
     [SerializeField] private DroneController dronePrefab;
-    [SerializeField] private ShowSelectedDronesModulesDisplay showSelectedDronesModules;
     [SerializeField] private LevelAndLoopStatMap perLevelEnemyStatMap;
     public LevelAndLoopStatMap PerLevelEnemyStatMap => perLevelEnemyStatMap;
     public EnemyStatMap EnemyStatMap => perLevelEnemyStatMap.Current;
@@ -171,20 +168,21 @@ public partial class GameManager : MonoBehaviour
     private IEnumerator PreLoadNextLevel()
     {
         // Collect all remaining autocollectables
-        List<AutoCollectScavengeable> collectedAutoCollectable = new List<AutoCollectScavengeable>();
+        int numCollected = 0;
         AutoCollectScavengeable[] remainingAutoCollectable = FindObjectsOfType<AutoCollectScavengeable>();
         foreach (AutoCollectScavengeable autoCollectable in remainingAutoCollectable)
         {
             autoCollectable.AutoCollect(() =>
             {
-                collectedAutoCollectable.Add(autoCollectable);
+                numCollected++;
             }
             );
         }
 
         // Wait until either all autocollectables have been autocollected, or for some certain max length of time
+        float maxWaitTime = 5f;
         float t = 0;
-        while (t < maxWaitTime && collectedAutoCollectable.Count != remainingAutoCollectable.Length)
+        while (t < maxWaitTime && numCollected != remainingAutoCollectable.Length)
         {
             t += Time.deltaTime;
 

@@ -19,16 +19,17 @@ MonoBehaviour:
   maxPoints: 10
   statModifier:
     baseValue: 1
-    hardBaseValue: 1
-    affectedValue: 0
+    affectedValue: 1
     minValue: 1
     hasMin: 1
     maxValue: 0
     hasMax: 0
     changeBy: 0
+    baseValuePermaGrowth: 0.1
+    numTimesBaseUpgraded: 0
     baseGrowth: 1
     growth: 1
     growthIncreaseUponGrow: 0
     growthChangeBy: 0
-    baseValuePermaGrowth: 0.05
   pointsPerRank: 2
+  pointsToNextRank: 2

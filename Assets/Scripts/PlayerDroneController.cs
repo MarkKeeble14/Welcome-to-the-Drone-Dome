@@ -10,7 +10,7 @@ public class PlayerDroneController : MonoBehaviour
     public List<DroneController> TrackedDrones { get { return trackedDrones; } }
     [SerializeField] private DroneController selectedDrone;
     public DroneController SelectedDrone => selectedDrone;
-    public bool UnderDroneLimit { get { return trackedDrones.Count - 1 < maxDrones; } }
+    public bool UnderDroneLimit { get { return trackedDrones.Count < maxDrones; } }
 
     [Header("Settings")]
     [SerializeField] private int maxDrones = 5;

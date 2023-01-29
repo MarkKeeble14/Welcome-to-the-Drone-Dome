@@ -6,12 +6,7 @@ public abstract class MortarProjectile : Projectile
 {
     [Header("Base Mortar Projectile")]
     [SerializeField] private Rigidbody rb;
-    private LayerMask explodeOnCollideWith;
-
-    private void Awake()
-    {
-        explodeOnCollideWith = LayerMask.GetMask("Enemy", "Ground");
-    }
+    [SerializeField] private LayerMask explodeOnCollideWith;
 
     public void Set(Transform shootAt, float speed, float arcAngle)
     {

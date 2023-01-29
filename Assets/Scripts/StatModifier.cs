@@ -22,6 +22,16 @@ public class StatModifier
     [SerializeField] private float baseValuePermaGrowth = 0.05f;
     [SerializeField] public int numTimesBaseUpgraded;
 
+    public bool WithinBounds
+    {
+        get
+        {
+            if (hasMin && Value <= minValue) return false;
+            if (hasMax && Value >= maxValue) return false;
+            return true;
+        }
+    }
+
     public void AddEffect(float x)
     {
         affectingValue.Add(x);

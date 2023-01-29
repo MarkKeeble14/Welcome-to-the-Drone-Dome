@@ -38,7 +38,6 @@ public class DroneAttackTargeting : MonoBehaviour
                 toReturn = null;
                 break;
         }
-        transform.LookAt(toReturn);
         return toReturn;
     }
 
@@ -73,7 +72,6 @@ public class DroneAttackTargeting : MonoBehaviour
                 toReturn = null;
                 break;
         }
-        transform.LookAt(toReturn);
         return toReturn;
     }
 }

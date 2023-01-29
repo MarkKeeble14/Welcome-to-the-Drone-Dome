@@ -255,13 +255,11 @@ MonoBehaviour:
     - {fileID: 5638404428015688683, guid: 5cfa219bc4a2f0e42b80303a027312d7, type: 3}
     - {fileID: 5638404428015688683, guid: 5cfa219bc4a2f0e42b80303a027312d7, type: 3}
     - {fileID: 5638404428015688683, guid: 5cfa219bc4a2f0e42b80303a027312d7, type: 3}
-  cameraWidthAllowance: 20
-  cameraHeightAllowance: 10
-  timeBetweenResourceClears: 15
-  resourceClearFudgeFactor: 2.5
   playerCredits: {fileID: 11400000, guid: 9e7520a7fd0a9be46a773ce0f92ed668, type: 2}
   popupText: {fileID: -5260616264727522277, guid: d52a68650b4dbcf44aa2e12f8a640e87,
     type: 3}
+  timeBetweenResourceClears: 7.5
+  resourceClearFudgeFactor: 2.5
 --- !u!1001 &2030134552817451801
 PrefabInstance:
   m_ObjectHideFlags: 0

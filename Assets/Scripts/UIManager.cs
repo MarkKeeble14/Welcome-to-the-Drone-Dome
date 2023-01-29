@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
@@ -33,6 +34,11 @@ public class UIManager : MonoBehaviour
     [SerializeField] private DronesDisplay mainMenuFiringRangeDroneDisplay;
     [SerializeField] private DronesDisplay inGameDroneDisplay;
     [SerializeField] private DronesDisplay shopDroneDisplay;
+
+    [Header("High Score")]
+    [SerializeField] private EnemiesKilledBar waveBar;
+    [SerializeField] private TextMeshProUGUI[] highScoreText;
+    [SerializeField] private string highScoreKey = "WavesCompleted";
 
     public void SetCurrentDronesDisplayForMenu()
     {
@@ -81,6 +87,7 @@ public class UIManager : MonoBehaviour
         CloseUpgradeUI();
         CloseInGameUI();
 
+        SetHighScore();
         winScreen.SetActive(true);
     }
 
@@ -90,7 +97,36 @@ public class UIManager : MonoBehaviour
         CloseUpgradeUI();
         CloseInGameUI();
 
+        SetHighScore();
         loseScreen.SetActive(true);
+    }
+
+    private void SetHighScore()
+    {
+        // High Score
+        string hsString = "Waves Completed:\n";
+        if (PlayerPrefs.HasKey(highScoreKey))
+        {
+            int hsWavesCleared = PlayerPrefs.GetInt(highScoreKey);
+            if (waveBar.WavesCompleted > hsWavesCleared)
+            {
+                PlayerPrefs.SetInt(highScoreKey, waveBar.WavesCompleted);
+                hsString += "New High Score!: ";
+            }
+            else
+            {
+                hsString += "High Score: ";
+            }
+        }
+        else
+        {
+            PlayerPrefs.SetInt(highScoreKey, waveBar.WavesCompleted);
+            hsString += "New High Score!: ";
+        }
+        foreach (TextMeshProUGUI text in highScoreText)
+        {
+            text.text = hsString + PlayerPrefs.GetInt(highScoreKey);
+        }
     }
 
     public void CloseInGameUI()

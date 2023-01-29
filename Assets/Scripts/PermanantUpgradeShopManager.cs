@@ -45,7 +45,6 @@ public class PermanantUpgradeShopManager : MonoBehaviour
             UpgradeTreeDisplay spawned = Instantiate(upgradeTreeDisplayPrefab, treeDisplayList);
             spawned.Set(tree, () =>
             {
-                Debug.Log("Clicked: " + tree);
                 spawnedUpgradeNodes = ShowUpgradeTree(tree);
             });
         }

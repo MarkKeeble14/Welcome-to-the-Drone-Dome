@@ -3,7 +3,7 @@
 [System.Serializable]
 public struct LoadBoolSwitchInfo
 {
-    [SerializeField] private BoolSwitchUpgradeNode boolSwitch;
+    private BoolSwitchUpgradeNode boolSwitch;
     public BoolSwitchUpgradeNode BoolSwitch => boolSwitch;
     [SerializeField] private int index;
     public int Index => index;

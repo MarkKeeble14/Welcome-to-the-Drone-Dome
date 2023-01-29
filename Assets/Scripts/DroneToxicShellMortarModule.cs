@@ -29,6 +29,6 @@ public class DroneToxicShellMortarModule : DroneMortarModule
     {
         ToxicFieldMortarProjectile toxicShellProj = (ToxicFieldMortarProjectile)proj;
         toxicShellProj.SetStats(radius.Stat.Value, tickDamage.Stat.Value, tickSpeed.Stat.Value, duration.Stat.Value,
-            initialExpansionSpeed.Stat.Value, shouldExpand.BoolSwitch, expandSpeed.Stat.Value);
+            initialExpansionSpeed.Stat.Value, shouldExpand.BoolSwitch.Active, expandSpeed.Stat.Value);
     }
 }

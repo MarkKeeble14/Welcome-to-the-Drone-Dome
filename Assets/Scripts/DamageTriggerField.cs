@@ -67,7 +67,7 @@ public abstract class DamageTriggerField : MonoBehaviour
 
             yield return null;
         }
-
+        // Debug.Log("Reached Max Radius");
         reachedMaxRadius = true;
     }
 

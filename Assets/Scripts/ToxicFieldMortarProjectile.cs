@@ -10,18 +10,18 @@ public class ToxicFieldMortarProjectile : MortarProjectile
     [SerializeField] private float tickSpeed;
     [SerializeField] private float duration;
     [SerializeField] private float growSpeed;
-    [SerializeField] private BoolSwitchUpgradeNode expand;
+    [SerializeField] private bool shouldExpand;
     [SerializeField] private float expandSpeed;
 
     public void SetStats(float radius, float damage, float tickSpeed, float duration, float growSpeed,
-        BoolSwitchUpgradeNode expand, float expandSpeed)
+        bool shouldExpand, float expandSpeed)
     {
         this.radius = radius;
         this.damage = damage;
         this.tickSpeed = tickSpeed;
         this.duration = duration;
         this.growSpeed = growSpeed;
-        this.expand = expand;
+        this.shouldExpand = shouldExpand;
         this.expandSpeed = expandSpeed;
     }
 
@@ -32,7 +32,7 @@ public class ToxicFieldMortarProjectile : MortarProjectile
         spawned.transform.position = transform.position;
 
         // Set
-        spawned.Set(expand, expandSpeed);
+        spawned.Set(shouldExpand, expandSpeed);
         spawned.Set(radius, damage, tickSpeed, duration, growSpeed,
             () => ObjectPooler._Instance.ReleaseDamageTriggerField(fieldType, spawned));
 

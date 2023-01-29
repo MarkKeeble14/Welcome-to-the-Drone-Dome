@@ -11,7 +11,10 @@ public class DroneTeslaModule : DroneWeaponModule
     [SerializeField] private LoadStatModifierInfo delay;
     [SerializeField] private LoadStatModifierInfo damage;
     [SerializeField] private LoadBoolSwitchInfo canBeActiveWhenScavenging;
+
     public override ModuleType Type => ModuleType.TESLA_COIL;
+
+    [SerializeField] private Transform origin;
 
     private void Update()
     {
@@ -29,6 +32,7 @@ public class DroneTeslaModule : DroneWeaponModule
 
     public override IEnumerator Attack()
     {
+        if (!Attached) yield return null;
         yield return new WaitForSeconds(delay.Stat.Value);
         DoDamage();
         StartCoroutine(Attack());
@@ -36,7 +40,7 @@ public class DroneTeslaModule : DroneWeaponModule
 
     protected void DoDamage()
     {
-        Collider[] inRange = Physics.OverlapSphere(transform.position, range.Stat.Value, enemyLayer);
+        Collider[] inRange = Physics.OverlapSphere(origin.position, range.Stat.Value, enemyLayer);
 
         if (inRange.Length == 0) return;
 
@@ -46,7 +50,7 @@ public class DroneTeslaModule : DroneWeaponModule
             if ((hb = c.GetComponent<HealthBehaviour>()) != null)
             {
                 LineBetween spawned = ObjectPooler.teslaArcPool.Get();
-                spawned.Set(transform.position, c.transform.position, () => ObjectPooler.teslaArcPool.Release(spawned));
+                spawned.Set(origin.position, c.transform.position, () => ObjectPooler.teslaArcPool.Release(spawned));
                 hb.Damage(damage.Stat.Value, ModuleType.TESLA_COIL);
             }
         }
@@ -55,6 +59,6 @@ public class DroneTeslaModule : DroneWeaponModule
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, range.Stat.Value);
+        Gizmos.DrawWireSphere(origin.position, range.Stat.Value);
     }
 }

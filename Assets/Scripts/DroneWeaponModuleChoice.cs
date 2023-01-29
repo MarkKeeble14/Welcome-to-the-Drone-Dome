@@ -32,12 +32,12 @@ public class DroneWeaponModuleChoice : MonoBehaviour
         {
             if (ShopManager._Instance.PurchaseWeaponModule(type, actualCost, indexInList))
             {
-                Debug.Log("Successfully Purchased: " + type);
+                // Debug.Log("Successfully Purchased: " + type);
                 Destroy(gameObject);
             }
             else
             {
-                Debug.Log("Failed to Purchase: " + type);
+                // Debug.Log("Failed to Purchase: " + type);
             }
         });
     }

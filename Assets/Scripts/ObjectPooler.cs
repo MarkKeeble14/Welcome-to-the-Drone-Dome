@@ -47,6 +47,8 @@ public class ObjectPooler : MonoBehaviour
     public static ObjectPool<LineBetween> laserBeamPool;
     [SerializeField] private LineBetween laserBeam;
 
+    public static ObjectPool<Sawblade> sawBladePool;
+    [SerializeField] private Sawblade sawBlade;
 
     private void Start()
     {
@@ -54,6 +56,7 @@ public class ObjectPooler : MonoBehaviour
         CreateTeslaArcPool();
         CreateChainLightningPool();
         CreateLaserBeamPool();
+        CreateSawbladePool();
         CreatePopupTextPool();
     }
 
@@ -71,7 +74,7 @@ public class ObjectPooler : MonoBehaviour
         }, ring =>
         {
             Destroy(ring.gameObject);
-        }, false, 100);
+        }, true, 100);
     }
 
     private void CreateTeslaArcPool()
@@ -88,7 +91,7 @@ public class ObjectPooler : MonoBehaviour
         }, arc =>
         {
             Destroy(arc.gameObject);
-        }, false, 100);
+        }, true, 100);
     }
 
 
@@ -107,7 +110,7 @@ public class ObjectPooler : MonoBehaviour
         }, lightning =>
         {
             Destroy(lightning.gameObject);
-        }, false, 100);
+        }, true, 100);
     }
 
     private void CreateLaserBeamPool()
@@ -124,7 +127,24 @@ public class ObjectPooler : MonoBehaviour
         }, laser =>
         {
             Destroy(laser.gameObject);
-        }, false, 100);
+        }, true, 100);
+    }
+
+    private void CreateSawbladePool()
+    {
+        sawBladePool = new ObjectPool<Sawblade>(() =>
+        {
+            return Instantiate(sawBlade, transform);
+        }, sawblade =>
+        {
+            sawblade.gameObject.SetActive(true);
+        }, sawblade =>
+        {
+            sawblade.gameObject.SetActive(false);
+        }, sawblade =>
+        {
+            Destroy(sawblade.gameObject);
+        }, true, 100);
     }
 
     private void CreatePopupTextPool()

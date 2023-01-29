@@ -12,9 +12,19 @@ public class StatModifierUpgradeNode : OverChargeableUpgradeNode, IUpgradeNodePe
     public StatModifier Stat => statModifier;
     public Action OnPurchase;
 
+    public override bool CanBeOverCharged()
+    {
+        return base.CanBeOverCharged() && statModifier.WithinBounds;
+    }
+
     public override int GetMaxPoints()
     {
         return MaxPoints + OverChargedPoints;
+    }
+
+    public override bool Maxed()
+    {
+        return base.Maxed() || !statModifier.WithinBounds;
     }
 
     public override bool Purchase()

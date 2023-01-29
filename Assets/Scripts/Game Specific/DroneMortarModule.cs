@@ -18,9 +18,9 @@ public abstract class DroneMortarModule : DroneGunModule
     public override float Shoot(Vector3 projectileOrigin, Transform shootAt, ModuleType source)
     {
         MortarProjectile currentProjectile = (MortarProjectile)ObjectPooler._Instance.GetProjectile(source);
-        SetWeaponSpecificProjectileInfo(currentProjectile);
         currentProjectile.transform.position = projectileOrigin;
         currentProjectile.Set(shootAt, projectileSpeed.Stat.Value, arcAngle);
+        SetWeaponSpecificProjectileInfo(currentProjectile);
 
         // TODO: Problem here; Trying to release an object that has already been released to the pool
         currentProjectile.ReleaseAction = () => ObjectPooler._Instance.ReleaseProjectile(source, currentProjectile);

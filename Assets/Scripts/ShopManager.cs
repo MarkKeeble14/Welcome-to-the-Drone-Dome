@@ -106,6 +106,24 @@ public class ShopManager : MonoBehaviour
         }
     }
 
+    [Header("Module Slots")]
+    [SerializeField] private int baseActiveSlotCost = 750;
+    [SerializeField] private int basePassiveSlotCost = 750;
+    [SerializeField] private int baseWeaponSlotCost = 500;
+    [SerializeField] private float activeSlotCostGrowth = 500f;
+    [SerializeField] private float passiveSlotCostGrowth = 250f;
+    [SerializeField] private float weaponSlotCostGrowth = 400f;
+    private int activeSlotCost;
+    private int passiveSlotCost;
+    private int weaponSlotCost;
+    [SerializeField] private Image activeSlotButton;
+    [SerializeField] private TextMeshProUGUI activeSlotButtonText;
+    [SerializeField] private Image passiveSlotButton;
+    [SerializeField] private TextMeshProUGUI passiveSlotButtonText;
+    [SerializeField] private Image weaponSlotButton;
+    [SerializeField] private TextMeshProUGUI weaponSlotButtonText;
+    [SerializeField] private Color buttonDefaultColor;
+
     [Header("References")]
     [SerializeField] private Transform weaponModuleChoiceListParent;
     [SerializeField] private ShowSelectedDronesModulesDisplay showSelectedDronesModulesDisplay;
@@ -113,6 +131,7 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI buyExtraHelperText;
     [SerializeField] private TextMeshProUGUI moduleUnlockerButtonText;
     [SerializeField] private TextMeshProUGUI moduleOVerchargerButtonText;
+
 
     // Some modifier that makes resources less likely to drop when the player has a ton
     public float ResourceDropRateModifier
@@ -140,6 +159,32 @@ public class ShopManager : MonoBehaviour
 
         SetModuleUnlockerText();
         SetModuleOverchargerText();
+    }
+
+    public void CloseShop()
+    {
+        arenaShopHelperText.gameObject.SetActive(false);
+
+        // Resume Game
+        PauseManager._Instance.Resume();
+
+        // UI
+        UIManager._Instance.CloseShopUI();
+        UIManager._Instance.OpenInGameUI();
+    }
+
+
+    public void OpenShop()
+    {
+        // Pause Game
+        PauseManager._Instance.Pause();
+
+        // UI
+        UIManager._Instance.OpenShopUI();
+
+        // Generate Weapon Module Choices
+        GenerateModuleChoiceUI();
+        SetAllPurchaseModuleSlotText();
     }
 
     private void SetModuleCostDictionary()
@@ -254,34 +299,8 @@ public class ShopManager : MonoBehaviour
             RemoveAtIndex(index);
             showSelectedDronesModulesDisplay.Set(playerDroneController.SelectedDrone.AppliedModules, false);
         }
+
         return didBuy;
-    }
-
-    public void CloseShop()
-    {
-        arenaShopHelperText.gameObject.SetActive(false);
-
-        // Resume Game
-        PauseManager._Instance.Resume();
-
-        // UI
-        UIManager._Instance.CloseShopUI();
-        UIManager._Instance.OpenInGameUI();
-    }
-
-
-    public void OpenShop()
-    {
-        // Pause Game
-        PauseManager._Instance.Pause();
-
-        // UI
-        UIManager._Instance.OpenShopUI();
-
-        // Generate Weapon Module Choices
-        GenerateModuleChoiceUI();
-
-        SetAllPurchaseModuleSlotText();
     }
 
     private int GetDroneModuleCost(ModuleType type)
@@ -357,28 +376,14 @@ public class ShopManager : MonoBehaviour
             buyExtraHelperText.text = "Insufficnet Funds";
         }
     }
-    [SerializeField] private int baseActiveSlotCost = 750;
-    [SerializeField] private int basePassiveSlotCost = 750;
-    [SerializeField] private int baseWeaponSlotCost = 500;
-    private int activeSlotCost;
-    private int passiveSlotCost;
-    private int weaponSlotCost;
-    [SerializeField] private float activeSlotCostGrowth = 500f;
-    [SerializeField] private float passiveSlotCostGrowth = 250f;
-    [SerializeField] private float weaponSlotCostGrowth = 400f;
-    [SerializeField] private Image activeSlotButton;
-    [SerializeField] private TextMeshProUGUI activeSlotButtonText;
-    [SerializeField] private Image passiveSlotButton;
-    [SerializeField] private TextMeshProUGUI passiveSlotButtonText;
-    [SerializeField] private Image weaponSlotButton;
-    [SerializeField] private TextMeshProUGUI weaponSlotButtonText;
+
 
     private void SetPurchaseModuleSlotText(TextMeshProUGUI text, int cost)
     {
         text.text = "+Slot: $" + cost;
     }
 
-    private void SetAllPurchaseModuleSlotText()
+    public void SetAllPurchaseModuleSlotText()
     {
         if (playerDroneController.SelectedDrone == null) return;
         activeSlotCost = baseActiveSlotCost + Mathf.RoundToInt(playerDroneController.SelectedDrone.ActiveSlotsAdded * activeSlotCostGrowth);
@@ -416,7 +421,7 @@ public class ShopManager : MonoBehaviour
                 StartCoroutine(FlashImageColor(activeSlotButton, Color.green, flashDuration));
                 currentPlayerResource -= activeSlotCost;
                 playerDroneController.SelectedDrone.AddActiveSlot();
-                SetAllPurchaseModuleSlotText();
+
                 break;
             case ModuleCategory.PASSIVE:
                 if (CurrentPlayerResource < passiveSlotCost)
@@ -427,7 +432,6 @@ public class ShopManager : MonoBehaviour
                 StartCoroutine(FlashImageColor(passiveSlotButton, Color.green, flashDuration));
                 currentPlayerResource -= passiveSlotCost;
                 playerDroneController.SelectedDrone.AddPassiveSlot();
-                SetAllPurchaseModuleSlotText();
                 break;
             case ModuleCategory.WEAPON:
                 if (CurrentPlayerResource < weaponSlotCost)
@@ -438,12 +442,13 @@ public class ShopManager : MonoBehaviour
                 StartCoroutine(FlashImageColor(weaponSlotButton, Color.green, flashDuration));
                 currentPlayerResource -= weaponSlotCost;
                 playerDroneController.SelectedDrone.AddWeaponSlot();
-                SetAllPurchaseModuleSlotText();
                 break;
         }
+        // Update UI
+        SetAllPurchaseModuleSlotText();
+        showSelectedDronesModulesDisplay.Set(playerDroneController.SelectedDrone.AppliedModules, false);
     }
 
-    [SerializeField] private Color buttonDefaultColor;
     private IEnumerator FlashImageColor(Image image, Color color, float duration)
     {
         image.color = color;

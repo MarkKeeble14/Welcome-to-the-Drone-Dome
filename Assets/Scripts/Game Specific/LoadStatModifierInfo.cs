@@ -3,7 +3,7 @@
 [System.Serializable]
 public struct LoadStatModifierInfo
 {
-    [SerializeField] private StatModifierUpgradeNode upgradeNode;
+    private StatModifierUpgradeNode upgradeNode;
     public StatModifierUpgradeNode UpgradeNode => upgradeNode;
 
     public StatModifier Stat => upgradeNode.Stat;
