@@ -11,6 +11,9 @@ public class DroneContactDamageModule : DronePassiveModule
 
     public override ModuleType Type => ModuleType.DRONE_CONTACT_DAMAGE;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip contactHit;
+
     private void Start()
     {
         // Get LayerMask
@@ -25,6 +28,10 @@ public class DroneContactDamageModule : DronePassiveModule
         HealthBehaviour hb = other.gameObject.GetComponent<HealthBehaviour>();
         hb.Damage(damage.Stat.Value, Type);
         sameTargetCDDictionary.Add(other.gameObject, sameTargetCD.Stat.Value);
+
+        // Audio
+        sfxSource.pitch = RandomHelper.RandomFloat(.7f, 1.3f);
+        sfxSource.PlayOneShot(contactHit);
     }
 
     private void Update()

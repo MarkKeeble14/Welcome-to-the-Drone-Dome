@@ -131,11 +131,12 @@ MonoBehaviour:
   explodeOnCollideWith:
     serializedVersion: 2
     m_Bits: 133248
+  contactClip: {fileID: 8300000, guid: 395381c7e0eb94a42939c30c4a18b792, type: 3}
   fieldType: 0
   radius: 0
   damage: 0
   tickSpeed: 0
   duration: 0
   growSpeed: 0
-  expand: {fileID: 0}
+  shouldExpand: 0
   expandSpeed: 0

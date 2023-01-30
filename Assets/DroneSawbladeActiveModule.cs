@@ -15,8 +15,14 @@ public class DroneSawbladeActiveModule : DroneActiveModule
     [SerializeField] private Transform projectileOrigin;
     public override ModuleType Type => ModuleType.SAWBLADE_ACTIVE;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip sawbladesClip;
+
     public override void Effect()
     {
+        // Audio
+        sfxSource.PlayOneShot(sawbladesClip);
+
         Vector3 direction = transform.forward;
 
         float angleBetweenProjectiles = 360 / numBlades.Stat.Value;

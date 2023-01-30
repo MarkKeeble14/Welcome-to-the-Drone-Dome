@@ -422,6 +422,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectPoolerPrefabKey: 2
+  onPickupClip: {fileID: 8300000, guid: 005bc4702f7e6394f8adc4ae2a95a392, type: 3}
   autoCollectSpeed: 5
   chanceToAutoCollect: {x: 1, y: 4}
   timeTakenToAutoCollectSpeedMultiplier: 2

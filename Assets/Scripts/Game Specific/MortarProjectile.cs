@@ -8,6 +8,9 @@ public abstract class MortarProjectile : Projectile
     [SerializeField] private Rigidbody rb;
     [SerializeField] private LayerMask explodeOnCollideWith;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip contactClip;
+
     public void Set(Transform shootAt, float speed, float arcAngle)
     {
         rb.velocity = Vector3.zero;
@@ -17,6 +20,7 @@ public abstract class MortarProjectile : Projectile
     private void OnCollisionEnter(Collision collision)
     {
         if (!LayerMaskHelper.IsInLayerMask(collision.gameObject, explodeOnCollideWith)) return;
+        AudioManager._Instance.PlayClip(contactClip, true, transform.position);
         ArrivedAtPosition();
     }
 

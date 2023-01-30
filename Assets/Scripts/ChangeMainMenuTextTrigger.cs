@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 
-public class ChangeMainMenuTextTrigger : MonoBehaviour
+public class ChangeMainMenuTextTrigger : PlayerRelatedTrigger
 {
     [SerializeField] private TextMeshProUGUI mainMenuText;
     [SerializeField] private string[] textLines;
@@ -14,7 +14,7 @@ public class ChangeMainMenuTextTrigger : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // Check if colliding with Player
-        if (!LayerMaskHelper.IsInLayerMask(other.gameObject, LayerMask.GetMask("Player"))) return;
+        if (!LayerMaskHelper.IsInLayerMask(other.gameObject, playerLayer)) return;
 
         // Check if Player is moving right direction
         Vector2 moveDirection = InputManager._Controls.Player.Move.ReadValue<Vector2>();

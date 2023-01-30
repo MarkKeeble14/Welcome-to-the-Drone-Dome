@@ -143,6 +143,14 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI moduleUnlockerButtonText;
     [SerializeField] private TextMeshProUGUI moduleOVerchargerButtonText;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioClip openShopClip;
+    [SerializeField] private AudioClip discardClip;
+    [SerializeField] private AudioClip purchaseModuleClip;
+    [SerializeField] private AudioClip purchaseOtherClip;
+    [SerializeField] private AudioClip failPurchaseClip;
+
     public void ResetUpgradePointCost(bool grow)
     {
         if (grow)
@@ -205,6 +213,9 @@ public class ShopManager : MonoBehaviour
         // Generate Weapon Module Choices
         GenerateModuleChoiceUI();
         SetAllPurchaseModuleSlotText();
+
+        // Audio
+        sfxSource.PlayOneShot(openShopClip);
     }
 
     private void SetModuleCostDictionary()
@@ -316,8 +327,18 @@ public class ShopManager : MonoBehaviour
         bool didBuy = GameManager._Instance.TryAddModule(type, purchaseCost, FreePurchase) != null;
         if (didBuy)
         {
+            // Audio
+            sfxSource.pitch = RandomHelper.RandomFloat(.8f, 1.2f);
+            sfxSource.PlayOneShot(purchaseModuleClip);
+            sfxSource.pitch = 1f;
+
             RemoveAtIndex(index);
             showSelectedDronesModulesDisplay.Set(playerDroneController.SelectedDrone.AppliedModules, false);
+        }
+        else
+        {
+            // Audio
+            sfxSource.PlayOneShot(failPurchaseClip);
         }
 
         return didBuy;
@@ -353,23 +374,6 @@ public class ShopManager : MonoBehaviour
         moduleUpgradeOverChargers++;
     }
 
-    public void BuyModuleUnlocker()
-    {
-        if (CurrentPlayerResource > moduleUnlockerCost)
-        {
-            buyExtraHelperText.gameObject.SetActive(false);
-            currentPlayerResource -= moduleUnlockerCost;
-            moduleUnlockerCost = Mathf.RoundToInt(moduleUnlockerCost * moduleUnlockerCostGrowth);
-            AddModuleUpgradeUnlocker();
-            SetModuleUnlockerText();
-        }
-        else
-        {
-            buyExtraHelperText.gameObject.SetActive(true);
-            buyExtraHelperText.text = "Insufficnet Funds";
-        }
-    }
-
     private void SetModuleUnlockerText()
     {
         moduleUnlockerButtonText.text = "Buy Module Unlocker: $" + moduleUnlockerCost;
@@ -394,11 +398,44 @@ public class ShopManager : MonoBehaviour
             upgradePointCost = Mathf.RoundToInt(upgradePointCost * upgradePointCostGrowth);
             UpgradeManager._Instance.AddUpgradePoints(1);
             SetUpgradePointText();
+
+            // Audio
+            sfxSource.pitch = RandomHelper.RandomFloat(.8f, 1.2f);
+            sfxSource.PlayOneShot(purchaseOtherClip);
+            sfxSource.pitch = 1f;
         }
         else
         {
             buyExtraHelperText.gameObject.SetActive(true);
             buyExtraHelperText.text = "Insufficnet Funds";
+
+            // Audio
+            sfxSource.PlayOneShot(failPurchaseClip);
+        }
+    }
+
+    public void BuyModuleUnlocker()
+    {
+        if (CurrentPlayerResource > moduleUnlockerCost)
+        {
+            buyExtraHelperText.gameObject.SetActive(false);
+            currentPlayerResource -= moduleUnlockerCost;
+            moduleUnlockerCost = Mathf.RoundToInt(moduleUnlockerCost * moduleUnlockerCostGrowth);
+            AddModuleUpgradeUnlocker();
+            SetModuleUnlockerText();
+
+            // Audio
+            sfxSource.pitch = RandomHelper.RandomFloat(.8f, 1.2f);
+            sfxSource.PlayOneShot(purchaseOtherClip);
+            sfxSource.pitch = 1f;
+        }
+        else
+        {
+            buyExtraHelperText.gameObject.SetActive(true);
+            buyExtraHelperText.text = "Insufficnet Funds";
+
+            // Audio
+            sfxSource.PlayOneShot(failPurchaseClip);
         }
     }
 
@@ -411,11 +448,19 @@ public class ShopManager : MonoBehaviour
             moduleOverchargerCost = Mathf.RoundToInt(moduleOverchargerCost * moduleOverchargerCostGrowth);
             AddModuleUpgradeOverCharger();
             SetModuleOverchargerText();
+
+            // Audio
+            sfxSource.pitch = RandomHelper.RandomFloat(.8f, 1.2f);
+            sfxSource.PlayOneShot(purchaseOtherClip);
+            sfxSource.pitch = 1f;
         }
         else
         {
             buyExtraHelperText.gameObject.SetActive(true);
             buyExtraHelperText.text = "Insufficnet Funds";
+
+            // Audio
+            sfxSource.PlayOneShot(failPurchaseClip);
         }
     }
 
@@ -458,6 +503,9 @@ public class ShopManager : MonoBehaviour
                 if (CurrentPlayerResource < activeSlotCost)
                 {
                     StartCoroutine(FlashImageColor(activeSlotButton, Color.red, flashDuration));
+
+                    // Audio
+                    sfxSource.PlayOneShot(failPurchaseClip);
                     return;
                 }
                 StartCoroutine(FlashImageColor(activeSlotButton, Color.green, flashDuration));
@@ -469,6 +517,8 @@ public class ShopManager : MonoBehaviour
                 if (CurrentPlayerResource < passiveSlotCost)
                 {
                     StartCoroutine(FlashImageColor(passiveSlotButton, Color.red, flashDuration));
+                    // Audio
+                    sfxSource.PlayOneShot(failPurchaseClip);
                     return;
                 }
                 StartCoroutine(FlashImageColor(passiveSlotButton, Color.green, flashDuration));
@@ -479,6 +529,8 @@ public class ShopManager : MonoBehaviour
                 if (CurrentPlayerResource < weaponSlotCost)
                 {
                     StartCoroutine(FlashImageColor(weaponSlotButton, Color.red, flashDuration));
+                    // Audio
+                    sfxSource.PlayOneShot(failPurchaseClip);
                     return;
                 }
                 StartCoroutine(FlashImageColor(weaponSlotButton, Color.green, flashDuration));
@@ -489,6 +541,11 @@ public class ShopManager : MonoBehaviour
         // Update UI
         SetAllPurchaseModuleSlotText();
         showSelectedDronesModulesDisplay.Set(playerDroneController.SelectedDrone.AppliedModules, false);
+
+        // Audio
+        sfxSource.pitch = RandomHelper.RandomFloat(.8f, 1.2f);
+        sfxSource.PlayOneShot(purchaseOtherClip);
+        sfxSource.pitch = 1f;
     }
 
     private IEnumerator FlashImageColor(Image image, Color color, float duration)

@@ -25,9 +25,9 @@ MonoBehaviour:
     maxValue: 0
     hasMax: 0
     changeBy: 0
-    baseValuePermaGrowth: 0.05
+    baseValuePermaGrowth: -2
     numTimesBaseUpgraded: 0
     baseGrowth: -20
-    growth: 20
+    growth: -20
     growthIncreaseUponGrow: 0
     growthChangeBy: 0

@@ -17,9 +17,12 @@ public class ExplosionHelper : MonoBehaviour
 
     public static void ExplodeAt(ExplosionData explosionData, Vector3 position, Action<HealthBehaviour> onHitHealthBehaviour)
     {
-        // Play explosion sfx
+        // Play explosion SFX
+        // Audio
         if (explosionData.AudioEffect != null)
-            AudioSource.PlayClipAtPoint(explosionData.AudioEffect, position);
+        {
+            AudioManager._Instance.PlayClip(explosionData.AudioEffect, RandomHelper.RandomFloat(.9f, 1.1f), position);
+        }
 
         // Instantiate particles
         GameObject spawned = Instantiate(explosionData.VisualEffect, position, Quaternion.identity);

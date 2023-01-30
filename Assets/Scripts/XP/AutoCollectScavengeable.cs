@@ -15,11 +15,13 @@ public abstract class AutoCollectScavengeable : Scavengeable
     [SerializeField] private float growDuration = .25f;
     [SerializeField] private float growSpeed = .5f;
     [SerializeField] private float pauseDuration = 1f;
+    private Action onExpire;
     private bool expiring;
 
     [Header("References")]
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Collider[] col;
+
 
     public void AutoCollect(Action action)
     {
@@ -34,11 +36,15 @@ public abstract class AutoCollectScavengeable : Scavengeable
         ReleaseToPool();
     }
 
-    public void Expire()
+    public void Expire(Action onExpire)
     {
         if (!expiring)
+        {
+            this.onExpire = onExpire;
             StartCoroutine(ExpirationSequence());
+        }
     }
+
 
     public void CancelExpire()
     {
@@ -79,6 +85,7 @@ public abstract class AutoCollectScavengeable : Scavengeable
             yield return null;
         }
 
+        onExpire();
         ReleaseToPool();
     }
 
@@ -127,7 +134,7 @@ public abstract class AutoCollectScavengeable : Scavengeable
         // Determine if should be added to player reserves or not
         if (RandomHelper.RandomIntExclusive(chanceToAutoCollect) <= chanceToAutoCollect.x)
         {
-            OnPickup();
+            PickupScavengeable();
         }
         else
         {

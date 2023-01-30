@@ -81,7 +81,7 @@ public class UpgradeTree
         if (potentialNodes.Count <= 0) return null;
 
         UpgradeNode node = potentialNodes[UnityEngine.Random.Range(0, potentialNodes.Count - 1)];
-        Debug.Log("Random Node: " + node);
+        // Debug.Log("Random Node: " + node);
         potentialNodes.Remove(node);
 
         if (node.Locked)

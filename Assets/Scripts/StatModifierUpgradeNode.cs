@@ -78,6 +78,7 @@ public class StatModifierUpgradeNode : OverChargeableUpgradeNode, IUpgradeNodePe
 
     public string GetToShow()
     {
-        return "Value: " + Math.Round(statModifier.Value, 2).ToString();
+        return "Current Value: " + Math.Round(statModifier.Value, 2).ToString() + "\nChange on Purchase: "
+            + (statModifier.PermaGrowth > 0 ? "+" : "") + statModifier.PermaGrowth;
     }
 }

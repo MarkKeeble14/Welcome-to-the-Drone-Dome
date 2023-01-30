@@ -30,6 +30,9 @@ public abstract class DroneModule : MonoBehaviour
     [Header("Visual")]
     [SerializeField] private DroneModuleVisual visual;
 
+    [Header("Audio")]
+    [SerializeField] protected AudioSource sfxSource;
+
     private void OnDestroy()
     {
         Destroy(visual.gameObject);

@@ -24,6 +24,8 @@ public class PermanantUpgradeShopManager : MonoBehaviour
     [SerializeField] private PermaUpgradeNodeDisplay permaUpgradeNodePrefab;
     [SerializeField] GameObject backButton;
     [SerializeField] GameObject exitButton;
+    [SerializeField] private AudioClip clickClip;
+    [SerializeField] private AudioClip openClip;
 
     [SerializeField] private StoreInt playerCredits;
 
@@ -33,6 +35,9 @@ public class PermanantUpgradeShopManager : MonoBehaviour
 
     public void Open()
     {
+        // Audio
+        AudioManager._Instance.PlayClip(openClip, true);
+
         // Resume Game
         PauseManager._Instance.Pause();
 
@@ -49,8 +54,6 @@ public class PermanantUpgradeShopManager : MonoBehaviour
             });
         }
     }
-
-
 
     private void DestroyPastTree()
     {
@@ -91,6 +94,9 @@ public class PermanantUpgradeShopManager : MonoBehaviour
 
     public void HideUpgradeTree()
     {
+        // Audio
+        AudioManager._Instance.PlayClip(clickClip, true);
+
         treesDisplay.SetActive(true);
         nodesDisplay.SetActive(false);
         backButton.SetActive(false);
@@ -99,6 +105,9 @@ public class PermanantUpgradeShopManager : MonoBehaviour
 
     public void Close()
     {
+        // Audio
+        AudioManager._Instance.PlayClip(clickClip, true);
+
         // Resume Game
         PauseManager._Instance.Resume();
 

@@ -151,7 +151,7 @@ MonoBehaviour:
       m_Bits: 128
     visualEffect: {fileID: 8732161867663413605, guid: 61b02ba42f7972043bf66d099f6886ab,
       type: 3}
-    audioEffect: {fileID: 0}
+    audioEffect: {fileID: 8300000, guid: 77f4ab04974bacd488a314bcb32952b0, type: 3}
     radius: 3
     power: 500
     lift: 50

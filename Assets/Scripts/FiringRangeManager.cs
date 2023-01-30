@@ -22,6 +22,8 @@ public class FiringRangeManager : MonoBehaviour
     [SerializeField] private FiringRangeModuleButton firingRangeModuleButton;
     [SerializeField] private PlayerDroneController playerDroneController;
     [SerializeField] private TextMeshProUGUI firingRangeHelperText;
+    [SerializeField] private AudioClip clickClip;
+    [SerializeField] private AudioClip openClip;
 
     private void Start()
     {
@@ -30,6 +32,8 @@ public class FiringRangeManager : MonoBehaviour
 
     public void Open()
     {
+        // Audio
+        AudioManager._Instance.PlayClip(openClip, true);
         MainMenuUIManager._Instance.OpenFiringRange();
         PauseManager._Instance.Pause();
         UIManager._Instance.SetCurrentDronesDisplayForFiringRange();
@@ -90,6 +94,9 @@ public class FiringRangeManager : MonoBehaviour
 
     public void Close()
     {
+        // Audio
+        AudioManager._Instance.PlayClip(clickClip, true);
+
         MainMenuUIManager._Instance.CloseFiringRange();
         PauseManager._Instance.Resume();
 

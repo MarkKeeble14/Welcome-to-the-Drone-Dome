@@ -11,8 +11,14 @@ public class Sawblade : Projectile
     private float damage;
     private float tickSpeed;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource whirringSource;
+    [SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioClip hitClip;
+
     private void Start()
     {
+        whirringSource.pitch = RandomHelper.RandomFloat(.9f, 1.1f);
         enemyLayer = LayerMask.GetMask("Enemy");
     }
 
@@ -23,6 +29,10 @@ public class Sawblade : Projectile
 
     protected virtual void HitHealthBehaviour(HealthBehaviour hb)
     {
+        // Audio
+        sfxSource.pitch = RandomHelper.RandomFloat(.8f, 1.2f);
+        sfxSource.PlayOneShot(hitClip);
+
         hb.Damage(damage, ModuleType.SAWBLADE_ACTIVE);
     }
 

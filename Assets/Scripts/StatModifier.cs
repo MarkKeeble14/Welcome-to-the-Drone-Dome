@@ -20,6 +20,7 @@ public class StatModifier
 
     [Header("Perma Growth")]
     [SerializeField] private float baseValuePermaGrowth = 0.05f;
+    public float PermaGrowth => baseValuePermaGrowth;
     [SerializeField] public int numTimesBaseUpgraded;
 
     public bool WithinBounds

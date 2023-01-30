@@ -132,6 +132,13 @@ public class DroneController : MonoBehaviour
     [SerializeField] private Material unavailableMaterial;
     [SerializeField] new private Renderer renderer;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioClip switchToAttackClip;
+    [SerializeField] private AudioClip switchToScavengeClip;
+    [SerializeField] private AudioClip spawnModuleClip;
+    [SerializeField] private AudioClip activateActivesClip;
+
     private void Start()
     {
         // Set References
@@ -226,6 +233,9 @@ public class DroneController : MonoBehaviour
 
     public void OnEnterAttackMode()
     {
+        // Audio
+        sfxSource.PlayOneShot(switchToAttackClip);
+
         // Enable all attacking types
         foreach (DroneWeaponModule attackModule in weaponModules)
         {
@@ -235,6 +245,9 @@ public class DroneController : MonoBehaviour
 
     public void OnEnterScavengeMode()
     {
+        // Audio
+        sfxSource.PlayOneShot(switchToScavengeClip);
+
         // Disable all attacking types
         foreach (DroneWeaponModule attackModule in weaponModules)
         {
@@ -349,7 +362,7 @@ public class DroneController : MonoBehaviour
             if (Vector3.Distance(transform.position, scavenging.position) <= ScavengingSpeedMod)
             {
                 // "Pick Up" Object
-                scavenging.GetComponent<Scavengeable>().OnPickup();
+                scavenging.GetComponent<Scavengeable>().Pickup();
 
                 // No longer scavenging it, will find new object
                 FindNewScavengeable();
@@ -436,6 +449,10 @@ public class DroneController : MonoBehaviour
         // Instantiate new instance of passed in module prefab
         module = Instantiate(module, transform);
 
+        // Audio
+        sfxSource.pitch = RandomHelper.RandomFloat(.9f, 1.1f);
+        sfxSource.PlayOneShot(spawnModuleClip);
+
         Vector3 hemispherePos = UnityEngine.Random.onUnitSphere;
         hemispherePos.y = Mathf.Abs(hemispherePos.y);
         module.transform.position += hemispherePos * RandomHelper.RandomFloat(minMaxHemisphereSpawnAt);
@@ -505,6 +522,10 @@ public class DroneController : MonoBehaviour
 
     public void ActivateActives()
     {
+        // Audio
+        sfxSource.pitch = RandomHelper.RandomFloat(.8f, 1.2f);
+        sfxSource.PlayOneShot(activateActivesClip);
+
         foreach (DroneActiveModule active in activeModules)
         {
             active.Activate();

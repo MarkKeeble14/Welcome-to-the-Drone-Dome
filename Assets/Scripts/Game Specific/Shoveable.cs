@@ -13,7 +13,12 @@ public class Shoveable : MonoBehaviour
 
     private Transform player;
 
-    public bool Primed;
+    protected bool primed;
+
+    [Header("Audio")]
+    [SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioClip primedClip;
+    [SerializeField] private AudioClip dePrimedClip;
 
     private void OnDestroy()
     {
@@ -34,5 +39,18 @@ public class Shoveable : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    public void SetPrimed(bool v)
+    {
+        if (v != primed)
+            primed = v;
+
+        // Audio
+        sfxSource.pitch = RandomHelper.RandomFloat(.8f, 1.2f);
+        if (primed)
+            sfxSource.PlayOneShot(primedClip);
+        else
+            sfxSource.PlayOneShot(dePrimedClip);
     }
 }

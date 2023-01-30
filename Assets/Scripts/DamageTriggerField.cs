@@ -13,6 +13,11 @@ public abstract class DamageTriggerField : MonoBehaviour
     private TimerDictionary<GameObject> sameTargetCDDictionary = new TimerDictionary<GameObject>();
     protected bool reachedMaxRadius;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioClip startClip;
+    [SerializeField] private AudioClip endClip;
+
     protected void Start()
     {
         enemyLayer = LayerMask.GetMask("Enemy");
@@ -60,6 +65,9 @@ public abstract class DamageTriggerField : MonoBehaviour
 
     private IEnumerator Grow(float radius)
     {
+        // Audio
+        sfxSource.PlayOneShot(startClip);
+
         while (transform.localScale.x != radius)
         {
             transform.localScale
@@ -67,6 +75,7 @@ public abstract class DamageTriggerField : MonoBehaviour
 
             yield return null;
         }
+
         // Debug.Log("Reached Max Radius");
         reachedMaxRadius = true;
     }
@@ -81,6 +90,9 @@ public abstract class DamageTriggerField : MonoBehaviour
 
             yield return null;
         }
+
+        // Audio
+        sfxSource.PlayOneShot(endClip);
 
         onEnd?.Invoke();
     }

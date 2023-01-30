@@ -33,12 +33,11 @@ public class DroneModuleScavengeable : AutoCollectScavengeable
         ObjectPooler._Instance.ReleaseSimpleObject(objectPoolerPrefabKey, transform.parent.gameObject);
     }
 
-    public override void OnPickup()
+    public override void PickupScavengeable()
     {
         skyPillar.Subside();
         ShopManager._Instance.PickedUpModule(type);
         ObjectPooler.popupTextPool.Get().Set("+" + type.ToString(), color, transform.position, 2);
-        ReleaseToPool();
     }
 
     private void Cancel()

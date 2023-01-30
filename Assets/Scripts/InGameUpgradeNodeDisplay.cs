@@ -7,6 +7,7 @@ public class InGameUpgradeNodeDisplay : UpgradeNodeDisplay
 {
     [Header("References")]
     [SerializeField] private TextMeshProUGUI unlockButtonText;
+    [SerializeField] private TextMeshProUGUI requirementsText;
     [SerializeField] private TextMeshProUGUI pointsText;
     [SerializeField] private Button overChargeButton;
     [SerializeField] private Button unlockButton;
@@ -24,6 +25,10 @@ public class InGameUpgradeNodeDisplay : UpgradeNodeDisplay
     [SerializeField] private Color defaultBackgroundColor;
 
     private OverChargeableUpgradeNode repOverChargeable;
+
+    [SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioClip unlockClip;
+    [SerializeField] private AudioClip overchargeClip;
 
     private bool GetUnlockeable(UpgradeNode node)
     {
@@ -43,7 +48,23 @@ public class InGameUpgradeNodeDisplay : UpgradeNodeDisplay
         }
         // Set Unlock Button to be Active if Node is Locked
         unlockButton.gameObject.SetActive(node.Locked);
-        unlockButtonText.text = GetUnlockeable(node) ? unlockText : lockedText;
+        if (GetUnlockeable(node))
+        {
+            unlockButtonText.text = unlockText;
+        }
+        else
+        {
+            unlockButtonText.text = lockedText;
+            if (node.Requirements.Length > 0)
+            {
+                string s = "Requirements:";
+                foreach (UpgradeNode requiredNode in node.Requirements)
+                {
+                    s += "\nMax " + requiredNode.ShortLabel;
+                }
+                requirementsText.text = s;
+            }
+        }
 
         // Set other aspects of UI
         SetColor(node);
@@ -64,6 +85,9 @@ public class InGameUpgradeNodeDisplay : UpgradeNodeDisplay
                 // Unlock Node
                 node.Unlock();
                 ShopManager._Instance.UseModuleUpgradeUnlocker();
+
+                // Audio
+                sfxSource.PlayOneShot(unlockClip);
             }
             else
             {
@@ -79,6 +103,9 @@ public class InGameUpgradeNodeDisplay : UpgradeNodeDisplay
             // Over Charge Node
             node.OverCharge();
             ShopManager._Instance.UseModuleUpgradeOverCharger();
+
+            // Audio
+            sfxSource.PlayOneShot(overchargeClip);
         });
     }
 

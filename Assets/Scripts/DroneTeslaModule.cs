@@ -16,6 +16,9 @@ public class DroneTeslaModule : DroneWeaponModule
 
     [SerializeField] private Transform origin;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip zapClip;
+
     private void Update()
     {
         // Allow to still be used in scavenge mode if upgrade is active
@@ -43,6 +46,10 @@ public class DroneTeslaModule : DroneWeaponModule
         Collider[] inRange = Physics.OverlapSphere(origin.position, range.Stat.Value, enemyLayer);
 
         if (inRange.Length == 0) return;
+
+        // Audio
+        sfxSource.pitch = RandomHelper.RandomFloat(.7f, 1.3f);
+        sfxSource.PlayOneShot(zapClip);
 
         foreach (Collider c in inRange)
         {

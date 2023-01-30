@@ -18,6 +18,9 @@ public abstract class DroneGunModule : DroneWeaponModule
     [SerializeField] private Transform projectileOrigin;
     [SerializeField] private Transform reloadBarHolder;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip shootClip;
+
     public int CurrentMagazineCount
     {
         get { return currentMagazineCount; }
@@ -68,6 +71,10 @@ public abstract class DroneGunModule : DroneWeaponModule
     // Returns the cooldown betewen next shot
     public virtual float Shoot(Vector3 projectileOrigin, Transform shootAt, ModuleType source)
     {
+        // Audio 
+        sfxSource.pitch = RandomHelper.RandomFloat(.7f, 1.3f);
+        sfxSource.PlayOneShot(shootClip);
+
         // Remove a projectile from the guns magazine unless the gun has infinite ammo
         if (!infiniteAmmo)
         {

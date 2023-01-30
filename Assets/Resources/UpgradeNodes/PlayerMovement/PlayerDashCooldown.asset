@@ -18,9 +18,9 @@ MonoBehaviour:
   PointsPerOverCharge: 5
   maxPoints: 5
   statModifier:
-    baseValue: 5
-    affectedValue: 5
-    minValue: 1
+    baseValue: 10
+    affectedValue: 15
+    minValue: 5
     hasMin: 1
     maxValue: 0
     hasMax: 0

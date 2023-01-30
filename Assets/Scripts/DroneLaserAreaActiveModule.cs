@@ -13,6 +13,9 @@ public class DroneLaserAreaActiveModule : DroneActiveModule
 
     [SerializeField] private Transform origin;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip laserClip;
+
     private new void Start()
     {
         base.Start();
@@ -24,6 +27,10 @@ public class DroneLaserAreaActiveModule : DroneActiveModule
     public override void Effect()
     {
         Collider[] inRange = Physics.OverlapSphere(origin.position, range.Stat.Value, enemyLayer);
+
+        // Audio
+        if (inRange.Length > 0) sfxSource.PlayOneShot(laserClip);
+
         foreach (Collider col in inRange)
         {
             // Get health component

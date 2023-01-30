@@ -29,6 +29,11 @@ public class UseDroneManager : MonoBehaviour
     [SerializeField] private Transform cursorHovering;
     [SerializeField] private Vector3 cursorWorldPos;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip droneShoveClip;
+    [SerializeField] private AudioClip droneStartDragClip;
+    [SerializeField] private AudioClip droneTargetClip;
+
     private void LeftMousePressed(InputAction.CallbackContext obj)
     {
         // Stuff for Station Mode
@@ -80,6 +85,9 @@ public class UseDroneManager : MonoBehaviour
 
         usingDrone.AvailableForUse = false;
 
+        // Audio
+        AudioManager._Instance.PlayClip(droneStartDragClip, RandomHelper.RandomFloat(.8f, 1.2f), usingDrone.transform.position);
+
         // Dragging around
         while (InputManager._Controls.Player.LeftMouseClick.IsPressed())
         {
@@ -113,7 +121,7 @@ public class UseDroneManager : MonoBehaviour
             yield return null;
         }
 
-        targetedShoveable.Primed = true;
+        targetedShoveable.SetPrimed(true);
 
         // The +1 is a little gray range outside of the radius as extra leeway for the player
         if (Vector3.Distance(usingDrone.transform.position, targetedShoveable.transform.position) <= droneShoveMaxRadiusMod + 1)
@@ -125,6 +133,9 @@ public class UseDroneManager : MonoBehaviour
                     * usingDrone.ShoveStrength
                                 * (targetedObject.position - usingDrone.transform.position).normalized,
                             ForceMode.Impulse);
+
+            // Audio
+            AudioManager._Instance.PlayClip(droneShoveClip, RandomHelper.RandomFloat(.8f, 1.2f), rb.transform.position);
         }
         else
         {
@@ -192,6 +203,9 @@ public class UseDroneManager : MonoBehaviour
         };
 
         DroneController controllingDrone = droneData.DroneController;
+
+        // Audio
+        AudioManager._Instance.PlayClip(droneTargetClip, RandomHelper.RandomFloat(.8f, 1.2f), controllingDrone.transform.position);
 
         // Add the drone to the enemies orbit grid
         controllingDrone.SetRotateAround(enemy.transform);

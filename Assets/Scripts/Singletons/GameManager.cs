@@ -34,11 +34,14 @@ public partial class GameManager : MonoBehaviour
     [SerializeField] private int numDronesToStart = 1;
     public float DroneSpawnHeight => targetCameraZoom.y + 1;
 
+    [SerializeField] private float wavesCompletedLinearLimit = 6f;
+
     [Header("Level")]
     [SerializeField] private string[] levelNames;
     [SerializeField] private ArenaManager[] levels;
     private ArenaManager currentLevel;
     private int levelIndex = 0;
+    public int LevelIndex => levelIndex;
     private bool loadingLevel;
     private bool restartingGame;
     [SerializeField] private bool shouldLoadOnStart;
@@ -64,6 +67,7 @@ public partial class GameManager : MonoBehaviour
     [SerializeField] private LevelAndLoopStatMap perLevelEnemyStatMap;
     public LevelAndLoopStatMap PerLevelEnemyStatMap => perLevelEnemyStatMap;
     public EnemyStatMap EnemyStatMap => perLevelEnemyStatMap.Current;
+
     private Vector3 targetCameraZoom;
     [SerializeField] private TextMeshProUGUI arenaShopHelperText;
 
@@ -91,6 +95,22 @@ public partial class GameManager : MonoBehaviour
         for (int i = 0; i < numDronesToStart; i++)
         {
             SpawnAndAddDroneToOrbit();
+        }
+
+        // Music
+        AudioManager._Instance.StartLevelMusic();
+    }
+
+
+    public float GetCreditBonus(int wavesCompleted)
+    {
+        if (wavesCompleted < wavesCompletedLinearLimit)
+        {
+            return wavesCompleted + 1;
+        }
+        else
+        {
+            return (wavesCompleted / 7.5f) * Mathf.Pow(wavesCompleted, 0.1f) + wavesCompletedLinearLimit + 1f;
         }
     }
 
@@ -137,6 +157,7 @@ public partial class GameManager : MonoBehaviour
         Debug.Log("Attempting to Load Next Level");
         if (loadingLevel) return;
         loadingLevel = true;
+
         StartCoroutine(LoadNextLevelSequence());
     }
 
@@ -242,6 +263,9 @@ public partial class GameManager : MonoBehaviour
 
     public void StartGame()
     {
+        // Music
+        AudioManager._Instance.StopLevelMusic();
+
         // Load Next Level
         // Debug.Log("Loading Next Level");
         TransitionManager._Instance.FadeOut(() =>

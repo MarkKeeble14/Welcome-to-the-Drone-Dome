@@ -17,6 +17,11 @@ public class DronesDisplay : MonoBehaviour
     [SerializeField] private PlayerDroneController playerDroneController;
     [SerializeField] private ShowSelectedDronesModulesDisplay showSelectedDronesModules;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioClip selectDrone;
+    [SerializeField] private AudioClip deselectDrone;
+
     public void Set()
     {
         Clear();
@@ -63,6 +68,10 @@ public class DronesDisplay : MonoBehaviour
         showSelectedDronesModules.gameObject.SetActive(true);
         showSelectedDronesModules.Set(selectedDrone.AppliedModules, false);
         ShopManager._Instance.SetAllPurchaseModuleSlotText();
+
+        // Music
+        sfxSource.pitch = RandomHelper.RandomFloat(.8f, 1.2f);
+        sfxSource.PlayOneShot(selectDrone);
     }
 
     public void DeselectSelectedDrone()
@@ -71,5 +80,9 @@ public class DronesDisplay : MonoBehaviour
 
         currentlySelectedUnit.Selected = false;
         currentlySelectedUnit = null;
+
+        // Music
+        sfxSource.pitch = RandomHelper.RandomFloat(.8f, 1.2f);
+        sfxSource.PlayOneShot(deselectDrone);
     }
 }

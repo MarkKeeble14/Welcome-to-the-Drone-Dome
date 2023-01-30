@@ -11,6 +11,9 @@ public class ThumpRing : MonoBehaviour
     [SerializeField] private LineRenderer lineRenderer;
     private LayerMask enemyLayer;
 
+    [SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioClip hitClip;
+
     private void Awake()
     {
         enemyLayer = LayerMask.GetMask("Enemy");
@@ -45,6 +48,10 @@ public class ThumpRing : MonoBehaviour
         foreach (Collider col in hit)
         {
             if (affectedColliders.Contains(col)) continue;
+
+            // Audio
+            sfxSource.pitch = RandomHelper.RandomFloat(.7f, 1.3f);
+            sfxSource.PlayOneShot(hitClip);
 
             affectedColliders.Add(col);
 

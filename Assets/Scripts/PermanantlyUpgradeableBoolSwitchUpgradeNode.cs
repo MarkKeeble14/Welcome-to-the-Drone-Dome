@@ -16,7 +16,7 @@ public class PermanantlyUpgradeableBoolSwitchUpgradeNode : BoolSwitchUpgradeNode
 
     public string GetToShow()
     {
-        return numUpgrades + " / " + numToActivate;
+        return "Reach Max to Activate: " + numUpgrades + " / " + numToActivate;
     }
 
     public void HardReset()
@@ -29,7 +29,6 @@ public class PermanantlyUpgradeableBoolSwitchUpgradeNode : BoolSwitchUpgradeNode
     {
         if (numUpgrades >= numToActivate)
         {
-            Debug.Log("Already Maxed on Perma Upgrade");
             return;
         }
         numUpgrades++;

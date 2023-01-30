@@ -1,0 +1,111 @@
+music
+- main menu
+	- Please Calm My Mind (Lesfm): https://pixabay.com/music/beautiful-plays-please-calm-my-mind-125566/
+- arena 1
+	- Drop It (Coma-Media): https://pixabay.com/music/beats-drop-it-124014/
+- arena 2
+	- Password Infinity (EvgenyBardyuzha): https://pixabay.com/music/beats-password-infinity-123276/
+- arena 3
+	- Passion (AlexiAction): https://pixabay.com/music/upbeat-passion-127011/
+
+health behaviour
+- get damaged
+- get healed
+- die
+
+player
+- footsteps
+dash
+	- start
+	- end
+
+module (magnetize)
+- shaking
+- click
+- start attach
+- end attach
+
+drone 
+- set selected
+- switch to attack
+- switch to scavenge
+- spawn module
+- activate
+	
+scavenging
+- pick up resource
+- pick up module scavengeable
+- pick up module unlocker
+- pick up heart
+
+Use Drone
+- shove
+
+Shoveable
+- shoveable primed
+- soveable de-primed
+
+game loop
+- boss wave start
+- regular wave start
+- wave completed
+- arena started
+- arena finished
+
+UI
+Shop
+- open shop
+- shop purchase module
+- shop purchase other
+- fail purchase
+- shop discard
+
+Upgrade
+- upgrade purchase
+- fail purchase
+- UI click
+- Unlock
+- Overcharge
+
+Explosion
+- Explode
+
+Drone Modules
+- Automatic Turret
+	- Shoot 1
+	- Hit 1
+- Burst Fire Turret
+	- Shoot 1
+	- Hit 1
+- Built In Turret
+	- Shoot 1
+	- Hit 1
+- Contact Damage
+	- Hit
+- Explosive Mortar
+	- Shoot
+	- Contact
+- Laser
+	- Zap
+- Sawblade	
+	- Active
+	- Hit
+- Sniper Turret
+	- Shoot 2
+	- Hit 2
+- Tesla
+	- Zap
+- Thumper
+	- Shoot
+	- Contact
+	- Emit
+	- Hit
+	- End
+- Toxic Shell
+	- Shoot
+	- Contact
+	Toxic Field
+		- Field Spawn
+		- Field End
+- Zapper
+	- Zap

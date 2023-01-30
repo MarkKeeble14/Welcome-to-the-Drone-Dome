@@ -9,7 +9,7 @@ public class ExplodingShoveable : Shoveable
 
     private void OnCollisionStay(Collision collision)
     {
-        if (!Primed) return;
+        if (!primed) return;
         if (!LayerMaskHelper.IsInLayerMask(collision.gameObject, explodeOnCollideWith)) return;
         explodable.CallExplode(true);
     }

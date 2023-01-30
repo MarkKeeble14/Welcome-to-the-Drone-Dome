@@ -62,6 +62,13 @@ public class UpgradeManager : MonoBehaviour
     private UpgradeUIState CurrentUIState = UpgradeUIState.SHOW_UPGRADE_TREE_OPTIONS;
     private UpgradeUIState PreviousUIState = UpgradeUIState.SHOW_UPGRADE_TREE_OPTIONS;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioClip openUpgradeScreenClip;
+    [SerializeField] private AudioClip purchaseUpgradeClip;
+    [SerializeField] private AudioClip failPurchaseUpgradeClip;
+    [SerializeField] private AudioClip clickClip;
+
     private void Start()
     {
         otherUpgradeTrees.Add(playerMovementUpgradeTree);
@@ -99,6 +106,8 @@ public class UpgradeManager : MonoBehaviour
         UIManager._Instance.OpenUpgradeUI();
 
         ShowUpgradeTreeOptions();
+
+        sfxSource.PlayOneShot(openUpgradeScreenClip);
     }
 
     public void CloseUpgradeTree()
@@ -156,8 +165,24 @@ public class UpgradeManager : MonoBehaviour
         upgradeTreeOptionsDisplay.Set(
             playerDroneController.TrackedDrones,
             otherUpgradeTrees,
-            drone => ShowDroneModules(drone),
-            tree => ShowUpgradeTree(tree)
+            drone =>
+            {
+                ShowDroneModules(drone);
+
+                // Audio
+                sfxSource.pitch = RandomHelper.RandomFloat(.8f, 1.2f);
+                sfxSource.PlayOneShot(clickClip);
+                sfxSource.pitch = 1f;
+            },
+            tree =>
+            {
+                ShowUpgradeTree(tree);
+
+                // Audio
+                sfxSource.pitch = RandomHelper.RandomFloat(.8f, 1.2f);
+                sfxSource.PlayOneShot(clickClip);
+                sfxSource.pitch = 1f;
+            }
             );
     }
 
@@ -169,6 +194,11 @@ public class UpgradeManager : MonoBehaviour
 
         // Debug.Log("Show Selected Drone Modules: " + drone);
         showModulesDisplay.Set(drone.AppliedModules, true);
+
+        // Audio
+        sfxSource.pitch = RandomHelper.RandomFloat(.8f, 1.2f);
+        sfxSource.PlayOneShot(clickClip);
+        sfxSource.pitch = 1f;
     }
 
     public void ShowUpgradeTree(UpgradeTree tree)
@@ -181,13 +211,24 @@ public class UpgradeManager : MonoBehaviour
         DestroyShownUpgradeNodes();
 
         // Debug.Log("Showing Tree: " + tree);
-        spawnedUpgradeNodes = tree.ShowNodes(inGameUpgradeNodePrefab, upgradeTreeNodeParent, node => TryPurchaseNode(node), true);
+        spawnedUpgradeNodes = tree.ShowNodes(inGameUpgradeNodePrefab, upgradeTreeNodeParent, node =>
+        {
+            TryPurchaseNode(node);
+
+            // Audio
+            sfxSource.pitch = RandomHelper.RandomFloat(.8f, 1.2f);
+            sfxSource.PlayOneShot(clickClip);
+            sfxSource.pitch = 1f;
+        }, true);
         foreach (UpgradeNodeDisplay upgradeNodeDisplay in spawnedUpgradeNodes)
         {
             StatSheetNode spawned = Instantiate(statSheetNodePrefab, statSheetNodeList);
             spawned.Set(upgradeNodeDisplay.GetNode());
         }
         sectionText.text = tree.Label;
+
+        // Audio
+        sfxSource.PlayOneShot(clickClip);
     }
 
     public void Back()
@@ -196,6 +237,11 @@ public class UpgradeManager : MonoBehaviour
         {
             CurrentUIState = UpgradeUIState.SHOW_UPGRADE_TREE_OPTIONS;
             ShowUI(CurrentUIState);
+
+            // Audio
+            sfxSource.pitch = RandomHelper.RandomFloat(.8f, 1.2f);
+            sfxSource.PlayOneShot(clickClip);
+            sfxSource.pitch = 1f;
         }
         else if (CurrentUIState == UpgradeUIState.SHOW_UPGRADE_TREE)
         {
@@ -208,6 +254,11 @@ public class UpgradeManager : MonoBehaviour
                 CurrentUIState = UpgradeUIState.SHOW_UPGRADE_TREE_OPTIONS;
             }
             ShowUI(CurrentUIState);
+
+            // Audio
+            sfxSource.pitch = RandomHelper.RandomFloat(.8f, 1.2f);
+            sfxSource.PlayOneShot(clickClip);
+            sfxSource.pitch = 1f;
         }
     }
 
@@ -215,23 +266,42 @@ public class UpgradeManager : MonoBehaviour
     {
         if (!node.Available)
         {
-            Debug.Log("Failed to Purchase: " + node.Label + ", Node Unavailable");
+            // Debug.Log("Failed to Purchase: " + node.Label + ", Node Unavailable");
+
+            // Audio
+            sfxSource.PlayOneShot(failPurchaseUpgradeClip);
+
             return;
         }
 
         if (upgradePointsAvailable <= 0)
         {
-            Debug.Log("Failed to Purchase: " + node.Label + ", No Points Available");
+            // Debug.Log("Failed to Purchase: " + node.Label + ", No Points Available");
+
+            // Audio
+            sfxSource.PlayOneShot(failPurchaseUpgradeClip);
+
             return;
         }
 
         if (!node.Purchase())
         {
-            Debug.Log("Failed to Purchase: " + node.Label + ", Already Maxed Out");
+            // Debug.Log("Failed to Purchase: " + node.Label + ", Already Maxed Out");
+
+            // Audio
+            sfxSource.PlayOneShot(failPurchaseUpgradeClip);
+
             return;
         }
 
+        // Audio
+
+        sfxSource.pitch = RandomHelper.RandomFloat(.8f, 1.2f);
+        sfxSource.PlayOneShot(purchaseUpgradeClip);
+        sfxSource.pitch = 1f;
+
         upgradePointsAvailable--;
+
         // UpdateUpgradeTree();
         Debug.Log("Successfully Purchased: " + node.Label);
     }

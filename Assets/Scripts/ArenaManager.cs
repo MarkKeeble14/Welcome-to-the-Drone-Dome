@@ -55,6 +55,16 @@ public partial class ArenaManager : MonoBehaviour
     [SerializeField] private float resourceClearFudgeFactor = 6f;
     private float ResourceClearFudgeFactor => timeBetweenResourceClears / resourceClearFudgeFactor;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioSource tickingSource;
+    [SerializeField] private AudioClip bossWaveStartClip;
+    [SerializeField] private AudioClip creepWaveStartClip;
+    [SerializeField] private AudioClip waveCompletedClip;
+    [SerializeField] private AudioClip arenaEndedClip;
+    [SerializeField] private AudioClip arenaStartedClip;
+    [SerializeField] private AudioClip inflationClip;
+
     private void Start()
     {
         // Add Controls
@@ -111,6 +121,12 @@ public partial class ArenaManager : MonoBehaviour
 
     public void BeginArena()
     {
+        // Music
+        AudioManager._Instance.StartLevelMusic();
+
+        // Audio
+        sfxSource.PlayOneShot(arenaStartedClip);
+
         // Turn off text
         arenaInstructionsText.Hide();
 
@@ -147,9 +163,23 @@ public partial class ArenaManager : MonoBehaviour
         {
             inArena = false;
 
+            // Music
+            AudioManager._Instance.StopLevelMusic();
+
+            // Audio
+            sfxSource.PlayOneShot(arenaEndedClip);
+
             // Player gains a credit every time they complete an arena
-            playerCredits.Value++;
-            Instantiate(popupText, player.transform.position, Quaternion.identity).Set("+1 Credit!\nNew Total: " + playerCredits.Value.ToString(), Color.yellow, player.transform.position, 2);
+            int increase = Mathf.RoundToInt(GameManager._Instance.GetCreditBonus(progressBar.WavesCompleted));
+            playerCredits.Value += increase;
+
+            string plural = "";
+            if (increase > 1)
+            {
+                plural += "s";
+            }
+            Instantiate(popupText, player.transform.position, Quaternion.identity)
+                .Set("+" + increase + " Credit" + plural + "!\nNew Total: " + playerCredits.Value.ToString(), Color.yellow, player.transform.position, 3);
 
             StopClearResourceSequence();
 
@@ -213,6 +243,11 @@ public partial class ArenaManager : MonoBehaviour
 
     private IEnumerator WaveSequence()
     {
+        // Audio
+        sfxSource.pitch = RandomHelper.RandomFloat(.8f, 1.2f);
+        sfxSource.PlayOneShot(creepWaveStartClip);
+        sfxSource.pitch = 1f;
+
         // Debug.Log("Wave Sequence Started");
 
         // Spawn Boss
@@ -242,6 +277,9 @@ public partial class ArenaManager : MonoBehaviour
 
     private IEnumerator BossSequence()
     {
+        // Audio
+        sfxSource.PlayOneShot(bossWaveStartClip);
+
         // Debug.Log("Boss Sequence Started");
         // Remove all creeps
         // ClearAllCreeps();
@@ -412,9 +450,23 @@ public partial class ArenaManager : MonoBehaviour
 
         // Collect all remaining resource
         AutoCollectScavengeable[] remainingAutoCollectable = FindObjectsOfType<AutoCollectScavengeable>();
-        foreach (AutoCollectScavengeable autoCollectable in remainingAutoCollectable)
+
+        if (remainingAutoCollectable.Length > 0)
         {
-            autoCollectable.Expire();
+            // Audio
+            sfxSource.pitch = RandomHelper.RandomFloat(.9f, 1.1f);
+            sfxSource.PlayOneShot(inflationClip);
+            sfxSource.pitch = 1;
+            tickingSource.enabled = true;
+
+            int numCollected = 0;
+            foreach (AutoCollectScavengeable autoCollectable in remainingAutoCollectable)
+            {
+                autoCollectable.Expire(() => numCollected++);
+            }
+
+            yield return new WaitUntil(() => numCollected == remainingAutoCollectable.Length);
+            tickingSource.enabled = false;
         }
 
         StartCoroutine(ClearResourceSequence());
@@ -462,6 +514,9 @@ public partial class ArenaManager : MonoBehaviour
 
     private void ClearedWave()
     {
+        // Audio
+        sfxSource.PlayOneShot(waveCompletedClip);
+
         progressBar.OnFill -= ClearedWave;
         progressBar.IncrementCounter();
 

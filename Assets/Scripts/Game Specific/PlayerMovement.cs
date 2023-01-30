@@ -67,6 +67,14 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private GameObject dashParticle;
+
+    [Header("Audio")]
+
+    [SerializeField] private AudioSource footstepsSource;
+    [SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioClip dashStartClip;
+    [SerializeField] private AudioClip dashEndClip;
+
     public bool Dashing { get; private set; }
     private Vector2 moveVector;
     private Rigidbody rb;
@@ -130,6 +138,11 @@ public class PlayerMovement : MonoBehaviour
         float t = 0;
 
         Dashing = true;
+
+        // Audio
+        sfxSource.pitch = RandomHelper.RandomFloat(.8f, 1.2f);
+        sfxSource.PlayOneShot(dashStartClip);
+
         while (t < DashDuration)
         {
             // overrideControl = true;
@@ -156,6 +169,10 @@ public class PlayerMovement : MonoBehaviour
         }
         Dashing = false;
 
+        // Audio
+        sfxSource.pitch = RandomHelper.RandomFloat(.8f, 1.2f);
+        sfxSource.PlayOneShot(dashEndClip);
+
         // overrideControl = false;
     }
 
@@ -173,6 +190,9 @@ public class PlayerMovement : MonoBehaviour
         // Get player input then move the player accordingly
         moveVector = InputManager._Controls.Player.Move.ReadValue<Vector2>();
         Vector3 direction = new Vector3(moveVector.x, 0, moveVector.y);
+
+        // Audio
+        footstepsSource.enabled = direction != Vector3.zero;
 
         // Move player accordingly, if not hitting wall
         RaycastHit hit;

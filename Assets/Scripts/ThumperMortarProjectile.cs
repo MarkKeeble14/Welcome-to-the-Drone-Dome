@@ -12,6 +12,11 @@ public class ThumperMortarProjectile : MortarProjectile
     [SerializeField] private float damage;
     [SerializeField] private float knockback;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioClip emitClip;
+    [SerializeField] private AudioClip endClip;
+
     public void SetStats(int numThumps, float timeBetweenThumps, float radius, float expansionSpeed, float damage, float knockback)
     {
         this.numThumps = numThumps;
@@ -43,6 +48,10 @@ public class ThumperMortarProjectile : MortarProjectile
 
         for (int i = 0; i < numThumps; i++)
         {
+            // Audio
+            sfxSource.pitch = RandomHelper.RandomFloat(.8f, 1.2f);
+            sfxSource.PlayOneShot(emitClip);
+
             ThumpRing spawned = ObjectPooler.thumpRingPool.Get();
             spawnedRings.Add(spawned);
             spawned.transform.position = transform.position;
@@ -61,6 +70,9 @@ public class ThumperMortarProjectile : MortarProjectile
         Instantiate(dissapearParticle, transform.position, Quaternion.identity);
 
         yield return new WaitUntil(() => spawnedRings.Count == 0);
+
+        // Audio
+        AudioManager._Instance.PlayClip(endClip, true, transform.position);
 
         ReleaseAction?.Invoke();
     }

@@ -16,6 +16,9 @@ public class DroneZapperModule : DroneWeaponModule
 
     [SerializeField] private Transform origin;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip zapClip;
+
     protected override void LoadModuleData()
     {
         damage.SetStat(UpgradeNode.GetStatModifierUpgradeNode(damage, allModuleUpgradeNodes));
@@ -57,6 +60,16 @@ public class DroneZapperModule : DroneWeaponModule
                 hb.Damage(damage.Stat.Value, ModuleType.ZAPPER);
             }
         }
+
+        // Didn't add any enemies to the list
+        if (hasTouched[hasTouched.Count - 1] == origin)
+        {
+            return;
+        }
+
+        // Audio
+        sfxSource.pitch = RandomHelper.RandomFloat(.7f, 1.3f);
+        sfxSource.PlayOneShot(zapClip);
 
         spawned = ObjectPooler.chainLightningPool.Get();
         spawned.Set(hasTouched, () => ObjectPooler.chainLightningPool.Release(spawned));

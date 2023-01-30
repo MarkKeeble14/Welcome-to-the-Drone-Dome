@@ -31,6 +31,10 @@ public class BulletTypeProjectile : Projectile
     private LayerMask enemyLayer;
     private ModuleType source;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioClip contactClip;
+
     private void Start()
     {
         enemyLayer = LayerMask.GetMask("Enemy");
@@ -77,6 +81,10 @@ public class BulletTypeProjectile : Projectile
 
     private void HandleContact()
     {
+        // Audio
+        sfxSource.pitch = RandomHelper.RandomFloat(.7f, 1.3f);
+        sfxSource.PlayOneShot(contactClip);
+
         // Bounces are consumed first
         if (setNumBounces > 0)
         {

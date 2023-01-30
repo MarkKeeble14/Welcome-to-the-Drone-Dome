@@ -6,9 +6,8 @@ public class HeartScavengeable : AutoCollectScavengeable
 {
     [SerializeField] private float healAmount = 1f;
 
-    public override void OnPickup()
+    public override void PickupScavengeable()
     {
         GameManager._Instance.HealPlayer(healAmount);
-        ReleaseToPool();
     }
 }

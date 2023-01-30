@@ -104,28 +104,28 @@ public class UIManager : MonoBehaviour
     private void SetHighScore()
     {
         // High Score
-        string hsString = "Waves Completed:\n";
+        string hsString = "Waves Completed: " + waveBar.WavesCompleted;
         if (PlayerPrefs.HasKey(highScoreKey))
         {
             int hsWavesCleared = PlayerPrefs.GetInt(highScoreKey);
             if (waveBar.WavesCompleted > hsWavesCleared)
             {
                 PlayerPrefs.SetInt(highScoreKey, waveBar.WavesCompleted);
-                hsString += "New High Score!: ";
+                hsString += " (New High Score!)";
             }
             else
             {
-                hsString += "High Score: ";
+                hsString += "\nHigh Score: " + hsWavesCleared;
             }
         }
         else
         {
             PlayerPrefs.SetInt(highScoreKey, waveBar.WavesCompleted);
-            hsString += "New High Score!: ";
         }
+
         foreach (TextMeshProUGUI text in highScoreText)
         {
-            text.text = hsString + PlayerPrefs.GetInt(highScoreKey);
+            text.text = hsString;
         }
     }
 
