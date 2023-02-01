@@ -670,6 +670,7 @@ MonoBehaviour:
   partiallyPurchasedColor: {r: 0, g: 1, b: 0.059423923, a: 1}
   fullyPurchasedColor: {r: 0.016360158, g: 0.5943396, b: 0, a: 1}
   overChargedColor: {r: 0.6844139, g: 0.039215688, b: 0.972549, a: 1}
+  maxedColor: {r: 0.6792453, g: 0, b: 0, a: 1}
   newlyUnlockedBackgroundColor: {r: 0.97654676, g: 1, b: 0, a: 1}
   defaultBackgroundColor: {r: 0.20784314, g: 0.20784314, b: 0.20784314, a: 1}
   sfxSource: {fileID: 2103611631581137610}

@@ -59,8 +59,10 @@ public class ShopManager : MonoBehaviour
     public int NumModuleUnlockers => moduleUpgradeUnlockers;
     public bool AllowModuleUnlock => moduleUpgradeUnlockers > 0;
 
+    [Header("Module Settings")]
     [SerializeField] private int numberOfStartingModules = 3;
     [SerializeField] private int maxAvailableModules = 5;
+
     public int MaxAvailableModules => maxAvailableModules;
     [SerializeField] private bool preventDuplicateBeginningOfferings;
 
@@ -156,6 +158,7 @@ public class ShopManager : MonoBehaviour
         if (grow)
             baseUpgradePointCost += baseUpgradePointCostGrowth;
         upgradePointCost = baseUpgradePointCost;
+        SetUpgradePointText();
     }
 
     // Some modifier that makes resources less likely to drop when the player has a ton
@@ -194,7 +197,7 @@ public class ShopManager : MonoBehaviour
         arenaShopHelperText.gameObject.SetActive(false);
 
         // Resume Game
-        PauseManager._Instance.Resume();
+        PauseManager._Instance.Resume(PauseCondition.OPEN_SHOP);
 
         // UI
         UIManager._Instance.CloseShopUI();
@@ -205,7 +208,7 @@ public class ShopManager : MonoBehaviour
     public void OpenShop()
     {
         // Pause Game
-        PauseManager._Instance.Pause();
+        PauseManager._Instance.Pause(PauseCondition.OPEN_SHOP);
 
         // UI
         UIManager._Instance.OpenShopUI();
@@ -213,6 +216,9 @@ public class ShopManager : MonoBehaviour
         // Generate Weapon Module Choices
         GenerateModuleChoiceUI();
         SetAllPurchaseModuleSlotText();
+        SetModuleUnlockerText();
+        SetModuleOverchargerText();
+        SetUpgradePointText();
 
         // Audio
         sfxSource.PlayOneShot(openShopClip);
@@ -253,6 +259,12 @@ public class ShopManager : MonoBehaviour
 
     public void RemoveModuleAtPosition(int index)
     {
+        // Audio
+        sfxSource.pitch = RandomHelper.RandomFloat(.8f, 1.2f);
+        sfxSource.PlayOneShot(discardClip);
+        sfxSource.pitch = 1f;
+
+
         // Remove
         RemoveAtIndex(index);
     }

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
@@ -20,6 +21,40 @@ public class InputManager : MonoBehaviour
         // Set controls
         _Controls = new Controls();
         EnableControls();
+    }
+
+    public static void DisablePlayerControls()
+    {
+        _Controls.Player.Move.Disable();
+
+        _Controls.Player.Dash.Disable();
+
+        _Controls.Player.Jump.Disable();
+        _Controls.Player.Crouch.Disable();
+        _Controls.Player.Active.Disable();
+
+        _Controls.Player.BeginArena.Disable();
+        _Controls.Player.NextLevel.Disable();
+        _Controls.Player.Win.Disable();
+
+        _Controls.Player.CycleDroneMode.Disable();
+    }
+
+    public static void EnablePlayerControls()
+    {
+        _Controls.Player.Move.Enable();
+
+        _Controls.Player.Dash.Enable();
+
+        _Controls.Player.Jump.Enable();
+        _Controls.Player.Crouch.Enable();
+        _Controls.Player.Active.Enable();
+
+        _Controls.Player.BeginArena.Enable();
+        _Controls.Player.NextLevel.Enable();
+        _Controls.Player.Win.Enable();
+
+        _Controls.Player.CycleDroneMode.Enable();
     }
 
     public static void DisableControls()
@@ -46,6 +81,9 @@ public class InputManager : MonoBehaviour
         _Controls.Player.BeginArena.Disable();
         _Controls.Player.NextLevel.Disable();
         _Controls.Player.Win.Disable();
+
+        _Controls.Player.Pause.Disable();
+        _Controls.Player.Pause.performed -= Pause;
     }
 
     public static void EnableControls()
@@ -72,5 +110,24 @@ public class InputManager : MonoBehaviour
         _Controls.Player.BeginArena.Enable();
         _Controls.Player.NextLevel.Enable();
         _Controls.Player.Win.Enable();
+
+        _Controls.Player.Pause.Enable();
+        _Controls.Player.Pause.performed += Pause;
+    }
+
+    private static bool paused = false;
+
+    private static void Pause(InputAction.CallbackContext ctx)
+    {
+        if (paused)
+        {
+            PauseManager._Instance.Resume(PauseCondition.ESCAPE);
+            paused = false;
+        }
+        else
+        {
+            PauseManager._Instance.Pause(PauseCondition.ESCAPE);
+            paused = true;
+        }
     }
 }

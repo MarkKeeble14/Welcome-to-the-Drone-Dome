@@ -100,7 +100,7 @@ public class UpgradeManager : MonoBehaviour
     public void OpenUpgradeTree()
     {
         // Pause Game
-        PauseManager._Instance.Pause();
+        PauseManager._Instance.Pause(PauseCondition.OPEN_UPGRADE);
 
         // UI
         UIManager._Instance.OpenUpgradeUI();
@@ -118,7 +118,7 @@ public class UpgradeManager : MonoBehaviour
         }
 
         // Resume Game
-        PauseManager._Instance.Resume();
+        PauseManager._Instance.Resume(PauseCondition.OPEN_UPGRADE);
 
         // UI
         UIManager._Instance.CloseUpgradeUI();

@@ -162,7 +162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02d2d0f0568dd804b85841c97988aa2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 75
   currentHealth: 0
   takeDamageParticleEffect: {fileID: 1365371477070616360, guid: dc58bda162a534642af443667a7c4937,
     type: 3}
@@ -190,14 +190,14 @@ MonoBehaviour:
         - key: 2
           value: 100
       type: 0
-      chance: {x: 1, y: 3}
+      chance: {x: 1, y: 5}
     upgradeNodeDrop:
       dropObject:
         options:
         - key: 4
           value: 100
       type: 0
-      chance: {x: 1, y: 2}
+      chance: {x: 1, y: 3}
     heartDrop:
       dropObject:
         options:

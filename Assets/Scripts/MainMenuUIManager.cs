@@ -20,23 +20,31 @@ public class MainMenuUIManager : MonoBehaviour
     {
         firingRangeUI.SetActive(true);
         regularUI.SetActive(false);
+
+        InputManager.DisablePlayerControls();
     }
 
     public void CloseFiringRange()
     {
         firingRangeUI.SetActive(false);
         regularUI.SetActive(true);
+
+        InputManager.EnablePlayerControls();
     }
 
     public void OpenPermanantUpgradeShop()
     {
         permanantUpgradeShop.SetActive(true);
         regularUI.SetActive(false);
+
+        InputManager.DisablePlayerControls();
     }
 
     public void ClosePermanantUpgradeShop()
     {
         permanantUpgradeShop.SetActive(false);
         regularUI.SetActive(true);
+
+        InputManager.EnablePlayerControls();
     }
 }

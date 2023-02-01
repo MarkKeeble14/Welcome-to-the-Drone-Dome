@@ -6,37 +6,12 @@ public class DroneContactDamageModule : DronePassiveModule
 {
     [SerializeField] private LoadStatModifierInfo damage;
     [SerializeField] private LoadStatModifierInfo sameTargetCD;
-    private TimerDictionary<GameObject> sameTargetCDDictionary = new TimerDictionary<GameObject>();
-    private LayerMask enemyLayer;
-
+    [SerializeField] private DroneContactDamageHitbox hitbox;
     public override ModuleType Type => ModuleType.DRONE_CONTACT_DAMAGE;
-
-    [Header("Audio")]
-    [SerializeField] private AudioClip contactHit;
 
     private void Start()
     {
-        // Get LayerMask
-        enemyLayer = LayerMask.GetMask("Enemy");
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (!LayerMaskHelper.IsInLayerMask(other.gameObject, enemyLayer)) return;
-        if (sameTargetCDDictionary.ContainsKey(other.gameObject)) return;
-
-        HealthBehaviour hb = other.gameObject.GetComponent<HealthBehaviour>();
-        hb.Damage(damage.Stat.Value, Type);
-        sameTargetCDDictionary.Add(other.gameObject, sameTargetCD.Stat.Value);
-
-        // Audio
-        sfxSource.pitch = RandomHelper.RandomFloat(.7f, 1.3f);
-        sfxSource.PlayOneShot(contactHit);
-    }
-
-    private void Update()
-    {
-        sameTargetCDDictionary.Update();
+        hitbox.Set(damage.Stat.Value, sameTargetCD.Stat.Value);
     }
 
     protected override void LoadModuleData()

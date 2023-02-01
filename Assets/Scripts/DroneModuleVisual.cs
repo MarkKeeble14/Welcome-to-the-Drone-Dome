@@ -24,10 +24,10 @@ public class DroneModuleVisual : MonoBehaviour
     [SerializeField] private AudioClip startAttachClip;
     [SerializeField] private AudioClip endAttachClip;
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (!LayerMaskHelper.IsInLayerMask(other.gameObject, collideWithLayer)) return;
-
+        if (!attaching) return;
         gameObject.layer = LayerMask.NameToLayer("Drone");
         attaching = false;
     }
@@ -53,6 +53,7 @@ public class DroneModuleVisual : MonoBehaviour
         float randStartTimeZ = RandomHelper.RandomFloat(0, 100f);
 
         // Audio
+        shakingSource.pitch = RandomHelper.RandomFloat(.9f, 1.1f);
         shakingSource.enabled = true;
 
         // Shake
@@ -76,7 +77,7 @@ public class DroneModuleVisual : MonoBehaviour
 
         // Audio
         shakingSource.enabled = false;
-        sfxSource.pitch = RandomHelper.RandomFloat(.8f, 1.2f);
+        sfxSource.pitch = RandomHelper.RandomFloat(.6f, 1.2f);
         sfxSource.PlayOneShot(doneShakingClip);
 
         // De-parent
@@ -86,7 +87,7 @@ public class DroneModuleVisual : MonoBehaviour
         yield return new WaitForSeconds(waitAfterShake);
 
         // Audio
-        sfxSource.pitch = RandomHelper.RandomFloat(.9f, 1.1f);
+        sfxSource.pitch = RandomHelper.RandomFloat(.8f, 1.2f);
         sfxSource.PlayOneShot(startAttachClip);
 
         // Re-parent
@@ -105,7 +106,7 @@ public class DroneModuleVisual : MonoBehaviour
         }
 
         // Audio
-        sfxSource.pitch = RandomHelper.RandomFloat(.8f, 1.2f);
+        sfxSource.pitch = RandomHelper.RandomFloat(.7f, 1.3f);
         sfxSource.PlayOneShot(endAttachClip);
 
         repModule.Attached = true;

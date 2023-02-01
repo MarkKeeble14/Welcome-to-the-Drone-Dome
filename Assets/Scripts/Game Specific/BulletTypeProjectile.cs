@@ -111,8 +111,8 @@ public class BulletTypeProjectile : Projectile
     private void RandomBounce()
     {
         StopCoroutine(Travel(speed, direction));
-        Vector2 newDirection = UnityEngine.Random.insideUnitCircle.normalized;
-        StartCoroutine(Travel(speed, new Vector3(newDirection.x, 0, newDirection.y)));
+        Vector3 newDirection = UnityEngine.Random.insideUnitSphere.normalized;
+        StartCoroutine(Travel(speed, new Vector3(newDirection.x, 0, newDirection.z)));
     }
 
     private void BounceToNearbyEnemy()

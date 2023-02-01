@@ -9,5 +9,6 @@ public class HeartScavengeable : AutoCollectScavengeable
     public override void PickupScavengeable()
     {
         GameManager._Instance.HealPlayer(healAmount);
+        base.PickupScavengeable();
     }
 }

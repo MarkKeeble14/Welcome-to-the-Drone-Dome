@@ -22,10 +22,12 @@ MonoBehaviour:
     affectedValue: 0
     minValue: 0
     hasMin: 0
-    maxValue: 0
-    hasMax: 0
+    maxValue: 10
+    hasMax: 1
     changeBy: 0
-    baseGrowth: 2
+    baseValuePermaGrowth: 0.05
+    numTimesBaseUpgraded: 0
+    baseGrowth: 1
     growth: 2
     growthIncreaseUponGrow: 0
     growthChangeBy: 0

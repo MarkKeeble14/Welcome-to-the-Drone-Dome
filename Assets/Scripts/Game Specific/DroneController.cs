@@ -358,11 +358,10 @@ public class DroneController : MonoBehaviour
         {
             transform.position = Vector3.MoveTowards(transform.position, scavenging.position,
                 Time.deltaTime * MoveSpeed * ScavengingSpeedMod);
-            transform.LookAt(scavenging.position);
             if (Vector3.Distance(transform.position, scavenging.position) <= ScavengingSpeedMod)
             {
                 // "Pick Up" Object
-                scavenging.GetComponent<Scavengeable>().Pickup();
+                scavenging.GetComponent<Scavengeable>().PickupScavengeable();
 
                 // No longer scavenging it, will find new object
                 FindNewScavengeable();

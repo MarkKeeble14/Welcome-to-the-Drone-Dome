@@ -61,7 +61,7 @@ MonoBehaviour:
   material: {fileID: 2100000, guid: 6631e522f13871b4d95adbfa9a20fba5, type: 2}
   shakingSource: {fileID: 6116351447381322543}
   sfxSource: {fileID: 3350499829151430304}
-  doneShakingClip: {fileID: 8300000, guid: f544f0cb019261643a6fa91b823c92d7, type: 3}
+  doneShakingClip: {fileID: 8300000, guid: cc932037eb9731344ac86232ea46b423, type: 3}
   startAttachClip: {fileID: 8300000, guid: 3f9ea43dcea7cb34dabc7ebdeef8e0eb, type: 3}
   endAttachClip: {fileID: 8300000, guid: c3421706321e31a42ba6deeb35097834, type: 3}
 --- !u!65 &1547228677925729404
@@ -104,9 +104,9 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 4607340175290798020, guid: b89b250aa2863d345aa885f6541196e8,
     type: 2}
-  m_audioClip: {fileID: 8300000, guid: 96691623febd96b4c85e928723c3f652, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 64355e594468f384db37e9081867d248, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.85
   m_Pitch: 0.8
   Loop: 1
   Mute: 0

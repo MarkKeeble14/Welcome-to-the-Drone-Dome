@@ -15,20 +15,21 @@ MonoBehaviour:
   label: Increase The Number of Shockwaves Per Thumper
   requirements: []
   shortLabel: Shockwaves
-  PointsPerOverCharge: 5
+  PointsPerOverCharge: 10
   maxPoints: 15
   statModifier:
     baseValue: 2
-    hardBaseValue: 2
     affectedValue: 2
     minValue: 0
     hasMin: 0
     maxValue: 0
     hasMax: 0
     changeBy: 0
+    baseValuePermaGrowth: 0.05
+    numTimesBaseUpgraded: 0
     baseGrowth: 1
     growth: 1
     growthIncreaseUponGrow: 0
     growthChangeBy: 0
-    baseValuePermaGrowth: 0.05
   pointsPerRank: 3
+  pointsToNextRank: 3

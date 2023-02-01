@@ -9,5 +9,6 @@ public class Resource : AutoCollectScavengeable
     public override void PickupScavengeable()
     {
         ShopManager._Instance.AlterResource(Value);
+        base.PickupScavengeable();
     }
 }

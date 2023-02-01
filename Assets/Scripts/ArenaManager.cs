@@ -163,14 +163,14 @@ public partial class ArenaManager : MonoBehaviour
         {
             inArena = false;
 
-            // Music
-            AudioManager._Instance.StopLevelMusic();
-
             // Audio
             sfxSource.PlayOneShot(arenaEndedClip);
 
+            // Clear remaining enemies
+            ClearAllCreeps();
+
             // Player gains a credit every time they complete an arena
-            int increase = Mathf.RoundToInt(GameManager._Instance.GetCreditBonus(progressBar.WavesCompleted));
+            int increase = Mathf.RoundToInt(GameManager._Instance.GetCreditBonus(++GameManager._Instance.ArenasCleared));
             playerCredits.Value += increase;
 
             string plural = "";
@@ -182,6 +182,9 @@ public partial class ArenaManager : MonoBehaviour
                 .Set("+" + increase + " Credit" + plural + "!\nNew Total: " + playerCredits.Value.ToString(), Color.yellow, player.transform.position, 3);
 
             StopClearResourceSequence();
+
+            // Music
+            AudioManager._Instance.StopLevelMusic();
 
             // Set texts to appropriate strings; important to not disable gameObjects here, as doing so will cause
             // the arena manager to not be able to find them when it does it's "FindObjectOfType" on start
@@ -342,6 +345,9 @@ public partial class ArenaManager : MonoBehaviour
         HealthBehaviour enemyHP = enemySpawned.GetComponent<HealthBehaviour>();
         enemyHP.OnDie += () =>
         {
+            // Killed an enemy, track this
+            GameManager._Instance.IncrementEnemiesKilled();
+
             // Debug.Log("Removing from alive bosses");
 
             // Boss has been killed
@@ -365,6 +371,9 @@ public partial class ArenaManager : MonoBehaviour
         HealthBehaviour enemyHP = enemySpawned.GetComponent<HealthBehaviour>();
         enemyHP.OnDie += () =>
         {
+            // Killed an enemy, track this
+            GameManager._Instance.IncrementEnemiesKilled();
+
             // Debug.Log("Removing from alive bosses");
             // Enemy has been killed
             aliveCreepEnemies.Remove(enemySpawned);
@@ -395,6 +404,9 @@ public partial class ArenaManager : MonoBehaviour
         HealthBehaviour enemyHP = enemySpawned.GetComponent<HealthBehaviour>();
         enemyHP.OnDie += () =>
         {
+            // Killed an enemy, track this
+            GameManager._Instance.IncrementEnemiesKilled();
+
             // Enemy has been killed
             aliveCreepEnemies.Remove(enemySpawned);
 
@@ -454,15 +466,21 @@ public partial class ArenaManager : MonoBehaviour
         if (remainingAutoCollectable.Length > 0)
         {
             // Audio
+            tickingSource.enabled = true;
             sfxSource.pitch = RandomHelper.RandomFloat(.9f, 1.1f);
             sfxSource.PlayOneShot(inflationClip);
             sfxSource.pitch = 1;
-            tickingSource.enabled = true;
 
             int numCollected = 0;
+
             foreach (AutoCollectScavengeable autoCollectable in remainingAutoCollectable)
             {
-                autoCollectable.Expire(() => numCollected++);
+                autoCollectable.Expire(
+                () =>
+                {
+                    numCollected++;
+                    // Debug.Log(numCollected + " / " + remainingAutoCollectable.Length);
+                });
             }
 
             yield return new WaitUntil(() => numCollected == remainingAutoCollectable.Length);
@@ -526,7 +544,7 @@ public partial class ArenaManager : MonoBehaviour
         // Start Grace Period
         StartCoroutine(PostWaveClearPeriod());
 
-        Debug.Log("Cleared Wave");
+        // Debug.Log("Cleared Wave");
 
         // Give the wave's reward
         GiveReward(currentWave);

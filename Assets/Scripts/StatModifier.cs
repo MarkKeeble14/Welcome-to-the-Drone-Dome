@@ -10,10 +10,10 @@ public class StatModifier
     public float BaseValue => baseValue;
     [SerializeField] private float affectedValue;
     public float Value => affectedValue + (numTimesBaseUpgraded * baseValuePermaGrowth);
-    [SerializeField] private float minValue;
-    [SerializeField] private bool hasMin;
-    [SerializeField] private float maxValue;
-    [SerializeField] private bool hasMax;
+    [SerializeField] protected float minValue;
+    [SerializeField] protected bool hasMin;
+    [SerializeField] protected float maxValue;
+    [SerializeField] protected bool hasMax;
 
     [SerializeField] private StatMathOperation changeBy;
     private List<float> affectingValue = new List<float>();
@@ -23,7 +23,7 @@ public class StatModifier
     public float PermaGrowth => baseValuePermaGrowth;
     [SerializeField] public int numTimesBaseUpgraded;
 
-    public bool WithinBounds
+    public virtual bool WithinBounds
     {
         get
         {

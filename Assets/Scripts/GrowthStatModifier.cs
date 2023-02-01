@@ -12,6 +12,24 @@ public class GrowthStatModifier : StatModifier
     public StatMathOperation GrowthChangeBy => growthChangeBy;
 
 
+    public override bool WithinBounds
+    {
+        get
+        {
+            if (growth > 0)
+            {
+                if (hasMax && Value + growth > maxValue)
+                    return false;
+            }
+            else if (growth < 0)
+            {
+                if (hasMin && Value - growth < minValue)
+                    return false;
+            }
+            return true;
+        }
+    }
+
     public new void Reset()
     {
         growth = baseGrowth;

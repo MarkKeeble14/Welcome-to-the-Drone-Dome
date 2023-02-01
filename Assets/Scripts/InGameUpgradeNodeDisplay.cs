@@ -21,6 +21,7 @@ public class InGameUpgradeNodeDisplay : UpgradeNodeDisplay
     [SerializeField] private Color partiallyPurchasedColor;
     [SerializeField] private Color fullyPurchasedColor;
     [SerializeField] private Color overChargedColor;
+    [SerializeField] private Color maxedColor;
     [SerializeField] private Color newlyUnlockedBackgroundColor;
     [SerializeField] private Color defaultBackgroundColor;
 
@@ -60,7 +61,7 @@ public class InGameUpgradeNodeDisplay : UpgradeNodeDisplay
                 string s = "Requirements:";
                 foreach (UpgradeNode requiredNode in node.Requirements)
                 {
-                    s += "\nMax " + requiredNode.ShortLabel;
+                    s += "\n" + requiredNode.ShortLabel;
                 }
                 requirementsText.text = s;
             }
@@ -116,7 +117,14 @@ public class InGameUpgradeNodeDisplay : UpgradeNodeDisplay
         {
             if (repOverChargeable != null && repOverChargeable.HasBeenUnlocked)
             {
-                alterColorOf.color = overChargedColor;
+                if (node.Maxed())
+                {
+                    alterColorOf.color = maxedColor;
+                }
+                else
+                {
+                    alterColorOf.color = overChargedColor;
+                }
             }
             else if (node.Purchased)
             {

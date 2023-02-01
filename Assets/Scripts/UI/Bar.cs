@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class Bar : MonoBehaviour
 {
@@ -8,6 +9,9 @@ public class Bar : MonoBehaviour
     private float targetPercentage;
     [SerializeField] private float startPercentage = 1;
     [SerializeField] protected Image fill;
+    [SerializeField] private bool useText = false;
+    [SerializeField] private TextMeshProUGUI baseText;
+
 
     private void Start()
     {
@@ -33,5 +37,9 @@ public class Bar : MonoBehaviour
     protected virtual void Update()
     {
         ChangeFillAmount(targetPercentage);
+        if (useText)
+        {
+            baseText.text = Mathf.Round(targetPercentage * 100) + "%";
+        }
     }
 }

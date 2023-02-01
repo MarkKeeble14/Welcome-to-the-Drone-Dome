@@ -37,8 +37,10 @@ public class UIManager : MonoBehaviour
 
     [Header("High Score")]
     [SerializeField] private EnemiesKilledBar waveBar;
-    [SerializeField] private TextMeshProUGUI[] highScoreText;
+    [SerializeField] private TextMeshProUGUI winHighScoreText;
+    [SerializeField] private TextMeshProUGUI loseHighScoreText;
     [SerializeField] private string highScoreKey = "WavesCompleted";
+    [SerializeField] private string enemiesKilledKey = "EnemiesKilled";
 
     public void SetCurrentDronesDisplayForMenu()
     {
@@ -58,6 +60,8 @@ public class UIManager : MonoBehaviour
         shopUI.SetActive(false);
         upgradeUI.SetActive(false);
 
+        InputManager.EnablePlayerControls();
+
         // Set other UI
         currentDronesDisplay = inGameDroneDisplay;
         inGameDroneDisplay.Set();
@@ -69,6 +73,8 @@ public class UIManager : MonoBehaviour
         shopUI.SetActive(true);
         upgradeUI.SetActive(false);
 
+        InputManager.DisablePlayerControls();
+
         // Set other UI
         currentDronesDisplay = shopDroneDisplay;
         shopDroneDisplay.Set();
@@ -79,6 +85,8 @@ public class UIManager : MonoBehaviour
         inGameUI.SetActive(false);
         shopUI.SetActive(false);
         upgradeUI.SetActive(true);
+
+        InputManager.DisablePlayerControls();
     }
 
     public void OpenWinScreen()
@@ -87,7 +95,7 @@ public class UIManager : MonoBehaviour
         CloseUpgradeUI();
         CloseInGameUI();
 
-        SetHighScore();
+        SetHighScore(winHighScoreText);
         winScreen.SetActive(true);
     }
 
@@ -97,36 +105,82 @@ public class UIManager : MonoBehaviour
         CloseUpgradeUI();
         CloseInGameUI();
 
-        SetHighScore();
+        SetHighScore(loseHighScoreText);
         loseScreen.SetActive(true);
     }
 
-    private void SetHighScore()
+    private void AddHighScore(TextMeshProUGUI text, string key, float value, string name, PlayerPrefsType type)
+    {
+        switch (type)
+        {
+            case PlayerPrefsType.FLOAT:
+                AddFloatHighScore(text, key, value, name);
+                break;
+            case PlayerPrefsType.INT:
+                AddIntHighScore(text, key, Mathf.RoundToInt(value), name);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void AddIntHighScore(TextMeshProUGUI text, string key, int value, string name)
     {
         // High Score
-        string hsString = "Waves Completed: " + waveBar.WavesCompleted;
-        if (PlayerPrefs.HasKey(highScoreKey))
+        string hsString = name + value;
+        if (PlayerPrefs.HasKey(key))
         {
-            int hsWavesCleared = PlayerPrefs.GetInt(highScoreKey);
-            if (waveBar.WavesCompleted > hsWavesCleared)
+            int hsValue = PlayerPrefs.GetInt(key);
+            Debug.Log(hsValue + ", " + value);
+            if (value > hsValue)
             {
-                PlayerPrefs.SetInt(highScoreKey, waveBar.WavesCompleted);
-                hsString += " (New High Score!)";
+                hsString += "\nNew High Score!: " + value;
+                PlayerPrefs.SetInt(key, value);
             }
             else
             {
-                hsString += "\nHigh Score: " + hsWavesCleared;
+                hsString += "\nHigh Score: " + hsValue;
             }
         }
         else
         {
-            PlayerPrefs.SetInt(highScoreKey, waveBar.WavesCompleted);
+            PlayerPrefs.SetInt(key, value);
         }
+        text.text += (text.text.Equals("") ? "" : "\n") + hsString;
+    }
 
-        foreach (TextMeshProUGUI text in highScoreText)
+    private void AddFloatHighScore(TextMeshProUGUI text, string key, float value, string name)
+    {
+        // High Score
+        string hsString = name + value;
+        if (PlayerPrefs.HasKey(key))
         {
-            text.text = hsString;
+            float hsValue = PlayerPrefs.GetFloat(key);
+            if (value > hsValue)
+            {
+                hsString += "\nNew High Score!: " + value;
+                PlayerPrefs.SetFloat(key, value);
+            }
+            else
+            {
+                hsString += "\nHigh Score: " + hsValue;
+            }
         }
+        else
+        {
+            PlayerPrefs.SetFloat(key, value);
+        }
+        text.text += (text.text.Equals("") ? "" : "\n") + hsString;
+    }
+
+    private void SetHighScore(TextMeshProUGUI text)
+    {
+
+        text.text = "";
+        AddHighScore(text, highScoreKey, waveBar.WavesCompleted, "Waves Completed: ", PlayerPrefsType.INT);
+        text.text += "\n";
+        AddHighScore(text, enemiesKilledKey, GameManager._Instance.EnemiesKilled, "Enemies Killed: ", PlayerPrefsType.INT);
+
     }
 
     public void CloseInGameUI()
@@ -142,5 +196,12 @@ public class UIManager : MonoBehaviour
     public void CloseUpgradeUI()
     {
         upgradeUI.SetActive(false);
+    }
+
+    private void Start()
+    {
+        // Reset
+        // PlayerPrefs.SetFloat(highScoreKey, 0);
+        // PlayerPrefs.SetFloat(enemiesKilledKey, 0);
     }
 }

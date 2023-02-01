@@ -116,7 +116,6 @@ public class UseDroneManager : MonoBehaviour
             usingDrone.transform.position
                 = Vector3.MoveTowards(usingDrone.transform.position,
                 GetDroneCirclingPosition(targetedObject, mouseReleasePos, usingDrone), usingDrone.MoveSpeed * 3 * Time.deltaTime);
-            usingDrone.transform.LookAt(targetedObject);
 
             yield return null;
         }
@@ -135,7 +134,7 @@ public class UseDroneManager : MonoBehaviour
                             ForceMode.Impulse);
 
             // Audio
-            AudioManager._Instance.PlayClip(droneShoveClip, RandomHelper.RandomFloat(.8f, 1.2f), rb.transform.position);
+            AudioManager._Instance.PlayClip(droneShoveClip, RandomHelper.RandomFloat(.8f, 1.2f), rb.transform.position, .75f);
         }
         else
         {
@@ -205,7 +204,7 @@ public class UseDroneManager : MonoBehaviour
         DroneController controllingDrone = droneData.DroneController;
 
         // Audio
-        AudioManager._Instance.PlayClip(droneTargetClip, RandomHelper.RandomFloat(.8f, 1.2f), controllingDrone.transform.position);
+        AudioManager._Instance.PlayClip(droneTargetClip, RandomHelper.RandomFloat(.8f, 1.2f), controllingDrone.transform.position, .9f);
 
         // Add the drone to the enemies orbit grid
         controllingDrone.SetRotateAround(enemy.transform);
@@ -244,7 +243,7 @@ public class UseDroneManager : MonoBehaviour
             return;
         }
 
-        if (cursorHovering == null)
+        if (cursorHovering == null || LayerMaskHelper.IsInLayerMask(cursorHovering.gameObject, ground))
         {
             MouseCursorManager._Instance.SetCursor(CursorType.DEFAULT, false);
             return;

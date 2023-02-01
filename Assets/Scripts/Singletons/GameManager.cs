@@ -70,6 +70,14 @@ public partial class GameManager : MonoBehaviour
 
     private Vector3 targetCameraZoom;
     [SerializeField] private TextMeshProUGUI arenaShopHelperText;
+    private int enemiesKilled;
+    public int EnemiesKilled => enemiesKilled;
+    public int ArenasCleared { get; set; }
+
+    public void IncrementEnemiesKilled()
+    {
+        enemiesKilled++;
+    }
 
     private void Start()
     {
@@ -154,7 +162,7 @@ public partial class GameManager : MonoBehaviour
 
     public void LoadNextLevel()
     {
-        Debug.Log("Attempting to Load Next Level");
+        // Debug.Log("Attempting to Load Next Level");
         if (loadingLevel) return;
         loadingLevel = true;
 
@@ -193,29 +201,14 @@ public partial class GameManager : MonoBehaviour
         AutoCollectScavengeable[] remainingAutoCollectable = FindObjectsOfType<AutoCollectScavengeable>();
         foreach (AutoCollectScavengeable autoCollectable in remainingAutoCollectable)
         {
-            autoCollectable.AutoCollect(() =>
+            autoCollectable.AutoCollect(
+            () =>
             {
                 numCollected++;
-            }
-            );
+            });
         }
 
-        // Wait until either all autocollectables have been autocollected, or for some certain max length of time
-        float maxWaitTime = 5f;
-        float t = 0;
-        while (t < maxWaitTime && numCollected != remainingAutoCollectable.Length)
-        {
-            t += Time.deltaTime;
-
-            yield return null;
-        }
-
-        // Force end any remaining autocollectables autocollect sequence which resets and releases them back into the pool
-        remainingAutoCollectable = FindObjectsOfType<AutoCollectScavengeable>();
-        foreach (AutoCollectScavengeable autoCollectable in remainingAutoCollectable)
-        {
-            autoCollectable.FailAutoCollect();
-        }
+        yield return new WaitUntil(() => numCollected == remainingAutoCollectable.Length);
     }
 
     private void LoadLevel(bool incrementIndex)
@@ -263,9 +256,6 @@ public partial class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-        // Music
-        AudioManager._Instance.StopLevelMusic();
-
         // Load Next Level
         // Debug.Log("Loading Next Level");
         TransitionManager._Instance.FadeOut(() =>

@@ -8,7 +8,6 @@ public abstract class AutoCollectScavengeable : Scavengeable
     [SerializeField] private float autoCollectSpeed = 5f;
     [SerializeField] private Vector2 chanceToAutoCollect = new Vector2(1, 4);
     [SerializeField] private float timeTakenToAutoCollectSpeedMultiplier = 2f;
-    private bool setToAutoCollect;
 
     [Header("Expiry")]
     [SerializeField] private float expireSpeed = .1f;
@@ -16,25 +15,13 @@ public abstract class AutoCollectScavengeable : Scavengeable
     [SerializeField] private float growSpeed = .5f;
     [SerializeField] private float pauseDuration = 1f;
     private Action onExpire;
+
+    private bool setToAutoCollect;
     private bool expiring;
 
     [Header("References")]
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Collider[] col;
-
-
-    public void AutoCollect(Action action)
-    {
-        if (!setToAutoCollect)
-            StartCoroutine(AutoCollectSequence(action));
-    }
-
-    public void FailAutoCollect()
-    {
-        StopAllCoroutines();
-        UndoDisableWhileCollecting();
-        ReleaseToPool();
-    }
 
     public void Expire(Action onExpire)
     {
@@ -45,6 +32,14 @@ public abstract class AutoCollectScavengeable : Scavengeable
         }
     }
 
+    public override void PickupScavengeable()
+    {
+        if (expiring)
+        {
+            onExpire();
+        }
+        base.PickupScavengeable();
+    }
 
     public void CancelExpire()
     {
@@ -53,18 +48,10 @@ public abstract class AutoCollectScavengeable : Scavengeable
         StartCoroutine(ResetSize());
     }
 
-    private IEnumerator ResetSize()
-    {
-        while (transform.localScale != Vector3.one)
-        {
-            transform.localScale = Vector3.MoveTowards(transform.localScale, Vector3.one, Time.deltaTime * growSpeed);
-
-            yield return null;
-        }
-    }
-
     private IEnumerator ExpirationSequence()
     {
+        StopCoroutine(ResetSize());
+
         expiring = true;
 
         // Grow a little
@@ -85,8 +72,20 @@ public abstract class AutoCollectScavengeable : Scavengeable
             yield return null;
         }
 
+        expiring = false;
+
         onExpire();
         ReleaseToPool();
+    }
+
+    private IEnumerator ResetSize()
+    {
+        while (transform.localScale != Vector3.one)
+        {
+            transform.localScale = Vector3.MoveTowards(transform.localScale, Vector3.one, Time.deltaTime * growSpeed);
+
+            yield return null;
+        }
     }
 
     private void ToDisableWhileCollecting()
@@ -107,8 +106,17 @@ public abstract class AutoCollectScavengeable : Scavengeable
         rb.useGravity = true;
     }
 
+    public void AutoCollect(Action action)
+    {
+        if (!setToAutoCollect)
+        {
+            StartCoroutine(AutoCollectSequence(action));
+        }
+    }
+
     private IEnumerator AutoCollectSequence(Action action)
     {
+        expiring = false;
         setToAutoCollect = true;
 
         ToDisableWhileCollecting();
@@ -117,6 +125,7 @@ public abstract class AutoCollectScavengeable : Scavengeable
         Transform cachedPlayer = GameManager._Instance.Player;
 
         float timeTakenToAutoCollect = 1f;
+
         // Move towards player position
         while (Vector3.Distance(transform.position, cachedPlayer.position) > .25f)
         {
@@ -128,7 +137,6 @@ public abstract class AutoCollectScavengeable : Scavengeable
         }
 
         UndoDisableWhileCollecting();
-
         action();
 
         // Determine if should be added to player reserves or not
@@ -144,8 +152,8 @@ public abstract class AutoCollectScavengeable : Scavengeable
 
     public override void ReleaseToPool()
     {
-        base.ReleaseToPool();
         setToAutoCollect = false;
         expiring = false;
+        base.ReleaseToPool();
     }
 }

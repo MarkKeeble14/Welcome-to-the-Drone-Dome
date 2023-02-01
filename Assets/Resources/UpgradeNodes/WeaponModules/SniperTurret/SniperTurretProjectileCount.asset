@@ -15,20 +15,21 @@ MonoBehaviour:
   label: Increase Projectile Count
   requirements: []
   shortLabel: Projectiles
-  PointsPerOverCharge: 5
+  PointsPerOverCharge: 10
   maxPoints: 5
   statModifier:
     baseValue: 1
-    hardBaseValue: 1
     affectedValue: 1
     minValue: 1
     hasMin: 1
-    maxValue: 0
-    hasMax: 0
+    maxValue: 3
+    hasMax: 1
     changeBy: 0
+    baseValuePermaGrowth: 0.05
+    numTimesBaseUpgraded: 0
     baseGrowth: 2
     growth: 2
     growthIncreaseUponGrow: 0
     growthChangeBy: 0
-    baseValuePermaGrowth: 0.05
-  pointsPerRank: 5
+  pointsPerRank: 10
+  pointsToNextRank: 10

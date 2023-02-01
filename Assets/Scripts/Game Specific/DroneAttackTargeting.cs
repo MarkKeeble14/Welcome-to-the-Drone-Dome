@@ -8,14 +8,6 @@ public class DroneAttackTargeting : MonoBehaviour
 
     [SerializeField] private LayerMask enemyLayer;
 
-    private void Update()
-    {
-        if (OverridingTarget)
-        {
-            transform.LookAt(OverridingTarget);
-        }
-    }
-
     public Transform GetTarget(float range, Transform t, WeaponTargetingType targetBy)
     {
         if (OverridingTarget != null)

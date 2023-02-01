@@ -13,16 +13,13 @@ public abstract class Scavengeable : MonoBehaviour
     private void Awake()
     {
         OnPickup += () => AudioManager._Instance.PlayClip(onPickupClip, RandomHelper.RandomFloat(.5f, 1.4f), transform.position);
-        OnPickup += PickupScavengeable;
+        OnPickup += ReleaseToPool;
     }
 
-    public void Pickup()
+    public virtual void PickupScavengeable()
     {
         OnPickup();
-        ReleaseToPool();
     }
-
-    public abstract void PickupScavengeable();
 
     public virtual void ReleaseToPool()
     {

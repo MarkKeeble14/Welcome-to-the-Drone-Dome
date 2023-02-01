@@ -16,15 +16,17 @@ MonoBehaviour:
   requirements: []
   shortLabel: Bullet Bounces
   PointsPerOverCharge: 5
-  maxPoints: 5
+  maxPoints: 1
   statModifier:
     baseValue: 0
     affectedValue: 0
     minValue: 0
     hasMin: 0
-    maxValue: 0
-    hasMax: 0
+    maxValue: 1
+    hasMax: 1
     changeBy: 0
+    baseValuePermaGrowth: 0.01
+    numTimesBaseUpgraded: 0
     baseGrowth: 1
     growth: 1
     growthIncreaseUponGrow: 0

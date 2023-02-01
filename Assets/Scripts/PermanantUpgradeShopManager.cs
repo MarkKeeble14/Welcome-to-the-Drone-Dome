@@ -39,7 +39,7 @@ public class PermanantUpgradeShopManager : MonoBehaviour
         AudioManager._Instance.PlayClip(openClip, true);
 
         // Resume Game
-        PauseManager._Instance.Pause();
+        PauseManager._Instance.Pause(PauseCondition.OPEN_CREDIT_SHOP);
 
         MainMenuUIManager._Instance.OpenPermanantUpgradeShop();
 
@@ -109,7 +109,7 @@ public class PermanantUpgradeShopManager : MonoBehaviour
         AudioManager._Instance.PlayClip(clickClip, true);
 
         // Resume Game
-        PauseManager._Instance.Resume();
+        PauseManager._Instance.Resume(PauseCondition.OPEN_CREDIT_SHOP);
 
         MainMenuUIManager._Instance.ClosePermanantUpgradeShop();
     }

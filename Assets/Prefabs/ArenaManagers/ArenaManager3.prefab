@@ -47,13 +47,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnEnemies: 1
-  awardInitialShopVisit: 0
+  awardInitialShopVisit: 1
   arenaWaves:
-  - RewardType: 2
-    SubWaveRewards:
-    - Reward: 2
-      Count: 1
-    UpgradePointsAwarded: 0
+  - RewardType: 1
+    SubWaveRewards: []
+    UpgradePointsAwarded: 2
     CanRepeatedlyAwardUpgradePoints: 1
     CanRepeatWaveReward: 1
     EnemySpawns:
@@ -96,8 +94,10 @@ MonoBehaviour:
     BossSpawns: []
     MiniBossSpawns: []
   - RewardType: 1
-    SubWaveRewards: []
-    UpgradePointsAwarded: 4
+    SubWaveRewards:
+    - Reward: 2
+      Count: 1
+    UpgradePointsAwarded: 2
     CanRepeatedlyAwardUpgradePoints: 1
     CanRepeatWaveReward: 1
     EnemySpawns:
@@ -119,11 +119,9 @@ MonoBehaviour:
     MiniBossSpawns:
     - {fileID: 5638404428015688683, guid: 5cfa219bc4a2f0e42b80303a027312d7, type: 3}
     - {fileID: 5638404428015688683, guid: 5cfa219bc4a2f0e42b80303a027312d7, type: 3}
-  - RewardType: 2
-    SubWaveRewards:
-    - Reward: 1
-      Count: 1
-    UpgradePointsAwarded: 0
+  - RewardType: 1
+    SubWaveRewards: []
+    UpgradePointsAwarded: 2
     CanRepeatedlyAwardUpgradePoints: 1
     CanRepeatWaveReward: 1
     EnemySpawns:
@@ -147,10 +145,8 @@ MonoBehaviour:
     - {fileID: 5638404428015688683, guid: 6cceafb925b214f4a917954323873b04, type: 3}
     MiniBossSpawns: []
   - RewardType: 1
-    SubWaveRewards:
-    - Reward: 2
-      Count: 1
-    UpgradePointsAwarded: 5
+    SubWaveRewards: []
+    UpgradePointsAwarded: 3
     CanRepeatedlyAwardUpgradePoints: 1
     CanRepeatWaveReward: 1
     EnemySpawns:
@@ -174,9 +170,9 @@ MonoBehaviour:
     MiniBossSpawns:
     - {fileID: 5638404428015688683, guid: 3f1d27f70df04fd449f28e6ac46696a4, type: 3}
     - {fileID: 5638404428015688683, guid: 3f1d27f70df04fd449f28e6ac46696a4, type: 3}
-  - RewardType: 1
+  - RewardType: 2
     SubWaveRewards: []
-    UpgradePointsAwarded: 4
+    UpgradePointsAwarded: 0
     CanRepeatedlyAwardUpgradePoints: 1
     CanRepeatWaveReward: 1
     EnemySpawns:
@@ -202,9 +198,9 @@ MonoBehaviour:
     - {fileID: 5638404428015688683, guid: 5cfa219bc4a2f0e42b80303a027312d7, type: 3}
     - {fileID: 5638404428015688683, guid: 5cfa219bc4a2f0e42b80303a027312d7, type: 3}
     - {fileID: 5638404428015688683, guid: 5cfa219bc4a2f0e42b80303a027312d7, type: 3}
-  - RewardType: 2
+  - RewardType: 1
     SubWaveRewards: []
-    UpgradePointsAwarded: 0
+    UpgradePointsAwarded: 5
     CanRepeatedlyAwardUpgradePoints: 1
     CanRepeatWaveReward: 1
     EnemySpawns:
@@ -229,8 +225,8 @@ MonoBehaviour:
     - Reward: 0
       Count: 1
     UpgradePointsAwarded: 0
-    CanRepeatedlyAwardUpgradePoints: 0
-    CanRepeatWaveReward: 0
+    CanRepeatedlyAwardUpgradePoints: 1
+    CanRepeatWaveReward: 1
     EnemySpawns:
       options:
       - key: {fileID: 5638404428015688683, guid: fd6e99f1c89d8b64388ded8d053fad19,

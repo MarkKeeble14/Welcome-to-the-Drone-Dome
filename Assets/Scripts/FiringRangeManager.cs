@@ -35,7 +35,9 @@ public class FiringRangeManager : MonoBehaviour
         // Audio
         AudioManager._Instance.PlayClip(openClip, true);
         MainMenuUIManager._Instance.OpenFiringRange();
-        PauseManager._Instance.Pause();
+
+        PauseManager._Instance.Pause(PauseCondition.OPEN_FIRING_RANGE);
+
         UIManager._Instance.SetCurrentDronesDisplayForFiringRange();
         UIManager._Instance.CurrentDroneDisplay.Set();
     }
@@ -98,7 +100,7 @@ public class FiringRangeManager : MonoBehaviour
         AudioManager._Instance.PlayClip(clickClip, true);
 
         MainMenuUIManager._Instance.CloseFiringRange();
-        PauseManager._Instance.Resume();
+        PauseManager._Instance.Resume(PauseCondition.OPEN_FIRING_RANGE);
 
         UIManager._Instance.SetCurrentDronesDisplayForMenu();
         UIManager._Instance.CurrentDroneDisplay.Set();

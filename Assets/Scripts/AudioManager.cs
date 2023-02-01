@@ -41,10 +41,18 @@ public class AudioManager : MonoBehaviour
         if (musicSource1.isPlaying)
         {
             StartCoroutine(FadeSource(musicSource1, Direction.DOWN));
+
+            // Play chill music
+            musicSource2.clip = levelMusic[0];
+            StartCoroutine(FadeSource(musicSource2, Direction.UP));
         }
         else if (musicSource2.isPlaying)
         {
             StartCoroutine(FadeSource(musicSource2, Direction.DOWN));
+
+            // Play chill music
+            musicSource1.clip = levelMusic[0];
+            StartCoroutine(FadeSource(musicSource1, Direction.UP));
         }
     }
 
@@ -52,20 +60,23 @@ public class AudioManager : MonoBehaviour
     {
         if (musicSource1.isPlaying)
         {
+            // Stop Chill Music
+            StartCoroutine(FadeSource(musicSource1, Direction.DOWN));
+
             musicSource2.clip = GetLevelMusic();
-            musicSource2.Play();
             StartCoroutine(FadeSource(musicSource2, Direction.UP));
         }
         else if (musicSource2.isPlaying)
         {
+            // Stop Chill Music
+            StartCoroutine(FadeSource(musicSource2, Direction.DOWN));
+
             musicSource1.clip = GetLevelMusic();
-            musicSource1.Play();
             StartCoroutine(FadeSource(musicSource1, Direction.UP));
         }
         else
         {
             musicSource1.clip = GetLevelMusic();
-            musicSource1.Play();
             StartCoroutine(FadeSource(musicSource1, Direction.UP));
         }
     }
@@ -74,25 +85,32 @@ public class AudioManager : MonoBehaviour
     {
         if (direction == Direction.UP || direction == Direction.RIGHT)
         {
+            source.Play();
             while (source.volume < maxMusicVolume)
             {
                 source.volume += Time.deltaTime * fadeRate;
                 yield return null;
             }
         }
-        else
+        else if (direction == Direction.DOWN || direction == Direction.LEFT)
         {
             while (source.volume > 0)
             {
                 source.volume -= Time.deltaTime * fadeRate;
                 yield return null;
             }
+            source.Stop();
         }
     }
 
     public void PlayClip(AudioClip clip, float pitch, Vector3 pos)
     {
         Instantiate(tempSource, pos, Quaternion.identity).Play(clip, 1, pitch);
+    }
+
+    public void PlayClip(AudioClip clip, float pitch, Vector3 pos, float volume)
+    {
+        Instantiate(tempSource, pos, Quaternion.identity).Play(clip, volume, pitch);
     }
 
     public void PlayClip(AudioClip clip, bool randomPitch, Vector3 pos)
