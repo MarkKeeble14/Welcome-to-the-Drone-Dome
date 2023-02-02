@@ -20,6 +20,11 @@ public class PermaUpgradeNodeDisplay : UpgradeNodeDisplay
 
         purchaseButton.onClick.AddListener(delegate
         {
+            if (!repStat.CanUpgradePermanantly())
+            {
+                AudioManager._Instance.PlayClip(failPurchaseClip, true);
+                return;
+            }
             onPurchase(this.node);
 
             // If pre does not equal post, purchase was successful

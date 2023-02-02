@@ -30,6 +30,7 @@ public class InGameUpgradeNodeDisplay : UpgradeNodeDisplay
     [SerializeField] private AudioSource sfxSource;
     [SerializeField] private AudioClip unlockClip;
     [SerializeField] private AudioClip overchargeClip;
+    [SerializeField] private AudioClip failPurchaseClip;
 
     private bool GetUnlockeable(UpgradeNode node)
     {
@@ -92,7 +93,10 @@ public class InGameUpgradeNodeDisplay : UpgradeNodeDisplay
             }
             else
             {
-                Debug.Log("No Module Unlockers Available");
+                // Debug.Log("No Module Unlockers Available");
+
+                // Audio
+                sfxSource.PlayOneShot(failPurchaseClip);
             }
         });
     }
@@ -101,12 +105,20 @@ public class InGameUpgradeNodeDisplay : UpgradeNodeDisplay
     {
         overChargeButton.onClick.AddListener(delegate
         {
-            // Over Charge Node
-            node.OverCharge();
-            ShopManager._Instance.UseModuleUpgradeOverCharger();
+            if (node.CanBeOverCharged())
+            {
+                // Over Charge Node
+                node.OverCharge();
+                ShopManager._Instance.UseModuleUpgradeOverCharger();
 
-            // Audio
-            sfxSource.PlayOneShot(overchargeClip);
+                // Audio
+                sfxSource.PlayOneShot(overchargeClip);
+            }
+            else
+            {
+                // Audio
+                sfxSource.PlayOneShot(failPurchaseClip);
+            }
         });
     }
 
@@ -115,36 +127,70 @@ public class InGameUpgradeNodeDisplay : UpgradeNodeDisplay
         // Change Color
         if (node.Available)
         {
-            if (repOverChargeable != null && repOverChargeable.HasBeenUnlocked)
+            requirementsText.gameObject.SetActive(false);
+            if (repOverChargeable != null)
             {
-                if (node.Maxed())
+                if (repOverChargeable.HasBeenOvercharged)
                 {
-                    alterColorOf.color = maxedColor;
+                    if (repOverChargeable.CanBeOverCharged() || !repOverChargeable.Maxed())
+                    {
+                        alterColorOf.color = overChargedColor;
+                    }
+                    else
+                    {
+                        alterColorOf.color = maxedColor;
+                    }
                 }
                 else
                 {
-                    alterColorOf.color = overChargedColor;
-                }
-            }
-            else if (node.Purchased)
-            {
-                if (node.Maxed())
-                {
-                    alterColorOf.color = fullyPurchasedColor;
-                }
-                else
-                {
-                    alterColorOf.color = partiallyPurchasedColor;
+                    if (repOverChargeable.Purchased)
+                    {
+                        if (repOverChargeable.AtMinOrMax())
+                        {
+                            alterColorOf.color = maxedColor;
+                        }
+                        else if (node.Maxed())
+                        {
+                            alterColorOf.color = fullyPurchasedColor;
+                        }
+                        else
+                        {
+                            alterColorOf.color = partiallyPurchasedColor;
+                        }
+                    }
+                    else
+                    {
+                        alterColorOf.color = availableColor;
+                    }
                 }
             }
             else
             {
-                alterColorOf.color = availableColor;
+                if (node.Purchased)
+                {
+                    if (node.Maxed())
+                    {
+                        alterColorOf.color = fullyPurchasedColor;
+                    }
+                    else
+                    {
+                        alterColorOf.color = partiallyPurchasedColor;
+
+                    }
+                }
+                else
+                {
+                    alterColorOf.color = availableColor;
+                }
             }
         }
         else
         {
             alterColorOf.color = unavailableColor;
+            if (node.Requirements.Length > 0)
+            {
+                requirementsText.gameObject.SetActive(true);
+            }
         }
     }
 

@@ -44,11 +44,10 @@ public partial class ArenaManager : MonoBehaviour
     private EnemiesKilledBar progressBar;
     private ArenaInstructionsText arenaInstructionsText;
     private ArenaRewardText arenaRewardText;
-    [SerializeField] private StoreInt playerCredits;
     private PlayerSpawning playerSpawning;
     [SerializeField] private PopupText popupText;
     private Transform player;
-
+    [SerializeField] private CinemachineImpulseSource cinemachineImpulseSource;
 
     [Header("Resource Clearing")]
     [SerializeField] private float timeBetweenResourceClears = 60f;
@@ -171,7 +170,8 @@ public partial class ArenaManager : MonoBehaviour
 
             // Player gains a credit every time they complete an arena
             int increase = Mathf.RoundToInt(GameManager._Instance.GetCreditBonus(++GameManager._Instance.ArenasCleared));
-            playerCredits.Value += increase;
+            PlayerCredits.Change(increase);
+
 
             string plural = "";
             if (increase > 1)
@@ -179,7 +179,7 @@ public partial class ArenaManager : MonoBehaviour
                 plural += "s";
             }
             Instantiate(popupText, player.transform.position, Quaternion.identity)
-                .Set("+" + increase + " Credit" + plural + "!\nNew Total: " + playerCredits.Value.ToString(), Color.yellow, player.transform.position, 3);
+                .Set("+" + increase + " Credit" + plural + "!\nNew Total: " + PlayerCredits.Get().ToString(), Color.yellow, player.transform.position, 3);
 
             StopClearResourceSequence();
 
@@ -281,7 +281,10 @@ public partial class ArenaManager : MonoBehaviour
     private IEnumerator BossSequence()
     {
         // Audio
-        sfxSource.PlayOneShot(bossWaveStartClip);
+        sfxSource.PlayOneShot(bossWaveStartClip, .75f);
+
+        // Call screenshake
+        cinemachineImpulseSource.GenerateImpulse();
 
         // Debug.Log("Boss Sequence Started");
         // Remove all creeps

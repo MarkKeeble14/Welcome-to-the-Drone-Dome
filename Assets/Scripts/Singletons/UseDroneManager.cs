@@ -34,26 +34,53 @@ public class UseDroneManager : MonoBehaviour
     [SerializeField] private AudioClip droneStartDragClip;
     [SerializeField] private AudioClip droneTargetClip;
 
+    private bool CanStartShove(DroneController drone)
+    {
+        return (drone.CurrentMode == DroneMode.ATTACK || drone.CurrentMode == DroneMode.SCAVENGE)
+            && CursorOverShoveable() && drone.AvailableForUse;
+    }
+
+    private bool CursorOverShoveable()
+    {
+        if (cursorHovering == null) return false;
+        return LayerMaskHelper.IsInLayerMask(cursorHovering.gameObject, shoveable);
+    }
+
+    private bool CanClickEnemy(DroneController drone)
+    {
+        return drone.CurrentMode == DroneMode.ATTACK
+            && CursorOverEnemy() && drone.AvailableForUse;
+    }
+
+    private bool CursorOverEnemy()
+    {
+        if (cursorHovering == null) return false;
+        return LayerMaskHelper.IsInLayerMask(cursorHovering.gameObject, targetable);
+    }
+
+    private bool CanStation(DroneController drone)
+    {
+        return playerDroneController.SelectedDrone.CurrentMode == DroneMode.STATION && drone.AvailableForUse;
+    }
+
     private void LeftMousePressed(InputAction.CallbackContext obj)
     {
-        // Stuff for Station Mode
-        if (playerDroneController.SelectedDrone != null && playerDroneController.SelectedDrone.CurrentMode == DroneMode.STATION)
-        {
-            playerDroneController.SelectedDrone.SetStation(cursorWorldPos);
-        }
-
         if (cursorHovering == null) return;
 
         // Stuff for Attack mode
-        if (playerDroneController.SelectedDrone != null && playerDroneController.SelectedDrone.CurrentMode == DroneMode.ATTACK)
+        if (playerDroneController.SelectedDrone != null)
         {
-            if (LayerMaskHelper.IsInLayerMask(cursorHovering.gameObject, shoveable))
+            if (CanStartShove(playerDroneController.SelectedDrone))
             {
                 StartCoroutine(StartDrag(cursorHovering));
             }
-            else if (LayerMaskHelper.IsInLayerMask(cursorHovering.gameObject, targetable))
+            else if (CanClickEnemy(playerDroneController.SelectedDrone))
             {
                 StartCoroutine(ClickEnemySequence(cursorHovering.gameObject));
+            }
+            else if (CanStation(playerDroneController.SelectedDrone))
+            {
+                playerDroneController.SelectedDrone.SetStation(cursorWorldPos);
             }
         }
     }
@@ -66,7 +93,7 @@ public class UseDroneManager : MonoBehaviour
 
         // Start the Shoving Logic
         // Stops the player grid from controlling the drone
-        DroneData droneData = playerDroneController.ReleaseControlOfSelectedDrone(false);
+        DroneData droneData = playerDroneController.ReleaseControlOfSelectedDrone(true);
         DroneController usingDrone = droneData.DroneController;
 
         // If droneData struct is empty, cancel sequence; 
@@ -88,11 +115,13 @@ public class UseDroneManager : MonoBehaviour
         // Audio
         AudioManager._Instance.PlayClip(droneStartDragClip, RandomHelper.RandomFloat(.8f, 1.2f), usingDrone.transform.position);
 
+        Transform lockedTarget = targetedObject;
+
         // Dragging around
         while (InputManager._Controls.Player.LeftMouseClick.IsPressed())
         {
             // Cancelling drag; reset
-            if (targetedObject == null || usingDrone.CurrentMode == DroneMode.SCAVENGE)
+            if (lockedTarget == null)
             {
                 // End and Reset Settings
                 ResetDrone(usingDrone);
@@ -156,7 +185,6 @@ public class UseDroneManager : MonoBehaviour
     private void ResetDrone(DroneController drone)
     {
         // Allow ambient attacking
-        drone.OnEnterAttackMode();
         drone.AvailableForUse = true;
         // Add the drone back to the player's orbit
         playerDroneController.AddDroneToOrbit(drone);
@@ -237,25 +265,25 @@ public class UseDroneManager : MonoBehaviour
         cursorWorldPos = hit.point;
 
         if (MouseCursorManager._Instance.Locked) return;
-        if (playerDroneController.SelectedDrone == null || !playerDroneController.SelectedDrone.AvailableForUse)
+
+        if (playerDroneController.SelectedDrone != null)
+        {
+            if (CanClickEnemy(playerDroneController.SelectedDrone))
+            {
+                MouseCursorManager._Instance.SetCursor(CursorType.TARGET, false);
+            }
+            else if (CanStartShove(playerDroneController.SelectedDrone))
+            {
+                MouseCursorManager._Instance.SetCursor(CursorType.HAND, false);
+            }
+            else
+            {
+                MouseCursorManager._Instance.SetCursor(CursorType.DEFAULT, false);
+            }
+        }
+        else
         {
             MouseCursorManager._Instance.SetCursor(CursorType.DEFAULT, false);
-            return;
-        }
-
-        if (cursorHovering == null || LayerMaskHelper.IsInLayerMask(cursorHovering.gameObject, ground))
-        {
-            MouseCursorManager._Instance.SetCursor(CursorType.DEFAULT, false);
-            return;
-        }
-
-        if (LayerMaskHelper.IsInLayerMask(hit.transform.gameObject, targetable))
-        {
-            MouseCursorManager._Instance.SetCursor(CursorType.TARGET, false);
-        }
-        else if (LayerMaskHelper.IsInLayerMask(hit.transform.gameObject, shoveable))
-        {
-            MouseCursorManager._Instance.SetCursor(CursorType.HAND, false);
         }
     }
 }

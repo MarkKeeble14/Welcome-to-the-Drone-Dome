@@ -40,6 +40,7 @@ public class AudioManager : MonoBehaviour
     {
         if (musicSource1.isPlaying)
         {
+            StopCoroutine(FadeSource(musicSource1, Direction.UP));
             StartCoroutine(FadeSource(musicSource1, Direction.DOWN));
 
             // Play chill music
@@ -48,6 +49,7 @@ public class AudioManager : MonoBehaviour
         }
         else if (musicSource2.isPlaying)
         {
+            StopCoroutine(FadeSource(musicSource2, Direction.UP));
             StartCoroutine(FadeSource(musicSource2, Direction.DOWN));
 
             // Play chill music
@@ -61,6 +63,7 @@ public class AudioManager : MonoBehaviour
         if (musicSource1.isPlaying)
         {
             // Stop Chill Music
+            StopCoroutine(FadeSource(musicSource1, Direction.UP));
             StartCoroutine(FadeSource(musicSource1, Direction.DOWN));
 
             musicSource2.clip = GetLevelMusic();
@@ -69,6 +72,7 @@ public class AudioManager : MonoBehaviour
         else if (musicSource2.isPlaying)
         {
             // Stop Chill Music
+            StopCoroutine(FadeSource(musicSource2, Direction.UP));
             StartCoroutine(FadeSource(musicSource2, Direction.DOWN));
 
             musicSource1.clip = GetLevelMusic();

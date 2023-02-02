@@ -10,21 +10,52 @@ public class StatModifierUpgradeNode : OverChargeableUpgradeNode, IUpgradeNodePe
     public int MaxPoints => maxPoints;
     [SerializeField] protected GrowthStatModifier statModifier;
     public StatModifier Stat => statModifier;
+    [SerializeField] private string baseUpgradedString = "TimesPermanantUpgraded";
+    private string baseUpgradedStringKey
+    {
+        get
+        {
+            return name + baseUpgradedString;
+        }
+    }
     public Action OnPurchase;
 
-    public override bool CanBeOverCharged()
+    public override int GetPointsPermitted()
     {
-        return base.CanBeOverCharged() && statModifier.WithinBounds;
+        if (!Stat.HasMin && !Stat.HasMax)
+        {
+            return PointsPerOverCharge;
+        }
+        else
+        {
+            if (AtMinOrMax()) return 0;
+
+            StatModifierUpgradeNode copy = Instantiate(this);
+            copy.Stat.BaseValue = statModifier.Value;
+            copy.overChargedPoints += PointsPerOverCharge;
+
+            for (int i = 0; i < PointsPerOverCharge; i++)
+            {
+                if (copy.AtMinOrMax())
+                {
+                    return i - 1;
+                }
+                copy.Purchase();
+            }
+            return PointsPerOverCharge;
+        }
+    }
+
+    public override bool AtMinOrMax()
+    {
+        if (statModifier.HasMin && (statModifier.Value <= statModifier.MinValue || Mathf.Approximately(statModifier.Value, statModifier.MinValue))) return true;
+        if (statModifier.HasMax && (statModifier.Value >= statModifier.MaxValue || Mathf.Approximately(statModifier.Value, statModifier.MaxValue))) return true;
+        return false;
     }
 
     public override int GetMaxPoints()
     {
         return MaxPoints + OverChargedPoints;
-    }
-
-    public override bool Maxed()
-    {
-        return base.Maxed() || !statModifier.WithinBounds;
     }
 
     public override bool Purchase()
@@ -43,6 +74,7 @@ public class StatModifierUpgradeNode : OverChargeableUpgradeNode, IUpgradeNodePe
         base.Reset();
         currentPoints = 0;
         statModifier.Reset();
+        LoadValue();
     }
 
     public override void SetExtraUI(UpgradeNodeDisplay nodeDisplay)
@@ -63,12 +95,25 @@ public class StatModifierUpgradeNode : OverChargeableUpgradeNode, IUpgradeNodePe
 
     public void Upgrade()
     {
-        ++statModifier.numTimesBaseUpgraded;
+        if (!statModifier.HasMin && !statModifier.HasMax)
+        {
+            ++statModifier.numTimesBaseUpgraded;
+            SaveValue();
+        }
+        else
+        {
+            if (CanUpgradePermanantly())
+            {
+                ++statModifier.numTimesBaseUpgraded;
+                SaveValue();
+            }
+        }
     }
 
     public void HardReset()
     {
         statModifier.numTimesBaseUpgraded = 0;
+        SaveValue();
     }
 
     public string GetLabel()
@@ -80,5 +125,27 @@ public class StatModifierUpgradeNode : OverChargeableUpgradeNode, IUpgradeNodePe
     {
         return "Current Value: " + Math.Round(statModifier.Value, 2).ToString() + "\nChange on Purchase: "
             + (statModifier.PermaGrowth > 0 ? "+" : "") + statModifier.PermaGrowth;
+    }
+
+    public bool CanUpgradePermanantly()
+    {
+        return !AtMinOrMax();
+    }
+
+    public void LoadValue()
+    {
+        if (PlayerPrefs.HasKey(baseUpgradedStringKey))
+        {
+            statModifier.numTimesBaseUpgraded = PlayerPrefs.GetInt(baseUpgradedStringKey);
+        }
+        else
+        {
+            statModifier.numTimesBaseUpgraded = 0;
+        }
+    }
+
+    public void SaveValue()
+    {
+        PlayerPrefs.SetInt(baseUpgradedStringKey, statModifier.numTimesBaseUpgraded);
     }
 }

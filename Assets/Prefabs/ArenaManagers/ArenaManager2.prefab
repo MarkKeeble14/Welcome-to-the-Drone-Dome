@@ -219,9 +219,9 @@ MonoBehaviour:
     MiniBossSpawns: []
   - RewardType: 1
     SubWaveRewards:
-    - Reward: 2
+    - Reward: 1
       Count: 1
-    UpgradePointsAwarded: 2
+    UpgradePointsAwarded: 4
     CanRepeatedlyAwardUpgradePoints: 1
     CanRepeatWaveReward: 1
     EnemySpawns:
@@ -248,6 +248,7 @@ MonoBehaviour:
   playerCredits: {fileID: 11400000, guid: 9e7520a7fd0a9be46a773ce0f92ed668, type: 2}
   popupText: {fileID: -5260616264727522277, guid: d52a68650b4dbcf44aa2e12f8a640e87,
     type: 3}
+  cinemachineImpulseSource: {fileID: 2857750255204138669}
   timeBetweenResourceClears: 15
   resourceClearFudgeFactor: 3
   sfxSource: {fileID: 2256790127897447421}
@@ -741,6 +742,18 @@ AudioSource:
     type: 3}
   m_PrefabInstance: {fileID: 3083564978410872426}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2857750255204138669 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -8258543204757233465, guid: f67941fd4731b0543877de9db52d5716,
+    type: 3}
+  m_PrefabInstance: {fileID: 3083564978410872426}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 180ecf9b41d478f468eb3e9083753217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &5978730380498471436 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8661461775116489830, guid: f67941fd4731b0543877de9db52d5716,

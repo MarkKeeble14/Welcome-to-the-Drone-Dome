@@ -141,6 +141,7 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private ShowSelectedDronesModulesDisplay showSelectedDronesModulesDisplay;
     [SerializeField] private PlayerDroneController playerDroneController;
     [SerializeField] private TextMeshProUGUI buyExtraHelperText;
+    [SerializeField] private TextMeshProUGUI arenaShopHelperText;
     [SerializeField] private TextMeshProUGUI upgradePointsButtonText;
     [SerializeField] private TextMeshProUGUI moduleUnlockerButtonText;
     [SerializeField] private TextMeshProUGUI moduleOVerchargerButtonText;
@@ -177,7 +178,6 @@ public class ShopManager : MonoBehaviour
         }
     }
     private DroneWeaponModuleChoice[] spawnedDroneModuleChoices;
-    [SerializeField] private TextMeshProUGUI arenaShopHelperText;
 
     private void Start()
     {
@@ -289,6 +289,11 @@ public class ShopManager : MonoBehaviour
     {
         // Add XP
         currentPlayerResource += value;
+
+        if (value < 0)
+        {
+            arenaShopHelperText.gameObject.SetActive(false);
+        }
     }
 
     private void AddModuleDisplay(ModuleType type, int index)
@@ -346,6 +351,9 @@ public class ShopManager : MonoBehaviour
 
             RemoveAtIndex(index);
             showSelectedDronesModulesDisplay.Set(playerDroneController.SelectedDrone.AppliedModules, false);
+
+            buyExtraHelperText.gameObject.SetActive(false);
+            arenaShopHelperText.gameObject.SetActive(false);
         }
         else
         {
@@ -406,6 +414,8 @@ public class ShopManager : MonoBehaviour
         if (CurrentPlayerResource > upgradePointCost)
         {
             buyExtraHelperText.gameObject.SetActive(false);
+            arenaShopHelperText.gameObject.SetActive(false);
+
             currentPlayerResource -= upgradePointCost;
             upgradePointCost = Mathf.RoundToInt(upgradePointCost * upgradePointCostGrowth);
             UpgradeManager._Instance.AddUpgradePoints(1);
@@ -419,7 +429,9 @@ public class ShopManager : MonoBehaviour
         else
         {
             buyExtraHelperText.gameObject.SetActive(true);
-            buyExtraHelperText.text = "Insufficnet Funds";
+            buyExtraHelperText.text = "Insufficient Funds";
+
+            arenaShopHelperText.gameObject.SetActive(false);
 
             // Audio
             sfxSource.PlayOneShot(failPurchaseClip);
@@ -431,6 +443,8 @@ public class ShopManager : MonoBehaviour
         if (CurrentPlayerResource > moduleUnlockerCost)
         {
             buyExtraHelperText.gameObject.SetActive(false);
+            arenaShopHelperText.gameObject.SetActive(false);
+
             currentPlayerResource -= moduleUnlockerCost;
             moduleUnlockerCost = Mathf.RoundToInt(moduleUnlockerCost * moduleUnlockerCostGrowth);
             AddModuleUpgradeUnlocker();
@@ -444,7 +458,9 @@ public class ShopManager : MonoBehaviour
         else
         {
             buyExtraHelperText.gameObject.SetActive(true);
-            buyExtraHelperText.text = "Insufficnet Funds";
+            buyExtraHelperText.text = "Insufficient Funds";
+
+            arenaShopHelperText.gameObject.SetActive(false);
 
             // Audio
             sfxSource.PlayOneShot(failPurchaseClip);
@@ -456,6 +472,8 @@ public class ShopManager : MonoBehaviour
         if (CurrentPlayerResource > moduleOverchargerCost)
         {
             buyExtraHelperText.gameObject.SetActive(false);
+            arenaShopHelperText.gameObject.SetActive(false);
+
             currentPlayerResource -= moduleOverchargerCost;
             moduleOverchargerCost = Mathf.RoundToInt(moduleOverchargerCost * moduleOverchargerCostGrowth);
             AddModuleUpgradeOverCharger();
@@ -469,7 +487,9 @@ public class ShopManager : MonoBehaviour
         else
         {
             buyExtraHelperText.gameObject.SetActive(true);
-            buyExtraHelperText.text = "Insufficnet Funds";
+            buyExtraHelperText.text = "Insufficient Funds";
+
+            arenaShopHelperText.gameObject.SetActive(false);
 
             // Audio
             sfxSource.PlayOneShot(failPurchaseClip);
@@ -491,6 +511,8 @@ public class ShopManager : MonoBehaviour
         SetPurchaseModuleSlotText(activeSlotButtonText, activeSlotCost);
         SetPurchaseModuleSlotText(passiveSlotButtonText, passiveSlotCost);
         SetPurchaseModuleSlotText(weaponSlotButtonText, weaponSlotCost);
+
+        buyExtraHelperText.gameObject.SetActive(false);
     }
 
     public void TryBuyActiveSlot()
@@ -518,6 +540,9 @@ public class ShopManager : MonoBehaviour
 
                     // Audio
                     sfxSource.PlayOneShot(failPurchaseClip);
+
+                    arenaShopHelperText.gameObject.SetActive(true);
+                    arenaShopHelperText.text = "Insufficient Funds to Purchase Active Module Slot";
                     return;
                 }
                 StartCoroutine(FlashImageColor(activeSlotButton, Color.green, flashDuration));
@@ -531,6 +556,9 @@ public class ShopManager : MonoBehaviour
                     StartCoroutine(FlashImageColor(passiveSlotButton, Color.red, flashDuration));
                     // Audio
                     sfxSource.PlayOneShot(failPurchaseClip);
+
+                    arenaShopHelperText.gameObject.SetActive(true);
+                    arenaShopHelperText.text = "Insufficient Funds to Purchase Passive Module Slot";
                     return;
                 }
                 StartCoroutine(FlashImageColor(passiveSlotButton, Color.green, flashDuration));
@@ -541,8 +569,12 @@ public class ShopManager : MonoBehaviour
                 if (CurrentPlayerResource < weaponSlotCost)
                 {
                     StartCoroutine(FlashImageColor(weaponSlotButton, Color.red, flashDuration));
+
                     // Audio
                     sfxSource.PlayOneShot(failPurchaseClip);
+
+                    arenaShopHelperText.gameObject.SetActive(true);
+                    arenaShopHelperText.text = "Insufficient Funds to Purchase Weapon Module Slot";
                     return;
                 }
                 StartCoroutine(FlashImageColor(weaponSlotButton, Color.green, flashDuration));
@@ -550,9 +582,13 @@ public class ShopManager : MonoBehaviour
                 playerDroneController.SelectedDrone.AddWeaponSlot();
                 break;
         }
+
         // Update UI
         SetAllPurchaseModuleSlotText();
         showSelectedDronesModulesDisplay.Set(playerDroneController.SelectedDrone.AppliedModules, false);
+
+        buyExtraHelperText.gameObject.SetActive(false);
+        arenaShopHelperText.gameObject.SetActive(false);
 
         // Audio
         sfxSource.pitch = RandomHelper.RandomFloat(.8f, 1.2f);

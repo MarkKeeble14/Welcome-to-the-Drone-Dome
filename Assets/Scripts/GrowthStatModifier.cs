@@ -9,26 +9,8 @@ public class GrowthStatModifier : StatModifier
     public float CurrentGrowth => growth;
     [SerializeField] private float growthIncreaseUponGrow;
     [SerializeField] private StatMathOperation growthChangeBy;
+    [SerializeField] private bool disallowZeroValue;
     public StatMathOperation GrowthChangeBy => growthChangeBy;
-
-
-    public override bool WithinBounds
-    {
-        get
-        {
-            if (growth > 0)
-            {
-                if (hasMax && Value + growth > maxValue)
-                    return false;
-            }
-            else if (growth < 0)
-            {
-                if (hasMin && Value - growth < minValue)
-                    return false;
-            }
-            return true;
-        }
-    }
 
     public new void Reset()
     {
@@ -41,6 +23,12 @@ public class GrowthStatModifier : StatModifier
     public void Grow()
     {
         AddEffect(growth);
+
+        // If we don't allow zero values and some change would end up leaving the stat at 0, simply repeat the growth
+        if (disallowZeroValue && Value == 0)
+        {
+            Grow();
+        }
 
         // Scale Growth
         switch (growthChangeBy)

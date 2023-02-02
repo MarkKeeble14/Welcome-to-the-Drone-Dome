@@ -4,6 +4,12 @@ public abstract class Explodable : MonoBehaviour, IExplodable
 {
     public bool AllowChainExplosion = true;
     private bool hasAlreadyExploded;
+    protected float explosionDamageModifier = 1f;
+
+    public void SetExplosionDamageModifier(float f)
+    {
+        explosionDamageModifier = f;
+    }
 
     private void OnEnable()
     {

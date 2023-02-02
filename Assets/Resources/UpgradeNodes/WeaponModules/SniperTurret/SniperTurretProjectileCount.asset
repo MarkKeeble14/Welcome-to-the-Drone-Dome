@@ -16,12 +16,12 @@ MonoBehaviour:
   requirements: []
   shortLabel: Projectiles
   PointsPerOverCharge: 10
-  maxPoints: 5
+  maxPoints: 10
   statModifier:
     baseValue: 1
     affectedValue: 1
-    minValue: 1
-    hasMin: 1
+    minValue: 0
+    hasMin: 0
     maxValue: 3
     hasMax: 1
     changeBy: 0
@@ -31,5 +31,6 @@ MonoBehaviour:
     growth: 2
     growthIncreaseUponGrow: 0
     growthChangeBy: 0
+    disallowZeroValue: 0
   pointsPerRank: 10
   pointsToNextRank: 10

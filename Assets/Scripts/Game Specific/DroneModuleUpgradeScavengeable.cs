@@ -16,6 +16,35 @@ public class DroneModuleUpgradeScavengeable : AutoCollectScavengeable
     [SerializeField] private Color color;
     [SerializeField] private string typeText;
 
+    protected override void OnEnable()
+    {
+        // Tell Object what to Release
+        SetReleaseable(transform.parent.gameObject);
+    }
+
+    public void Set(List<UpgradeTree> trees)
+    {
+        // Get's a random node to unlock from upgrade tree
+        UpgradeTree selectedTree = trees[Random.Range(0, trees.Count)];
+        node = selectedTree.GetRandomNode();
+
+        if (node == null)
+        {
+            Cancel();
+            return;
+        }
+
+        UpgradeTreeDisplayInfo info = GameManager._Instance.GetUpgradeTreeDisplayInfo(selectedTree.UpgradeTreeRelation);
+        color = info.Color;
+        typeText = info.Text + "\n" + node.ShortLabel;
+
+        SetMaterial();
+        text.color = color;
+        text.text = typeText.ToString();
+
+        skyPillar.Reach();
+    }
+
     private void SetMaterial()
     {
         // Set Variables
@@ -42,28 +71,5 @@ public class DroneModuleUpgradeScavengeable : AutoCollectScavengeable
     private void Cancel()
     {
         ReleaseToPool();
-    }
-
-    public void Set(List<UpgradeTree> trees)
-    {
-        // Get's a random node to unlock from upgrade tree
-        UpgradeTree selectedTree = trees[Random.Range(0, trees.Count)];
-        node = selectedTree.GetRandomNode();
-
-        if (node == null)
-        {
-            Cancel();
-            return;
-        }
-
-        UpgradeTreeDisplayInfo info = GameManager._Instance.GetUpgradeTreeDisplayInfo(selectedTree.UpgradeTreeRelation);
-        color = info.Color;
-        typeText = info.Text + "\n" + node.ShortLabel;
-
-        SetMaterial();
-        text.color = color;
-        text.text = typeText.ToString();
-
-        skyPillar.Reach();
     }
 }

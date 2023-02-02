@@ -179,6 +179,15 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TestBinding9"",
+                    ""type"": ""Button"",
+                    ""id"": ""aecb99fa-18f3-4d86-ac4f-90622010e2fd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -401,6 +410,17 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ec12328b-9447-4b02-add1-46d92a617668"",
+                    ""path"": ""<Keyboard>/9"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TestBinding9"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -426,6 +446,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         m_Player_NextLevel = m_Player.FindAction("NextLevel", throwIfNotFound: true);
         m_Player_Win = m_Player.FindAction("Win", throwIfNotFound: true);
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
+        m_Player_TestBinding9 = m_Player.FindAction("TestBinding9", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -502,6 +523,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_NextLevel;
     private readonly InputAction m_Player_Win;
     private readonly InputAction m_Player_Pause;
+    private readonly InputAction m_Player_TestBinding9;
     public struct PlayerActions
     {
         private @Controls m_Wrapper;
@@ -523,6 +545,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         public InputAction @NextLevel => m_Wrapper.m_Player_NextLevel;
         public InputAction @Win => m_Wrapper.m_Player_Win;
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
+        public InputAction @TestBinding9 => m_Wrapper.m_Player_TestBinding9;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -583,6 +606,9 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @Pause.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
                 @Pause.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
                 @Pause.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
+                @TestBinding9.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTestBinding9;
+                @TestBinding9.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTestBinding9;
+                @TestBinding9.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTestBinding9;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -638,6 +664,9 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @Pause.started += instance.OnPause;
                 @Pause.performed += instance.OnPause;
                 @Pause.canceled += instance.OnPause;
+                @TestBinding9.started += instance.OnTestBinding9;
+                @TestBinding9.performed += instance.OnTestBinding9;
+                @TestBinding9.canceled += instance.OnTestBinding9;
             }
         }
     }
@@ -661,5 +690,6 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         void OnNextLevel(InputAction.CallbackContext context);
         void OnWin(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
+        void OnTestBinding9(InputAction.CallbackContext context);
     }
 }

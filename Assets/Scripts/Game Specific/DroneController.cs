@@ -122,8 +122,9 @@ public class DroneController : MonoBehaviour
     }
 
     [Header("References")]
-    private PlayerDroneController playerDroneController;
     private Transform player;
+    private PlayerDroneController playerDroneController;
+    private PlayerHealth playerHealth;
     private DroneBasicsModule droneBasics;
     [SerializeField] private DurationBar stationCooldownBar;
     [SerializeField] private Material defaultMaterial;
@@ -144,6 +145,8 @@ public class DroneController : MonoBehaviour
         // Set References
         player = GameManager._Instance.Player;
         playerDroneController = player.GetComponent<PlayerDroneController>();
+        playerHealth = player.GetComponent<PlayerHealth>();
+
         droneBasics = GetComponentInChildren<DroneBasicsModule>();
 
         // Spawn Station Cooldown Bar
@@ -156,6 +159,14 @@ public class DroneController : MonoBehaviour
         SetMaterial();
 
         orbitTimer += Time.deltaTime * OrbitSpeed;
+
+        // Prevent Drone from attacking when unwanted
+        foreach (DroneWeaponModule attackModule in weaponModules)
+        {
+            attackModule.Paused = !AvailableForUse;
+        }
+        if (!AvailableForUse) return;
+
         stationCooldownTimer -= Time.deltaTime;
 
         switch (CurrentMode)
@@ -211,7 +222,6 @@ public class DroneController : MonoBehaviour
     // Cycles the drone mode, current order is FOLLOW -> SCAVENGE -> FOLLOW
     public void CycleDroneMode()
     {
-        if (!AvailableForUse) return;
         switch (CurrentMode)
         {
             case DroneMode.ATTACK:
@@ -307,9 +317,15 @@ public class DroneController : MonoBehaviour
 
     private Collider[] GetUnclaimedScavengeables(Collider[] colliders)
     {
+        bool targetHearts = playerHealth.CurrentHealth < playerHealth.MaxHealth;
         List<Collider> unclaimedScavengeables = new List<Collider>();
         foreach (Collider col in colliders)
         {
+            if (!targetHearts && col.gameObject.name.Contains("Heart"))
+            {
+                continue;
+            }
+
             unclaimedScavengeables.Add(col);
             foreach (DroneController drone in playerDroneController.TrackedDrones)
             {

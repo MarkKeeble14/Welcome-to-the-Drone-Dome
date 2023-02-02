@@ -106,6 +106,7 @@ public abstract class DroneGunModule : DroneWeaponModule
                 continue;
             }
 
+            if (paused) yield return new WaitUntil(() => !paused);
             // Active
             if ((target = targeting.GetTarget(range.Stat.Value, projectileOrigin, TargetBy)) != null)
             {

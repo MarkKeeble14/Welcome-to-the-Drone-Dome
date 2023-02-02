@@ -303,6 +303,6 @@ public class UpgradeManager : MonoBehaviour
         upgradePointsAvailable--;
 
         // UpdateUpgradeTree();
-        Debug.Log("Successfully Purchased: " + node.Label);
+        // Debug.Log("Successfully Purchased: " + node.Label);
     }
 }

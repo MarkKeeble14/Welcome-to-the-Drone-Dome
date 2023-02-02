@@ -12,7 +12,7 @@ public class ModuleExplodeable : Explodable
 
     public void SetExplosionData(float damage, float radius, float power, float lift)
     {
-        explosionData.Damage = damage;
+        explosionData.Damage = damage * explosionDamageModifier;
         explosionData.Radius = radius;
         explosionData.Power = power;
         explosionData.Lift = lift;

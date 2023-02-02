@@ -31,7 +31,7 @@ public class Sawblade : Projectile
     {
         // Audio
         sfxSource.pitch = RandomHelper.RandomFloat(.8f, 1.2f);
-        sfxSource.PlayOneShot(hitClip);
+        sfxSource.PlayOneShot(hitClip, .75f);
 
         hb.Damage(damage, ModuleType.SAWBLADE_ACTIVE);
     }
@@ -46,7 +46,7 @@ public class Sawblade : Projectile
         sameTargetCDDictionary.Add(other.gameObject, tickSpeed);
     }
 
-    public void Set(float damage, float tickSpeed, float size, float range, float maxTimeAlive, float speed, Vector3 direction)
+    public void Set(float damage, float tickSpeed, float size, float range, float speed, Vector3 direction)
     {
         sameTargetCDDictionary.Clear();
         StopAllCoroutines();
@@ -55,7 +55,7 @@ public class Sawblade : Projectile
         this.tickSpeed = tickSpeed;
         transform.localScale = Vector3.one * size;
 
-        StartCoroutine(Lifetime(range, maxTimeAlive));
+        StartCoroutine(Lifetime(range));
         StartCoroutine(Travel(speed, direction));
     }
 
@@ -69,16 +69,11 @@ public class Sawblade : Projectile
         }
     }
 
-    private IEnumerator Lifetime(float range, float maxTimeAlive)
+    private IEnumerator Lifetime(float range)
     {
         Vector3 startPos = transform.position;
 
-        float timer = 0;
-        while (timer < maxTimeAlive && Vector3.Distance(startPos, transform.position) < range)
-        {
-            timer += Time.deltaTime;
-            yield return null;
-        }
+        yield return new WaitUntil(() => Vector3.Distance(startPos, transform.position) > range);
 
         ReleaseAction();
     }

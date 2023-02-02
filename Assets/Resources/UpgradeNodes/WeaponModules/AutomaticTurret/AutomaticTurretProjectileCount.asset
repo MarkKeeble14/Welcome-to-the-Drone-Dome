@@ -20,8 +20,8 @@ MonoBehaviour:
   statModifier:
     baseValue: 1
     affectedValue: 1
-    minValue: 1
-    hasMin: 1
+    minValue: 0
+    hasMin: 0
     maxValue: 0
     hasMax: 0
     changeBy: 0
@@ -31,5 +31,6 @@ MonoBehaviour:
     growth: 1
     growthIncreaseUponGrow: 0
     growthChangeBy: 0
+    disallowZeroValue: 0
   pointsPerRank: 2
   pointsToNextRank: 2

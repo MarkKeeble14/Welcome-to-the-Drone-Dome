@@ -7,6 +7,7 @@ public class HealthBehaviour : MonoBehaviour
     [SerializeField] protected float maxHealth;
     [SerializeField] protected float currentHealth;
     public float MaxHealth => maxHealth;
+    public float CurrentHealth => currentHealth;
     [SerializeField] private GameObject takeDamageParticleEffect;
     [SerializeField] private GameObject healParticleEffect;
     [SerializeField] private GameObject dieParticleEffect;

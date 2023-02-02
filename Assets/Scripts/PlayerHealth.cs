@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class PlayerHealth : HealthBehaviour
 {
@@ -26,6 +27,8 @@ public class PlayerHealth : HealthBehaviour
     [SerializeField] private Rigidbody rb;
     [SerializeField] private PlayerMovement playerMovement;
     [SerializeField] private Bar healthBar;
+
+    [SerializeField] private CinemachineImpulseSource cinemachineImpulseSource;
 
     private int playerLayer;
     private int playerIgnoreEnemyLayer;
@@ -58,6 +61,9 @@ public class PlayerHealth : HealthBehaviour
 
             // Apply Damage
             Damage(enemy.ContactDamage, true);
+
+            // Call screenshake
+            cinemachineImpulseSource.GenerateImpulse();
         }
     }
 

@@ -137,6 +137,7 @@ MonoBehaviour:
   autoCollectSpeed: 3
   chanceToAutoCollect: {x: 1, y: 2}
   timeTakenToAutoCollectSpeedMultiplier: 4
+  isExpirable: 1
   expireSpeed: 0.5
   growDuration: 0.4
   growSpeed: 1

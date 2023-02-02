@@ -7,13 +7,27 @@ public class StatModifier
 {
     [Header("Stat Modifier")]
     [SerializeField] protected float baseValue = 1;
-    public float BaseValue => baseValue;
+    public float BaseValue
+    {
+        get
+        {
+            return baseValue;
+        }
+        set
+        {
+            baseValue = value;
+        }
+    }
     [SerializeField] private float affectedValue;
     public float Value => affectedValue + (numTimesBaseUpgraded * baseValuePermaGrowth);
     [SerializeField] protected float minValue;
+    public float MinValue => minValue;
     [SerializeField] protected bool hasMin;
+    public bool HasMin => hasMin;
     [SerializeField] protected float maxValue;
+    public float MaxValue => maxValue;
     [SerializeField] protected bool hasMax;
+    public bool HasMax => hasMax;
 
     [SerializeField] private StatMathOperation changeBy;
     private List<float> affectingValue = new List<float>();
@@ -27,8 +41,8 @@ public class StatModifier
     {
         get
         {
-            if (hasMin && Value <= minValue) return false;
-            if (hasMax && Value >= maxValue) return false;
+            if (hasMin && Value < minValue) return false;
+            if (hasMax && Value > maxValue) return false;
             return true;
         }
     }

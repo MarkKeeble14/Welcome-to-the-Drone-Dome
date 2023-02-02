@@ -54,6 +54,7 @@ public abstract class BulletTypeTurretModule : DroneGunModule
         {
             ObjectPooler._Instance.ReleaseProjectile(source, currentProjectile);
         };
+        projectileOrigin.y = GameManager._BaseHeight;
         currentProjectile.transform.position = projectileOrigin;
 
         Vector3 direction = shootAt.position - projectileOrigin;
@@ -76,6 +77,7 @@ public abstract class BulletTypeTurretModule : DroneGunModule
             {
                 ObjectPooler._Instance.ReleaseProjectile(source, currentProjectile);
             };
+            projectileOrigin.y = GameManager._BaseHeight;
             currentProjectile.transform.position = projectileOrigin;
 
             currentProjectile.Set(projectileDamage.Stat.Value,
@@ -99,6 +101,7 @@ public abstract class BulletTypeTurretModule : DroneGunModule
             {
                 ObjectPooler._Instance.ReleaseProjectile(source, currentProjectile);
             };
+            projectileOrigin.y = GameManager._BaseHeight;
             currentProjectile.transform.position = projectileOrigin;
 
             currentProjectile.Set(projectileDamage.Stat.Value,

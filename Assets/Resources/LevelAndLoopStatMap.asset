@@ -21,10 +21,13 @@ MonoBehaviour:
       maxValue: 0
       hasMax: 0
       changeBy: 0
-      baseGrowth: 1.5
-      growth: 0
-      growthIncreaseUponGrow: 0
-      growthChangeBy: 1
+      baseValuePermaGrowth: 0.05
+      numTimesBaseUpgraded: 0
+      baseGrowth: 0.75
+      growth: 1.5
+      growthIncreaseUponGrow: 0.75
+      growthChangeBy: 0
+      disallowZeroValue: 0
     MaxHealthMod:
       baseValue: 1
       affectedValue: 1
@@ -33,10 +36,13 @@ MonoBehaviour:
       maxValue: 0
       hasMax: 0
       changeBy: 0
-      baseGrowth: 1.5
-      growth: 0
+      baseValuePermaGrowth: 0.05
+      numTimesBaseUpgraded: 0
+      baseGrowth: 3
+      growth: 1.5
       growthIncreaseUponGrow: 0
       growthChangeBy: 1
+      disallowZeroValue: 0
     SpeedMod:
       baseValue: 1
       affectedValue: 1
@@ -45,70 +51,13 @@ MonoBehaviour:
       maxValue: 0
       hasMax: 0
       changeBy: 0
-      baseGrowth: 1.1
-      growth: 0
-      growthIncreaseUponGrow: 0
-      growthChangeBy: 1
-    NumEnemiesAliveMod:
-      baseValue: 1
-      affectedValue: 1
-      minValue: 0
-      hasMin: 0
-      maxValue: 0
-      hasMax: 0
-      changeBy: 0
-      baseGrowth: 1.1
-      growth: 0
-      growthIncreaseUponGrow: 0
-      growthChangeBy: 1
-    NumEnemiesToKillMod:
-      baseValue: 1
-      affectedValue: 1
-      minValue: 0
-      hasMin: 0
-      maxValue: 0
-      hasMax: 0
-      changeBy: 0
-      baseGrowth: 1.3
-      growth: 0
-      growthIncreaseUponGrow: 0
-      growthChangeBy: 1
-  - DamageMod:
-      baseValue: 1
-      affectedValue: 1
-      minValue: 0
-      hasMin: 0
-      maxValue: 0
-      hasMax: 0
-      changeBy: 0
-      baseGrowth: 2
-      growth: 0
+      baseValuePermaGrowth: 0.05
+      numTimesBaseUpgraded: 0
+      baseGrowth: 0.025
+      growth: 1.1
       growthIncreaseUponGrow: 0
       growthChangeBy: 0
-    MaxHealthMod:
-      baseValue: 1
-      affectedValue: 1
-      minValue: 0
-      hasMin: 0
-      maxValue: 0
-      hasMax: 0
-      changeBy: 0
-      baseGrowth: 2.25
-      growth: 0
-      growthIncreaseUponGrow: 0
-      growthChangeBy: 1
-    SpeedMod:
-      baseValue: 1
-      affectedValue: 1
-      minValue: 0
-      hasMin: 0
-      maxValue: 0
-      hasMax: 0
-      changeBy: 0
-      baseGrowth: 1.1
-      growth: 0
-      growthIncreaseUponGrow: 0
-      growthChangeBy: 1
+      disallowZeroValue: 0
     NumEnemiesAliveMod:
       baseValue: 1
       affectedValue: 1
@@ -117,10 +66,13 @@ MonoBehaviour:
       maxValue: 0
       hasMax: 0
       changeBy: 0
-      baseGrowth: 1.2
-      growth: 0
-      growthIncreaseUponGrow: 0
-      growthChangeBy: 1
+      baseValuePermaGrowth: 0.05
+      numTimesBaseUpgraded: 0
+      baseGrowth: 0.25
+      growth: 1.1
+      growthIncreaseUponGrow: 0.1
+      growthChangeBy: 0
+      disallowZeroValue: 0
     NumEnemiesToKillMod:
       baseValue: 1
       affectedValue: 1
@@ -129,10 +81,13 @@ MonoBehaviour:
       maxValue: 0
       hasMax: 0
       changeBy: 0
-      baseGrowth: 1.5
-      growth: 0
-      growthIncreaseUponGrow: 0
-      growthChangeBy: 1
+      baseValuePermaGrowth: 0.05
+      numTimesBaseUpgraded: 0
+      baseGrowth: 1
+      growth: 1.3
+      growthIncreaseUponGrow: 0.3
+      growthChangeBy: 0
+      disallowZeroValue: 0
   - DamageMod:
       baseValue: 1
       affectedValue: 1
@@ -141,10 +96,13 @@ MonoBehaviour:
       maxValue: 0
       hasMax: 0
       changeBy: 0
-      baseGrowth: 2.75
-      growth: 0
-      growthIncreaseUponGrow: 0
-      growthChangeBy: 1
+      baseValuePermaGrowth: 0.05
+      numTimesBaseUpgraded: 0
+      baseGrowth: 1
+      growth: 2
+      growthIncreaseUponGrow: 1
+      growthChangeBy: 0
+      disallowZeroValue: 0
     MaxHealthMod:
       baseValue: 1
       affectedValue: 1
@@ -153,10 +111,13 @@ MonoBehaviour:
       maxValue: 0
       hasMax: 0
       changeBy: 0
+      baseValuePermaGrowth: 0.05
+      numTimesBaseUpgraded: 0
       baseGrowth: 3.5
-      growth: 0
+      growth: 2.25
       growthIncreaseUponGrow: 0
       growthChangeBy: 1
+      disallowZeroValue: 0
     SpeedMod:
       baseValue: 1
       affectedValue: 1
@@ -165,10 +126,13 @@ MonoBehaviour:
       maxValue: 0
       hasMax: 0
       changeBy: 0
-      baseGrowth: 1.1
-      growth: 0
+      baseValuePermaGrowth: 0.05
+      numTimesBaseUpgraded: 0
+      baseGrowth: 0.05
+      growth: 1.1
       growthIncreaseUponGrow: 0
-      growthChangeBy: 1
+      growthChangeBy: 0
+      disallowZeroValue: 0
     NumEnemiesAliveMod:
       baseValue: 1
       affectedValue: 1
@@ -177,10 +141,13 @@ MonoBehaviour:
       maxValue: 0
       hasMax: 0
       changeBy: 0
-      baseGrowth: 1.1
-      growth: 0
-      growthIncreaseUponGrow: 0
-      growthChangeBy: 1
+      baseValuePermaGrowth: 0.05
+      numTimesBaseUpgraded: 0
+      baseGrowth: 0.4
+      growth: 1.2
+      growthIncreaseUponGrow: 0.15
+      growthChangeBy: 0
+      disallowZeroValue: 0
     NumEnemiesToKillMod:
       baseValue: 1
       affectedValue: 1
@@ -189,7 +156,85 @@ MonoBehaviour:
       maxValue: 0
       hasMax: 0
       changeBy: 0
+      baseValuePermaGrowth: 0.05
+      numTimesBaseUpgraded: 0
+      baseGrowth: 1.25
+      growth: 1.5
+      growthIncreaseUponGrow: 0.5
+      growthChangeBy: 0
+      disallowZeroValue: 0
+  - DamageMod:
+      baseValue: 1
+      affectedValue: 1
+      minValue: 0
+      hasMin: 0
+      maxValue: 0
+      hasMax: 0
+      changeBy: 0
+      baseValuePermaGrowth: 0.05
+      numTimesBaseUpgraded: 0
+      baseGrowth: 2
+      growth: 2.75
+      growthIncreaseUponGrow: 2
+      growthChangeBy: 0
+      disallowZeroValue: 0
+    MaxHealthMod:
+      baseValue: 1
+      affectedValue: 1
+      minValue: 0
+      hasMin: 0
+      maxValue: 0
+      hasMax: 0
+      changeBy: 0
+      baseValuePermaGrowth: 0.05
+      numTimesBaseUpgraded: 0
       baseGrowth: 4
-      growth: 0
+      growth: 3.5
       growthIncreaseUponGrow: 0
       growthChangeBy: 1
+      disallowZeroValue: 0
+    SpeedMod:
+      baseValue: 1
+      affectedValue: 1
+      minValue: 0
+      hasMin: 0
+      maxValue: 0
+      hasMax: 0
+      changeBy: 0
+      baseValuePermaGrowth: 0.05
+      numTimesBaseUpgraded: 0
+      baseGrowth: 0.04
+      growth: 1.1
+      growthIncreaseUponGrow: 0.02
+      growthChangeBy: 0
+      disallowZeroValue: 0
+    NumEnemiesAliveMod:
+      baseValue: 1
+      affectedValue: 1
+      minValue: 0
+      hasMin: 0
+      maxValue: 0
+      hasMax: 0
+      changeBy: 0
+      baseValuePermaGrowth: 0.05
+      numTimesBaseUpgraded: 0
+      baseGrowth: 0.6
+      growth: 1.1
+      growthIncreaseUponGrow: 0.2
+      growthChangeBy: 0
+      disallowZeroValue: 0
+    NumEnemiesToKillMod:
+      baseValue: 1
+      affectedValue: 1
+      minValue: 0
+      hasMin: 0
+      maxValue: 0
+      hasMax: 0
+      changeBy: 0
+      baseValuePermaGrowth: 0.05
+      numTimesBaseUpgraded: 0
+      baseGrowth: 2
+      growth: 4
+      growthIncreaseUponGrow: 1
+      growthChangeBy: 0
+      disallowZeroValue: 0

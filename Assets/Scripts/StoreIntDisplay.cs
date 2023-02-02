@@ -5,7 +5,6 @@ using TMPro;
 
 public class StoreIntDisplay : MonoBehaviour
 {
-    [SerializeField] private StoreInt display;
     [SerializeField] private TextMeshProUGUI text;
     [SerializeField] private string prefix;
     [SerializeField] private string suffix;
@@ -13,6 +12,13 @@ public class StoreIntDisplay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        text.text = prefix + display.Value.ToString() + suffix;
+        text.text = prefix + PlayerCredits.Get().ToString() + suffix;
+
+        /*
+        if (InputManager._Controls.Player.TestBinding9.IsPressed())
+        {
+            PlayerCredits.Change(1);
+        }
+        */
     }
 }

@@ -27,8 +27,6 @@ public class PermanantUpgradeShopManager : MonoBehaviour
     [SerializeField] private AudioClip clickClip;
     [SerializeField] private AudioClip openClip;
 
-    [SerializeField] private StoreInt playerCredits;
-
     private List<UpgradeNodeDisplay> spawnedUpgradeNodes = new List<UpgradeNodeDisplay>();
 
     private bool hasSpawnedTrees = false;
@@ -79,16 +77,12 @@ public class PermanantUpgradeShopManager : MonoBehaviour
 
     public void TryPermaGrowNode(UpgradeNode node)
     {
-        Debug.Log("Attempting to Permanantly Upgrade: " + node);
-        if (playerCredits.Value > 0)
+        // Debug.Log("Attempting to Permanantly Upgrade: " + node);
+        if (PlayerCredits.Get() > 0)
         {
-            playerCredits.Value--;
+            PlayerCredits.Change(-1);
             ((IUpgradeNodePermanantelyUpgradeable)node).Upgrade();
-            Debug.Log("Purchased: " + node);
-        }
-        else
-        {
-            Debug.Log("Insufficient Credits");
+            // Debug.Log("Purchased: " + node);
         }
     }
 

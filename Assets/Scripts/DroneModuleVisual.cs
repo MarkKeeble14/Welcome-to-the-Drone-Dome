@@ -114,6 +114,7 @@ public class DroneModuleVisual : MonoBehaviour
         while (true)
         {
             transform.localPosition = lockPosition;
+            transform.rotation = Quaternion.identity;
             yield return null;
         }
     }

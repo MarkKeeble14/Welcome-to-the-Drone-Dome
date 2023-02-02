@@ -70,10 +70,13 @@ public partial class GameManager : MonoBehaviour
 
     private Vector3 targetCameraZoom;
     [SerializeField] private TextMeshProUGUI arenaShopHelperText;
+
     private int enemiesKilled;
     public int EnemiesKilled => enemiesKilled;
     public int ArenasCleared { get; set; }
+    public static float _BaseHeight = .5f;
 
+    [SerializeField] private GameObject mainMenuEnvironment;
     public void IncrementEnemiesKilled()
     {
         enemiesKilled++;
@@ -109,7 +112,6 @@ public partial class GameManager : MonoBehaviour
         AudioManager._Instance.StartLevelMusic();
     }
 
-
     public float GetCreditBonus(int wavesCompleted)
     {
         if (wavesCompleted < wavesCompletedLinearLimit)
@@ -134,7 +136,7 @@ public partial class GameManager : MonoBehaviour
 
     public void Loop()
     {
-        Debug.Log("Attempting to Loop");
+        // Debug.Log("Attempting to Loop");
         if (loadingLevel) return;
         loadingLevel = true;
 
@@ -262,6 +264,10 @@ public partial class GameManager : MonoBehaviour
         {
             // We must reset anything that may have been altered in the main menu scene here
             LoadLevel(false);
+
+            // Destroy the main menu environment
+            Destroy(mainMenuEnvironment);
+
             // Reset Stats
             ResetScriptableObjects();
             // Reset Drones
@@ -289,7 +295,7 @@ public partial class GameManager : MonoBehaviour
     public void RestartGame()
     {
         if (restartingGame) return;
-        Debug.Log("Restarting Game");
+        // Debug.Log("Restarting Game");
         restartingGame = true;
         TransitionManager._Instance.FadeOut(() =>
         {

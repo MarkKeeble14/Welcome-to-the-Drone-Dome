@@ -67,6 +67,8 @@ public class InputManager : MonoBehaviour
         _Controls.Player.TestBinding4.Disable();
         _Controls.Player.TestBinding5.Disable();
 
+        _Controls.Player.TestBinding9.Disable();
+
         _Controls.Player.LeftMouseClick.Disable();
         _Controls.Player.MousePosition.Disable();
 
@@ -95,6 +97,8 @@ public class InputManager : MonoBehaviour
         _Controls.Player.TestBinding3.Enable();
         _Controls.Player.TestBinding4.Enable();
         _Controls.Player.TestBinding5.Enable();
+
+        _Controls.Player.TestBinding9.Enable();
 
         _Controls.Player.LeftMouseClick.Enable();
         _Controls.Player.MousePosition.Enable();

@@ -24,8 +24,18 @@ public abstract class UpgradeNode : ScriptableObject
         {
             foreach (UpgradeNode node in Requirements)
             {
-                if (!node.Maxed())
-                    return false;
+                if (node is OverChargeableUpgradeNode)
+                {
+                    if (!node.Maxed() && !((OverChargeableUpgradeNode)node).HasBeenOvercharged)
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (!node.Maxed())
+                        return false;
+                }
             }
             return true;
         }

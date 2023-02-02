@@ -9,6 +9,21 @@ public class PermanantlyUpgradeableBoolSwitchUpgradeNode : BoolSwitchUpgradeNode
     [SerializeField] private bool upgradeActive;
     public bool UpgradeActive => upgradeActive;
 
+
+    [SerializeField] private string baseUpgradedString = "TimesPermanantUpgraded";
+    private string baseUpgradedStringKey
+    {
+        get
+        {
+            return name + baseUpgradedString;
+        }
+    }
+
+    public bool CanUpgradePermanantly()
+    {
+        return !upgradeActive;
+    }
+
     public string GetLabel()
     {
         return Label;
@@ -23,6 +38,7 @@ public class PermanantlyUpgradeableBoolSwitchUpgradeNode : BoolSwitchUpgradeNode
     {
         numUpgrades = 0;
         upgradeActive = false;
+        SaveValue();
     }
 
     public void Upgrade()
@@ -32,9 +48,33 @@ public class PermanantlyUpgradeableBoolSwitchUpgradeNode : BoolSwitchUpgradeNode
             return;
         }
         numUpgrades++;
+        SaveValue();
+    }
+
+    private void UpdateState()
+    {
         if (numUpgrades > numToActivate)
         {
             upgradeActive = true;
         }
+    }
+
+    public void LoadValue()
+    {
+        if (PlayerPrefs.HasKey(baseUpgradedStringKey))
+        {
+            numUpgrades = PlayerPrefs.GetInt(baseUpgradedStringKey);
+        }
+        else
+        {
+            numUpgrades = 0;
+        }
+
+        UpdateState();
+    }
+
+    public void SaveValue()
+    {
+        PlayerPrefs.SetInt(baseUpgradedStringKey, numUpgrades);
     }
 }

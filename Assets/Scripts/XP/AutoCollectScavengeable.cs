@@ -10,6 +10,7 @@ public abstract class AutoCollectScavengeable : Scavengeable
     [SerializeField] private float timeTakenToAutoCollectSpeedMultiplier = 2f;
 
     [Header("Expiry")]
+    [SerializeField] private bool isExpirable;
     [SerializeField] private float expireSpeed = .1f;
     [SerializeField] private float growDuration = .25f;
     [SerializeField] private float growSpeed = .5f;
@@ -25,10 +26,17 @@ public abstract class AutoCollectScavengeable : Scavengeable
 
     public void Expire(Action onExpire)
     {
-        if (!expiring)
+        if (isExpirable)
         {
-            this.onExpire = onExpire;
-            StartCoroutine(ExpirationSequence());
+            if (!expiring)
+            {
+                this.onExpire = onExpire;
+                StartCoroutine(ExpirationSequence());
+            }
+        }
+        else
+        {
+            onExpire();
         }
     }
 

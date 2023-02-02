@@ -133,7 +133,6 @@ MonoBehaviour:
     m_Bits: 128
   smartBouncingDetectionRange: 5
   shouldDestroyAfterTime: 1
-  lifetime: 5
   rb: {fileID: 4411560104125395868}
   sfxSource: {fileID: 4887089927200708562}
   contactClip: {fileID: 8300000, guid: 7e7b77004f381904e9495bd505d02914, type: 3}
@@ -150,7 +149,7 @@ AudioSource:
     type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.75
   m_Pitch: 1
   Loop: 0
   Mute: 0

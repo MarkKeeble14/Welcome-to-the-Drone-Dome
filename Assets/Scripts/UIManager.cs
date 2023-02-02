@@ -131,7 +131,7 @@ public class UIManager : MonoBehaviour
         if (PlayerPrefs.HasKey(key))
         {
             int hsValue = PlayerPrefs.GetInt(key);
-            Debug.Log(hsValue + ", " + value);
+            // Debug.Log(hsValue + ", " + value);
             if (value > hsValue)
             {
                 hsString += "\nNew High Score!: " + value;

@@ -35,6 +35,7 @@ public class DroneTeslaModule : DroneWeaponModule
 
     public override IEnumerator Attack()
     {
+        if (paused) yield return new WaitUntil(() => !paused);
         if (!Attached) yield return null;
         yield return new WaitForSeconds(delay.Stat.Value);
         DoDamage();

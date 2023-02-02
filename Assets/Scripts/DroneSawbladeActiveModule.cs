@@ -7,7 +7,6 @@ public class DroneSawbladeActiveModule : DroneActiveModule
     [SerializeField] private LoadStatModifierInfo damage;
     [SerializeField] private LoadStatModifierInfo tickSpeed;
     [SerializeField] private LoadStatModifierInfo range;
-    [SerializeField] private LoadStatModifierInfo maxTimeAlive;
     [SerializeField] private LoadStatModifierInfo speed;
     [SerializeField] private LoadStatModifierInfo size;
     [SerializeField] private LoadStatModifierInfo numBlades;
@@ -33,8 +32,8 @@ public class DroneSawbladeActiveModule : DroneActiveModule
             {
                 ObjectPooler.sawBladePool.Release(sawblade);
             };
-            sawblade.transform.position = projectileOrigin.position;
-            sawblade.Set(damage.Stat.Value, tickSpeed.Stat.Value, size.Stat.Value, range.Stat.Value, maxTimeAlive.Stat.Value, speed.Stat.Value, direction);
+            sawblade.transform.position = new Vector3(projectileOrigin.position.x, GameManager._BaseHeight, projectileOrigin.position.z);
+            sawblade.Set(damage.Stat.Value, tickSpeed.Stat.Value, size.Stat.Value, range.Stat.Value, speed.Stat.Value, direction);
             direction = Quaternion.AngleAxis(angleBetweenProjectiles, Vector3.up) * direction;
         }
     }
@@ -47,7 +46,6 @@ public class DroneSawbladeActiveModule : DroneActiveModule
         range.SetStat(UpgradeNode.GetStatModifierUpgradeNode(range, allModuleUpgradeNodes));
         speed.SetStat(UpgradeNode.GetStatModifierUpgradeNode(speed, allModuleUpgradeNodes));
         size.SetStat(UpgradeNode.GetStatModifierUpgradeNode(size, allModuleUpgradeNodes));
-        maxTimeAlive.SetStat(UpgradeNode.GetStatModifierUpgradeNode(maxTimeAlive, allModuleUpgradeNodes));
         numBlades.SetStat(UpgradeNode.GetStatModifierUpgradeNode(numBlades, allModuleUpgradeNodes));
     }
 }

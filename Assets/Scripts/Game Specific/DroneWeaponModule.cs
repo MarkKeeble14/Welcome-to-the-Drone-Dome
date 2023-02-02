@@ -12,6 +12,13 @@ public abstract class DroneWeaponModule : DroneModule
     }
     protected bool activeWhenScavenging;
     private bool active;
+    protected bool paused;
+    public bool Paused
+    {
+        get { return paused; }
+        set { paused = value; }
+    }
+
     protected DroneAttackTargeting targeting;
     protected Transform target;
     protected LayerMask enemyLayer;

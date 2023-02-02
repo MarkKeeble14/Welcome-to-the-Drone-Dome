@@ -31,3 +31,4 @@ MonoBehaviour:
     growth: -20
     growthIncreaseUponGrow: 0
     growthChangeBy: 0
+    disallowZeroValue: 1

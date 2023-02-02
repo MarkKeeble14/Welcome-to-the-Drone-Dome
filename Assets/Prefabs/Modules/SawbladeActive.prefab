@@ -54,7 +54,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8b0ab9f965d851a4b82b47267f682b1f, type: 2}
   - {fileID: 11400000, guid: ae946b7c7f50560499c3d18b49e9dedb, type: 2}
   - {fileID: 11400000, guid: 295f573559df4f044a8fad77d755c84a, type: 2}
-  - {fileID: 11400000, guid: 18b9bd1a0223def4fa52f99b0c2e4db0, type: 2}
   - {fileID: 11400000, guid: d2c50adf5e5c6a849b5a58bef26f068d, type: 2}
   upgradeTree:
     Label: Sawblades
@@ -67,11 +66,9 @@ MonoBehaviour:
   damage:
     index: 1
   tickSpeed:
-    index: 7
+    index: 6
   range:
     index: 3
-  maxTimeAlive:
-    index: 6
   speed:
     index: 4
   size:

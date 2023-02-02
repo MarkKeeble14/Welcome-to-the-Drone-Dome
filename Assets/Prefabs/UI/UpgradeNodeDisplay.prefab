@@ -676,6 +676,7 @@ MonoBehaviour:
   sfxSource: {fileID: 2103611631581137610}
   unlockClip: {fileID: 8300000, guid: 6ef39a36562459246968e8554d7f3769, type: 3}
   overchargeClip: {fileID: 8300000, guid: 3e7574888e1d9ae49893f73c9c8f238e, type: 3}
+  failPurchaseClip: {fileID: 8300000, guid: 681c70fe85ce69341b448c195682d6ec, type: 3}
 --- !u!82 &2103611631581137610
 AudioSource:
   m_ObjectHideFlags: 0

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   label: Decrease Time Between Ticks
   requirements: []
-  shortLabel: Tick Speed
+  shortLabel: Time Between Ticks
   PointsPerOverCharge: 5
   maxPoints: 5
   statModifier:
@@ -28,6 +28,7 @@ MonoBehaviour:
     baseValuePermaGrowth: -0.01
     numTimesBaseUpgraded: 0
     baseGrowth: -0.05
-    growth: -0.025
+    growth: -0.05
     growthIncreaseUponGrow: 0
     growthChangeBy: 0
+    disallowZeroValue: 0

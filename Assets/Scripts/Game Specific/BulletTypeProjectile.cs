@@ -19,9 +19,9 @@ public class BulletTypeProjectile : Projectile
     [Header("Piercing")]
     private int setNumCanPierceThrough;
 
-    [Header("Lifetime")]
+    [Header("Max Lifetime")]
     [SerializeField] private bool shouldDestroyAfterTime;
-    [SerializeField] private float lifetime = 5;
+    private float maxLifetime = 20f;
 
     private float speed;
     private Vector2 direction;
@@ -85,24 +85,26 @@ public class BulletTypeProjectile : Projectile
         sfxSource.pitch = RandomHelper.RandomFloat(.7f, 1.3f);
         sfxSource.PlayOneShot(contactClip);
 
-        // Bounces are consumed first
-        if (setNumBounces > 0)
-        {
-            if (setSmartBounce)
-                BounceToNearbyEnemy();
-            else
-                RandomBounce();
-            setNumBounces--;
-        }
-        else if (setNumCanPierceThrough <= 0)
-        {
-            ReleaseAction?.Invoke();
-        }
-        else if (setNumCanPierceThrough > 0)
+        // If we can pierce, do that first
+        // If we cannot pierce, but can bounce, do that
+        // If we cannot do either, release back to pool
+        if (setNumCanPierceThrough > 0)
         {
             setNumCanPierceThrough--;
         }
-        else if (setNumBounces <= 0)
+        else if (setNumBounces > 0)
+        {
+            if (setSmartBounce)
+            {
+                BounceToNearbyEnemy();
+            }
+            else
+            {
+                RandomBounce();
+            }
+            setNumBounces--;
+        }
+        else
         {
             ReleaseAction?.Invoke();
         }
@@ -146,7 +148,7 @@ public class BulletTypeProjectile : Projectile
 
     private IEnumerator DestroyAfterTime()
     {
-        yield return new WaitForSeconds(lifetime);
+        yield return new WaitForSeconds(maxLifetime);
 
         if (gameObject.activeSelf)
             ReleaseAction?.Invoke();

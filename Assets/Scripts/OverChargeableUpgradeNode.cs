@@ -7,16 +7,29 @@ public abstract class OverChargeableUpgradeNode : UpgradeNode
     protected int overChargedPoints;
     public int OverChargedPoints => overChargedPoints;
 
-    public bool HasBeenUnlocked => OverChargedPoints > 0;
+    public bool HasBeenOvercharged => OverChargedPoints > 0;
 
-    public virtual bool CanBeOverCharged()
+    public bool CanBeOverCharged()
     {
-        return Available && Maxed();
+        return Available
+            && Maxed()
+            && !AtMinOrMax()
+            && AboveMinPointThreshold();
     }
+
+    private bool AboveMinPointThreshold()
+    {
+        return GetPointsPermitted() > Mathf.Ceil(PointsPerOverCharge / 2);
+    }
+
+    public abstract bool AtMinOrMax();
+
+    public abstract int GetPointsPermitted();
 
     public void OverCharge()
     {
-        overChargedPoints += PointsPerOverCharge;
+        // Debug.Log("Added: " + GetPointsPermitted() + " Points");
+        overChargedPoints += GetPointsPermitted();
     }
 
     public override void Reset()

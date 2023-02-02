@@ -15,6 +15,30 @@ public class DroneModuleScavengeable : AutoCollectScavengeable
     private ModuleType type;
     private Color color;
 
+    protected override void OnEnable()
+    {
+        // Tell Object what to Release
+        SetReleaseable(transform.parent.gameObject);
+    }
+
+    public void Set(List<ModuleType> possibleWeaponModules)
+    {
+        if (!ShopManager._Instance.AllowModuleDrops)
+        {
+            Cancel();
+            return;
+        }
+
+        type = RandomHelper.GetRandomFromList(possibleWeaponModules);
+        color = GameManager._Instance.GetModuleColor(type);
+
+        SetMaterial();
+        text.color = color;
+        text.text = type.ToString();
+
+        skyPillar.Reach();
+    }
+
     private void SetMaterial()
     {
         // Set Variables
@@ -47,23 +71,5 @@ public class DroneModuleScavengeable : AutoCollectScavengeable
     private void Cancel()
     {
         ReleaseToPool();
-    }
-
-    public void Set(List<ModuleType> possibleWeaponModules)
-    {
-        if (!ShopManager._Instance.AllowModuleDrops)
-        {
-            Cancel();
-            return;
-        }
-
-        type = RandomHelper.GetRandomFromList(possibleWeaponModules);
-        color = GameManager._Instance.GetModuleColor(type);
-
-        SetMaterial();
-        text.color = color;
-        text.text = type.ToString();
-
-        skyPillar.Reach();
     }
 }
