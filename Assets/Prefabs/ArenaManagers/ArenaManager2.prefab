@@ -219,9 +219,13 @@ MonoBehaviour:
     MiniBossSpawns: []
   - RewardType: 1
     SubWaveRewards:
+    - Reward: 0
+      Count: 1
     - Reward: 1
       Count: 1
-    UpgradePointsAwarded: 4
+    - Reward: 2
+      Count: 2
+    UpgradePointsAwarded: 5
     CanRepeatedlyAwardUpgradePoints: 1
     CanRepeatWaveReward: 1
     EnemySpawns:
@@ -245,7 +249,6 @@ MonoBehaviour:
     - {fileID: 5638404428015688683, guid: 6cceafb925b214f4a917954323873b04, type: 3}
     - {fileID: 5638404428015688683, guid: 6cceafb925b214f4a917954323873b04, type: 3}
     MiniBossSpawns: []
-  playerCredits: {fileID: 11400000, guid: 9e7520a7fd0a9be46a773ce0f92ed668, type: 2}
   popupText: {fileID: -5260616264727522277, guid: d52a68650b4dbcf44aa2e12f8a640e87,
     type: 3}
   cinemachineImpulseSource: {fileID: 2857750255204138669}

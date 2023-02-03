@@ -10,7 +10,7 @@ public class StatModifierUpgradeNode : OverChargeableUpgradeNode, IUpgradeNodePe
     public int MaxPoints => maxPoints;
     [SerializeField] protected GrowthStatModifier statModifier;
     public StatModifier Stat => statModifier;
-    [SerializeField] private string baseUpgradedString = "TimesPermanantUpgraded";
+    private string baseUpgradedString = "TimesPermanantUpgraded";
     private string baseUpgradedStringKey
     {
         get

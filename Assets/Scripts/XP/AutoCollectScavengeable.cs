@@ -24,6 +24,18 @@ public abstract class AutoCollectScavengeable : Scavengeable
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Collider[] col;
 
+    private void Update()
+    {
+        if (transform.position.y < -10f)
+        {
+            if (expiring)
+            {
+                onExpire();
+            }
+            ReleaseToPool();
+        }
+    }
+
     public void Expire(Action onExpire)
     {
         if (isExpirable)

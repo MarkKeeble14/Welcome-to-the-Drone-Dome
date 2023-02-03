@@ -28,6 +28,8 @@ MonoBehaviour:
     baseValuePermaGrowth: 0.05
     numTimesBaseUpgraded: 0
     baseGrowth: 1
-    growth: 2
+    growth: 1
     growthIncreaseUponGrow: 0
     growthChangeBy: 0
+    disallowZeroValue: 0
+  baseUpgradedString: TimesPermanantUpgraded

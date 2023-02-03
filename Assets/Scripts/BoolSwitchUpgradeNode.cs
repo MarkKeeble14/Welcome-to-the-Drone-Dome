@@ -6,7 +6,7 @@ public class BoolSwitchUpgradeNode : UpgradeNode
 {
     [Header("Bool Switch Upgrade Node")]
     [SerializeField] private bool startState;
-    private bool active;
+    [SerializeField] private bool active;
     public bool Active => active;
 
     [SerializeField] private int numPointsToBePurchased = 1;

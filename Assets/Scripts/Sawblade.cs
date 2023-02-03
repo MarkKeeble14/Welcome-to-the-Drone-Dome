@@ -10,11 +10,14 @@ public class Sawblade : Projectile
 
     private float damage;
     private float tickSpeed;
+    private float speed;
+    private Vector3 direction;
 
     [Header("Audio")]
     [SerializeField] private AudioSource whirringSource;
     [SerializeField] private AudioSource sfxSource;
     [SerializeField] private AudioClip hitClip;
+
 
     private void Start()
     {
@@ -25,6 +28,14 @@ public class Sawblade : Projectile
     protected void Update()
     {
         sameTargetCDDictionary.Update();
+    }
+
+    private void FixedUpdate()
+    {
+        if (direction != Vector3.zero)
+        {
+            rb.velocity = (speed * Time.deltaTime) * direction;
+        }
     }
 
     protected virtual void HitHealthBehaviour(HealthBehaviour hb)
@@ -48,25 +59,16 @@ public class Sawblade : Projectile
 
     public void Set(float damage, float tickSpeed, float size, float range, float speed, Vector3 direction)
     {
+        // Reset
         sameTargetCDDictionary.Clear();
-        StopAllCoroutines();
 
+        // Set
+        this.speed = speed;
+        this.direction = direction;
         this.damage = damage;
         this.tickSpeed = tickSpeed;
         transform.localScale = Vector3.one * size;
-
         StartCoroutine(Lifetime(range));
-        StartCoroutine(Travel(speed, direction));
-    }
-
-    private IEnumerator Travel(float speed, Vector3 direction)
-    {
-        while (true)
-        {
-            rb.velocity = (speed * Time.deltaTime) * direction;
-
-            yield return null;
-        }
     }
 
     private IEnumerator Lifetime(float range)

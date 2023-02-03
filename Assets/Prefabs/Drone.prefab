@@ -125,7 +125,7 @@ MonoBehaviour:
     m_Bits: 32768
   station: {x: 0, y: 0, z: 0}
   stationCooldownStart: 10
-  droneYTranslation: 1
+  droneYTranslation: 2
   activesPerDrone: 1
   passivesPerDrone: 1
   weaponsPerDrone: 3

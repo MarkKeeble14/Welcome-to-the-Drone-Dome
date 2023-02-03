@@ -15,7 +15,7 @@ MonoBehaviour:
   label: Increase Number of Times Projectile Can Bounce
   requirements: []
   shortLabel: Bullet Bounces
-  PointsPerOverCharge: 5
+  PointsPerOverCharge: 1
   maxPoints: 1
   statModifier:
     baseValue: 0
@@ -25,9 +25,11 @@ MonoBehaviour:
     maxValue: 1
     hasMax: 1
     changeBy: 0
-    baseValuePermaGrowth: 0.01
+    baseValuePermaGrowth: 0.025
     numTimesBaseUpgraded: 0
     baseGrowth: 1
     growth: 1
     growthIncreaseUponGrow: 0
     growthChangeBy: 0
+    disallowZeroValue: 0
+  baseUpgradedString: TimesPermanantUpgraded

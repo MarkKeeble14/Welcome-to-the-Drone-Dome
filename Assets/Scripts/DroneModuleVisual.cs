@@ -23,6 +23,7 @@ public class DroneModuleVisual : MonoBehaviour
     [SerializeField] private AudioClip doneShakingClip;
     [SerializeField] private AudioClip startAttachClip;
     [SerializeField] private AudioClip endAttachClip;
+    private bool shaking;
 
     private void OnTriggerStay(Collider other)
     {
@@ -30,6 +31,12 @@ public class DroneModuleVisual : MonoBehaviour
         if (!attaching) return;
         gameObject.layer = LayerMask.NameToLayer("Drone");
         attaching = false;
+    }
+
+    private void Update()
+    {
+        if (!attaching && shaking)
+            shakingSource.enabled = PauseManager._Instance.IsPaused ? false : true;
     }
 
     public void Set(DroneController drone)
@@ -48,6 +55,7 @@ public class DroneModuleVisual : MonoBehaviour
 
     public IEnumerator Attach(DroneController drone)
     {
+        shaking = true;
         float t = 0;
         float randStartTimeX = RandomHelper.RandomFloat(0, 100f);
         float randStartTimeZ = RandomHelper.RandomFloat(0, 100f);
@@ -83,6 +91,8 @@ public class DroneModuleVisual : MonoBehaviour
         // De-parent
         Transform parent = transform.parent;
         transform.parent = null;
+
+        shaking = false;
 
         yield return new WaitForSeconds(waitAfterShake);
 

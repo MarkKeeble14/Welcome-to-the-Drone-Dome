@@ -16,5 +16,6 @@ MonoBehaviour:
   requirements: []
   shortLabel: Growth
   startState: 0
+  active: 0
   numPointsToBePurchased: 2
   numPointsToBeActive: 2

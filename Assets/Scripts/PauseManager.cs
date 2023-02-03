@@ -19,6 +19,8 @@ public class PauseManager : MonoBehaviour
 
     private List<PauseCondition> numPauseCommands = new List<PauseCondition>();
 
+    public bool IsPaused { get; private set; }
+
     private void Awake()
     {
         if (_Instance != null)
@@ -55,16 +57,22 @@ public class PauseManager : MonoBehaviour
         {
             Time.timeScale = 0;
             pauseCanvas.SetActive(true);
+
+            IsPaused = true;
         }
         else if (numPauseCommands.Count > 0)
         {
             Time.timeScale = 0;
             pauseCanvas.SetActive(false);
+
+            IsPaused = true;
         }
         else
         {
             Time.timeScale = 1;
             pauseCanvas.SetActive(false);
+
+            IsPaused = false;
         }
     }
 }

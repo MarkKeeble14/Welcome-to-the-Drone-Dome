@@ -5902,9 +5902,9 @@ MonoBehaviour:
   musicSource2: {fileID: 8850323532209419297}
   levelMusic:
   - {fileID: 8300000, guid: bac0f54d8b9d2204ba914dd095fba628, type: 3}
-  - {fileID: 8300000, guid: e2b3fd2b1b72c3e4fbc2579105691c57, type: 3}
-  - {fileID: 8300000, guid: bc7609f6ec57fae418c7dafe2981c821, type: 3}
-  - {fileID: 8300000, guid: d8c793314ea5f3242b1fd4bb09a5ae5e, type: 3}
+  - {fileID: 8300000, guid: 1d4ae8d382405024198276363ff0ca0a, type: 3}
+  - {fileID: 8300000, guid: ad715cb01dfb5684a9383f2f0e5d064b, type: 3}
+  - {fileID: 8300000, guid: 10915e1352185f5479623cef01fe6f3a, type: 3}
   fadeRate: 0.2
   maxMusicVolume: 0.4
   sfxSource: {fileID: 7853737761761916005}
@@ -6635,7 +6635,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca5659a32edb11d4199bd6d288faa5b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  display: {fileID: 11400000, guid: 9e7520a7fd0a9be46a773ce0f92ed668, type: 2}
   text: {fileID: 1163968536291198901}
   prefix: 'Credits Available: '
   suffix: 
@@ -10212,7 +10211,6 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 6eac6051ff767ab47a3279b43b3bf7eb, type: 2}
     - {fileID: 11400000, guid: 4dd259600b39c614c976a2aa867e887a, type: 2}
     - {fileID: 11400000, guid: ca5956139bd3ea6428e114e9ec79d9e4, type: 2}
-    - {fileID: 11400000, guid: e21d214e6dd70314ba9d7bbe295e1907, type: 2}
     - {fileID: 11400000, guid: c6da7247b341a5a4791ae5ec300ef050, type: 2}
     - {fileID: 11400000, guid: 479b159eb2c9b4948af5f92fe2075fb8, type: 2}
     - {fileID: 11400000, guid: 9b5a498dbd5739643ab53c8366730cc5, type: 2}
@@ -10288,7 +10286,6 @@ MonoBehaviour:
   exitButton: {fileID: 6711806807965486984}
   clickClip: {fileID: 8300000, guid: 123065de3e223334e9fa75896a4ab8e8, type: 3}
   openClip: {fileID: 8300000, guid: 8d7b62829810bde429335ff806a92f59, type: 3}
-  playerCredits: {fileID: 11400000, guid: 9e7520a7fd0a9be46a773ce0f92ed668, type: 2}
 --- !u!1 &4123626202373613168
 GameObject:
   m_ObjectHideFlags: 0
@@ -18108,6 +18105,8 @@ MonoBehaviour:
   playerDroneController: {fileID: 5673612855749514959}
   cursorHovering: {fileID: 0}
   cursorWorldPos: {x: 0, y: 0, z: 0}
+  droneShoveSpeedModifier: 10
+  droneRotateAroundSpeedModifier: 3
   droneShoveClip: {fileID: 8300000, guid: d9a32e8279e15a24e8053b7b88ece39d, type: 3}
   droneStartDragClip: {fileID: 8300000, guid: 3f9ea43dcea7cb34dabc7ebdeef8e0eb, type: 3}
   droneTargetClip: {fileID: 8300000, guid: 280c36b73c463234192fc03a01130411, type: 3}

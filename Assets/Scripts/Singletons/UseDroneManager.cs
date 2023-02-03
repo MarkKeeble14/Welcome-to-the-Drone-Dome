@@ -29,6 +29,9 @@ public class UseDroneManager : MonoBehaviour
     [SerializeField] private Transform cursorHovering;
     [SerializeField] private Vector3 cursorWorldPos;
 
+    [SerializeField] private float droneShoveSpeedModifier = 10f;
+    [SerializeField] private float droneRotateAroundSpeedModifier = 3f;
+
     [Header("Audio")]
     [SerializeField] private AudioClip droneShoveClip;
     [SerializeField] private AudioClip droneStartDragClip;
@@ -113,9 +116,11 @@ public class UseDroneManager : MonoBehaviour
         usingDrone.AvailableForUse = false;
 
         // Audio
-        AudioManager._Instance.PlayClip(droneStartDragClip, RandomHelper.RandomFloat(.8f, 1.2f), usingDrone.transform.position);
+        AudioManager._Instance.PlayClip(droneStartDragClip, RandomHelper.RandomFloat(.8f, 1.2f), usingDrone.transform.position, .75f);
 
         Transform lockedTarget = targetedObject;
+
+        RaycastHit hit;
 
         // Dragging around
         while (InputManager._Controls.Player.LeftMouseClick.IsPressed())
@@ -131,7 +136,6 @@ public class UseDroneManager : MonoBehaviour
 
             // Debug.Log("Left Mouse Held");
             Ray ray = Camera.main.ScreenPointToRay(InputManager._Controls.Player.MousePosition.ReadValue<Vector2>());
-            RaycastHit hit;
             Physics.Raycast(ray, out hit, Mathf.Infinity, ground);
             if (hit.collider == null)
             {
@@ -144,7 +148,18 @@ public class UseDroneManager : MonoBehaviour
             // Set drones position
             usingDrone.transform.position
                 = Vector3.MoveTowards(usingDrone.transform.position,
-                GetDroneCirclingPosition(targetedObject, mouseReleasePos, usingDrone), usingDrone.MoveSpeed * 3 * Time.deltaTime);
+                GetDroneCirclingPosition(targetedObject, mouseReleasePos, usingDrone), usingDrone.MoveSpeed * droneRotateAroundSpeedModifier * Time.deltaTime);
+
+            yield return null;
+        }
+
+        Vector3 startPos = usingDrone.transform.position;
+        // Move to hitpoint
+        Vector3 direction = (targetedObject.position - usingDrone.transform.position).normalized;
+        Physics.Raycast(usingDrone.transform.position, direction, out hit, Mathf.Infinity, shoveable);
+        while (usingDrone.transform.position != hit.point)
+        {
+            usingDrone.transform.position = Vector3.MoveTowards(usingDrone.transform.position, hit.point, Time.deltaTime * usingDrone.MoveSpeed * droneShoveSpeedModifier);
 
             yield return null;
         }
@@ -152,18 +167,18 @@ public class UseDroneManager : MonoBehaviour
         targetedShoveable.SetPrimed(true);
 
         // The +1 is a little gray range outside of the radius as extra leeway for the player
-        if (Vector3.Distance(usingDrone.transform.position, targetedShoveable.transform.position) <= droneShoveMaxRadiusMod + 1)
+        if (Vector3.Distance(startPos, targetedShoveable.transform.position) <= droneShoveMaxRadiusMod + 1)
         {
             // Add Force
             Rigidbody rb = targetedObject.GetComponent<Rigidbody>();
             rb.AddForce(
-                Vector3.Distance(targetedObject.position, usingDrone.transform.position)
+                Vector3.Distance(targetedObject.position, startPos)
                     * usingDrone.ShoveStrength
-                                * (targetedObject.position - usingDrone.transform.position).normalized,
+                                * direction,
                             ForceMode.Impulse);
 
             // Audio
-            AudioManager._Instance.PlayClip(droneShoveClip, RandomHelper.RandomFloat(.8f, 1.2f), rb.transform.position, .75f);
+            AudioManager._Instance.PlayClip(droneShoveClip, RandomHelper.RandomFloat(.8f, 1.2f), rb.transform.position, .9f);
         }
         else
         {

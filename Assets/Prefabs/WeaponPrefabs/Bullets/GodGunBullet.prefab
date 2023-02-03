@@ -128,9 +128,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d4a39d14dca2344a9ee899ea67bd42c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collideWithLayers:
+  damageLayer:
     serializedVersion: 2
     m_Bits: 128
+  ignoreCollisionWithLayers:
+    serializedVersion: 2
+    m_Bits: 373569
   smartBouncingDetectionRange: 5
   shouldDestroyAfterTime: 1
   rb: {fileID: 4411560104125395868}

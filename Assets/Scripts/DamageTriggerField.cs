@@ -68,7 +68,7 @@ public abstract class DamageTriggerField : MonoBehaviour
         // Audio
         sfxSource.PlayOneShot(startClip);
 
-        while (transform.localScale.x != radius)
+        while (transform.localScale.x < radius)
         {
             transform.localScale
                 = Vector3.MoveTowards(transform.localScale, Vector3.one * radius, growSpeed * Time.deltaTime);
@@ -83,7 +83,7 @@ public abstract class DamageTriggerField : MonoBehaviour
     private IEnumerator Fade(Action onEnd)
     {
         reachedMaxRadius = false;
-        while (transform.localScale != Vector3.zero)
+        while (transform.localScale.x > 0)
         {
             transform.localScale
                 = Vector3.MoveTowards(transform.localScale, Vector3.zero, growSpeed * Time.deltaTime);
@@ -93,6 +93,8 @@ public abstract class DamageTriggerField : MonoBehaviour
 
         // Audio
         sfxSource.PlayOneShot(endClip);
+
+        reachedMaxRadius = false;
 
         onEnd?.Invoke();
     }

@@ -34,7 +34,7 @@ public class DroneController : MonoBehaviour
     private bool hasStation;
     [SerializeReference] private float stationCooldownStart = 10f;
     private float stationCooldownTimer;
-    [SerializeField] private float droneYTranslation = 1f;
+    [SerializeField] private float droneYTranslation = .5f;
 
     [SerializeField] private int activesPerDrone;
     public int ActivesPerDrone

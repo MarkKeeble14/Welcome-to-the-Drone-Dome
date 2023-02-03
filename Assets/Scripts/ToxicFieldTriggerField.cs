@@ -16,6 +16,11 @@ public class ToxicFieldTriggerField : ModuleDamageTriggerField
         this.expandSpeed = expandSpeed;
     }
 
+    private void OnEnable()
+    {
+        StartCoroutine(Expand());
+    }
+
     private new void Start()
     {
         base.Start();

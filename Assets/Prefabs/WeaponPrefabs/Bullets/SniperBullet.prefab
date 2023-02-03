@@ -128,12 +128,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d4a39d14dca2344a9ee899ea67bd42c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collideWithLayers:
+  damageLayer:
     serializedVersion: 2
     m_Bits: 128
+  ignoreCollisionWithLayers:
+    serializedVersion: 2
+    m_Bits: 373569
   smartBouncingDetectionRange: 5
   shouldDestroyAfterTime: 1
-  lifetime: 5
   rb: {fileID: 4411560104125395868}
   sfxSource: {fileID: 6018850875819048103}
   contactClip: {fileID: 8300000, guid: 7e7b77004f381904e9495bd505d02914, type: 3}

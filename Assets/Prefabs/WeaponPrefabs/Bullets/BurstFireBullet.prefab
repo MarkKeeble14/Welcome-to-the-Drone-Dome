@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 4411560104125395870}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 0.25}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -128,11 +128,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d4a39d14dca2344a9ee899ea67bd42c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collideWithLayers:
+  damageLayer:
     serializedVersion: 2
     m_Bits: 128
+  ignoreCollisionWithLayers:
+    serializedVersion: 2
+    m_Bits: 373569
   smartBouncingDetectionRange: 5
-  shouldDestroyAfterTime: 1
   rb: {fileID: 4411560104125395868}
   sfxSource: {fileID: 4887089927200708562}
   contactClip: {fileID: 8300000, guid: 7e7b77004f381904e9495bd505d02914, type: 3}
