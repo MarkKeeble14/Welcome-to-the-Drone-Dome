@@ -225,6 +225,8 @@ MonoBehaviour:
   changeSpeed: 3
   startPercentage: 1
   fill: {fileID: 1422123518131824090}
+  useText: 0
+  baseText: {fileID: 0}
 --- !u!1 &1879767347480064465
 GameObject:
   m_ObjectHideFlags: 0
@@ -291,7 +293,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Dash
+  m_text: Dash (E)
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2f7e8524afc4c4f4984e01ac5af28ee0, type: 2}
   m_sharedMaterial: {fileID: -3930149932424947861, guid: 2f7e8524afc4c4f4984e01ac5af28ee0,

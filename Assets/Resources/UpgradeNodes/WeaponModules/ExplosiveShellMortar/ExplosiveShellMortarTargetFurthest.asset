@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e95c5bb1e9fc830488f1f6c9d8da665a, type: 3}
-  m_Name: ExplosiveShellMortarDropExplosives
+  m_Name: ExplosiveShellMortarTargetFurthest
   m_EditorClassIdentifier: 
-  label: Drop Smaller Explosives While Projectile Travels
+  label: The Module now Targets the Furthest Enemy
   requirements: []
-  shortLabel: Drop Explosives
+  shortLabel: Target Furthest
   startState: 0
-  active: 1
+  active: 0
   numPointsToBePurchased: 1
-  numPointsToBeActive: 5
+  numPointsToBeActive: 2

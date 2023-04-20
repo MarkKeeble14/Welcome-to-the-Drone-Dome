@@ -76,5 +76,6 @@ public class PermanantlyUpgradeableBoolSwitchUpgradeNode : BoolSwitchUpgradeNode
     public void SaveValue()
     {
         PlayerPrefs.SetInt(baseUpgradedStringKey, numUpgrades);
+        PlayerPrefs.Save();
     }
 }

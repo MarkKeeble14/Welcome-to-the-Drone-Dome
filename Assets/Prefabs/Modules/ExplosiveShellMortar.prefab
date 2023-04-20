@@ -58,6 +58,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e5b7eeb03ef072a44b116a9c92091425, type: 2}
   - {fileID: 11400000, guid: 6a1e6a1e2aa0e5c458e760a05f50861b, type: 2}
   - {fileID: 11400000, guid: b12353b088ef09a4eb9b33bee347dce1, type: 2}
+  - {fileID: 11400000, guid: 87f83cb1475fab740a6070db075ea9f4, type: 2}
   upgradeTree:
     Label: Explosive Dropper Mortar
     nodes: []
@@ -108,6 +109,8 @@ MonoBehaviour:
     index: 4
   miniPower:
     index: 5
+  targetFurthest:
+    index: 10
   miniLift:
     baseValue: 1
     affectedValue: 0

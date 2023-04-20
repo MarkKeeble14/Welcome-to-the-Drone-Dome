@@ -22,6 +22,8 @@ public class FiringRangeManager : MonoBehaviour
     [SerializeField] private FiringRangeModuleButton firingRangeModuleButton;
     [SerializeField] private PlayerDroneController playerDroneController;
     [SerializeField] private TextMeshProUGUI firingRangeHelperText;
+
+    [Header("Audio")]
     [SerializeField] private AudioClip clickClip;
     [SerializeField] private AudioClip openClip;
 
@@ -61,10 +63,11 @@ public class FiringRangeManager : MonoBehaviour
             FiringRangeModuleButton spawned = Instantiate(firingRangeModuleButton, listParent);
             spawnedModuleButtons.Add(type, spawned);
             DroneModule module = null;
-            spawned.Set(type, () =>
+            spawned.Set(type, playerDroneController, () =>
             {
                 if (playerDroneController.SelectedDrone == null)
                 {
+                    spawned.SetPurchased(false);
                     firingRangeHelperText.gameObject.SetActive(true);
                     firingRangeHelperText.text = "You Must First Select a Drone to Equip a Module";
                     return;

@@ -12,12 +12,17 @@ public class ExplosiveShellMortarModule : DroneMortarModule
     [SerializeField] private LoadStatModifierInfo miniDamage;
     [SerializeField] private LoadStatModifierInfo miniRadius;
     [SerializeField] private LoadStatModifierInfo miniPower;
+    [SerializeField] private LoadBoolSwitchInfo targetFurthest;
     [SerializeField] private StatModifier miniLift;
+
+    protected override WeaponTargetingType TargetBy => targetFurthest.BoolSwitch.Active ? WeaponTargetingType.FURTHEST : WeaponTargetingType.CLOSEST;
+
     public override ModuleType Type => ModuleType.EXPLOSIVE_SHELL_MORTAR;
 
     protected override void LoadModuleData()
     {
         base.LoadModuleData();
+
         mainDamage.SetStat(UpgradeNode.GetStatModifierUpgradeNode(mainDamage, allModuleUpgradeNodes));
         mainRadius.SetStat(UpgradeNode.GetStatModifierUpgradeNode(mainRadius, allModuleUpgradeNodes));
         mainPower.SetStat(UpgradeNode.GetStatModifierUpgradeNode(mainPower, allModuleUpgradeNodes));
@@ -28,13 +33,15 @@ public class ExplosiveShellMortarModule : DroneMortarModule
 
         timeBetweenDrops.SetStat(UpgradeNode.GetStatModifierUpgradeNode(timeBetweenDrops, allModuleUpgradeNodes));
         shouldDrop.SetBoolSwitch(UpgradeNode.GetBoolSwitchUpgradeNode(shouldDrop, allModuleUpgradeNodes));
+
+        targetFurthest.SetBoolSwitch(UpgradeNode.GetBoolSwitchUpgradeNode(targetFurthest, allModuleUpgradeNodes));
     }
 
     protected override void SetWeaponSpecificProjectileInfo(Projectile proj)
     {
         ExplosiveMortarProjectile exDropperProj = ((ExplosiveMortarProjectile)proj);
         exDropperProj.Set(mainDamage.Stat, mainRadius.Stat, mainPower.Stat, mainLift,
-            shouldDrop.BoolSwitch, miniDamage.Stat, miniRadius.Stat, miniPower.Stat, miniLift, timeBetweenDrops.Stat);
+            shouldDrop.BoolSwitch, timeBetweenDrops.Stat, miniDamage.Stat, miniRadius.Stat, miniPower.Stat, miniLift);
     }
 }
 

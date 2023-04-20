@@ -147,6 +147,7 @@ public class UIManager : MonoBehaviour
             PlayerPrefs.SetInt(key, value);
         }
         text.text += (text.text.Equals("") ? "" : "\n") + hsString;
+        PlayerPrefs.Save();
     }
 
     private void AddFloatHighScore(TextMeshProUGUI text, string key, float value, string name)
@@ -171,16 +172,15 @@ public class UIManager : MonoBehaviour
             PlayerPrefs.SetFloat(key, value);
         }
         text.text += (text.text.Equals("") ? "" : "\n") + hsString;
+        PlayerPrefs.Save();
     }
 
     private void SetHighScore(TextMeshProUGUI text)
     {
-
         text.text = "";
         AddHighScore(text, highScoreKey, waveBar.WavesCompleted, "Waves Completed: ", PlayerPrefsType.INT);
         text.text += "\n";
         AddHighScore(text, enemiesKilledKey, GameManager._Instance.EnemiesKilled, "Enemies Killed: ", PlayerPrefsType.INT);
-
     }
 
     public void CloseInGameUI()

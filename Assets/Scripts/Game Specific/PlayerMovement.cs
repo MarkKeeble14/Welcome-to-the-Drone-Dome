@@ -4,11 +4,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+public enum PlayerMovementType
+{
+    TOP_DOWN,
+    POV
+}
+
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement Stats")]
     [SerializeField] private BoolSwitchUpgradeNode allowPlayerDash;
     [SerializeField] private StatModifierUpgradeNode defaultMoveSpeedNode;
+
+    [SerializeField] private PlayerMovementType movementType;
+    private Transform mainCamera;
+
     public float MoveSpeed
     {
         get
@@ -117,6 +127,8 @@ public class PlayerMovement : MonoBehaviour
 
         InputManager._Controls.Player.Jump.started += Jump;
         InputManager._Controls.Player.Crouch.performed += StartCrouch;
+
+        mainCamera = Camera.main.transform;
     }
 
     private void Dash(InputAction.CallbackContext ctx)
@@ -124,6 +136,16 @@ public class PlayerMovement : MonoBehaviour
         if (!allowPlayerDash.Active) return;
         if (dashCDTimer > 0) return;
         Vector2 dashVector = InputManager._Controls.Player.Move.ReadValue<Vector2>().normalized;
+
+        switch (movementType)
+        {
+            case PlayerMovementType.POV:
+                dashVector = mainCamera.forward * dashVector.y + mainCamera.right * dashVector.x;
+                break;
+            case PlayerMovementType.TOP_DOWN:
+                break;
+        }
+
         StopAllCoroutines();
 
         StartCoroutine(ExecuteDash(dashVector));
@@ -190,6 +212,15 @@ public class PlayerMovement : MonoBehaviour
         // Get player input then move the player accordingly
         moveVector = InputManager._Controls.Player.Move.ReadValue<Vector2>();
         Vector3 direction = new Vector3(moveVector.x, 0, moveVector.y);
+
+        switch (movementType)
+        {
+            case PlayerMovementType.POV:
+                direction = mainCamera.forward * direction.z + mainCamera.right * direction.x;
+                break;
+            case PlayerMovementType.TOP_DOWN:
+                break;
+        }
 
         // Audio
         footstepsSource.enabled = direction != Vector3.zero;

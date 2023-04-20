@@ -223,7 +223,7 @@ MonoBehaviour:
   - RewardType: 1
     SubWaveRewards:
     - Reward: 1
-      Count: 2
+      Count: 3
     UpgradePointsAwarded: 6
     CanRepeatedlyAwardUpgradePoints: 1
     CanRepeatWaveReward: 1

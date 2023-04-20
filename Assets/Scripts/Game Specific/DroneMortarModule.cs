@@ -23,7 +23,10 @@ public abstract class DroneMortarModule : DroneGunModule
         SetWeaponSpecificProjectileInfo(currentProjectile);
 
         // TODO: Problem here; Trying to release an object that has already been released to the pool
-        currentProjectile.ReleaseAction = () => ObjectPooler._Instance.ReleaseProjectile(source, currentProjectile);
+        currentProjectile.ReleaseAction = () =>
+        {
+            ObjectPooler._Instance.ReleaseProjectile(source, currentProjectile);
+        };
 
         if (torquePower > 0)
         {

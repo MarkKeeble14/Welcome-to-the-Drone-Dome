@@ -264,7 +264,6 @@ public class ShopManager : MonoBehaviour
         sfxSource.PlayOneShot(discardClip);
         sfxSource.pitch = 1f;
 
-
         // Remove
         RemoveAtIndex(index);
     }

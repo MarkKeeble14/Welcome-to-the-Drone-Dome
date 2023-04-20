@@ -36,8 +36,9 @@ public class ExplosiveMortarProjectile : MortarProjectile
         yield return new WaitForSeconds(timeBetweenDrops.Value);
 
         ModuleExplodeable ex = Instantiate(toDrop, transform.position, Quaternion.identity);
+
         ex.SetExplosionData(damage.Value, radius.Value, power.Value, lift.Value);
 
-        StartCoroutine(DropExplosives(timeBetweenDrops, damage, power, radius, lift));
+        StartCoroutine(DropExplosives(timeBetweenDrops, damage, radius, power, lift));
     }
 }

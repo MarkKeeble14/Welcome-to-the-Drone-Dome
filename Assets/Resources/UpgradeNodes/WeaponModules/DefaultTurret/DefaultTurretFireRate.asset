@@ -18,16 +18,17 @@ MonoBehaviour:
   PointsPerOverCharge: 5
   maxPoints: 5
   statModifier:
-    baseValue: 1.5
-    hardBaseValue: 1.5
-    affectedValue: 1.5
+    baseValue: 1.75
+    affectedValue: 1.75
     minValue: 0
     hasMin: 0
     maxValue: 0
     hasMax: 0
     changeBy: 0
+    baseValuePermaGrowth: 0.05
+    numTimesBaseUpgraded: 0
     baseGrowth: 0.22
     growth: 0.22
     growthIncreaseUponGrow: 0
     growthChangeBy: 0
-    baseValuePermaGrowth: 0.05
+    disallowZeroValue: 0

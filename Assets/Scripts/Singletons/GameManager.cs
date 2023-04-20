@@ -46,6 +46,7 @@ public partial class GameManager : MonoBehaviour
     private bool restartingGame;
     [SerializeField] private bool shouldLoadOnStart;
     [SerializeField] private int loadOnStart;
+    [SerializeField] private float forceSkipAutocollectAfterDuration = 5f;
 
     public bool OnLastLevel => levelIndex == levelNames.Length - 1;
     public bool OnMainMenu => levelIndex == 0 && currentLevel == null;
@@ -210,7 +211,16 @@ public partial class GameManager : MonoBehaviour
             });
         }
 
-        yield return new WaitUntil(() => numCollected == remainingAutoCollectable.Length);
+        // if either all autocollectables have been collected or the maximum allowed duration has transpired, consider pre-loading sequence done
+        for (float timer = 0; timer < forceSkipAutocollectAfterDuration; timer += Time.deltaTime)
+        {
+            if (numCollected == remainingAutoCollectable.Length)
+            {
+               break;
+            }
+
+            yield return null;
+        }
     }
 
     private void LoadLevel(bool incrementIndex)
@@ -463,5 +473,14 @@ public partial class GameManager : MonoBehaviour
             if (node is IUpgradeNodePermanantelyUpgradeable)
                 ((IUpgradeNodePermanantelyUpgradeable)node).HardReset();
         }
+
+        Debug.Log("Successfully Cleared All Stat Nodes");
+    }
+
+    public void PrepForBuild()
+    {
+        HardResetStatNodes();
+        SettingsManager._Instance.ClearPlayerPrefs();
+        SettingsManager._Instance.ResetSettings();
     }
 }

@@ -20,12 +20,12 @@ public class FiringRangeModuleButton : MonoBehaviour
         purchased = value;
     }
 
-    public void Set(ModuleType type, Action onAdd, Action onDelete)
+    public void Set(ModuleType type, PlayerDroneController playerDroneController, Action onAdd, Action onDelete)
     {
         text.text = EnumToStringHelper.GetStringValue(type);
         purchaseButton.onClick.AddListener(delegate
         {
-            if (!purchased)
+            if (!purchased && playerDroneController.SelectedDrone != null)
             {
                 onAdd();
 
@@ -40,12 +40,16 @@ public class FiringRangeModuleButton : MonoBehaviour
         });
         deleteButton.onClick.AddListener(delegate
         {
-            if (purchased)
+            if (purchased && playerDroneController.SelectedDrone != null)
             {
                 onDelete();
 
                 // Audio
                 AudioManager._Instance.PlayClip(discardClip, true);
+            } else
+            {
+                // Audio
+                AudioManager._Instance.PlayClip(failPurchaseClip, true);
             }
         });
     }

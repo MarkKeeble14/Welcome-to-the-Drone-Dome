@@ -23,12 +23,14 @@ public class PlayerCredits
             int result = PlayerPrefs.GetInt(key) + amount;
             if (result < 0) return 0;
             PlayerPrefs.SetInt(key, PlayerPrefs.GetInt(key) + amount);
+            PlayerPrefs.Save();
             return result;
         }
         else
         {
             if (amount < 0) return 0;
             PlayerPrefs.SetInt(key, amount);
+            PlayerPrefs.Save();
             return amount;
         }
     }

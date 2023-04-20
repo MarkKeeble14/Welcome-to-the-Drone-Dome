@@ -7,6 +7,16 @@ using Cinemachine;
 
 public class SettingsManager : MonoBehaviour
 {
+    public static SettingsManager _Instance { get; private set; }
+    private void Awake()
+    {
+        if (_Instance != null)
+        {
+            Destroy(_Instance.gameObject);
+        }
+        _Instance = this;
+    }
+
     [SerializeField] private Slider musicVolumeSlider;
     [SerializeField] private StoreSetting musicVolume;
     private string musicVolumeKey = "MusicVolume";
@@ -15,6 +25,9 @@ public class SettingsManager : MonoBehaviour
     [SerializeField] private StoreSetting sfxVolume;
     private string sfxVolumeKey = "SFXVolume";
 
+    private float defaultMusicVolume = 0.8f;
+    private float defaultSFXVolume = 0.8f;
+
     [SerializeField] private AudioMixer mixer;
 
     public void SetMusicVolume(float percent)
@@ -22,6 +35,7 @@ public class SettingsManager : MonoBehaviour
         mixer.SetFloat("MusicVolume", Mathf.Log10(percent) * 20);
         musicVolume.Value = percent;
         PlayerPrefs.SetFloat(musicVolumeKey, percent);
+        PlayerPrefs.Save();
     }
 
     public void SetSFXVolume(float percent)
@@ -29,6 +43,7 @@ public class SettingsManager : MonoBehaviour
         mixer.SetFloat("SFXVolume", Mathf.Log10(percent) * 20);
         sfxVolume.Value = percent;
         PlayerPrefs.SetFloat(sfxVolumeKey, percent);
+        PlayerPrefs.Save();
     }
 
     private void Start()
@@ -58,5 +73,18 @@ public class SettingsManager : MonoBehaviour
             SetSFXVolume(sfxVol);
             sfxVolumeSlider.value = sfxVol;
         }
+    }
+
+    public void ClearPlayerPrefs()
+    {
+        PlayerPrefs.DeleteAll();
+        Debug.Log("Successfully Cleared PlayerPrefs");
+    }
+
+    public void ResetSettings()
+    {
+        SetSFXVolume(defaultSFXVolume);
+        SetMusicVolume(defaultMusicVolume);
+        Debug.Log("Successfully Reset Settints - Music Vol: " + musicVolume.Value + ", SFX Vol: " + sfxVolume.Value);
     }
 }

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -7923205289095119228}
   - component: {fileID: 7452047796796871385}
   - component: {fileID: 4569656131609978824}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: MiniExplosiveShell
   m_TagString: Untagged
   m_Icon: {fileID: 0}

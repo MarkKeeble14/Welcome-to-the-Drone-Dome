@@ -216,6 +216,7 @@ MonoBehaviour:
   allowPlayerDash: {fileID: 11400000, guid: 8ae570766b8e27b4fa4a7209e81b581b, type: 2}
   defaultMoveSpeedNode: {fileID: 11400000, guid: c36e6baa1a2737242b5756288ca9d80d,
     type: 2}
+  movementType: 0
   defaultDashSpeedNode: {fileID: 11400000, guid: 07649bc98e8653444a473b176bbfd556,
     type: 2}
   defaultDashDurationNode: {fileID: 11400000, guid: c4ecde4891fe208428aac68f48196455,
@@ -266,7 +267,6 @@ MonoBehaviour:
   dashParticle: {fileID: 1365371477070616360, guid: 917a334e9e8d7b34f8e8089871c277c4,
     type: 3}
   footstepsSource: {fileID: 4036166785718061819}
-  dashingSource: {fileID: 2685003857901872133}
   sfxSource: {fileID: 462419267909714358}
   dashStartClip: {fileID: 0}
   dashEndClip: {fileID: 0}
@@ -312,6 +312,7 @@ MonoBehaviour:
   rb: {fileID: 4017266790250071903}
   playerMovement: {fileID: 4017266790250071900}
   healthBar: {fileID: 0}
+  cinemachineImpulseSource: {fileID: 0}
 --- !u!114 &4268123852268635566
 MonoBehaviour:
   m_ObjectHideFlags: 0

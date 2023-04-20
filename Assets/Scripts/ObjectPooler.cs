@@ -164,7 +164,7 @@ public class ObjectPooler : MonoBehaviour
         }, true, 100);
     }
 
-    public ObjectPool<Projectile> GetProjectilePool(ModuleType source)
+    private ObjectPool<Projectile> GetProjectilePool(ModuleType source)
     {
         if (projectilePools.ContainsKey(source))
         {

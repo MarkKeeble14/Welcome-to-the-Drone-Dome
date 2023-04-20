@@ -147,5 +147,6 @@ public class StatModifierUpgradeNode : OverChargeableUpgradeNode, IUpgradeNodePe
     public void SaveValue()
     {
         PlayerPrefs.SetInt(baseUpgradedStringKey, statModifier.numTimesBaseUpgraded);
+        PlayerPrefs.Save();
     }
 }
